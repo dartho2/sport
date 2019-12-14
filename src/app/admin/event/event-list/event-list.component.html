@@ -1,5 +1,5 @@
 
-<div *ngIf="checkEvent(eventTournament)">
+<!-- <div *ngIf="checkEvent(eventTournament)">
   <br>
   <table style="width: 100%;">
     <tr>
@@ -21,4 +21,27 @@
     </td>
     </tr>
   </table>
-</div>
+</div> -->
+<thead class="thead-light">
+    <tr>
+      <th scope="col">Home</th>
+      <th scope="col">vs</th>
+      <th scope="col">Away</th>
+      <th scope="col">Vote</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+<tbody class="table" *ngFor="let event of eventID.events">
+   
+        <tr>
+          <td scope="col">{{event.homeTeam.name}}</td>
+          <td scope="col">vs</td>
+          <td scope="col">{{event.awayTeam.name}}</td>
+          <td scope="col">0</td>
+          <td scope="col">
+            <div *ngIf="event.status.code === 100">{{event.winnerCode}}</div>
+            <div style="color:yellow" *ngIf="event.status.code === 9"><b><li>Live</li></b></div>
+            <div *ngIf="event.status.code === 0">nie zaczety</div></td>
+        </tr>
+    
+</tbody>

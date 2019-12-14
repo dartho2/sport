@@ -1,44 +1,34 @@
 <div class="content-body">
   <div class="photo-list card card-block">
     <div *ngIf="matchFootball">
-      {{stringData}}<br>
-      <!-- <mat-form-field>
+     
+      <mat-form-field>
             <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker" placeholder="Choose a date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field> -->
-      {{formattedDate}}
+          </mat-form-field>
+   
       <div *ngFor="let a of matchFootball">
-        <table class="table table-bordered">
-          <caption><b>{{a.tournament.name}}</b> </caption>
-          <thead>
-            <tr>
-              <th scope="col">teams1 vs teams2</th>
-              <th scope="col">vote</th>
-              <th scope="col">wygrana</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            <div *ngFor="let b of a.events;" >
-
-              <div *ngIf="(b.startTimestamp*1000 | date:'yyyy-MM-dd')=== (stringData |date:'yyyy-MM-dd')">
-                <td> {{b.homeTeam.name}} vs {{b.awayTeam.name}}</td>
-                <td style="padding: 0px;">
-                  <app-event-list [eventID]="b.id" [winnerCode]="b.winnerCode"></app-event-list>
-                </td>
-              </div>
 
 
-              <td>
-                <p *ngIf="b.winnerCode === 0" style="color:red"><b>nie grali</b></p>
-                <p *ngIf="b.winnerCode === 1" style="color:green"><b>1</b></p>
-                <p *ngIf="b.winnerCode === 2" style="color:blue"><b>2</b></p>
-                <p *ngIf="b.winnerCode === 3" style="color:black"><b>0</b></p>
-              </td>
-            </div>
-          <tbody>
+        <!-- <div *ngFor="let b of a.events;"> -->
+
+          <!-- <div *ngIf="(b.startTimestamp*1000 | date:'yyyy-MM-dd')=== (stringData |date:'yyyy-MM-dd')"> -->
+              <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">{{a.tournament.name}}</th>
+                    </tr>
+                  </thead>
+            <app-event-list [eventID]="a"></app-event-list>
+          
         </table>
+          <!-- </div> -->
+
+
+
+        <!-- </div> -->
+
       </div>
 
 

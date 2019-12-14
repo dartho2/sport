@@ -9,8 +9,6 @@ import { AnalysticService } from '../../analystic/analystic-service';
 export class EventListComponent implements OnInit {
   @Input()
   eventID;
-  @Input()
-  winnerCode;
   eventTournament;
   MaxVote;
   typeForVote;
@@ -22,13 +20,13 @@ export class EventListComponent implements OnInit {
  
   }
     ngOnInit(){
-         if(this.eventID){
-      this.analysticService.getAnalystictEvent(this.eventID)
-   .subscribe(
-   data => {
-    this.eventTournament = data;
-   });
- }  
+//          if(this.eventID){
+//       this.analysticService.getAnalystictEvent(this.eventID)
+//    .subscribe(
+//    data => {
+//     this.eventTournament = data;
+//    });
+//  }  
       }
      
     checkEvent(eventTournament){
@@ -117,15 +115,15 @@ export class EventListComponent implements OnInit {
         return false
       }
     }
-    checkEventC(typeForVote, typeForPercent){
-      this.winnerCode = (this.winnerCode === 0)? 'nie Grali': (this.winnerCode === 1)? 1 : (this.winnerCode === 2)? 0 : (this.winnerCode === 3)? 2 : 'Brak';
-      if(Number(typeForVote) === Number(typeForPercent)){
-        (Number(this.winnerCode) === Number(typeForVote))? this.win = this.win +Number(this.winnerCode) : this.lose = this.lose + Number(this.winnerCode)
-        return true
-      } else {
-        return false
-      };
-    }
+    // checkEventC(typeForVote, typeForPercent){
+    //   this.winnerCode = (this.winnerCode === 0)? 'nie Grali': (this.winnerCode === 1)? 1 : (this.winnerCode === 2)? 0 : (this.winnerCode === 3)? 2 : 'Brak';
+    //   if(Number(typeForVote) === Number(typeForPercent)){
+    //     (Number(this.winnerCode) === Number(typeForVote))? this.win = this.win +Number(this.winnerCode) : this.lose = this.lose + Number(this.winnerCode)
+    //     return true
+    //   } else {
+    //     return false
+    //   };
+    // }
 
    }
 
