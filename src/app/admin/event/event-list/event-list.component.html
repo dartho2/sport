@@ -1,0 +1,24 @@
+
+<div *ngIf="checkEvent(eventTournament)">
+  <br>
+  <table style="width: 100%;">
+    <tr>
+      <th><p style="color:green;float: left;">{{typeForVote}}</p></th>
+      <th><div *ngIf="checkEventPercentWin(eventTournament)" style="color:green;float: left;">{{typeForPercent}}</div></th>
+      <th><p *ngIf="checkEventC(typeForVote,typeForPercent)" style="background-color:green;color:white">{{typeForVote}} - {{typeForPercent}}</p></th>
+    </tr>
+    <tr>
+      <td>{{eventTournament.vote.vote1Percentage}}-
+          {{eventTournament.vote.voteXPercentage}} -
+          {{eventTournament.vote.vote2Percentage}}</td>
+      <td> 
+        <div style="display: contents; text-align: center;" *ngIf="checkWining1(eventTournament)">
+        <div *ngIf="checkEventHome(eventTournament.winningOdds.home)">1- {{eventTournament.winningOdds.home.actual}}</div>
+      </div> 
+      <div style="display: contents; text-align: center;" *ngIf="checkWining2(eventTournament)">
+        <div *ngIf="checkEventAway(eventTournament.winningOdds.away)"> 2- {{eventTournament.winningOdds.away.actual}}</div>
+      </div>
+    </td>
+    </tr>
+  </table>
+</div>

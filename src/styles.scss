@@ -1,0 +1,245 @@
+/* You can add global styles to this file, and also import other style files */
+// @import '~bootstrap/scss/bootstrap-reboot';
+// @import '~bootstrap/scss/bootstrap-grid';
+// @import "~bootstrap/dist/css/bootstrap.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+/* BOTTOM NAVIGATE */
+.data-panel {
+  position: fixed;
+  z-index: 1051;
+  left: 0px;
+  width: 100%;
+  bottom: 0px;
+  margin: 0 auto;
+}
+.panel-sub {
+ position: absolute;
+ bottom: 0px;
+ margin: 0 auto;
+ right: 0px;
+ text-align: center;
+ align-items: center;
+ background: #303030;
+ padding: 0.5rem;
+ left: 0px;
+ 
+}
+.panel-sub button {
+  margin-left: 15px;
+}
+/* BOTTOM NAVIGATE */
+
+a[href*="froala"]{
+  display: none !important;
+}
+body,html{
+    background-size: cover;
+    height: 100%;
+    font-size: 0.875rem;
+    font-family: 'roboto';
+    }
+    @media (max-width: 767px) {
+    .row {
+display:  block !important;
+    }
+}
+.fr-popup {
+  z-index:9999 !important;
+}
+main {
+    padding-bottom: 100px;
+}
+.card {
+  margin-bottom: 1.875em;
+    border-radius: 5px;
+    padding: 0;
+    border: 0px solid transparent;
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+body {
+  background: #2e353d12;
+}
+.ngx-editor .ngx-wrapper .ngx-editor-textarea {
+  background-color: white !important;
+}
+.ngx-editor-textarea {
+  min-height: 200px !important;
+}
+    .select2Buttons strong {
+        display: block;
+        clear: left;
+        padding-top: 5px;
+      }
+      .select2Buttons {
+      display: inline-block;
+    }
+      .select2Buttons ul {
+        list-style-type: none;
+        clear: left;
+        margin: 5px;
+        padding: 0;
+      }
+      
+      
+      .select2Buttons li, .select2Buttons a {
+        float: left;
+        min-width: 37px;
+      }
+      
+      .select2Buttons li { 
+        margin: 0 5px 5px 0; 
+      }
+      
+      .select2Buttons li a, 
+      .select2Buttons .limited a, 
+      .select2Buttons .disabled {
+        border: 1px solid #9dc4e3;
+        -moz-border-radius: 3px; 
+        -webkit-border-radius: 3px; 
+      }
+      
+      .select2Buttons li:last-child { 
+        margin-right: 0; 
+      }
+      
+      .select2Buttons a {
+        color: #3c89c8;
+        padding: 4px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 15px;  
+      }
+      
+      .select2Buttons .disabled span {
+        padding: 4px;
+        display: block;
+        font-size: 15px;
+        min-width: 37px;
+      }
+      
+      .select2Buttons a:hover, 
+      .select2Buttons .picked {
+        background: #3c89c8;
+        border-color: #3c89c8;
+        color: #FFF;    
+        text-decoration: none;
+      }
+      
+      .select2Buttons .limited a, 
+      .select2Buttons .disabled {
+        text-align: center;
+      }
+      
+      .select2Buttons .disabled {
+        border: 1px solid #d1d1d1;
+        color: #999;
+      }
+    
+    .select2Buttons .disabled .picked {
+        background: #d1d1d1;
+        border-color: #d1d1d1;
+        color: #FFF;
+      }
+      .text_muted{
+        color: #6c757d!important;
+        font-weight: 400;
+        font-family: robotlight;
+        font-style: normal;
+      }
+
+      // .fr-element {
+      //   display: flex;
+      //   flex-wrap: wrap;
+      //   margin-right: -15px;
+      //   margin-left: -15px;
+      // }
+      .lead, dl, ol, p, ul {
+        font-family: 'roboto','sans-serif';
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 27.2px;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+        text-align: justify;
+    }
+    .box3{text-align:center}
+.box3:after,.box3:before{content:""}
+.box3{overflow:hidden}
+.box3 .post{font-style:italic}
+.mt-30{margin-top:30px}
+.mt-40{margin-top:40px}
+.mb-30{margin-bottom:30px}
+.box3 .icon a:hover {border-radius:50%}
+.icon a:hover {border-radius:50%}
+.box3{position:relative}
+.box3 .box-content,.box3:after,.box3:before{position:absolute;left:7%;right:7%;transition:all .3s}
+.box3:after,.box3:before{display:block;background:rgba(0,0,0,.3);top:10%;bottom:10%;z-index:1;transform:scale(0,1)}
+.box3:after{top:10.8%;bottom:10.8%;transform:scale(1,0)}
+.box3:hover:after,.box3:hover:before{transform:scale(1);animation:animate 1.5s}
+.box:hover:after{border-left:3px solid #fff;border-right:3px solid #fff}
+.box img{width:100%;height:auto;transition:all .3s}
+.box3:hover img{transform:scale(1.2);filter:blur(5px);-moz-filter:blur(5px);-webkit-filter:blur(5px)}
+.box3 .box-content{padding:30px 10px;top:10%;bottom:10%;opacity:0;z-index:2}
+.box3:hover .box-content{box-shadow:0 0 0 35px rgba(255,255,255,.3);opacity:1;transition:all .3s}
+.box3 .title{font-size:24px;font-weight:600;color:#88c425;margin:0 0 5px}
+.box3 .post{display:block;margin:0 0 5px;font-size:14px;color:rgba(255,255,255,.8)}
+.box3 .description{font-size:14px;color:#fff;margin:0 0 20px}
+.box3 .icon{padding:0;margin:0;list-style:none}
+.icon{padding:0;margin:0;list-style:none}
+.box3 .icon li{display:block;margin:0 10px 0 0;padding: 2px;}
+.icon li{display:block;margin:0 10px 0 0;padding: 2px;}
+.fa:before {padding:0px}
+span {padding-left: 0px;}
+.box3 .icon li a{display:block;width:30px;height:30px;line-height:30px;color:#fff;background:#88c425;transition:all .5s}
+.icon li a{display:-webkit-inline-box;width:30px;height:30px;line-height:30px;color:#fff;background:#88c425;transition:all .5s}
+.box3 .icon a:hover{text-decoration:none;animation:animate-hover .5s;transition:all .3s}
+.icon a:hover{text-decoration:none;animation:animate-hover .5s;transition:all .3s}
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  // /* padding-bottom: 0em; 
+}
+@keyframes animate{0%,100%{opacity:1}
+}
+@keyframes animate-hover{0%{box-shadow:0 0 0 10px rgba(255,255,255,.3)}
+50%{box-shadow:0 0 0 5px rgba(255,255,255,.3)}
+100%{box-shadow:0 0 0 0 rgba(255,255,255,.3)}
+}
+@media only screen and (max-width:990px){.box3{margin-bottom:30px}
+.box3 .box-content{padding:10px}
+.box3 .description{margin-bottom:10px}
+}
+@media only screen and (max-width:479px){.box3 .title{margin:0}
+}
+.block-o {
+  clear: both;
+}
+.reference-p .icon li {
+  padding: 0px;
+}
+.reference-p li a {
+  display: block;
+  width: unset;
+  height: unset;
+  line-height: 30px;
+  color: #fff;
+  background: #88c425;
+  transition: all .5s;
+}
+.reference-icon {
+  display: block;
+    float: left;
+}
+.content-page {
+  padding: 0px !important;
+}
+.container-fluid {
+  padding: 0px;
+}
+button:focus {
+  outline: transparent;
+}
+.content {
+  padding-top:40px;
+  background: #303030;
+}

@@ -1,0 +1,25 @@
+html,body{
+    background: red !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+    }
+   
+   
+    .content-page {
+        margin-left: 250px;
+        overflow: hidden;
+        padding: 5px 20px;
+        min-height: 80vh;
+    }
+    .wrapper {
+        /* height: 100%; */
+    overflow: hidden;
+    width: 100%;
+    }
+    @media (max-width: 767.98px){
+.content-page {
+    margin-left: 0!important;
+    padding: 5px 10px;
+}}
