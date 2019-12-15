@@ -1,4 +1,3 @@
-
 <!-- <div *ngIf="checkEvent(eventTournament)">
   <br>
   <table style="width: 100%;">
@@ -22,26 +21,77 @@
     </tr>
   </table>
 </div> -->
-<thead class="thead-light">
-    <tr>
+
+
+<!-- {{eventID}}<br>
+  {{event}}<br>
+  {{eventIndex}}<br>
+  {{stringData}}<br> -->
+<!-- {{startTimestamp*1000 | date:'yyyy-MM-dd'}} = {{stringData |date:'yyyy-MM-dd'}} -->
+<table *ngIf="eventTournament && (startTimestamp*1000 | date:'yyyy-MM-dd')=== (stringData |date:'yyyy-MM-dd')">
+ 
+  <thead class="thead-light">
+    <tr style="width: 100%;">
+      <th scope="col">Data</th>
       <th scope="col">Home</th>
       <th scope="col">vs</th>
       <th scope="col">Away</th>
       <th scope="col">Vote</th>
+      <th scope="col">Chance</th>
       <th scope="col">Status</th>
     </tr>
   </thead>
-<tbody class="table" *ngFor="let event of eventID.events">
-   
+  <tr>
+    <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">{{eventTournament.event.formatedStartDate}}<br>{{eventTournament.event.startTime}}</td>
+    <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">{{eventTournament.event.homeTeam.name}}</td>
+    <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">vs</td>
+    <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">{{eventTournament.event.awayTeam.name}}</td>
+    <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">{{typeForVote}}</td>
+    <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}" >{{typeForPercent}}</td>
+    <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">
+      <div *ngIf="eventTournament.event.status.code === 100">
+        <div *ngIf="eventID.winnerCode===3">0</div>
+        <div *ngIf="eventID.winnerCode===2">2</div>
+        <div *ngIf="eventID.winnerCode===1">1</div>
+      </div>
+      <div *ngIf="eventTournament.event.status.code === 31"><b>
+        <p> <i class="blink fas fa-play"></i> LIVE </p>
+        </b>
+      </div>
+      <div *ngIf="eventTournament.event.status.code === 7"><b>
+          <p> <i class="blink fas fa-play"></i> LIVE (2 połowa) </p>
+          </b>
+        </div>
+        <div *ngIf="eventTournament.event.status.code === 6"><b>
+            <p> <i class="blink fas fa-play"></i> LIVE (1 połowa) </p>
+            </b>
+          </div>
+      <div *ngIf="eventTournament.event.status.code === 0">nie zaczety</div>
+    </td>
+  </tr>
+</table>
+
+
+<!-- <div *ngIf="eventID === eventTournament.events.id">{{eventTournament}}</div> -->
+<!-- <div *ngIf="eventTournament.event !== undefined">
+    <div *ngIf="eventTournament">
+<tbody class="table">
+  
         <tr>
-          <td scope="col">{{event.homeTeam.name}}</td>
+          <td scope="col">{{eventTournament.event.homeTeam.name}}</td>
           <td scope="col">vs</td>
-          <td scope="col">{{event.awayTeam.name}}</td>
+          <td scope="col">{{eventTournament.event.awayTeam.name}}</td>
           <td scope="col">0</td>
           <td scope="col">
-            <div *ngIf="event.status.code === 100">{{event.winnerCode}}</div>
-            <div style="color:yellow" *ngIf="event.status.code === 9"><b><li>Live</li></b></div>
-            <div *ngIf="event.status.code === 0">nie zaczety</div></td>
-        </tr>
-    
+            <div *ngIf="eventTournament.event.status.code === 100">
+              
+            </div>
+            <div style="color:yellow" *ngIf="eventTournament.event.status.code === 9"><b><li>Live</li></b></div>
+            <div *ngIf="eventTournament.event.status.code === 0">nie zaczety</div></td>
+        </tr> 
+ 
 </tbody>
+</div> 
+</div>
+  
+ -->

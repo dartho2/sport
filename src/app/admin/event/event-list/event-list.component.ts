@@ -9,6 +9,13 @@ import { AnalysticService } from '../../analystic/analystic-service';
 export class EventListComponent implements OnInit {
   @Input()
   eventID;
+  @Input()
+  event;
+  @Input()
+  startTimestamp;
+  @Input()
+  stringData;
+ 
   eventTournament;
   MaxVote;
   typeForVote;
@@ -16,20 +23,32 @@ export class EventListComponent implements OnInit {
   typPercent;
   win =0;
   lose =0;
+  colorWin= 'none';
+  colorText= 'none';
   constructor(private analysticService: AnalysticService) {      
- 
+    
+//    
   }
     ngOnInit(){
-//          if(this.eventID){
-//       this.analysticService.getAnalystictEvent(this.eventID)
-//    .subscribe(
-//    data => {
-//     this.eventTournament = data;
-//    });
-//  }  
+       if(this.event){
+      this.analysticService.getAnalystictEvent(this.event)
+   .subscribe(
+   data => {
+    this.eventTournament = data;
+    if(this.eventTournament){
+      this.checkEvent(this.eventTournament);
+      this.checkEventPercentWin(this.eventTournament)
+      if(this.typeForVote === this.typeForPercent){
+        this.colorWin = 'green';
+        this.colorText = 'white';
       }
-     
+    }
+   });
+ }  
+      }
+    
     checkEvent(eventTournament){
+      // console.log("a")
       if(eventTournament !== undefined){
        this.MaxVote = Math.max.apply(null,[eventTournament.vote.vote1Percentage, eventTournament.vote.voteXPercentage, eventTournament.vote.vote2Percentage]);
        this.typeForVote = ((eventTournament.vote.vote1Percentage*100 )=== (this.MaxVote*100))? (eventTournament.vote.vote1Percentage)  : 
@@ -37,9 +56,9 @@ export class EventListComponent implements OnInit {
        ((eventTournament.vote.vote2Percentage*100 )=== (this.MaxVote*100))? (eventTournament.vote.vote2Percentage) : 0;
         // console.log(this.typeForVote)
        this.typeForVote>70? (this.typPercent = this.typeForVote) : ''; //typPercent powyzej 70
-       this.typeForVote = ((eventTournament.vote.vote1Percentage*100 )=== (this.typPercent*100))? '1' :
-       ((eventTournament.vote.voteXPercentage*100 )=== (this.typPercent*100))? '0' :
-       ((eventTournament.vote.vote2Percentage*100 )=== (this.typPercent*100))? '2' : '0';
+       this.typeForVote = ((eventTournament.vote.vote1Percentage*100 )=== (this.typPercent*100))? 1 :
+       ((eventTournament.vote.voteXPercentage*100 )=== (this.typPercent*100))? 0 :
+       ((eventTournament.vote.vote2Percentage*100 )=== (this.typPercent*100))? 2 : 'cięzko';
          return true
       }else {
         return false
@@ -75,6 +94,9 @@ export class EventListComponent implements OnInit {
        return false
      }
     }
+    checkWin(x){
+      
+    }
     checkEventPercentWin(eventTournament){
       if(this.checkWining1(eventTournament) || this.checkWining2(eventTournament)){
         const home = (eventTournament.winningOdds.home !==undefined)? eventTournament.winningOdds.home.actual : 0;
@@ -87,20 +109,22 @@ export class EventListComponent implements OnInit {
         // if(numberMax >70 && ((numberMax-numberMin)>30)){
         //   this.typeForPercent = eventTournament.winningOdds.home.actual === numberMax? 1 : 2;
         // }
+
         if(numberMax){
           if(home !== 0){
           // this.typeForPercent = eventTournament.winningOdds.home.actual === numberMax? numberMax : 2;
             if(eventTournament.winningOdds.home.actual === numberMax){
               if(numberMax >70){
-                this.typeForPercent =1
+                return this.typeForPercent =1
               }else{
-                this.typeForPercent =0
+                return this.typeForPercent =0
               }
             } else {
               if(numberMax >70){
-                this.typeForPercent =2
+                return this.typeForPercent =2
               }else{
-                this.typeForPercent =0
+                return this.typeForPercent =0
+                
               }
             }
          } else {

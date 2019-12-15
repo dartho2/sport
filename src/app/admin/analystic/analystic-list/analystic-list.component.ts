@@ -48,6 +48,7 @@ export class AnalysticListComponent implements OnInit {
     onSearchChange(data){
       data.setDate( data.getDate());
       this.formattedDate = formatDate(data, this.format, 'en');
+      this.stringData = this.formattedDate
      this.analysticService.getAnalystict(this.formattedDate)
       .subscribe(
       data => {

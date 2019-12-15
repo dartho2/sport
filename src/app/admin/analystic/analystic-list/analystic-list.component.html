@@ -20,8 +20,11 @@
                       <th scope="col">{{a.tournament.name}}</th>
                     </tr>
                   </thead>
-            <app-event-list [eventID]="a"></app-event-list>
-          
+                  <div class="table" *ngFor="let event of a.events;let i=index">
+
+                  
+            <app-event-list [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp" [stringData]="stringData"></app-event-list>
+          </div>
         </table>
           <!-- </div> -->
 
