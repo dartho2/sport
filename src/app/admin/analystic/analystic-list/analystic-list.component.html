@@ -1,13 +1,14 @@
 <div class="content-body">
   <div class="photo-list card card-block">
     <div *ngIf="matchFootball">
-     
+ 
+        <input type="number" matInput [ngModel]="model1" (ngModelChange)="changePercent($event)" min="1" max="100"  placeholder="Choose a %">
       <mat-form-field>
             <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker" placeholder="Choose a date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-   
+   {{win}}
       <div *ngFor="let a of matchFootball">
 
 
@@ -23,7 +24,7 @@
                   <div class="table" *ngFor="let event of a.events;let i=index">
 
                   
-            <app-event-list [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp" [stringData]="stringData"></app-event-list>
+            <app-event-list  (amountChanged)="onAmountChanged($event)" [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp" [percentChance]="percentChance" [stringData]="stringData"></app-event-list>
           </div>
         </table>
           <!-- </div> -->

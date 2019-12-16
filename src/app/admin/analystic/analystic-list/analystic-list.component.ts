@@ -31,7 +31,9 @@ export class AnalysticListComponent implements OnInit {
   matchFootball;
   sportItem;
   stringData;
-  
+  percentChance = 70;
+  ClickCounter=0
+  win=0;
   constructor(private analysticService: AnalysticService) { 
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData= +new Date()
@@ -45,6 +47,9 @@ export class AnalysticListComponent implements OnInit {
      this.matchFootball = data;
     });
     }
+    public getData(value): void {
+      console.log(value) // welcome to stackoverflow!
+  }
     onSearchChange(data){
       data.setDate( data.getDate());
       this.formattedDate = formatDate(data, this.format, 'en');
@@ -55,7 +60,21 @@ export class AnalysticListComponent implements OnInit {
        this.matchFootball = data;
       });
     }
-   
+    changePercent(event) {
+      this.percentChance =event
+    }
+    formatLabel(value: number) {
+      if (value >= 100) {
+        // this.percentChance = Math.round(value / 100);
+        return Math.round(value / 100) + '%';
+      }console.log(value)
+      this.percentChance =value
+      return value;
+    }
+    onAmountChanged(amount: number) { 
+      this.win = this.win + amount
+    }
+
   ngOnInit() {}
 
 }

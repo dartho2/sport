@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { formatDate } from "@angular/common";
 import { AnalysticService } from '../../analystic/analystic-service';
 
 @Component({
@@ -7,6 +8,10 @@ import { AnalysticService } from '../../analystic/analystic-service';
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
+  @Input() count: number;
+  @Output() public getUserData = new EventEmitter<string>();
+    @Output() amountChanged: EventEmitter<number> =   new EventEmitter();
+  @Input() win: number;
   @Input()
   eventID;
   @Input()
@@ -15,13 +20,26 @@ export class EventListComponent implements OnInit {
   startTimestamp;
   @Input()
   stringData;
- 
+  @Input()
+  set percentChance(percentChance: any) {
+    this._percentChance = percentChance
+    // console.log(percentChance)
+    // if(percentChance !== undefined)
+    // this.percentChance = percentChance
+    // this.checkEvent(this.eventTournament)
+  }
+  get percentChance(): any { 
+    this.checkEvent(this.eventTournament)
+    return this._percentChance; 
+  }
+  _percentChance;
   eventTournament;
   MaxVote;
   typeForVote;
   typeForPercent;
+  amount;
   typPercent;
-  win =0;
+  calculateWinner=0;
   lose =0;
   colorWin= 'none';
   colorText= 'none';
@@ -30,6 +48,7 @@ export class EventListComponent implements OnInit {
 //    
   }
     ngOnInit(){
+      this.getUserData.emit('welcome to stackoverflow!');
        if(this.event){
       this.analysticService.getAnalystictEvent(this.event)
    .subscribe(
@@ -39,8 +58,38 @@ export class EventListComponent implements OnInit {
       this.checkEvent(this.eventTournament);
       this.checkEventPercentWin(this.eventTournament)
       if(this.typeForVote === this.typeForPercent){
-        this.colorWin = 'green';
+        if(this.typeForVote===0){
+        this.colorWin = '#984626';
         this.colorText = 'white';
+        
+        if(!Number.isNaN(this.startTimestamp)){
+          // console.log(this.startTimestamp)
+          const date1 = formatDate(this.startTimestamp*1000,"yyyy-MM-dd", 'en')
+          const date = formatDate(this.stringData,"yyyy-MM-dd", 'en')
+    
+          if(date === date1){
+              console.log( date ,'=', date1)
+          if(this.eventID.winnerCode === 3 && date === date1){
+            console.log('wchodzi')
+         console.log(this.eventTournament.event.awayTeam.name, "=", this.eventID.winnerCode , "=", this.typeForVote, "=", this.typeForPercent)
+         this.changeAmount();
+            
+        }
+          }
+          // console.log(this.startTimestamp)
+        
+        }
+        
+        }
+        if(this.typeForVote===1){
+          this.colorWin = 'green';
+          this.colorText = 'white';
+          }
+          if(this.typeForVote===2){
+            this.colorWin = 'blue';
+            this.colorText = 'white';
+            }
+        
       }
     }
    });
@@ -55,10 +104,10 @@ export class EventListComponent implements OnInit {
        ((eventTournament.vote.voteXPercentage*100 )=== (this.MaxVote*100))? (eventTournament.vote.voteXPercentage) :
        ((eventTournament.vote.vote2Percentage*100 )=== (this.MaxVote*100))? (eventTournament.vote.vote2Percentage) : 0;
         // console.log(this.typeForVote)
-       this.typeForVote>70? (this.typPercent = this.typeForVote) : ''; //typPercent powyzej 70
+       this.typeForVote> 73? (this.typPercent = this.typeForVote) : ''; //typPercent powyzej 70
        this.typeForVote = ((eventTournament.vote.vote1Percentage*100 )=== (this.typPercent*100))? 1 :
        ((eventTournament.vote.voteXPercentage*100 )=== (this.typPercent*100))? 0 :
-       ((eventTournament.vote.vote2Percentage*100 )=== (this.typPercent*100))? 2 : 'cięzko';
+       ((eventTournament.vote.vote2Percentage*100 )=== (this.typPercent*100))? 2 : 0;
          return true
       }else {
         return false
@@ -138,6 +187,14 @@ export class EventListComponent implements OnInit {
       }else{
         return false
       }
+    }
+    changeAmount() { //Trigger this call from the child component's template
+    this.amount =1;
+    this.amountChanged.emit(this.amount);
+  }
+    somethingChanged(){
+      this.checkEvent(this.eventTournament)
+
     }
     // checkEventC(typeForVote, typeForPercent){
     //   this.winnerCode = (this.winnerCode === 0)? 'nie Grali': (this.winnerCode === 1)? 1 : (this.winnerCode === 2)? 0 : (this.winnerCode === 3)? 2 : 'Brak';
