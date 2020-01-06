@@ -24,6 +24,7 @@ export const MY_FORMATS = {
 export class AnalysticListComponent implements OnInit {
   @Input()
   eventID;
+  chance = 0;
   formattedDate;
   myDate
   format = 'yyyy-MM-dd';
@@ -32,7 +33,8 @@ export class AnalysticListComponent implements OnInit {
   sportItem;
   stringData;
   percentChance = 70;
-  ClickCounter=0
+  ClickCounter=0;
+  indexWin=0
   win=0;
   constructor(private analysticService: AnalysticService) { 
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
@@ -47,9 +49,7 @@ export class AnalysticListComponent implements OnInit {
      this.matchFootball = data;
     });
     }
-    public getData(value): void {
-      console.log(value) // welcome to stackoverflow!
-  }
+   
     onSearchChange(data){
       data.setDate( data.getDate());
       this.formattedDate = formatDate(data, this.format, 'en');
@@ -67,13 +67,19 @@ export class AnalysticListComponent implements OnInit {
       if (value >= 100) {
         // this.percentChance = Math.round(value / 100);
         return Math.round(value / 100) + '%';
-      }console.log(value)
+      }
       this.percentChance =value
       return value;
     }
     onAmountChanged(amount: number) { 
+      const winer = 1;
+      this.indexWin = this.indexWin +(winer *3.4*2)/1.12
       this.win = this.win + amount
     }
+    onchanceChanged(amount: number) { 
+      this.chance = this.chance + amount
+    }
+   
 
   ngOnInit() {}
 

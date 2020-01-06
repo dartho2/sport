@@ -17,11 +17,14 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
     productData;
     product;
     dataSource = new MatTableDataSource(this.productData);
-    displayedColumns: string[] = ['name',
+    displayedColumns: string[] = [
+    'name',
     "price" ,
     "unit",
     "weight",
-    "_id" ];
+    "vat",
+    "_id",
+  "totalPrice" ];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;

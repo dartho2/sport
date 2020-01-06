@@ -8,7 +8,8 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-   {{win}}
+  win: {{win}}  Match: {{chance}} ile: {{indexWin - chance*2}}
+  <input type="text" class="form-control" (input)="onWinhange($event.target.value)">
       <div *ngFor="let a of matchFootball">
 
 
@@ -24,7 +25,7 @@
                   <div class="table" *ngFor="let event of a.events;let i=index">
 
                   
-            <app-event-list  (amountChanged)="onAmountChanged($event)" [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp" [percentChance]="percentChance" [stringData]="stringData"></app-event-list>
+            <app-event-list (amountChanged)="onAmountChanged($event)" (chanceChanged)="onchanceChanged($event)" [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp" [percentChance]="percentChance" [stringData]="stringData"></app-event-list>
           </div>
         </table>
           <!-- </div> -->

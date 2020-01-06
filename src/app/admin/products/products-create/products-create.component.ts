@@ -37,7 +37,8 @@ export class ProductsCreateComponent implements OnInit {
       active: new FormControl(null),
       price: new FormControl(null),
       unit: new FormControl(null),
-      weight: new FormControl(null)
+      weight: new FormControl(null),
+      vat: new FormControl(null)
 
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -56,7 +57,9 @@ export class ProductsCreateComponent implements OnInit {
             active: productData.active,
             price: productData.price,
             unit: productData.unit,
-            weight: productData.weight
+            weight: productData.weight,
+            vat: productData.vat,
+            totalPrice: productData.totalPrice
           };
           console.log("product =" ,this.product);
           this.bodyForm.setValue({
@@ -70,7 +73,9 @@ export class ProductsCreateComponent implements OnInit {
             active: this.product.active,
             price: this.product.price,
             unit: this.product.unit,
-            weight: this.product.weight
+            weight: this.product.weight,
+            vat: this.product.vat,
+            totalPrice: this.product.totalPrice
           });
         })
       } else {
@@ -86,7 +91,8 @@ export class ProductsCreateComponent implements OnInit {
       delete this.bodyForm.value._id
       this.bodyForm.value.price = this.bodyForm.value.price.replace(',', '.');
       this.bodyForm.value.weight = this.bodyForm.value.weight.replace(',', '.');
-     
+      this.bodyForm.value.totalPrice = (this.bodyForm.value.price * (this.bodyForm.value.vat / 100 + 1)).toFixed(2);
+    //  console.log(this.bodyForm.value.totalPrice)
       this.productService.createProduct(this.bodyForm.value).subscribe(()=>
       {
         this.router.navigate(["../"], {relativeTo: this.route});

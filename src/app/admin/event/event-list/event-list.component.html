@@ -53,6 +53,10 @@
     <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}" >{{typeForPercent}}<br><hr>
       <div class="content-line" *ngIf="eventTournament.winningOdds?.home?.actual">{{eventTournament.winningOdds?.home?.actual}}</div><div class="content-line" *ngIf="!eventTournament.winningOdds?.home?.actual">brak</div> / 
       <div class="content-line" *ngIf="eventTournament.winningOdds?.away?.actual">{{eventTournament.winningOdds?.away?.actual}}</div><div class="content-line" *ngIf="!eventTournament.winningOdds?.away?.actual">brak</div>
+      <br><hr>
+      <div class="content-line" *ngIf="eventTournament.winningOdds?.home?.decimalValue">{{eventTournament.winningOdds?.home?.decimalValue}}</div><div class="content-line" *ngIf="!eventTournament.winningOdds?.home?.decimalValue">brak</div> / 
+      <div class="content-line" *ngIf="eventTournament.winningOdds?.away?.decimalValue">{{draw}}</div><div class="content-line" *ngIf="!eventTournament.winningOdds?.away?.decimalValue">brak</div>/
+      <div class="content-line" *ngIf="eventTournament.winningOdds?.away?.decimalValue">{{eventTournament.winningOdds?.away?.decimalValue}}</div><div class="content-line" *ngIf="!eventTournament.winningOdds?.away?.decimalValue">brak</div>
     </td>
     <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}" >
       <div class="content-line" *ngIf="eventTournament.teamsForm?.homeTeam?.avgRating"><br><hr>{{eventTournament.teamsForm?.homeTeam?.avgRating}}</div> vs
@@ -64,6 +68,7 @@
         <div *ngIf="eventID.winnerCode===2">2</div>
         <div *ngIf="eventID.winnerCode===1">1</div>
       </div>
+      <div *ngIf="eventTournament.event.status.code === 70">odwołany</div>
       <div *ngIf="eventTournament.event.status.code === 31"><b>
         <p> <i class="blink fas fa-play"></i> LIVE </p>
         </b>

@@ -9,5 +9,7 @@ export interface Product {
  active: Boolean;
  price: String;
  unit: String;
- weight: String
+ weight: String;
+ vat: Number;
+ totalPrice: String
 };
