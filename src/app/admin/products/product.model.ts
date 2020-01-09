@@ -11,5 +11,6 @@ export interface Product {
  unit: String;
  weight: String;
  vat: Number;
- totalPrice: String
+ totalPrice: String;
+ product_data: Date;
 };

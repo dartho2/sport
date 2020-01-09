@@ -39,22 +39,20 @@
   <div formArrayName="products">
     <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of myForm.get('products').controls; let i=index">
       <fieldset>
-        <legend><h4>Produkt {{i+1}}:
+        <legend><h4>Produkt {{i+1}}: <button style="margin-left:35px;" type="button" class="btn btn-outline-primary" (click)="deleteCity(i)">
+            <i class="fa fa-minus" aria-hidden="true"></i></button>
           
 </h4></legend>
         <div [formGroupName]="i">  
           <div class="form-inline">
-              <div class="panel-body">
-                  <div class="form-group">
-                      <mat-form-field>
-                        <mat-label>produkt</mat-label>
-                        <select matNativeControl required (change)="onChange($event.target.value, i)" formControlName="name">
-                          <option value="volvo">choise Product</option>
-                          <option *ngFor="let text of product">{{text.name}}</option>
-                        </select>
-                      </mat-form-field>
-                  </div>
-                </div>
+                <mat-form-field class="example-full-width">
+                    <input type="text" (change)="onChange($event.target.value, i)" placeholder="Wybierz Produkt" aria-label="Assignee" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option.name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
                 <mat-form-field> 
                     <mat-label>Cena</mat-label>
                   <input matInput formControlName="price" type="text" name="price" disabled required  >
@@ -76,8 +74,11 @@
                         <mat-label>wartość </mat-label>
                       <input matInput formControlName="valueproduct" type="text" name="valueproduct" required disabled> 
          </mat-form-field> 
-         <button style="margin-left:35px;" type="button" class="btn btn-outline-primary" (click)="deleteCity(i)">
-            <i class="fa fa-minus" aria-hidden="true"></i></button>
+         <mat-form-field>
+          <mat-label>id </mat-label>
+        <input matInput formControlName="id" type="text" name="id" required disabled> 
+</mat-form-field> 
+         
                      </div>
         </div>
        

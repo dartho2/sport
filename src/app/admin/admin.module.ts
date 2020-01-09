@@ -52,7 +52,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
 
-
 @NgModule({
   imports: [
     ScrollingModule,
@@ -98,7 +97,7 @@ import { CalculateListComponent } from './calculate/calculate-list/calculate-lis
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    ScrollingModule,
+    ScrollingModule
     ],
   declarations: [
     AdminComponent,

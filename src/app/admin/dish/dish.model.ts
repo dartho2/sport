@@ -8,7 +8,8 @@ export interface Dish {
 
 
 export interface ProductsModel {
-    sum: string;
-    name: string;
+    sum: String;
+    name: String;
+    id: String;
    
 } 

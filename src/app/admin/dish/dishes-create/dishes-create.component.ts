@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormArray, FormControlName, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../products/product.service';
 import { DishServices } from '../dish-services';
-import { map } from 'rxjs/operators';
+import { map, take, takeUntil, startWith } from 'rxjs/operators';
+import { ReplaySubject, Subject, Observable } from 'rxjs';
+import { MatSelect } from '@angular/material';
+  export interface Product {
+    name: string;
+  }
 @Component({
   selector: 'app-dishes-create',
   templateUrl: './dishes-create.component.html',
   styleUrls: ['./dishes-create.component.css']
 })
 export class DishesCreateComponent implements OnInit {
+  myControl = new FormControl();
+  options: Product[] = [];
+  filteredOptions: Observable<Product[]>;
   productSelected;
   myForm: FormGroup;
   selectItems: any;
@@ -17,10 +25,10 @@ export class DishesCreateComponent implements OnInit {
   wynik;
   controlButton = 0;
   mode;
-  
     data = {
       products: [
         {
+          id: '',
           name: '',
           price: '',
           weight: '',
@@ -32,9 +40,9 @@ export class DishesCreateComponent implements OnInit {
     }
 
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private dishService :DishServices) {
-
     this.productService.getProduct().subscribe(response => {
       this.product = response
+      this.options =this.product
     });
     this.myForm = this._fb.group({
       name: new FormControl('', Validators.required),
@@ -70,6 +78,7 @@ export class DishesCreateComponent implements OnInit {
     //     price: this.wynik.toFixed(2)
     //   })
   }
+
   calculatePrice(){
      //Validacja do dodania
      this.wynik=0;
@@ -87,6 +96,7 @@ export class DishesCreateComponent implements OnInit {
     let control = <FormArray>this.myForm.controls.products;
     control.push(
       this._fb.group({
+        id: '',
         name: '',
         price: '',
         weight: '',
@@ -105,7 +115,8 @@ export class DishesCreateComponent implements OnInit {
   setCities() {
     let control = <FormArray>this.myForm.controls.products;
     this.data.products.forEach(x => {
-      control.push(this._fb.group({ 
+      control.push(this._fb.group({  
+        id: x.id,
         name: x.name, 
         price: x.price, 
         weight: x.weight,
@@ -127,6 +138,7 @@ export class DishesCreateComponent implements OnInit {
     let control = (<FormArray>this.myForm.controls.products).at(y);
     this.productSelected.forEach(x => {
          control.setValue({
+           id: x._id,
           name: x.name, 
           price: x.price, 
           weight: x.weight,
@@ -136,10 +148,25 @@ export class DishesCreateComponent implements OnInit {
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(name => name ? this._filter(name) : this.options.slice())
+    );
+  }
+  displayFn(product?: Product): string | undefined {
+    return product ? product.name : undefined;
+  }
 
+  private _filter(name: string): Product[] {
+    const filterValue = name.toLowerCase();
+
+    return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 }
+
 
 
 
