@@ -45,15 +45,21 @@
 </h4></legend>
         <div [formGroupName]="i">  
           <div class="form-inline">
-                <mat-form-field class="example-full-width">
-                    <input type="text" (change)="onChange($event.target.value, i)" placeholder="Wybierz Produkt" aria-label="Assignee" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                 <mat-form-field class="example-full-width">
+                  
+                    <input type="text" placeholder="Wybierz Produkt" aria-label="Assignee"
+                     matInput [formControl]="myControl" [matAutocomplete]="auto">
+                     <mat-select formControlName="name" (selectionChange)="onChange($event.value, i)">
+                    <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
+                           <mat-option  *ngFor="let option of filteredOptions | async" 
+                       [value]="option">
                         {{option.name}}
                       </mat-option>
+                   
+                      
                     </mat-autocomplete>
+                     </mat-select>
                   </mat-form-field>
-                <mat-form-field> 
                     <mat-label>Cena</mat-label>
                   <input matInput formControlName="price" type="text" name="price" disabled required  >
                    </mat-form-field>
