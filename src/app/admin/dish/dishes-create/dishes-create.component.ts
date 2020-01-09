@@ -53,7 +53,7 @@ export class DishesCreateComponent implements OnInit {
 
     this.setCities();
   }
-  onSubmit() {
+  onSubmit(f) {
     
       if (this.mode === "edit") {
         this.dishService.updateDish(this.myForm.value).subscribe(response => {
