@@ -128,7 +128,11 @@ export class ProductsCreateComponent implements OnInit {
     this.bodyForm.value.weight = this.bodyForm.value.weight.replace(',', '.');
    
     this.bodyForm.controls['product_data'].patchValue(this.pr_data);
-    this.bodyForm.value.totalPrice = (price.price * (price.vat / 100 + 1)).toFixed(2);
+If (price.price === 0) {
+this.bodyForm.value.totalPrice = (price.vat).toFixed(2);
+} else {
+this.bodyForm.value.totalPrice = (price.price * (price.vat / 100 + 1)).toFixed(2);
+}  
     this.bodyForm.controls['totalPrice'].patchValue(this.bodyForm.value.totalPrice);
      (<FormArray>this.bodyForm.controls['history']).value.push({
       "supplier": this.bodyForm.value.supplier,
