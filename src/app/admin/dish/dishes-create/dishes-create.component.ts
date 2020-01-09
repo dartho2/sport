@@ -39,7 +39,6 @@ export class DishesCreateComponent implements OnInit {
       ]
     }
 
-get formData { return this.myForm.get('products'); }
 
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private dishService :DishServices) {
     this.productService.getProduct().subscribe(response => {
@@ -55,6 +54,13 @@ get formData { return this.myForm.get('products'); }
 
     this.setCities();
   }
+
+get formData { return this.myForm.get('products'); }
+
+get type() {
+    return this.myForm.get('products');
+  }
+  
   onSubmit(f) {
     
       if (this.mode === "edit") {
