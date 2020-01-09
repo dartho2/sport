@@ -141,7 +141,7 @@ get formData() {
     })
   }
   onChange(selectedValue, y) {
-    this.productSelected = this.product.filter(item => item.name === selectedValue);
+    this.productSelected = this.product.filter(item => item.name === selectedValue.name);
     let control = (<FormArray>this.myForm.controls.products).at(y);
     this.productSelected.forEach(x => {
          control.setValue({
