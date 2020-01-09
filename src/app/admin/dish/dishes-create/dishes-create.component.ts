@@ -55,10 +55,9 @@ export class DishesCreateComponent implements OnInit {
     this.setCities();
   }
 
-get formData() { return this.myForm.get('products'); }
 
-get type() {
-    return this.myForm.get('products');
+get formData() {
+    return <formArray>this.myForm.get('products');
   }
   
   onSubmit(f) {
