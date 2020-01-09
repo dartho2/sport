@@ -39,6 +39,8 @@ export class DishesCreateComponent implements OnInit {
       ]
     }
 
+get formData { return this.form.get('Data'); }
+
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private dishService :DishServices) {
     this.productService.getProduct().subscribe(response => {
       this.product = response
