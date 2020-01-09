@@ -30,15 +30,16 @@ export class DishesCreateComponent implements OnInit {
         {
           id: '',
           name: '',
-          price: '',
+          nettoPrice: '',
+          bruttoPrice: '',
           weight: '',
+          vat: '',
           unit: '',
-          productweight: '',
-          valueproduct: ''
+          productWeight: '',
+          valueProduct: ''
         }
       ]
     }
-
 
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private dishService :DishServices) {
     this.productService.getProduct().subscribe(response => {
@@ -47,8 +48,8 @@ export class DishesCreateComponent implements OnInit {
     });
     this.myForm = this._fb.group({
       name: new FormControl('', Validators.required),
-      price: new FormControl('', Validators.required),
-      price_p: new FormControl('', Validators.required),
+      foodCost: new FormControl('', Validators.required),
+      bruttoPrice: new FormControl('', Validators.required),
       products: this._fb.array([])
     })
 
@@ -61,7 +62,6 @@ get formData() {
   }
   
   onSubmit(f) {
-    
       if (this.mode === "edit") {
         this.dishService.updateDish(this.myForm.value).subscribe(response => {
           console.log("update- done!", response)})
@@ -72,31 +72,18 @@ get formData() {
           this.router.navigate(["../"], {relativeTo: this.route});
         })
       };
-    
-    //Validacja do dodania
-    // this.wynik=0;
-    // this.controlButton =1;
-    // let control = (<FormArray>this.myForm.controls.products);
-    //   control.value.forEach(x => {
-    //    this.wynik = parseFloat(x.valueproduct) + (this.wynik ? parseFloat(this.wynik) : 0)
-    //   })
-    //   let controls = <FormGroup>this.myForm;
-    //   controls.patchValue({
-    //     price: this.wynik.toFixed(2)
-    //   })
   }
 
   calculatePrice(){
-     //Validacja do dodania
      this.wynik=0;
      this.controlButton =1;
      let control = (<FormArray>this.myForm.controls.products);
        control.value.forEach(x => {
-        this.wynik = parseFloat(x.valueproduct) + (this.wynik ? parseFloat(this.wynik) : 0)
+        this.wynik = parseFloat(x.valueProduct) + (this.wynik ? parseFloat(this.wynik) : 0)
        })
        let controls = <FormGroup>this.myForm;
        controls.patchValue({
-         price: this.wynik.toFixed(2)
+        foodCost: this.wynik.toFixed(2),
        })
   }
   addNewCity() {
@@ -105,11 +92,12 @@ get formData() {
       this._fb.group({
         id: '',
         name: '',
-        price: '',
+        nettoPrice: '',
+        bruttoPrice: '',
         weight: '',
         unit: '',
-        productweight: '',
-        valueproduct: ''
+        productWeight: '',
+        valueProduct: ''
       })
     )
   }
@@ -125,19 +113,20 @@ get formData() {
       control.push(this._fb.group({  
         id: x.id,
         name: x.name, 
-        price: x.price, 
+        nettoPrice: x.nettoPrice, 
+        bruttoPrice: x.bruttoPrice, 
         weight: x.weight,
         unit: x.unit,
-        productweight: x.productweight ? x.productweight : '',
-        valueproduct: x.valueproduct ? x.valueproduct : '',
+        productWeight: x.productWeight ? x.productWeight : '',
+        valueProduct: x.valueProduct ? x.valueProduct : '',
         }))
     })
   }
   calculate(i) {
     let control = (<FormArray>this.myForm.controls.products).at(i);
     control.patchValue({
-      productweight: control.value.productweight.replace(',', '.'),
-      valueproduct: ((control.value.price*control.value.productweight.replace(',', '.'))/control.value.weight).toFixed(2)
+      productWeight: control.value.productWeight.replace(',', '.'),
+      valueProduct: ((control.value.nettoPrice*control.value.productWeight.replace(',', '.'))/control.value.weight).toFixed(2)
     })
   }
   onChange(selectedValue, y) {
@@ -147,11 +136,12 @@ get formData() {
          control.setValue({
            id: x._id,
           name: x.name, 
-          price: x.price, 
+          nettoPrice: x.nettoPrice, 
+          bruttoPrice: x.bruttoPrice, 
           weight: x.weight,
           unit: x.unit,
-          productweight: x.productweight ? x.productweight.replace(',', '.') : '',
-          valueproduct: x.valueproduct ? x.valueproduct : ''})
+          productWeight: x.productWeight ? x.productWeight.replace(',', '.') : '',
+          valueProduct: x.valueProduct ? x.valueProduct : ''})
     });
   }
 

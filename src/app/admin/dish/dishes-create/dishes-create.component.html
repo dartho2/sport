@@ -1,105 +1,83 @@
 <div class="content-body">
-    <mat-card>
-        <div class="photo-list card card-block">
-  <h2>Danie</h2>
-
-<form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
-  <div class="form-group">
-    <mat-form-field class="f-control-n">
-      <input type="text"
-           id="name"
-           class="form-control"
-           placeholder="Name"
-           name="name"
-           formControlName="name"
-           required matInput>
-        </mat-form-field>
-        <mat-form-field class="f-control-n">
-         <input type="text"
-           id="price"
-           class="form-control"
-           placeholder="Price"
-           name="price"
-           formControlName="price"
-           required disabled matInput>
-        </mat-form-field>
-        <mat-form-field class="f-control-n">
-           <input type="text"
-           id="price_p"
-           class="form-control"
-           placeholder="Cena Dania"
-           name="price_p"
-           formControlName="price_p"
-           required matInput>
+  <mat-card>
+    <div class="photo-list card card-block">
+      <h2>Danie</h2>
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="form-group">
+          <mat-form-field class="f-control-n">
+            <input type="text" id="name" class="form-control" placeholder="Name" name="name" formControlName="name"
+              required matInput>
           </mat-form-field>
-  </div>
-  <button style="margin-top:5px; margin-bottom:5px;" type="button" class="btn btn-primary btn-sm" (click)="addNewCity()">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj Składową dania
-  </button>
-  <div formArrayName="products">
-    <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of formData.controls; let i=index">
-      <fieldset>
-        <legend><h4>Produkt {{i+1}}: <button style="margin-left:35px;" type="button" class="btn btn-outline-primary" (click)="deleteCity(i)">
-            <i class="fa fa-minus" aria-hidden="true"></i></button>
-          
-</h4></legend>
-        <div [formGroupName]="i">  
-          <div class="form-inline">
-                 <mat-form-field class="example-full-width">
-                  
-                    <input type="text" placeholder="Wybierz Produkt" aria-label="Assignee"
-                     matInput [formControl]="myControl" [matAutocomplete]="auto">
-                     <mat-select formControlName="name" (selectionChange)="onChange($event.value, i)">
-                    <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
-                           <mat-option  *ngFor="let option of filteredOptions | async" 
-                       [value]="option">
-                        {{option.name}}
-                      </mat-option>
-                   
-                      
-                    </mat-autocomplete>
-                     </mat-select>
-                  </mat-form-field>
-<mat-form-field>
-                    <mat-label>Cena</mat-label>
-                  <input matInput formControlName="price" type="text" name="price" disabled required  >
-                   </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>waga</mat-label>
-                      <input matInput formControlName="weight" type="text" name="weight" disabled required > 
-                    </mat-form-field>
-                    <mat-form-field> 
-                        <mat-label>jednostka</mat-label>
-                      <input matInput formControlName="unit" type="text" name="unit" disabled required >
-                    </mat-form-field>
-                    
-                   <mat-form-field>
-                      <mat-label>waga produktu</mat-label>
-                     <input matInput formControlName="productweight" (change)="calculate(i)" type="text" name="productweight" required >
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>wartość </mat-label>
-                      <input matInput formControlName="valueproduct" type="text" name="valueproduct" required disabled> 
-         </mat-form-field> 
-         <mat-form-field>
-          <mat-label>id </mat-label>
-        <input matInput formControlName="id" type="text" name="id" required disabled> 
-</mat-form-field> 
-         
-                     </div>
+          <mat-form-field class="f-control-n">
+            <input type="text" id="price" class="form-control" placeholder="Price" name="price"
+              formControlName="foodCost" required disabled matInput>
+          </mat-form-field>
+          <mat-form-field class="f-control-n">
+            <input type="text" id="price_p" class="form-control" placeholder="Cena Dania" name="price_p"
+              formControlName="bruttoPrice" required matInput>
+          </mat-form-field>
         </div>
-       
-      </fieldset>
+        <button style="margin-top:5px; margin-bottom:5px;" type="button" class="btn btn-primary btn-sm"
+          (click)="addNewCity()">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj Składową dania
+        </button>
+        <div formArrayName="products">
+          <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of formData.controls; let i=index">
+            <fieldset>
+              <legend>
+                <h4>Produkt {{i+1}}: <button style="margin-left:35px;" type="button" class="btn btn-outline-primary"
+                    (click)="deleteCity(i)">
+                    <i class="fa fa-minus" aria-hidden="true"></i></button>
+                </h4>
+              </legend>
+              <div [formGroupName]="i">
+                <div class="form-inline">
+                  <mat-form-field class="example-full-width">
+                    <input type="text" class="input-absolute" placeholder="Wybierz Produkt" aria-label="Assignee" matInput
+                      [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-select formControlName="name" (selectionChange)="onChange($event.value, i)">
+                      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                          {{option.name}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Cena Netto za {{weight}} {{unit}} produktu</mat-label>
+                    <input matInput formControlName="nettoPrice" type="text" name="price" disabled required>
+                  </mat-form-field>
+                  <mat-form-field class="hidden-field">
+                    <mat-label>Waga</mat-label>
+                    <input matInput [(ngModel)]="weight" formControlName="weight" type="text" name="weight" disabled
+                      required>
+                  </mat-form-field>
+                  <mat-form-field class="hidden-field">
+                    <mat-label>Jednostka</mat-label>
+                    <input matInput [(ngModel)]="unit" formControlName="unit" type="text" name="unit" disabled required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Waga Produktu w {{unit}}</mat-label>
+                    <input matInput formControlName="productWeight" (change)="calculate(i)" type="text"
+                      name="productweight" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Cena Netto </mat-label>
+                    <input matInput formControlName="valueProduct" type="text" name="valueproduct" required disabled>
+                  </mat-form-field>
+                  <mat-form-field class="hidden-field">
+                    <mat-label>id </mat-label>
+                    <input matInput formControlName="id" type="text" name="id" required disabled>
+                  </mat-form-field>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <button mat-stroked-button color="warn" *ngIf="controlButton === 1" type="submit">Zapisz</button>
+        <button mat-stroked-button color="primary" type="button" (click)="calculatePrice()">Przelicz</button>
+        <button mat-stroked-button color="primary" type="button">Cancel</button>
+      </form>
     </div>
-  </div>
-  <button mat-stroked-button color="warn" *ngIf="controlButton === 1" type="submit" >Zapisz</button>
-  <button mat-stroked-button color="primary" type="button" (click)="calculatePrice()" >Przelicz</button>
-  <button mat-stroked-button color="primary" type="button" >Cancel</button>
-</form>
+  </mat-card>
 </div>
-</mat-card>
-</div> 
-
-
-
-

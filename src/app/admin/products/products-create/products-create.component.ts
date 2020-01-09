@@ -104,13 +104,13 @@ export class ProductsCreateComponent implements OnInit {
     };
   }
   calculateTotalPrice(price) {
-    this.bodyForm.value.price = this.bodyForm.value.price.replace(',', '.');
+    this.bodyForm.value.nettoPrice = this.bodyForm.value.nettoPrice.replace(',', '.');
     this.bodyForm.value.weight = this.bodyForm.value.weight.replace(',', '.');
     this.bodyForm.controls['productDate'].patchValue(this.pr_data);
-    if (price.price === 0) {
+    if (price.nettoPrice === 0) {
       this.bodyForm.value.bruttoPrice = (price.vat).toFixed(2);
     } else {
-      this.bodyForm.value.bruttoPrice = (price.price * (price.vat / 100 + 1)).toFixed(2);
+      this.bodyForm.value.bruttoPrice = (price.nettoPrice * (price.vat / 100 + 1)).toFixed(2);
     }
     this.bodyForm.controls['bruttoPrice'].patchValue(this.bodyForm.value.bruttoPrice);
     (<FormArray>this.bodyForm.controls['history']).value.push({
