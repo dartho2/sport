@@ -37,7 +37,7 @@
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj Składową dania
   </button>
   <div formArrayName="products">
-    <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of myForm.get('products').controls; let i=index">
+    <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of formData.controls; let i=index">
       <fieldset>
         <legend><h4>Produkt {{i+1}}: <button style="margin-left:35px;" type="button" class="btn btn-outline-primary" (click)="deleteCity(i)">
             <i class="fa fa-minus" aria-hidden="true"></i></button>
