@@ -57,7 +57,7 @@ export class DishesCreateComponent implements OnInit {
 
 
 get formData() {
-    return <formArray>this.myForm.get('products');
+    return <FormArray>this.myForm.get('products');
   }
   
   onSubmit(f) {
