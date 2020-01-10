@@ -1,3 +1,6 @@
 .mat-form-field:nth-child(2n+1) {
     padding-right:10px;
 }
+.content-body{
+    margin-bottom: 50px;
+}

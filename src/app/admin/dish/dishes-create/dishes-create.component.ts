@@ -36,6 +36,7 @@ export class DishesCreateComponent implements OnInit {
           weight: '',
           vat: '',
           unit: '',
+          lossesPriceNetto: '',
           productWeight: '',
           valueProduct: ''
         }
@@ -107,6 +108,7 @@ get formData() {
         bruttoPrice: '',
         weight: '',
         unit: '',
+        lossesPriceNetto: '',
         productWeight: '',
         valueProduct: ''
       })
@@ -128,6 +130,7 @@ get formData() {
         bruttoPrice: x.bruttoPrice, 
         weight: x.weight,
         unit: x.unit,
+        lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
         productWeight: x.productWeight ? x.productWeight : '',
         valueProduct: x.valueProduct ? x.valueProduct : '',
         }))
@@ -161,6 +164,7 @@ get formData() {
           bruttoPrice: x.bruttoPrice, 
           weight: x.weight,
           unit: x.unit,
+          lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
           productWeight: x.productWeight ? x.productWeight.replace(',', '.') : '',
           valueProduct: x.valueProduct ? x.valueProduct : ''})
     });
