@@ -42,6 +42,8 @@ export class ProductsCreateComponent implements OnInit {
       bruttoPrice: new FormControl(null),
       productDate: new FormControl(null),
       supplier: new FormControl(null),
+      losses: new FormControl(null),
+      lossesPriceNetto: new FormControl(null),
       history: this._fb.array([])
     });
 
@@ -70,6 +72,8 @@ export class ProductsCreateComponent implements OnInit {
       vat: [data ? data.vat : '',],
       bruttoPrice: [data ? data.bruttoPrice : '',],
       supplier: [data ? data.supplier : '',],
+      losses: [data ? data.losses : '',],
+      lossesPriceNetto: [data ? data.lossesPriceNetto : '',],
       productDate: [data ? data.productDate : '',],
       history: this._fb.array(
         this.getHistory(data ? data.history : null)
@@ -82,6 +86,8 @@ export class ProductsCreateComponent implements OnInit {
         supplier: [historyBody.supplier],
         nettoPrice: [historyBody.nettoPrice],
         bruttoPrice: [historyBody.bruttoPrice],
+        losses: [historyBody.losses],
+        lossesPriceNetto: [historyBody.lossesPriceNetto],
         qty: [historyBody.qty],
         vat: [historyBody.vat],
         productDate: [historyBody.productDate],
@@ -97,6 +103,13 @@ export class ProductsCreateComponent implements OnInit {
       })
     } else {
       delete this.bodyForm.value._id
+      console.log(this.bodyForm.value.losses)
+      if(this.bodyForm.value.losses){
+        console.log('wchodzi')
+        const lossesPriceNetto = (this.bodyForm.value.nettoPrice * (1 + this.bodyForm.value.losses / 100)).toFixed(2)
+        this.bodyForm.controls['lossesPriceNetto'].setValue(lossesPriceNetto)
+     console.log(this.bodyForm.value.lossesPriceNetto)
+      }
       this.bodyForm.value.bruttoPrice = this.calculateTotalPrice(this.bodyForm.value)
       this.productService.createProduct(this.bodyForm.value).subscribe(() => {
         this.router.navigate(["../"], { relativeTo: this.route });
@@ -117,6 +130,8 @@ export class ProductsCreateComponent implements OnInit {
       "supplier": this.bodyForm.value.supplier,
       "nettoPrice": this.bodyForm.value.nettoPrice,
       "bruttoPrice": this.bodyForm.value.bruttoPrice,
+      "losses": this.bodyForm.value.losses,
+      "lossesPriceNetto": this.bodyForm.value.lossesPriceNetto,
       "qty": this.bodyForm.value.qty,
       "vat": this.bodyForm.value.vat,
       "productDate": this.bodyForm.value.productDate
