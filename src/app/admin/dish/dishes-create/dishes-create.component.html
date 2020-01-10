@@ -9,12 +9,20 @@
               required matInput>
           </mat-form-field>
           <mat-form-field class="f-control-n">
-            <input type="text" id="price" class="form-control" placeholder="Price" name="price"
+            <input type="text" id="price" class="form-control" placeholder="Price [zł]" name="price"
               formControlName="foodCost" required disabled matInput>
           </mat-form-field>
           <mat-form-field class="f-control-n">
-            <input type="text" id="price_p" class="form-control" placeholder="Cena Dania" name="price_p"
+            <input type="text" id="price_p" class="form-control" placeholder="Cena Dania [zł]" name="price_p"
               formControlName="bruttoPrice" required matInput>
+          </mat-form-field>
+          <mat-form-field class="f-control-n">
+            <input type="text" id="productMargin" class="form-control" placeholder="Marża [%]" name="productMargin"
+              formControlName="productMargin" required matInput>
+          </mat-form-field>
+          <mat-form-field class="f-control-n">
+            <input type="text" id="productMargin" class="form-control" placeholder="Narzut [%]" name="coating"
+              formControlName="coating" required matInput>
           </mat-form-field>
         </div>
         <button style="margin-top:5px; margin-bottom:5px;" type="button" class="btn btn-primary btn-sm"

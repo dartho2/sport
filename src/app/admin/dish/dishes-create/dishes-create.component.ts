@@ -22,7 +22,8 @@ export class DishesCreateComponent implements OnInit {
   myForm: FormGroup;
   selectItems: any;
   product;
-  wynik;
+  foodCost;
+  productMargin;
   controlButton = 0;
   mode;
     data = {
@@ -40,6 +41,7 @@ export class DishesCreateComponent implements OnInit {
         }
       ]
     }
+  coating: any;
 
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private dishService :DishServices) {
     this.productService.getProduct().subscribe(response => {
@@ -50,6 +52,8 @@ export class DishesCreateComponent implements OnInit {
       name: new FormControl('', Validators.required),
       foodCost: new FormControl('', Validators.required),
       bruttoPrice: new FormControl('', Validators.required),
+      productMargin: new FormControl('', Validators.required),
+      coating: new FormControl('', Validators.required),
       products: this._fb.array([])
     })
 
@@ -67,6 +71,7 @@ get formData() {
           console.log("update- done!", response)})
       } else {
         delete this.myForm.value._id
+
         this.dishService.createDish(this.myForm.value).subscribe(()=>
         {
           this.router.navigate(["../"], {relativeTo: this.route});
@@ -75,15 +80,20 @@ get formData() {
   }
 
   calculatePrice(){
-     this.wynik=0;
+     this.foodCost=0;
      this.controlButton =1;
+     
      let control = (<FormArray>this.myForm.controls.products);
        control.value.forEach(x => {
-        this.wynik = parseFloat(x.valueProduct) + (this.wynik ? parseFloat(this.wynik) : 0)
+        this.foodCost = parseFloat(x.valueProduct) + (this.foodCost ? parseFloat(this.foodCost) : 0) 
+        this.coating = (this.myForm.value.bruttoPrice -this.foodCost) / this.foodCost
+        this.productMargin = ((this.myForm.value.bruttoPrice - this.foodCost) / this.myForm.value.bruttoPrice)*100
        })
        let controls = <FormGroup>this.myForm;
        controls.patchValue({
-        foodCost: this.wynik.toFixed(2),
+        foodCost: this.foodCost.toFixed(2),
+        productMargin: this.productMargin.toFixed(0),
+        coating: this.coating.toFixed(2),
        })
   }
   addNewCity() {
