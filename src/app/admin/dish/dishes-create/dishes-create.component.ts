@@ -82,7 +82,7 @@ get formData() {
   calculatePrice(){
      this.foodCost=0;
      this.controlButton =1;
-     
+     console.log(this.myForm.controls.products)
      let control = (<FormArray>this.myForm.controls.products);
        control.value.forEach(x => {
         this.foodCost = parseFloat(x.valueProduct) + (this.foodCost ? parseFloat(this.foodCost) : 0) 

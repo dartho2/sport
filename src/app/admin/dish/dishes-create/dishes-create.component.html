@@ -2,6 +2,7 @@
   <mat-card>
     <div class="photo-list card card-block">
       <h2>Danie</h2>
+     
       <form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
         <div class="form-group">
           <mat-form-field class="f-control-n">
@@ -83,7 +84,7 @@
           </div>
         </div>
         <button mat-stroked-button color="warn" *ngIf="controlButton === 1" type="submit">Zapisz</button>
-        <button mat-stroked-button color="primary" type="button" (click)="calculatePrice()">Przelicz</button>
+        <button mat-stroked-button color="primary" type="button" (click)="calculatePrice(i)">Przelicz</button>
         <button mat-stroked-button color="primary" type="button">Cancel</button>
       </form>
     </div>
