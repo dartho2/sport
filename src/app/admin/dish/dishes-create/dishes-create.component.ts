@@ -85,6 +85,7 @@ get formData() {
      console.log(this.myForm.controls.products)
      let control = (<FormArray>this.myForm.controls.products);
        control.value.forEach(x => {
+
         this.foodCost = parseFloat(x.valueProduct) + (this.foodCost ? parseFloat(this.foodCost) : 0) 
         this.coating = (this.myForm.value.bruttoPrice -this.foodCost) / this.foodCost
         this.productMargin = ((this.myForm.value.bruttoPrice - this.foodCost) / this.myForm.value.bruttoPrice)*100
@@ -134,10 +135,20 @@ get formData() {
   }
   calculate(i) {
     let control = (<FormArray>this.myForm.controls.products).at(i);
-    control.patchValue({
+     if(control.value.lossesPriceNetto){
+      control.patchValue({
+        productWeight: control.value.productWeight.replace(',', '.'),
+        valueProduct: ((control.value.lossesPriceNetto*control.value.productWeight.replace(',', '.'))
+        /control.value.weight).toFixed(2)
+      })
+     }else{
+         control.patchValue({
       productWeight: control.value.productWeight.replace(',', '.'),
-      valueProduct: ((control.value.nettoPrice*control.value.productWeight.replace(',', '.'))/control.value.weight).toFixed(2)
+      valueProduct: ((control.value.nettoPrice*control.value.productWeight.replace(',', '.'))
+      /control.value.weight).toFixed(2)
     })
+      }
+   
   }
   onChange(selectedValue, y) {
     this.productSelected = this.product.filter(item => item.name === selectedValue.name);
