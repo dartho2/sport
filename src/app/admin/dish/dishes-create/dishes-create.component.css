@@ -7,8 +7,37 @@
     width: 190px;
 }
 .hidden-field {
-    display: none;
+    display: none !important;
 }
+.fa {
+    font-weight: unset;
+    font-size: inherit;
+    font: normal normal normal 14px/1 FontAwesome;
+}
+.mat-tab-body-wrapper {
+    background-color: #f8f9fc;
+}
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+.mat-tab-header {
+    padding: 10px;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+}
+.card{
+    box-shadow: unset !important;
+}
+
+.mat-card {
+    padding: 0px !important;
+}
+.mat-tab-label-active {
+    color: #fff;
+    background-color: #0366d6;
+    border-color: #0366d6;
+}
+  
 .input-absolute{
     position: absolute;
     height: 80%;

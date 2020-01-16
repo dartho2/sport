@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl,FormsModule , FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../products/product.service';
@@ -15,7 +15,8 @@ export interface DialogData {
 @Component({
   selector: 'app-dishes-create',
   templateUrl: './dishes-create.component.html',
-  styleUrls: ['./dishes-create.component.css']
+  styleUrls: ['./dishes-create.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DishesCreateComponent implements OnInit {
   myControl = new FormControl();
