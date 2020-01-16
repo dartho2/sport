@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl,FormsModule , FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../products/product.service';
 import { DishServices } from '../dish-services';
@@ -20,7 +20,6 @@ export interface DialogData {
 export class DishesCreateComponent implements OnInit {
   myControl = new FormControl();
   options: Product[] = [];
-  
   filteredOptions: Observable<Product[]>;
   productSelected;
   myForm: FormGroup;
@@ -55,10 +54,10 @@ export class DishesCreateComponent implements OnInit {
     });
     this.myForm = this._fb.group({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      foodCost: new FormControl({value: '', disabled: true},  Validators.required),
+      foodCost: new FormControl('',  Validators.required),
       bruttoPrice: new FormControl('', Validators.required),
-      productMargin: new FormControl({value: '', disabled: true}, Validators.required),
-      coating: new FormControl({value: '', disabled: true}, Validators.required),
+      productMargin: new FormControl( '', Validators.required),
+      coating: new FormControl( '', Validators.required),
       products: this._fb.array([])
     })
 
@@ -96,10 +95,9 @@ get formData() {
      this.controlButton =1;
      console.log(this.myForm.controls.products, 's')
      
-     if(this.myForm.controls.products.status === 'VALID'){
+     if(this.myForm.controls.products.status === 'VALID' && this.myForm.value.bruttoPrice){
      let control = (<FormArray>this.myForm.controls.products);
        control.value.forEach(x => {
-
         this.foodCost = parseFloat(x.valueProduct) + (this.foodCost ? parseFloat(this.foodCost) : 0) 
         this.coating = (this.myForm.value.bruttoPrice -this.foodCost) / this.foodCost
         this.productMargin = ((this.myForm.value.bruttoPrice - this.foodCost) / this.myForm.value.bruttoPrice)*100
@@ -110,6 +108,7 @@ get formData() {
         productMargin: this.productMargin.toFixed(0),
         coating: this.coating.toFixed(2),
        })
+       console.log('controls', controls)
   }}
   addNewCity() {
     let control = <FormArray>this.myForm.controls.products;
@@ -210,6 +209,7 @@ get formData() {
     this.dialog.open(DialogDataExampleDialog, {
       data: this.myForm.value,
     });
+    console.log('VALUE',this.myForm.value)
   }
   
 }

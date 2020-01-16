@@ -11,5 +11,44 @@
 }
 .input-absolute{
     position: absolute;
+    height: 80%;
     z-index: 1;
 }
+.form-control:focus {
+    color: #495057;
+    /* background-color:  unset !important; */
+    border-color:unset !important;
+    outline: unset !important;
+    box-shadow: unset !important;
+}
+.form-control:disabled, .form-control[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+    width: 100%;
+}
+.mat-select {
+    height: calc(2.25rem + 2px);
+}
+.mat-select-arrow-wrapper {
+    visibility: hidden;
+    opacity: 0;
+    display: none !important;
+    vertical-align: middle;
+}
+.mat-select-arrow {
+    visibility: hidden !important;
+    display: none !important;
+}
+.mat-select-trigger {
+    visibility: hidden !important;
+    display: none !important;
+}
+/* .mat-select-arrow-wrapper {
+    display: none !important;
+}
+.mat-select-arrow-wrapper {
+    z-index: 2 !important;
+    position: relative !important;
+    margin-right: 0px;
+    padding-right: 0px !important;
+} */

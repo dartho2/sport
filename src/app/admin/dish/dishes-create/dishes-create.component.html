@@ -3,28 +3,15 @@
     <div class="photo-list card card-block">
       <h2>Danie</h2>
       <form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
-        <div class="form-group">
+        <div class="form-inline">
           <mat-form-field class="f-control-n">
             <input type="text" id="name" class="form-control" placeholder="Name" name="name" formControlName="name"
               required matInput>
               <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
           </mat-form-field>
-          <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)"
-          class="alert alert-danger">
-
-        <div *ngIf="name.errors.required">
-          Name is required.
-        </div>
-        <div *ngIf="name.errors.minlength">
-          Name must be at least 4 characters long.
-        </div>
-        <div *ngIf="name.errors.forbiddenName">
-          Name cannot be Bob.
-        </div>
-      </div> -->
           <mat-form-field class="f-control-n">
             <input type="text" id="price" class="form-control" placeholder="Price [zł]" name="price"
-              formControlName="foodCost" required disabled matInput>
+              formControlName="foodCost" required disabled readonly matInput>
           </mat-form-field>
           <mat-form-field class="f-control-n">
             <input type="text" id="price_p" class="form-control" placeholder="Cena Dania [zł]" name="price_p"
@@ -33,11 +20,11 @@
           </mat-form-field>
           <mat-form-field class="f-control-n">
             <input type="text" id="productMargin" class="form-control" placeholder="Marża [%]" name="productMargin"
-              formControlName="productMargin" required matInput>
+              formControlName="productMargin" required readonly matInput>
           </mat-form-field>
           <mat-form-field class="f-control-n">
             <input type="text" id="productMargin" class="form-control" placeholder="Narzut [%]" name="coating"
-              formControlName="coating" required matInput>
+              formControlName="coating" required readonly matInput>
           </mat-form-field>
         </div>
         <button style="margin-top:5px; margin-bottom:5px;" type="button" class="btn btn-primary btn-sm"
@@ -56,7 +43,8 @@
               <div [formGroupName]="i">
                 <div class="form-inline">
                   <mat-form-field class="example-full-width">
-                    <input type="text" class="input-absolute" placeholder="Wybierz Produkt" aria-label="Assignee" matInput
+                      <mat-label>Wybierz produkt </mat-label>
+                    <input type="text"  class="input-absolute"  aria-label="Assignee" matInput
                       [formControl]="myControl" [matAutocomplete]="auto">
                     <mat-select formControlName="name" (selectionChange)="onChange($event.value, i)">
                       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -68,11 +56,11 @@
                   </mat-form-field>
                   <mat-form-field>
                     <mat-label>Cena Netto za {{weight}} {{unit}} produktu</mat-label>
-                    <input matInput formControlName="nettoPrice" type="text" name="price" disabled required>
+                    <input matInput class="form-control" formControlName="nettoPrice" type="text" name="price" disabled required>
                   </mat-form-field>
                   <mat-form-field>
                     <mat-label>Cena Netto za {{weight}} {{unit}} produktu wliczone straty</mat-label>
-                    <input matInput formControlName="lossesPriceNetto" type="text" name="lossesPriceNetto" disabled>
+                    <input matInput class="form-control" formControlName="lossesPriceNetto" type="text" name="lossesPriceNetto" readonly disabled>
                   </mat-form-field>
                   <mat-form-field class="hidden-field">
                     <mat-label>Waga</mat-label>
@@ -81,11 +69,11 @@
                   </mat-form-field>
                   <mat-form-field class="hidden-field">
                     <mat-label>Jednostka</mat-label>
-                    <input matInput [(ngModel)]="unit" formControlName="unit" type="text" name="unit" disabled required>
+                    <input matInput class="form-control" [(ngModel)]="unit" formControlName="unit" type="text" name="unit" disabled required>
                   </mat-form-field>
                   <mat-form-field>
                     <mat-label>Waga Produktu w {{unit}}</mat-label>
-                    <input matInput formControlName="productWeight" (change)="calculate(i)" type="text"
+                    <input matInput class="form-control" formControlName="productWeight" (change)="calculate(i)" type="text"
                       name="productweight" required>
                       <!-- <mat-error *ngIf="name.controls.productWeight.dirty"> -->
                         <mat-error *ngIf="name.hasError('required', 'productWeight')">Required</mat-error>  
@@ -97,18 +85,18 @@
                   </mat-form-field>
                   <mat-form-field>
                     <mat-label>Cena Netto </mat-label>
-                    <input matInput formControlName="valueProduct" type="text" name="valueproduct" required disabled>
+                    <input matInput class="form-control" formControlName="valueProduct" type="text" name="valueproduct" required readonly disabled>
                   </mat-form-field>
                   <mat-form-field class="hidden-field">
                     <mat-label>id </mat-label>
-                    <input matInput formControlName="id" type="text" name="id" required disabled>
+                    <input matInput class="form-control" formControlName="id" type="text" name="id" required readonly disabled>
                   </mat-form-field>
                 </div>
               </div>
             </fieldset>
           </div>
         </div>
-        <div *ngIf="!myForm.invalid">
+        <div *ngIf="!myForm.invalid === true">
           <button mat-stroked-button color="warn" [disabled]="myForm.invalid" *ngIf="controlButton === 1" type="submit">Zapisz</button>
         <button mat-button color="primary" [disabled]="myForm.invalid" *ngIf="controlButton === 1" type="button" (click)="openDialog()">Część składowa innego (dania/zestawu)</button>
         
