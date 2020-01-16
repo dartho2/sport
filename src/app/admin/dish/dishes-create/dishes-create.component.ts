@@ -1,11 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, FormArray, FormControlName, Validators } from '@angular/forms';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../products/product.service';
 import { DishServices } from '../dish-services';
-import { map, take, takeUntil, startWith } from 'rxjs/operators';
-import { ReplaySubject, Subject, Observable } from 'rxjs';
-import { MatSelect } from '@angular/material';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+export interface DialogData {
+  foodCost: '';
+}
   export interface Product {
     name: string;
   }
@@ -17,6 +20,7 @@ import { MatSelect } from '@angular/material';
 export class DishesCreateComponent implements OnInit {
   myControl = new FormControl();
   options: Product[] = [];
+  
   filteredOptions: Observable<Product[]>;
   productSelected;
   myForm: FormGroup;
@@ -44,7 +48,7 @@ export class DishesCreateComponent implements OnInit {
     }
   coating: any;
 
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private dishService :DishServices) {
+  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private dishService :DishServices, public dialog: MatDialog) {
     this.productService.getProduct().subscribe(response => {
       this.product = response
       this.options =this.product
@@ -137,7 +141,9 @@ get formData() {
     })
   }
   calculate(i) {
+    
     let control = (<FormArray>this.myForm.controls.products).at(i);
+    console.log(control)
      if(control.value.lossesPriceNetto){
       control.patchValue({
         productWeight: control.value.productWeight.replace(',', '.'),
@@ -184,11 +190,27 @@ get formData() {
 
   private _filter(name: string): Product[] {
     const filterValue = name.toLowerCase();
-
-    return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
+  openDialog() {
+    
+    this.dialog.open(DialogDataExampleDialog, {
+      data: this.myForm.value,
+    });
+  }
+  
 }
 
+@Component({
+  selector: 'dialog-data-example-dialog',
+  templateUrl: 'dialog-data-example-dialog.html',
+})
+
+export class DialogDataExampleDialog {
+  ProductDish=true;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  }
+}
 
 
 

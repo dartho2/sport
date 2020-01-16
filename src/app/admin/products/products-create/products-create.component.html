@@ -1,7 +1,7 @@
 <div class="content-body">
   <mat-card>
     <div class="photo-list card card-block">
-      <h1>Product ADD</h1>
+      <h1>Product ADD - {{message}}</h1>
       <div class="row">
         <form [formGroup]="bodyForm" class="example-container d-inline-block col-md-6" (submit)="onAddContent()">
           <mat-form-field>
@@ -15,6 +15,8 @@
                 <option value="KŚ">Kuchnie Świata</option>
                 <option value="WoA">World of Asia</option>
                 <option value="W">Warzywa</option>
+                <option value="Pp">Półprodukt</option>
+                <option value="In">Inny</option>
               </select>
         </mat-form-field>
           <mat-form-field>
@@ -42,10 +44,10 @@
                   <option value="L">l- litry</option>
                 </select>
           </mat-form-field>
-          <div class="data-panel">
-              <div class="panel-sub">
-                  <button type="button" class="btn btn-outline-info waves-effect" (click)="gotoBack()">Back</button>
-                <button type="button" class="btn btn-outline-info btn-rounded waves-effect">ADD other</button>
+          <div [ngClass]="[ProductDish? 'data-panel-cost' : 'data-panel']">
+              <div [ngClass]="[ProductDish? 'panel-sub panel-sub-cost' : 'panel-sub']">
+                  <button mat-button mat-dialog-close>Close</button>
+                  <button *ngIf="!ProductDish" type="button" class="btn btn-outline-info waves-effect" (click)="gotoBack()">Back</button>
                 <button type="submit" class="btn btn-outline-success btn-rounded waves-effect">Save</button>
               </div>
             </div> 

@@ -10,7 +10,7 @@ import { SearchPipe } from './admin/_pipe/search/search.pipe';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
 import { DishesListComponent } from './dish/dishes-list/dishes-list.component';
-import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
+// import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
 import {CdkStepperModule} from '@angular/cdk/stepper';
@@ -51,7 +51,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
-
+import {DishesCreateComponent, DialogDataExampleDialog} from './dish/dishes-create/dishes-create.component';
 @NgModule({
   imports: [
     ScrollingModule,
@@ -110,8 +110,11 @@ import { CalculateListComponent } from './calculate/calculate-list/calculate-lis
     AnalysticListComponent,
     SearchPipe,
     EventListComponent,
-    CalculateListComponent
+    CalculateListComponent,
+    DishesCreateComponent, DialogDataExampleDialog
   ],
+  entryComponents: [DishesCreateComponent, DialogDataExampleDialog],
+  bootstrap: [DishesCreateComponent],
   providers: []
 })
 export class AdminModule { }

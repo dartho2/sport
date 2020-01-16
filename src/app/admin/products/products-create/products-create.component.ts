@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Product } from '../product.model'
@@ -10,13 +10,19 @@ import { ProductService } from '../product.service';
   styleUrls: ['./products-create.component.css']
 })
 export class ProductsCreateComponent implements OnInit {
+
+  @Input() 
+  foodCost;
+  @Input() 
+  ProductDish;
+
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
   selectedOptions;
   selectPackage;
   productId;
   value: ['kg', 'szt', 'l'];
-  valueSupplier: ['KŚ', 'WoA', 'W'];
+  valueSupplier: ['KŚ', 'WoA', 'W', 'Pp', 'In'];
   mode;
   bodyForm: FormGroup;
   selectedValue;
@@ -29,6 +35,9 @@ export class ProductsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.foodCost){
+      this.buildFormforProducts(this.foodCost)
+    }else{
     this.bodyForm = new FormGroup({
       _id: new FormControl(null),
       name: new FormControl(null),
@@ -46,7 +55,7 @@ export class ProductsCreateComponent implements OnInit {
       lossesPriceNetto: new FormControl(null),
       history: this._fb.array([])
     });
-
+  }
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idProduct")) {
         this.mode = "edit";
@@ -59,6 +68,28 @@ export class ProductsCreateComponent implements OnInit {
       }
     });
   }
+  buildFormforProducts(foodCost): FormGroup {
+    return this.bodyForm = this._fb.group({
+      _id: null,
+      name: '',
+      description: '',
+      image:  '',
+      nettoPrice: foodCost? foodCost : '',
+      unit: '',
+      qty: '',
+      weight: '',
+      vat: '',
+      bruttoPrice: '',
+      supplier: 'Pp',
+      losses:'',
+      lossesPriceNetto: '',
+      productDate: '',
+      history: this._fb.array(
+        this.getHistory(null)
+      )
+    })
+  }
+
   buildForm(data: any): FormGroup {
     return this.bodyForm = this._fb.group({
       _id: [data ? data._id : null],
@@ -103,15 +134,13 @@ export class ProductsCreateComponent implements OnInit {
       })
     } else {
       delete this.bodyForm.value._id
-      console.log(this.bodyForm.value.losses)
       if(this.bodyForm.value.losses){
-        console.log('wchodzi')
         const lossesPriceNetto = (this.bodyForm.value.nettoPrice * (1 + this.bodyForm.value.losses / 100)).toFixed(2)
         this.bodyForm.controls['lossesPriceNetto'].setValue(lossesPriceNetto)
-     console.log(this.bodyForm.value.lossesPriceNetto)
       }
       this.bodyForm.value.bruttoPrice = this.calculateTotalPrice(this.bodyForm.value)
       this.productService.createProduct(this.bodyForm.value).subscribe(() => {
+        this.foodCost? this.message="Został utworzony" :
         this.router.navigate(["../"], { relativeTo: this.route });
       })
     };
