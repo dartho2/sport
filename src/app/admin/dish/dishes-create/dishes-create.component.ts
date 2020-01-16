@@ -54,20 +54,27 @@ export class DishesCreateComponent implements OnInit {
       this.options =this.product
     });
     this.myForm = this._fb.group({
-      name: new FormControl('', Validators.required),
-      foodCost: new FormControl('', Validators.required),
+      name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      foodCost: new FormControl({value: '', disabled: true},  Validators.required),
       bruttoPrice: new FormControl('', Validators.required),
-      productMargin: new FormControl('', Validators.required),
-      coating: new FormControl('', Validators.required),
+      productMargin: new FormControl({value: '', disabled: true}, Validators.required),
+      coating: new FormControl({value: '', disabled: true}, Validators.required),
       products: this._fb.array([])
     })
 
     this.setCities();
   }
-
+  get name() { return this.myForm.get('name'); }
+  get products() { return this.myForm.get('products') as FormArray }
+  get bruttoPrice()  { return this.myForm.get('bruttoPrice'); }
 
 get formData() {
     return <FormArray>this.myForm.get('products');
+  }
+  getErrorMessage(name: string) {
+    return this.myForm.controls[name].hasError('required') ? 'You must enter a value' :
+    this.myForm.controls[name].hasError('minlength') ? 'Min length 3' :
+            '';
   }
   
   onSubmit(f) {
@@ -87,7 +94,9 @@ get formData() {
   calculatePrice(){
      this.foodCost=0;
      this.controlButton =1;
-     console.log(this.myForm.controls.products)
+     console.log(this.myForm.controls.products, 's')
+     
+     if(this.myForm.controls.products.status === 'VALID'){
      let control = (<FormArray>this.myForm.controls.products);
        control.value.forEach(x => {
 
@@ -101,7 +110,7 @@ get formData() {
         productMargin: this.productMargin.toFixed(0),
         coating: this.coating.toFixed(2),
        })
-  }
+  }}
   addNewCity() {
     let control = <FormArray>this.myForm.controls.products;
     control.push(
@@ -135,7 +144,7 @@ get formData() {
         weight: x.weight,
         unit: x.unit,
         lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
-        productWeight: x.productWeight ? x.productWeight : '',
+        productWeight: new FormControl(x.productWeight ? x.productWeight : '', Validators.required) ,
         valueProduct: x.valueProduct ? x.valueProduct : '',
         }))
     })
@@ -143,19 +152,23 @@ get formData() {
   calculate(i) {
     
     let control = (<FormArray>this.myForm.controls.products).at(i);
-    console.log(control)
-     if(control.value.lossesPriceNetto){
+    console.log(control.status)
+     if(control.value.lossesPriceNetto && control.value.productWeight && control.value.lossesPriceNetto){
       control.patchValue({
         productWeight: control.value.productWeight.replace(',', '.'),
         valueProduct: ((control.value.lossesPriceNetto*control.value.productWeight.replace(',', '.'))
         /control.value.weight).toFixed(2)
       })
      }else{
-         control.patchValue({
-      productWeight: control.value.productWeight.replace(',', '.'),
-      valueProduct: ((control.value.nettoPrice*control.value.productWeight.replace(',', '.'))
-      /control.value.weight).toFixed(2)
-    })
+       console.log(control.status)
+       if(control.value.productWeight && control.value.nettoPrice){
+        control.patchValue({
+          productWeight: control.value.productWeight.replace(',', '.'),
+          valueProduct: ((control.value.nettoPrice*control.value.productWeight.replace(',', '.'))
+          /control.value.weight).toFixed(2)
+      
+    }) 
+  }
       }
    
   }
