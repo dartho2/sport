@@ -17,16 +17,45 @@
 .mat-tab-body-wrapper {
     background-color: #f8f9fc;
 }
+.shadow {
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+}
 .row {
     margin-right: 0px;
     margin-left: 0px;
+}
+.h6, h6 {
+    font-size: 0.85rem;
+}
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+  }
+.border-left-primary {
+    border-left: .25rem solid #4e73df!important;
 }
 .mat-tab-header {
     padding: 10px;
     box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
 }
 .card{
-    box-shadow: unset !important;
+    /* box-shadow: unset !important; */
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e3e6f0;
+    border-radius: .35rem;
 }
 
 .mat-card {
