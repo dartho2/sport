@@ -15,7 +15,7 @@
       color:white;
   }
   .navbar-light .navbar-nav .nav-link {
-      color: white;
+      color: black;
   }
   @media (max-width: 769px){
   .navbar-visible-top {
