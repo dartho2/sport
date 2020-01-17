@@ -44,7 +44,15 @@
     box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
 }
 .card{
-    /* box-shadow: unset !important; */
+    margin-bottom: unset !important;
+    padding-top: 5px;
+    padding-bottom: 0px;
+}
+.alert{
+    position: fixed;
+    top: 20px;
+    right: 0px;
+    z-index: 9999;
 }
 .card {
     position: relative;
@@ -56,6 +64,9 @@
     background-clip: border-box;
     border: 1px solid #e3e6f0;
     border-radius: .35rem;
+}
+.content-body {
+    padding-bottom: 80px;
 }
 
 .mat-card {

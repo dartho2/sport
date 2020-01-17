@@ -1,3 +1,11 @@
+<div [ngClass]='alert' *ngIf="message">
+  
+        <div id="inner-message">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{messageContent}}
+        </div>
+   
+</div>
 <div class="content-body">
   
     <div class="photo-list card card-block">
@@ -12,8 +20,11 @@
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><h4 class="card-title">Dane Dania</h4></div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">  <mat-form-field class="f-control-n">
+                              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                <h4 class="card-title">Dane Dania</h4>
+                              </div>
+                                <div class="h6 mb-0 font-weight-bold text-gray-800">  
+                                  <mat-form-field class="f-control-n">
                                     <input type="text" id="name" class="form-control" placeholder="Name" name="name" formControlName="name"
                                       required matInput>
                                       <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
@@ -150,40 +161,49 @@
               </div>
                </mat-tab>
                <mat-tab label="Kalkulacja">
-            
                   <div class="row">
                       <div class="col-md-12">
-                          <div class="card-content">
-                              <h4 class="card-title">Kalkulacja</h4>
-                              <div class="row">
-                          <mat-form-field class="f-control-n">
+                          <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                              <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    <h4 class="card-title">Kalkulacja</h4>
+                                  </div>
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800">  
+             
+                                      
+   <mat-form-field class="f-control-n">
                             <input type="text" id="price" class="form-control" placeholder="FoodCost [zł]" name="price"
                               formControlName="foodCost" required disabled readonly matInput>
                           </mat-form-field>
                           <mat-form-field class="f-control-n">
-                            <input type="text" id="productMargin" class="form-control" placeholder="Marża [%]" name="productMargin"
+                            <input type="text" id="productMargin" class="form-control" placeholder="Marża od cenny sprzedaży [%]" name="productMargin"
                               formControlName="productMargin" required readonly matInput>
                           </mat-form-field>
                           <mat-form-field class="f-control-n">
                             <input type="text" id="productMargin" class="form-control" placeholder="Narzut [%]" name="coating"
                               formControlName="coating" required readonly matInput>
                           </mat-form-field>
-                          </div>
-                          </div>
-                      </div>
-                      </div>
 
+                          </div>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                       </mat-tab>
         </mat-tab-group>
         <div class='data-panel'>
             <div class="panel-sub">
                 <div *ngIf="!myForm.invalid === true">
-                    <button mat-stroked-button color="warn" [disabled]="myForm.invalid" *ngIf="controlButton === 1" type="submit">Zapisz</button>
-                  <button mat-button color="primary" [disabled]="myForm.invalid" *ngIf="controlButton === 1" type="button" (click)="openDialog()">Część składowa innego (dania/zestawu)</button>
+                  <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn" [disabled]="myForm.invalid" *ngIf="controlButton === 1" type="submit">Zapisz</button>
+                    <button type="button" class="btn btn-outline-info btn-rounded waves-effect" color="primary" [disabled]="myForm.invalid" *ngIf="controlButton === 1" type="button" (click)="openDialog()">Część składowa innego (dania/zestawu)</button>
                   
                   </div>
-                  <button mat-stroked-button color="primary" type="button"  (click)="calculatePrice()">Przelicz</button>
-                  <button mat-stroked-button color="primary" type="button">Cancel</button>
+                  <button type="button" class="btn btn-outline-info btn-rounded waves-effect" color="primary" type="button"  (click)="calculatePrice()">Przelicz</button>
+                  <button type="button" class="btn btn-outline-danger btn-rounded waves-effect" color="primary" type="button">Cancel</button>
             </div>
           </div> 
 

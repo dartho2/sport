@@ -26,7 +26,10 @@ export class DishesCreateComponent implements OnInit {
   myForm: FormGroup;
   selectItems: any;
   product;
+  alert;
+  messageContent;
   foodCost;
+  message;
   productMargin;
   controlButton = 0;
   mode;
@@ -94,8 +97,6 @@ get formData() {
   calculatePrice(){
      this.foodCost=0;
      this.controlButton =1;
-     console.log(this.myForm.controls.products, 's')
-     
      if(this.myForm.controls.products.status === 'VALID' && this.myForm.value.bruttoPrice){
      let control = (<FormArray>this.myForm.controls.products);
        control.value.forEach(x => {
@@ -108,9 +109,31 @@ get formData() {
         foodCost: this.foodCost.toFixed(2),
         productMargin: this.productMargin.toFixed(0),
         coating: this.coating.toFixed(2),
-       })
-       console.log('controls', controls)
+       });
+       this.errorMessagesSuccess('Przeliczono Poprawnie')
+  }else {
+    this.errorMessagesWarning('Uzupełnij Wszystkie Dane');
   }}
+  errorMessagesWarning(name){
+    this.alert = 'alert alert-danger'
+    this.messageContent = name;
+    this.message = true;
+
+setTimeout(()=>{   
+      this.message = false;
+      this.messageContent = "";
+ }, 3000);
+  }
+  errorMessagesSuccess(name){
+    this.alert = 'alert alert-success'
+    this.messageContent = name;
+    this.message = true;
+
+setTimeout(()=>{   
+      this.message = false;
+      this.messageContent = "";
+ }, 3000);
+  }
   addNewCity() {
     let control = <FormArray>this.myForm.controls.products;
     control.push(
