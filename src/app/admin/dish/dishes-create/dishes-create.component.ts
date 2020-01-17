@@ -59,6 +59,7 @@ export class DishesCreateComponent implements OnInit {
     this.myForm = this._fb.group({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
       description: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      category: new FormControl('', [Validators.required, Validators.minLength(4)]),
       foodCost: new FormControl('',  Validators.required),
       bruttoPrice: new FormControl('', Validators.required),
       productMargin: new FormControl( '', Validators.required),

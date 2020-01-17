@@ -30,6 +30,10 @@
                                       <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
                                   </mat-form-field>
                                   <mat-form-field class="f-control-n">
+                                      <input type="text" id="category" class="form-control" placeholder="Category" name="category" formControlName="category"
+                                        required matInput>
+                                    </mat-form-field>
+                                  <mat-form-field class="f-control-n">
                                       <input type="text" id="description" class="form-control" placeholder="Description" name="description" formControlName="description"
                                         required matInput>
                                     </mat-form-field>
@@ -129,15 +133,15 @@
                                       </mat-form-field>
                                       <mat-form-field class="hidden-field">
                                         <mat-label>Waga</mat-label>
-                                        <input matInput [(ngModel)]="weight" formControlName="weight" type="text" name="weight" disabled
+                                        <input matInput  formControlName="weight" type="text" name="weight" disabled
                                           required>
                                       </mat-form-field>
-                                      <mat-form-field class="hidden-field">
+                                      <mat-form-field>
                                         <mat-label>Jednostka</mat-label>
-                                        <input matInput  [(ngModel)]="unit" formControlName="unit" type="text" name="unit" disabled required>
+                                        <input matInput class="form-control" formControlName="unit" type="text" name="unit" disabled readonly required>
                                       </mat-form-field>
                                       <mat-form-field>
-                                        <mat-label>Waga Produktu w {{unit}}</mat-label>
+                                        <mat-label>Waga Produktu</mat-label>
                                         <input matInput class="form-control" formControlName="productWeight" (change)="calculate(i)" type="text"
                                           name="productweight" required>
             <mat-error *ngIf="name.hasError('required', 'productWeight')">Required</mat-error>  

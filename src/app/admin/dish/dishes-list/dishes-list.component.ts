@@ -1,13 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, ViewEncapsulation } from '@angular/core';
 import { DishServices } from '../../dish/dish-services';
 import { ActivatedRoute } from '@angular/router';
 import { Dish } from '../../dish/dish.model';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+
+
+export interface DialogData {
+  animal: 'panda' | 'unicorn' | 'lion';
+}
 
 @Component({
   selector: 'app-dishes-list',
   templateUrl: './dishes-list.component.html',
-  styleUrls: ['./dishes-list.component.css']
+  styleUrls: ['./dishes-list.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DishesListComponent implements OnInit {
   dish;
@@ -24,12 +30,21 @@ export class DishesListComponent implements OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-  constructor(private route: ActivatedRoute, private dishService: DishServices) { 
+  
+
+   
+
+  constructor(public dialog: MatDialog, private route: ActivatedRoute, private dishService: DishServices) { 
     this.dishService.getDish().subscribe(response => {
       this.dish = response
       this.dishData = this.dish;
      this.dataSource.data = this.dishData;  
     });
+    }
+    openDialog(dish) {
+      this.dialog.open(DialogDataListDialog, {
+        data: dish
+      });
     }
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
@@ -39,4 +54,13 @@ export class DishesListComponent implements OnInit {
   ngOnInit() {
   }
 
+}
+@Component({
+  selector: 'dialog-data-example-dialog',
+  templateUrl: 'dialog-data-example-dialog.html',
+  styleUrls: ['./dialog-data-example-dialog.css'],
+  
+})
+export class DialogDataListDialog {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 }

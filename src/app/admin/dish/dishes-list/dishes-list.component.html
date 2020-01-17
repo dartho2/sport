@@ -1,39 +1,7 @@
-<!-- <div class="content-body">
-  <div class="photo-list card card-block">
-    <h1>Dish</h1><mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" class="mat-form-field-wrapper" placeholder="Search">
-      </mat-form-field>
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-      <ng-container matColumnDef="name">
-         
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let dish"> {{dish.name}} </td>
-      </ng-container>
-      
-                    <ng-container matColumnDef="price">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> production price </th>     
-                        <td mat-cell *matCellDef="let dish"> 
-                          
-                        </td>
-                      </ng-container> 
-                      <ng-container matColumnDef="price_p">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> dish price </th>     
-                        <td mat-cell *matCellDef="let dish"> {{dish.price_p}} zł</td>
-                      </ng-container> 
-                  
-                     
-                       
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  </div>
-</div> -->
-
 <div class="data-panel">
   <div class="panel-sub">
-    <button type="button" class="btn btn-outline-info btn-rounded waves-effect" routerLink="/dish/create"  data-toggle="modal" data-target="#exampleModalLong">Create Product</button>
-    <i class="fa fa-search icon-search" aria-hidden="true"></i>
+    <button type="button" class="btn btn-outline-info btn-rounded waves-effect" routerLink="/dish/create"  data-toggle="modal" data-target="#exampleModalLong">Utwórz Danie</button>
+    
     
   </div>
 </div>
@@ -52,25 +20,28 @@
                 
             <div class="card border-left-primary shadow py-2 col-auto mb-3" *ngFor="let dish of this.dataSource.filteredData">
                
-                    <div class="" style="width: 18rem;">
+                    <div class="width-card">
                         <div class="card-body">
-                            <h5 class="card-title">{{dish.name}}</h5>
+                             <div class="card__image border-tlr-radius">
+                                <img src="https://delivery-app.app-smart.services/uploads/categories/86d5b8a1e0d824bc583f043bcd6013e9.jpg" alt="image" class="border-tlr-radius">
+        </div>
+                            <div class="card__share">
+                                <button id="share" class=" share-icon">{{dish.bruttoPrice}} zł</button>
+                            </div>
+                            <article class="card__article">
+                                <h2 class="card-title">{{dish.name}}</h2> 
+                
+                                <p>{{dish.description}}</p>
+                            </article>
                             <h6 class="card-subtitle mb-2 text-muted"></h6>
-                            <p class="card-text">{{dish.description}}</p>
-                            <a  class="card-link">Zobacz</a>
-                <!-- <mat-card-header>
-                    <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title>{{dish.name}}</mat-card-title>
-                    <mat-card-subtitle>{{dish.descriptions}}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <p>
-                    </p>
-                </mat-card-content>
-                <mat-card-actions>
-                    <button mat-button>LIKE</button>
-                    <button mat-button>SHARE</button>
-                </mat-card-actions> -->
+                            <div class="card__action">
+            
+                                <div class="card__author">
+                                    
+                                    <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
+                                </div>
+                            </div>
+
                 </div>
               </div>
             </div>
@@ -79,5 +50,47 @@
         </mat-card-content>
 
     </mat-card>
-
+    
 </div>
+<!-- 
+<mat-card-content class="container mt-4">
+
+    <div class="row">
+<div class="wrapper card border-left-primary shadow py-2 col-auto mb-3" *ngFor="let dish of this.dataSource.filteredData">
+    
+    <div class="card radius shadowDepth1">
+        <div class="card__image border-tlr-radius">
+           
+        </div>
+
+        <div class="card__content card__padding">
+            <div class="card__share">
+                <button id="share" class=" share-icon">{{dish.bruttoPrice}} zł</button>
+            </div>
+
+            <div class="card__meta">
+                <p>cena</p>
+            </div>
+
+            <article class="card__article">
+                <h2>{{dish.name}}</h2>
+
+                <p>desc</p>
+            </article>
+        </div>
+
+        <div class="card__action">
+            
+            <div class="card__author">
+                
+                <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-center">
+      
+      </p>
+</div>
+</div>
+</mat-card-content> -->

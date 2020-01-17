@@ -9,7 +9,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SearchPipe } from './admin/_pipe/search/search.pipe';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
-import { DishesListComponent } from './dish/dishes-list/dishes-list.component';
+import { DishesListComponent, DialogDataListDialog } from './dish/dishes-list/dishes-list.component';
 // import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
@@ -105,7 +105,7 @@ import {DishesCreateComponent, DialogDataExampleDialog} from './dish/dishes-crea
     NavbarComponent,
     ProductsListComponent,
     ProductsCreateComponent,
-    DishesListComponent,
+    DishesListComponent, DialogDataListDialog,
     DishesCreateComponent,
     AnalysticListComponent,
     SearchPipe,
@@ -113,7 +113,7 @@ import {DishesCreateComponent, DialogDataExampleDialog} from './dish/dishes-crea
     CalculateListComponent,
     DishesCreateComponent, DialogDataExampleDialog
   ],
-  entryComponents: [DishesCreateComponent, DialogDataExampleDialog],
+  entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],
   providers: []
 })
