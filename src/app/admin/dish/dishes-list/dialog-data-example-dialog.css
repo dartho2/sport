@@ -97,7 +97,7 @@ body {
     .separate{
      padding-top: 24px;
     border-bottom: 1px solid #dd3d31;
-    box-shadow: 0 4px 2px -2px rgba(0,0,0,.3);
+    box-shadow: 0 4px 2px -2px rgba(0,0,0,.3);  
     }
   .size {
     margin-right: 10px; 

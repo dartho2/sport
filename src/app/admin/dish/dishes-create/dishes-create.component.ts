@@ -29,6 +29,8 @@ export class DishesCreateComponent implements OnInit {
   alert;
   messageContent;
   foodCost;
+  fC;
+  productMarginFC;
   message;
   productMargin;
   controlButton = 0;
@@ -62,6 +64,9 @@ export class DishesCreateComponent implements OnInit {
       category: new FormControl('', [Validators.required, Validators.minLength(4)]),
       foodCost: new FormControl('',  Validators.required),
       bruttoPrice: new FormControl('', Validators.required),
+      vat: new FormControl('', Validators.required),
+      fC: new FormControl('', Validators.required),
+      productMarginFC: new FormControl('', Validators.required),
       productMargin: new FormControl( '', Validators.required),
       coating: new FormControl( '', Validators.required),
       products: this._fb.array([])
@@ -98,19 +103,26 @@ get formData() {
 
   calculatePrice(){
      this.foodCost=0;
+     this.fC=0;
      this.controlButton =1;
      if(this.myForm.controls.products.status === 'VALID' && this.myForm.value.bruttoPrice){
      let control = (<FormArray>this.myForm.controls.products);
        control.value.forEach(x => {
-        this.foodCost = parseFloat(x.valueProduct) + (this.foodCost ? parseFloat(this.foodCost) : 0) 
-        this.coating = (this.myForm.value.bruttoPrice -this.foodCost) / this.foodCost
-        this.productMargin = ((this.myForm.value.bruttoPrice - this.foodCost) / this.myForm.value.bruttoPrice)*100
+        this.productMarginFC = parseFloat(x.valueProduct) + (this.foodCost ? parseFloat(this.foodCost) : 0)  
+        this.foodCost = parseFloat(x.valueProduct) + (this.foodCost ? parseFloat(this.foodCost) : 0) //FC w zł
+        this.coating = (this.myForm.value.bruttoPrice -this.foodCost) / this.foodCost //Narzut w %
+        this.productMargin = ((this.myForm.value.bruttoPrice - this.foodCost) / this.myForm.value.bruttoPrice)*100 //Marza od ceny sprzedazy
+        this.productMarginFC = parseFloat(this.coating)*100 // Marza od FC
+        // this.fC = ((this.foodCost*100)/((parseFloat(this.myForm.value.bruttoPrice)*100)/(this.myForm.value.vat+100))) 
+        this.fC = ((100*this.foodCost)/this.myForm.value.bruttoPrice/(this.myForm.value.vat/100+1))//FC % 
        })
        let controls = <FormGroup>this.myForm;
        controls.patchValue({
         foodCost: this.foodCost.toFixed(2),
         productMargin: this.productMargin.toFixed(0),
         coating: this.coating.toFixed(2),
+        productMarginFC: this.productMarginFC.toFixed(0),
+        fC: this.fC.toFixed(0)
        });
        this.errorMessagesSuccess('Przeliczono Poprawnie')
   }else {
