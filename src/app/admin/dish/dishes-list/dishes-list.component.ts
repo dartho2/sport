@@ -62,9 +62,7 @@ export class DishesListComponent implements OnInit {
   
 })
 export class DialogDataListDialog {
-<<<<<<< HEAD
-  constructor(@Inject(MAT_DIALOG_DATA) public data:  DialogData) {}
-=======
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
->>>>>>> 2acfb76590b7a4dacb1f731041716993af902e62
+
 }
