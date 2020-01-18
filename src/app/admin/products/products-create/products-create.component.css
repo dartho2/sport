@@ -4,3 +4,8 @@
 .content-body{
     margin-bottom: 50px;
 }
+.data-panel-cost {
+display: block;
+position: relative;
+margin-top: 40px;
+} 
