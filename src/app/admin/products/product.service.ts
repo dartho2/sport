@@ -3,18 +3,19 @@ import { HttpClient } from "@angular/common/http";
 import { Subject, Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { Product } from "./product.model";
+import { map } from "rxjs/operators";
 
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-    products: Product[] = [];
+    private products: Product[] = [];
+    private productsUpdated = new Subject<Product[]>();
     constructor(private _http: HttpClient, private router: Router) { }
 
     getProduct(): Observable<Product[]> {
         return this._http.get<Product[]>("https://karmazdrowia.pl:8080/api/products");
       }
       createProduct(bodyProduct) {
-        console.log(bodyProduct);
         return this._http.post<Product[]>("https://karmazdrowia.pl:8080/api/products", bodyProduct);
       }
       getProductID(id: string)  {
@@ -24,4 +25,5 @@ export class ProductService {
         return this._http.post("https://karmazdrowia.pl:8080/api/products/" + product._id, product);
 
       }
+     
 }

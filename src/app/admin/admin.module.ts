@@ -52,6 +52,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
 import {DishesCreateComponent, DialogDataExampleDialog} from './dish/dishes-create/dishes-create.component';
+import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 @NgModule({
   imports: [
     ScrollingModule,
@@ -111,7 +112,7 @@ import {DishesCreateComponent, DialogDataExampleDialog} from './dish/dishes-crea
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

@@ -6,7 +6,8 @@ import { ProductsListComponent } from './products/products-list/products-list.co
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
 import { DishesListComponent } from './dish/dishes-list/dishes-list.component';
 import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
-import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component'
+import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
+import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 const adminRoutes: Routes = [
   {
     path: '',
@@ -15,7 +16,7 @@ const adminRoutes: Routes = [
       {
         path: 'products',
         component: ProductsListComponent
-      }, 
+      },
       {
         path: 'products/create',
         component: ProductsCreateComponent
@@ -24,12 +25,14 @@ const adminRoutes: Routes = [
         path: 'analystic/list',
         component: AnalysticListComponent
       },
-
+      {
+        path: 'recipe/list',
+        component: RecipeListComponent
+      },
       {
         path: 'products/edit/:idProduct',
         component: ProductsCreateComponent
       },
-
       {
         path: 'dish',
         component: DishesListComponent

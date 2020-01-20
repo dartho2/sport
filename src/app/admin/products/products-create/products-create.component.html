@@ -95,17 +95,23 @@
                           </div>
                           <div class="h6 mb-0 font-weight-bold text-gray-800">
                             <div [formGroupName]="i">
+                           
                               <mat-form-field class="example-full-width">
                                 <mat-label>Wybierz produkt </mat-label>
-                                <input type="text" class="input-absolute" aria-label="Assignee" matInput
+                                <input type="text"  class="input-absolute" aria-label="Assignee" matInput
                                   [formControl]="myControl" [matAutocomplete]="auto">
                                 <mat-select formControlName="name" (selectionChange)="onChange($event.value, i)">
                                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                    <mat-option *ngFor="let option of filteredOptions | async"  [value]="option">
                                       {{option.name}}
                                     </mat-option>
                                   </mat-autocomplete>
                                 </mat-select>
+                              </mat-form-field>
+                              <mat-form-field>
+                                <mat-label>name</mat-label>
+                                <input matInput class="form-control" formControlName="name" type="text" name="unit"
+                                  disabled readonly required>
                               </mat-form-field>
                               <mat-form-field>
                                 <mat-label>Cena Netto za {{weight}} {{unit}} produktu</mat-label>
