@@ -1,86 +1,91 @@
 <div mat-dialog-content>
-        <mat-tab-group>
-                <mat-tab label="Opis">
-                                <div class="card">
-                                        <div class="container-fliud">
-                                            <div class="wrapper row">
-                                                <div class="preview col-md-6">
-                                                    
-                                                    <div class="preview-pic tab-content">
-                                                      <div class="tab-pane active" id="pic-1"><img src="https://lezzet.blob.core.windows.net/images-test/no-image.png" /></div>
-                                
-                                                    </div>
-                                                    <ul class="preview-thumbnail nav nav-tabs">
-                                                      <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="https://lezzet.blob.core.windows.net/images-test/no-image.png" /></a></li>
-                                                      
-                                                    </ul>
-                                                    
-                                                </div>
-                                                <div class="details col-md-6">
-                                                    <h3 class="product-title">{{data.name}}</h3>
-                                                    <div class="rating">
-                                                        <div class="stars">
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                        </div>
-                                                        <span class="review-no"></span>
-                                                    </div>
-                                                    <p class="product-description">{{data.description}}</p>
-                                                    <h4 class="price">Cena Sprzedaży: <span class="size" data-toggle="tooltip" title="small">{{data.bruttoPrice}} zł</span></h4>
-                                                    <h4 class="sizes">vat:   <span class="size" data-toggle="tooltip" title="small">{{data.vat}} %</span></h4>
-                                                    <h5 class="sizes">Food Cost [zł]:
-                                                            <span class="size" data-toggle="tooltip" title="small">{{data.foodCost}} zł</span>
-                                                    </h5>
-                                                    <h5 class="sizes">Food Cost [%]:
-                                                        <span class="size" data-toggle="tooltip" title="small">{{data.fC}} %</span>
-                                                </h5>
-                                                <h5 class="sizes">Marża od FC:
-                                                        <span class="size" data-toggle="tooltip" title="small">{{data.productMarginFC}} %</span>
-                                                </h5>
-                                                    <h5 class="sizes">Marża od Sprzedaży :
-                                                            <span class="size" data-toggle="tooltip" title="small">{{data.productMargin}} %</span>
-                                                    </h5>
-                                                    <!-- <h5 class="sizes">Narzut :
+  <mat-tab-group>
+    <mat-tab label="Opis">
+      <div class="card">
+        <div class="container-fliud">
+          <div class="wrapper row">
+            <div class="preview col-md-6">
+
+              <div class="preview-pic tab-content">
+                <div class="tab-pane active" id="pic-1"><img
+                    src="https://lezzet.blob.core.windows.net/images-test/no-image.png" /></div>
+
+              </div>
+              <ul class="preview-thumbnail nav nav-tabs">
+                <li class="active"><a data-target="#pic-1" data-toggle="tab"><img
+                      src="https://lezzet.blob.core.windows.net/images-test/no-image.png" /></a></li>
+
+              </ul>
+
+            </div>
+            <div class="details col-md-6">
+              <h5 class="product-title">{{data.name}}</h5>
+              <div class="rating">
+                <div class="stars">
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                  <span class="fa fa-star"></span>
+                </div>
+                <span class="review-no"></span>
+              </div>
+              <p class="product-description">{{data.description}}</p>
+              <h6 class="price">Cena Sprzedaży: <span class="size" data-toggle="tooltip"
+                  title="small">{{data.bruttoPrice}} zł</span></h6>
+              <h6 class="sizes">vat: <span class="size" data-toggle="tooltip" title="small">{{data.vat}} %</span></h6>
+              <h6 class="sizes">Food Cost [zł]:
+                <span class="size" data-toggle="tooltip" title="small">{{data.foodCost}} zł</span>
+              </h6>
+              <h6 class="sizes">Food Cost [%]:
+                <span class="size" data-toggle="tooltip" title="small">{{data.fC}} %</span>
+              </h6>
+              <h6 class="sizes">Marża od FC:
+                <span class="size" data-toggle="tooltip" title="small">{{data.productMarginFC}} %</span>
+              </h6>
+              <h6 class="sizes">Marża od Sprzedaży :
+                <span class="size" data-toggle="tooltip" title="small">{{data.productMargin}} %</span>
+              </h6>
+              <!-- <h5 class="sizes">Narzut :
                                                             <span class="size" data-toggle="tooltip" title="small">{{data.coating}} %</span>
                                                     </h5> -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                   
-                        </div>
-                        
-                </mat-tab>
-                <mat-tab label="Produkty">
-                        <div class="card">
-                                <div class="container-fliud">
-                                    <div class="wrapper row">
-                                        <div class="preview col-md-12">
-                                            
-                                                <div class="separate" *ngFor="let product of data.products">
-                                                        <h3 class="product-title">{{product.name}}</h3>
-                                                        <p class="product-description">{{product.nettoPrice}} zł za {{product.weight}} {{product.unit}}</p>
-                                                        <h6 class="price">Cena Netto: <span class="size" data-toggle="tooltip" title="small">{{product.nettoPrice}} zł</span></h6>
-                                                      
-                                                       
-                                                       
-                                                        <h6 class="sizes">Cena:
-                                                                <span class="size" data-toggle="tooltip" title="small">{{product.valueProduct}} zł</span>
-                                                        </h6>
-                                                        <h6 class="sizes">Waga Produktu :
-                                                                <span class="size" data-toggle="tooltip" title="small">{{product.productWeight}} {{product.unit}} </span>
-                                                        </h6>
-                                                       
-                                                    </div>
-                                            
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                           
-                </div>
-                </mat-tab>
-              </mat-tab-group>
             </div>
+          </div>
+        </div>
+
+      </div>
+
+    </mat-tab>
+    <mat-tab label="Produkty">
+      <div class="card">
+        <div class="container-fliud">
+          <div class="wrapper row">
+            <div class="preview col-md-12">
+
+              <div class="separate" *ngFor="let product of data.products">
+                <h3 class="product-title">{{product.name}}</h3>
+                <p class="product-description">{{product.nettoPrice}} zł za {{product.weight}} {{product.unit}}</p>
+                <h6 class="price">Cena Netto: <span class="size" data-toggle="tooltip"
+                    title="small">{{product.nettoPrice}} zł</span></h6>
+
+
+
+                <h6 class="sizes">Cena:
+                  <span class="size" data-toggle="tooltip" title="small">{{product.valueProduct}} zł</span>
+                </h6>
+                <h6 class="sizes">Waga Produktu :
+                  <span class="size" data-toggle="tooltip" title="small">{{product.productWeight}} {{product.unit}}
+                  </span>
+                </h6>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
