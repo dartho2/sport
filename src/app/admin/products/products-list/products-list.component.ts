@@ -4,7 +4,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../product.service';
 import { map } from 'rxjs/operators';
-
+import { exportData } from "../export/exportData";
 
 @Component({
   selector: 'app-products-list',
@@ -16,6 +16,7 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
   product;
   dataSource = new MatTableDataSource(this.productData);
   displayedColumns: string[] = [
+    'image',
     'name',
     "nettoPrice",
     "vat",
@@ -50,5 +51,7 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
     return parseFloat(a).toFixed(2)
   }
   ngOnInit() { }
-
+  exportTable(){
+    exportData.exportToExcel("ExampleTable");
+  }
 }

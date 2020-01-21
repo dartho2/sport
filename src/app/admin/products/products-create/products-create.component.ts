@@ -88,9 +88,9 @@ export class ProductsCreateComponent implements OnInit {
         this.productId = paramMap.get("idProduct");
         this.productService.getProductID(this.productId).subscribe(productData => {
           this.buildForm(productData);
-          this.bodyForm.value.supplier ==='Re' ? this.selectedValue = "Re" : '';
+          this.bodyForm.value.supplier === 'Re' ? this.selectedValue = "Re" : '';
           console.log(this.myControl)
-          
+
         })
       } else {
         this.mode = "create";
@@ -247,7 +247,8 @@ export class ProductsCreateComponent implements OnInit {
       this.bodyForm.controls['bruttoPrice'].patchValue(this.calculateTotalPrice(this.bodyForm.value))
       this.bodyForm.controls['productDate'].patchValue(this.pr_data);
       this.productService.updateProduct(this.bodyForm.value).subscribe(response => {
-        this.message = response;
+        this.message = "Został utworzony";
+          this.router.navigate(["../../"], { relativeTo: this.route });
       })
     } else {
       delete this.bodyForm.value._id
@@ -324,11 +325,11 @@ export class ProductsCreateComponent implements OnInit {
     this.calculatePrice();
   }
   gotoBack() {
-    if(this.mode === 'edit'){
-    this.router.navigate(["../../"], { relativeTo: this.route });
-  } else {
-    this.router.navigate(["../"], { relativeTo: this.route });
-  }
+    if (this.mode === 'edit') {
+      this.router.navigate(["../../"], { relativeTo: this.route });
+    } else {
+      this.router.navigate(["../"], { relativeTo: this.route });
+    }
   }
   addNewCity() {
     let control = <FormArray>this.bodyForm.controls.recipe;
