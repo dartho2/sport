@@ -41,7 +41,7 @@
               <div class="card__action">
 
                 <div class="card__author">
-                    <button id="share" class=" share-icon-edit fas fa-trash" style="color:red" (click)="dishDelete(tag._id)"></button>
+                    <button id="share" class=" share-icon-edit fas fa-trash" style="color:red" (click)="dishDelete(dish._id)"></button>
                   <button id="share" class=" share-icon-edit fas fa-edit" [routerLink]="['/dish/edit/', dish._id]"></button>
                   <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
                 </div>
