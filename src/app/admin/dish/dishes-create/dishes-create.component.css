@@ -1,6 +1,20 @@
+.mat-form-field:nth-child(2n+1) {
+    padding-right:10px;
+}
+.content-body{
+    margin-bottom: 50px;
+}
+.data-panel-cost {
+display: block;
+position: relative;
+margin-top: 40px;
+} 
 .mat-form-field {
     padding-left: 10px;
-    width: 150px;
+    /* width: unset !important; */
+}
+.title-label {
+    padding-left: 10px;
 }
 .f-control-n {
     padding-left: 10px;
@@ -9,6 +23,10 @@
 .hidden-field {
     display: none !important;
 }
+.example-full-width{
+    width: 100%;
+}
+
 .fa {
     font-weight: unset;
     font-size: inherit;
@@ -98,6 +116,18 @@
 .mat-select {
     height: calc(2.25rem + 2px);
 }
+.mat-tab-group {
+    width: 100%;
+}
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .example-container > * {
+    width: 100%;
+  }
+  
 .mat-select-arrow-wrapper {
     visibility: hidden;
     opacity: 0;

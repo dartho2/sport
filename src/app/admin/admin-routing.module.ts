@@ -51,6 +51,10 @@ const adminRoutes: Routes = [
         path: 'dish/create',
         component: DishesCreateComponent
       },
+      {
+        path: 'dish/edit/:id',
+        component: DishesCreateComponent
+      },
     ]
   }
 ]

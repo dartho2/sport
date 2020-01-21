@@ -26,7 +26,7 @@
             <div class="card-body">
               <div class="card__image border-tlr-radius">
                 <img
-                  src="https://delivery-app.app-smart.services/uploads/categories/86d5b8a1e0d824bc583f043bcd6013e9.jpg"
+                  src="{{dish.image}}"
                   alt="image" class="border-tlr-radius">
               </div>
               <div class="card__share">
@@ -41,7 +41,8 @@
               <div class="card__action">
 
                 <div class="card__author">
-
+                    <button id="share" class=" share-icon-edit fas fa-trash" style="color:red" [routerLink]="['/dish/edit/', dish._id]"></button>
+                  <button id="share" class=" share-icon-edit fas fa-edit" [routerLink]="['/dish/edit/', dish._id]"></button>
                   <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
                 </div>
               </div>
