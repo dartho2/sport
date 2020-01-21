@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material';
 import { MatPaginator, MatSort } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../product.service';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -30,7 +31,12 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
   }
 
   constructor(private route: ActivatedRoute, private productService: ProductService) {
-    this.productService.getProduct().subscribe(response => {
+    this.productService.getProduct()
+    .pipe(
+      map(product => {
+      return  product.filter(product => product.supplier !== 'Re' && product.supplier !== 'Pp');
+      })
+    ).subscribe(response => {
       this.product = response
       this.productData = this.product;
       this.dataSource.data = this.productData;

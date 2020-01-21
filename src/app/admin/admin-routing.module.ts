@@ -8,6 +8,7 @@ import { DishesListComponent } from './dish/dishes-list/dishes-list.component';
 import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
+import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 const adminRoutes: Routes = [
   {
     path: '',
@@ -28,6 +29,10 @@ const adminRoutes: Routes = [
       {
         path: 'recipe/list',
         component: RecipeListComponent
+      },
+      {
+        path: 'semiproduct/list',
+        component: SemiproduktListComponent
       },
       {
         path: 'products/edit/:idProduct',

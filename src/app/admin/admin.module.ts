@@ -53,6 +53,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
 import {DishesCreateComponent, DialogDataExampleDialog} from './dish/dishes-create/dishes-create.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
+import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 @NgModule({
   imports: [
     ScrollingModule,
@@ -112,7 +113,7 @@ import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component'
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

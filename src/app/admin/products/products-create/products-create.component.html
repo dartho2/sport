@@ -70,7 +70,7 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="selectedValue === 'Re'" label="półprodukty">
+      <mat-tab *ngIf="selectedValue === 'Re' || selectedValue === 'Pp'" label="Półprodukt">
         <div class="row">
           <div class="col-md-12">
             <button style="margin:5px;" type="button" class="btn btn-primary btn-sm" (click)="addNewCity()">
