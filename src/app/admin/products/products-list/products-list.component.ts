@@ -33,15 +33,15 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
 
   constructor(private route: ActivatedRoute, private productService: ProductService) {
     this.productService.getProduct()
-    .pipe(
-      map(product => {
-      return  product.filter(product => product.supplier !== 'Re' && product.supplier !== 'Pp');
-      })
-    ).subscribe(response => {
-      this.product = response
-      this.productData = this.product;
-      this.dataSource.data = this.productData;
-    });
+      .pipe(
+        map(product => {
+          return product.filter(product => product.supplier !== 'Re' && product.supplier !== 'Pp');
+        })
+      ).subscribe(response => {
+        this.product = response
+        this.productData = this.product;
+        this.dataSource.data = this.productData;
+      });
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -51,7 +51,7 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
     return parseFloat(a).toFixed(2)
   }
   ngOnInit() { }
-  exportTable(){
+  exportTable() {
     exportData.exportToExcel("ExampleTable");
   }
 }

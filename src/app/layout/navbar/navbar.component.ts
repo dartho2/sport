@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators';
 export class NavbarComponent implements OnInit {
     @ViewChild('drawer') drawer: any;
  public selectedItem : string = '';
+
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(map((result: BreakpointState) => result.matches));
@@ -26,7 +27,7 @@ export class NavbarComponent implements OnInit {
           this.drawer.close();
         }
     }
-  
+   
     ngOnInit() { }
 
 }

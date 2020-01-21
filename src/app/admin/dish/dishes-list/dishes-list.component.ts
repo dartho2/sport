@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { DishServices } from '../../dish/dish-services';
 import { ActivatedRoute } from '@angular/router';
 import { Dish } from '../../dish/dish.model';
@@ -6,7 +6,6 @@ import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MAT_DIALOG_DATA }
 
 
 export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
 }
 
 @Component({
@@ -15,17 +14,26 @@ export interface DialogData {
   styleUrls: ['./dishes-list.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class DishesListComponent implements OnInit {
-  dish;
+export class DishesListComponent implements AfterViewInit, OnInit {
+  dish; 
+  buttonTable: any;
   dishData;
   dataSource = new MatTableDataSource(this.dishData);
-  displayedColumns: string[] = ['name',
-    "price" ,
-    "price_p"
+  displayedColumns: string[] = [
+    'image',
+    'name',
+    'category',
+    'bruttoPrice',
+    'foodCost',
+    'productMarginFC',
+    '_id'
     ];
-    
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
+    
+
+    
+
     applyFilter(filterValue: string) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
@@ -49,10 +57,13 @@ export class DishesListComponent implements OnInit {
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-     }
-
+    }
+     onValChange(a){
+      this.buttonTable = a
+    }
   ngOnInit() {
   }
+
   dishDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.dishService.deleteDish(id).subscribe(() => {

@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<div class="">
+<div *ngIf="!buttonTable">
   <mat-card class="">
     <mat-card-header>
       <mat-form-field class="example-full-width">
@@ -25,9 +25,7 @@
           <div class="width-card">
             <div class="card-body">
               <div class="card__image border-tlr-radius">
-                <img
-                  src="{{dish.image}}"
-                  alt="image" class="border-tlr-radius">
+                <img src="{{dish.image}}" alt="image" class="border-tlr-radius">
               </div>
               <div class="card__share">
                 <button id="share" class=" share-icon">{{dish.bruttoPrice}} zł</button>
@@ -41,8 +39,10 @@
               <div class="card__action">
 
                 <div class="card__author">
-                    <button id="share" class=" share-icon-edit fas fa-trash" style="color:red" (click)="dishDelete(dish._id)"></button>
-                  <button id="share" class=" share-icon-edit fas fa-edit" [routerLink]="['/dish/edit/', dish._id]"></button>
+                  <button id="share" class=" share-icon-edit fas fa-trash" style="color:red"
+                    (click)="dishDelete(dish._id)"></button>
+                  <button id="share" class=" share-icon-edit fas fa-edit"
+                    [routerLink]="['/dish/edit/', dish._id]"></button>
                   <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
                 </div>
               </div>
@@ -57,45 +57,65 @@
   </mat-card>
 
 </div>
-<!-- 
-<mat-card-content class="container mt-4">
 
-    <div class="row">
-<div class="wrapper card border-left-primary shadow py-2 col-auto mb-3" *ngFor="let dish of this.dataSource.filteredData">
-    
-    <div class="card radius shadowDepth1">
-        <div class="card__image border-tlr-radius">
-           
-        </div>
+<div class="content-body" *ngIf="buttonTable">
+  <div class="photo-list card card-block">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" class="mat-form-field-wrapper" placeholder="Search">
+    </mat-form-field>
 
-        <div class="card__content card__padding">
-            <div class="card__share">
-                <button id="share" class=" share-icon">{{dish.bruttoPrice}} zł</button>
-            </div>
+    <table id="ExampleTable" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+        <td mat-cell *matCellDef="let product"> <img src="{{product.image}}" style="width: 40px;"> </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+        <td mat-cell *matCellDef="let product"> {{product.category}} </td>
+      </ng-container>
+      <ng-container matColumnDef="bruttoPrice">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cenna Brutto [sprzedaż] </th>
+        <td mat-cell *matCellDef="let product"> {{product.bruttoPrice}} zł</td>
+      </ng-container>
+      <ng-container matColumnDef="foodCost">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Food Cost </th>
+        <td mat-cell *matCellDef="let product"> {{product.foodCost}} zł </td>
+      </ng-container>
+      <ng-container matColumnDef="productMarginFC">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Marża </th>
+        <td mat-cell *matCellDef="let product"> {{product.productMarginFC}} %</td>
+      </ng-container>
 
-            <div class="card__meta">
-                <p>cena</p>
-            </div>
-
-            <article class="card__article">
-                <h2>{{dish.name}}</h2>
-
-                <p>desc</p>
-            </article>
-        </div>
-
-        <div class="card__action">
-            
-            <div class="card__author">
-                
-                <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
-            </div>
-        </div>
-    </div>
-
-    <p class="text-center">
-      
-      </p>
+      <ng-container matColumnDef="_id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+        <td mat-cell *matCellDef="let product">
+          <button id="share" class=" share-icon-edit fas fa-trash" style="color:red"
+            (click)="dishDelete(dish._id)"></button>
+          <button id="share" class=" share-icon-edit fas fa-edit" [routerLink]="['/dish/edit/', dish._id]"></button>
+          <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+  </div>
 </div>
+
+<div class="data-panel">
+  <div class="panel-sub">
+    <button type="button" class="btn btn-outline-info btn-rounded waves-effect" routerLink="/products/create"
+      data-toggle="modal" data-target="#exampleModalLong">Create</button>
+
+
+
+    <button mat-raised-button color="primary" (click)="exportTable()">Export to excel</button>
+    <mat-checkbox class="example-margin" style="color:white; padding-left: 10px;" (change)="onValChange(checked)"
+      [(ngModel)]="checked">Więcej</mat-checkbox>
+
+  </div>
 </div>
-</mat-card-content> -->
