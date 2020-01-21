@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 
+import { ProductShowComponent } from './products/products-show/product-show.component';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
 import { DishesListComponent } from './dish/dishes-list/dishes-list.component';
@@ -21,6 +22,10 @@ const adminRoutes: Routes = [
       {
         path: 'products/create',
         component: ProductsCreateComponent
+      },
+      {
+        path: 'products/show/:id',
+        component: ProductShowComponent
       },
       {
         path: 'analystic/list',

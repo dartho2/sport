@@ -19,11 +19,11 @@ export class SemiproduktListComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
     "nettoPrice",
-    "unit",
-    "weight",
     "vat",
-    "_id",
-    "bruttoPrice"];
+    "bruttoPrice",
+    "weight",
+    "unit",
+    "_id"];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     applyFilter(filterValue: string) {
