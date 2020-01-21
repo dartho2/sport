@@ -53,7 +53,14 @@ export class DishesListComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  dishDelete(id){
+    if(confirm("Are you sure to delete "+id)) {
+      this.dishService.deleteDish(id).subscribe(() => {
+        this.dishService.getDish()
+        console.log("usuniete", id)
+    })
+    }
+  }
 }
 @Component({
   selector: 'dialog-data-example-dialog',

@@ -4,6 +4,7 @@ export interface Dish {
     products: ProductsModel;
     price: String;
     price_p: String;
+    image: string;
 };
 
 
