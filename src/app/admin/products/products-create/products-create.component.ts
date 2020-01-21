@@ -346,5 +346,6 @@ export class ProductsCreateComponent implements OnInit {
         productDate: ''
       })
     )
+    this.myControl.patchValue('')
   }
 }
