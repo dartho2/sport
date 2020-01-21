@@ -56,8 +56,13 @@ export class DishesListComponent implements OnInit {
   dishDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.dishService.deleteDish(id).subscribe(() => {
-        this.dishService.getDish()
-        console.log("usuniete", id)
+        this.dishService.getDish().subscribe(response => {
+          this.dish = response
+          this.dishData = this.dish;
+         this.dataSource.data = this.dishData;  
+         console.log("usuniete", id)
+        });
+        
     })
     }
   }
