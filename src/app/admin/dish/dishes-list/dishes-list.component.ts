@@ -17,7 +17,7 @@ export interface DialogData {
 export class DishesListComponent implements AfterViewInit, OnInit {
   dish; 
   buttonTable: any;
-  checked: boolean;
+  checked= true;
   dishData;
   dataSource = new MatTableDataSource(this.dishData);
   displayedColumns: string[] = [
