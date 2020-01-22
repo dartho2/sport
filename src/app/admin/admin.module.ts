@@ -55,6 +55,7 @@ import {DishesCreateComponent, DialogDataExampleDialog} from './dish/dishes-crea
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { ProductShowComponent } from './products/products-show/product-show.component';
+import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.component';
 @NgModule({
   imports: [
     ScrollingModule,
@@ -114,7 +115,7 @@ import { ProductShowComponent } from './products/products-show/product-show.comp
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

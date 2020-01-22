@@ -10,6 +10,7 @@ import { DishesCreateComponent } from './dish/dishes-create/dishes-create.compon
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
+import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.component';
 const adminRoutes: Routes = [
   {
     path: '',
@@ -34,6 +35,10 @@ const adminRoutes: Routes = [
       {
         path: 'recipe/list',
         component: RecipeListComponent
+      },
+      {
+        path: 'graphics/list',
+        component: GraphicsListComponent
       },
       {
         path: 'semiproduct/list',

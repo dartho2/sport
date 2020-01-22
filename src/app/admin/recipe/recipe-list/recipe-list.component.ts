@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ProductService } from '../../products/product.service'
 import { Subscription } from 'rxjs';
 import { Product } from '../../products/product.model';
@@ -10,7 +10,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css']
 })
-export class RecipeListComponent implements OnInit {
+export class RecipeListComponent implements AfterViewInit, OnInit {
   recipeProducts;
   productData;
   products;
