@@ -23,5 +23,6 @@ export interface Product {
 };
 export interface History {
     nettoPrice: string;
+    productDate: string;
 }
 
