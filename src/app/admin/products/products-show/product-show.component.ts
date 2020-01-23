@@ -11,6 +11,7 @@ import { Product } from '../product.model';
 export class ProductShowComponent implements OnInit {
   product: Product;
   productId;
+  isDataAvailable = false;
   constructor(private route: ActivatedRoute,private productService: ProductService, private router: Router) {}
 
   ngOnInit() {
@@ -19,6 +20,7 @@ export class ProductShowComponent implements OnInit {
         this.productId = paramMap.get("idProduct");
         this.productService.getProductID(this.productId).subscribe(response => {
           this.product = response
+          this.isDataAvailable =true;
         })
       } 
     })
