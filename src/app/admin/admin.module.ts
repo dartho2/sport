@@ -56,8 +56,11 @@ import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component'
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { ProductShowComponent } from './products/products-show/product-show.component';
 import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.component';
+import { ChartsModule } from 'ng2-charts';
+import { DatePipe } from '@angular/common';
 @NgModule({
   imports: [
+    ChartsModule,
     ScrollingModule,
     CommonModule,
     AdminRoutingModule,
@@ -119,6 +122,6 @@ import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.co
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],
-  providers: []
+  providers: [DatePipe]
 })
 export class AdminModule { }

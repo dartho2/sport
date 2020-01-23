@@ -6,6 +6,9 @@
 
 // @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
 /* BOTTOM NAVIGATE */
+.sizes, .price{
+  margin-bottom: 7px !important;
+}
 .data-panel {
   position: fixed;
   z-index: 1051;

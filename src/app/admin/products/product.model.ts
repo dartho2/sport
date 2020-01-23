@@ -19,4 +19,9 @@ export interface Product {
     vat: Number;
     totalPrice: string;
     product_data: Date;
+    history: History[];
 };
+export interface History {
+    nettoPrice: string;
+}
+
