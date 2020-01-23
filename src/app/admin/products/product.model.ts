@@ -1,6 +1,7 @@
 export interface Product {
     _id: string;
  name: string;
+ nettoPrice: string;
  description: string;
  label: string;
  logo: string;

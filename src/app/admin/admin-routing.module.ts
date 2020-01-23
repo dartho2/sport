@@ -25,7 +25,7 @@ const adminRoutes: Routes = [
         component: ProductsCreateComponent
       },
       {
-        path: 'products/show/:id',
+        path: 'products/show/:idProduct',
         component: ProductShowComponent
       },
       {

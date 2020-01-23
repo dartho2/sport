@@ -8,10 +8,15 @@
     <ul class="navbar-nav mr-auto">
      
     </ul>
-    <ul class="navbar-nav px-3">
-      <li class="nav-item text-nowrap">
-        <a class="nav-link" [routerLink]="['/login']"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
-      </li>
-    </ul>
+    <div class="dropdown show px-3" *ngIf="userFromApi">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{userFromApi.firstName}}
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+  </div>
+</div>
+  
   </div>
 </nav>

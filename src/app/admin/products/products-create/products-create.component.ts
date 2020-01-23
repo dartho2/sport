@@ -31,7 +31,6 @@ export class ProductsCreateComponent implements OnInit {
   valueSupplier: ['KŚ', 'WoA', 'W', 'Pp', 'Sk', 'In', 'Re'];
   mode;
   options: Product[] = [];
-  productRecipe;
   totalPrice;
   data = {
     recipe: [
@@ -57,8 +56,8 @@ export class ProductsCreateComponent implements OnInit {
 
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService) {
     this.productService.getProduct().subscribe(response => {
-      this.productRecipe = response
-      this.options = this.productRecipe
+      this.options = response
+      // this.options = this.productRecipe
     });
     if (this.foodCost) {
       this.buildFormforProducts(this.foodCost)
@@ -123,7 +122,7 @@ export class ProductsCreateComponent implements OnInit {
   }
 
   onChange(selectedValue, y) {
-    this.productSelected = this.productRecipe.filter(item => item.name === selectedValue.name);
+    this.productSelected = this.options.filter(item => item.name === selectedValue.name);
     let control = (<FormArray>this.bodyForm.controls.recipe).at(y);
     this.productSelected.forEach(x => {
       control.setValue({

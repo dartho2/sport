@@ -89,3 +89,6 @@
     .links a{
     margin-left: 4px;
     }
+    .card {
+        height: auto;
+    }
