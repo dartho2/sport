@@ -19,7 +19,6 @@ export class ProductShowComponent implements OnInit {
         this.productId = paramMap.get("idProduct");
         this.productService.getProductID(this.productId).subscribe(response => {
           this.product = response
-          console.log(this.product)
         })
       } 
     })

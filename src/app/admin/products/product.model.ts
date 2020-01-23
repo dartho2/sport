@@ -1,6 +1,10 @@
 export interface Product {
     _id: string;
  name: string;
+ bruttoPrice: string;
+ productData: string;
+ losses:string;
+ lossesPriceNetto: string;
  nettoPrice: string;
  description: string;
  label: string;
