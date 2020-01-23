@@ -1,12 +1,107 @@
 <div *ngIf="isDataAvailable">
 
+  <div class="card">
+    <div class="container-fliud">
+      <div class="wrapper row">
+        <div class="preview col-md-6">
+  
+          <div class="preview-pic tab-content">
+            <div class="tab-pane active" id="pic-1"><img
+                src="{{product.image}}" /></div>
+  
+          </div>
+        </div>
+        <div class="details col-md-6">
+          <h5 class="product-title">{{product.name}}</h5>
+          <div class="rating">
+            <div class="stars">
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star"></span>
+              <span class="fa fa-star"></span>
+            </div>
+            <span class="review-no"></span>
+          </div>
+          <h3 class="product-title" *ngIf="product">{{product.name}}</h3>
+          <p class="product-description">{{product.nettoPrice}} zł za {{product.weight}} {{product.unit}}</p>
+          <h6 class="price">
+            Opis: <span class="size" data-toggle="tooltip" title="small">
+              {{product.description}}</span></h6>
+      
+          <h6 class="price">
+            id: <span class="size" data-toggle="tooltip" title="small">
+              {{product._id}} </span></h6>
+          <h6 class="price">
+            nazwa: <span class="size" data-toggle="tooltip" title="small">
+              {{product.name}}</span></h6>
+          <h6 class="price">
+            Cena Netto: <span class="size" data-toggle="tooltip" title="small">
+              {{product.nettoPrice? product.nettoPrice : '' }} zł</span></h6>
+          <h6 class="price">
+            jednostka: <span class="size" data-toggle="tooltip" title="small">
+              {{product.unit}}</span></h6>
+
+          <h6 class="price">
+            weight: <span class="size" data-toggle="tooltip" title="small">
+              {{product.weight}}</span></h6>
+          <h6 class="price">
+            Vat: <span class="size" data-toggle="tooltip" title="small">
+              {{product.vat}}</span></h6>
+
+          <h6 class="price">
+            Cena Brutto: <span class="size" data-toggle="tooltip" title="small">
+              {{product.bruttoPrice}} zł</span></h6>
+          <h6 class="price">
+            Data ostatniej aktualizacji: <span class="size" data-toggle="tooltip" title="small">
+              {{product.productDate |  date:'MM/dd/yyyy'}}</span></h6>
+          <h6 class="price">
+            Dostawca: <span class="size" data-toggle="tooltip" title="small">
+              {{product.supplier}}</span></h6>
+
+          <h6 class="price">
+            Straty [%]: <span class="size" data-toggle="tooltip" title="small">
+              {{product.losses}} %</span></h6>
+          <h6 class="price">
+            Cena Netto wliczone straty: <span class="size" data-toggle="tooltip" title="small">
+              {{product.lossesPriceNetto}} zł</span></h6>
+
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  <div *ngFor="let history of product.history">
+    {{history.productDate}}
+  </div>
+</div>
+
+
+
+<!-- 
+ 
 
 
     <div class="card">
       <div class="container-fliud">
         <div class="">
           <div class="preview col-md-12">
-  
+            <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+              <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+                <div class="my-3 p-3">
+                  <h2 class="display-5">Another headline</h2>
+                  <p class="lead">And an even wittier subheading.</p>
+                </div>
+                <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+              </div>
+              <div class="bg-primary mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+                <div class="my-3 py-3">
+                  <h2 class="display-5">Another headline</h2>
+                  <p class="lead">And an even wittier subheading.</p>
+                </div>
+                <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+              </div>
+            </div>
             <div class="separate">
               <h3 class="product-title" *ngIf="product">{{product.name}}</h3>
               <p class="product-description">{{product.nettoPrice}} zł za {{product.weight}} {{product.unit}}</p>
@@ -63,4 +158,4 @@
   
     </div>
   
-  </div>
+  </div> -->

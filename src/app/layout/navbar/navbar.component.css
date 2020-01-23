@@ -275,6 +275,9 @@ i.fa.fa-edit.fa-lg.fa-fw.sidebar-icon {
   .nav-side-menu .menu-list .menu-content {
     display: block;
   }
+.phone-drawer {
+    display: none;
+}
 }
 svg {
   position: absolute;
