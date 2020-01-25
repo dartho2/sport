@@ -3,7 +3,7 @@ import { DishServices } from '../../dish/dish-services';
 import { ActivatedRoute } from '@angular/router';
 import { Dish } from '../../dish/dish.model';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
-
+import * as _ from 'lodash';
 
 export interface DialogData {
 }
@@ -47,7 +47,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
     this.dishService.getDish().subscribe(response => {
       this.dish = response
       this.dishData = this.dish;
-     this.dataSource.data = this.dishData;  
+     this.dataSource.data = _.sortBy(this.dishData, 'category')   
     });
     }
     openDialog(dish) {
