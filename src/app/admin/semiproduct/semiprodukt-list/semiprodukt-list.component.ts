@@ -5,6 +5,7 @@ import { Product } from '../../products/product.model';
 import { map } from 'rxjs/operators';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
+import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 @Component({
   selector: 'app-semiprodukt-list',
   templateUrl: './semiprodukt-list.component.html',
@@ -32,7 +33,7 @@ export class SemiproduktListComponent implements OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
   private productsSub: Subscription;
-  constructor(public productService: ProductService) { }
+  constructor(public productService: ProductService, private notification: NotificationService ) { }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -51,13 +52,8 @@ export class SemiproduktListComponent implements OnInit {
   productDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.productService.deleteProduct(id).subscribe(() => {
-        this.productService.getProduct().subscribe(response => {
-          this.products = response
-          this.productData = this.products;
-          this.dataSource = this.productData;
-         console.log("usuniete", id)
-        });
-        
+     
+        this.notification.info("Success. Deleted")
     })
     }
   }

@@ -59,9 +59,10 @@ import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.co
 import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
+import {NotificationModule } from './toastr-notification/toaster.module'
 @NgModule({
   imports: [
+    NotificationModule,
     HttpClientModule,
     ChartsModule,
     ScrollingModule,

@@ -6,6 +6,7 @@ import { DishServices } from '../dish-services';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 export interface DialogData {
   foodCost: '';
 }
@@ -25,6 +26,7 @@ export class DishesCreateComponent implements OnInit {
   productSelected;
   myForm: FormGroup;
   selectItems: any;
+  customeImg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6hC4zK0RMvnALdCE7WM3dmdD99-5OGybTgZ6ZP2HsCjCnD_P49g&s";
   product;
   alert;
   messageContent;
@@ -54,7 +56,7 @@ export class DishesCreateComponent implements OnInit {
   coating: any;
   dishId: string;
 
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private dishService: DishServices, public dialog: MatDialog) {
+  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private notification: NotificationService, private dishService: DishServices, public dialog: MatDialog) {
     this.productService.getProduct().subscribe(response => {
       this.product = response
       this.options = this.product
@@ -63,7 +65,7 @@ export class DishesCreateComponent implements OnInit {
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
       description: new FormControl('', [Validators.required, Validators.minLength(4)]),
       category: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      image: new FormControl(''),
+      image: new FormControl(this.customeImg),
       foodCost: new FormControl('', Validators.required),
       bruttoPrice: new FormControl('', Validators.required),
       vat: new FormControl('', Validators.required),
@@ -79,9 +81,7 @@ export class DishesCreateComponent implements OnInit {
         this.mode = "edit";
         this.dishId = paramMap.get("id");
         this.dishService.getDishID(this.dishId).subscribe(productData => {
-          console.log(productData)
           this.buildFormDish(productData);
-          console.log(this.myForm)
         })
       } else {
         this.mode = "create";
@@ -105,14 +105,13 @@ export class DishesCreateComponent implements OnInit {
   onSubmit(f) {
     if (this.mode === "edit") {
       this.dishService.updateDish(this.myForm.value).subscribe(response => {
-        console.log("update- done!", response)
-        this.errorMessagesSuccess('Update - Done!')
+        this.notification.success("Success. Update")
         this.router.navigate(["../../"], { relativeTo: this.route });
       })
     } else {
       delete this.myForm.value._id
-
       this.dishService.createDish(this.myForm.value).subscribe(() => {
+        this.notification.success("Success. Create")
         this.router.navigate(["../"], { relativeTo: this.route });
       })
     };
@@ -141,31 +140,31 @@ export class DishesCreateComponent implements OnInit {
         productMarginFC: this.productMarginFC.toFixed(0),
         fC: this.fC.toFixed(0)
       });
-      this.errorMessagesSuccess('Przeliczono Poprawnie')
+      this.notification.success("Success. Poprawnie Przeliczono!")
     } else {
-      this.errorMessagesWarning('Uzupełnij Wszystkie Dane');
+      this.notification.warn("Uzupełnij Wszystkie Dane");
     }
   }
-  errorMessagesWarning(name) {
-    this.alert = 'alert alert-danger'
-    this.messageContent = name;
-    this.message = true;
+  // errorMessagesWarning(name) {
+  //   this.alert = 'alert alert-danger'
+  //   this.messageContent = name;
+  //   this.message = true;
 
-    setTimeout(() => {
-      this.message = false;
-      this.messageContent = "";
-    }, 3000);
-  }
-  errorMessagesSuccess(name) {
-    this.alert = 'alert alert-success'
-    this.messageContent = name;
-    this.message = true;
+  //   setTimeout(() => {
+  //     this.message = false;
+  //     this.messageContent = "";
+  //   }, 3000);
+  // }
+  // errorMessagesSuccess(name) {
+  //   this.alert = 'alert alert-success'
+  //   this.messageContent = name;
+  //   this.message = true;
 
-    setTimeout(() => {
-      this.message = false;
-      this.messageContent = "";
-    }, 3000);
-  }
+  //   setTimeout(() => {
+  //     this.message = false;
+  //     this.messageContent = "";
+  //   }, 3000);
+  // }
   addNewCity() {
     let control = <FormArray>this.myForm.controls.products;
     control.push(
@@ -263,7 +262,7 @@ export class DishesCreateComponent implements OnInit {
       _id: [data ? data._id : null],
       name: [data ? data.name : '',],
       description: [data ? data.description : '',],
-      image: [data ? data.image : '',],
+      image: [data ? data.image : this.customeImg],
       category: [data ? data.category : null],
       vat: [data ? data.vat : '',],
       fC: [data ? data.fC : '',],
@@ -298,11 +297,9 @@ export class DishesCreateComponent implements OnInit {
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
   openDialog() {
-console.log('this.myForm.value',this.myForm.value)
     this.dialog.open(DialogDataExampleDialog, {
       data: this.myForm.value,
     });
-    console.log('VALUE', this.myForm.value)
   }
 
 }

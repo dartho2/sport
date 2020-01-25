@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../product.service';
 import { map } from 'rxjs/operators';
 import { exportData } from "../export/exportData";
-
+import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
@@ -33,7 +33,7 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(private route: ActivatedRoute, private productService: ProductService) {
+  constructor(private route: ActivatedRoute, private productService: ProductService, private notification: NotificationService) {
     this.productService.getProduct()
       .pipe(
         map(product => {
@@ -55,13 +55,7 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
   productDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.productService.deleteProduct(id).subscribe(() => {
-        this.productService.getProduct().subscribe(response => {
-          this.product = response
-          this.productData = this.product;
-          this.dataSource.data = this.productData;
-         console.log("usuniete", id)
-        });
-        
+        this.notification.info("Success. Deleted")        
     })
     }
   }

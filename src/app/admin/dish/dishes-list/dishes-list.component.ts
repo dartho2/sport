@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Dish } from '../../dish/dish.model';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import * as _ from 'lodash';
+import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 
 export interface DialogData {
 }
@@ -45,7 +46,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
 
    
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute, private dishService: DishServices) { 
+  constructor(public dialog: MatDialog, private route: ActivatedRoute, private dishService: DishServices, private notification: NotificationService) { 
     this.dishService.getDish().subscribe(response => {
       this.dish = response
       this.dishData = this.dish;
@@ -70,6 +71,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   dishDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.dishService.deleteDish(id).subscribe(() => {
+        this.notification.info("Success. Deleted")
         this.dishService.getDish().subscribe(response => {
           this.dish = response
           this.dishData = this.dish;
