@@ -81,7 +81,7 @@ export class ProductsCreateComponent implements OnInit {
     console.log(date)
   }
   ngOnInit() {
-    console.log(this.foodCost)
+    
     if (this.foodCost) {
       this.buildFormforProducts(this.foodCost)
       this.bodyForm.value.supplier === 'Pp' ? this.selectedValue = "Pp" : '';
