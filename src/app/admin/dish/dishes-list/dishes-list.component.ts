@@ -11,7 +11,7 @@ export interface DialogData {
 @Component({
   selector: 'app-dishes-list',
   templateUrl: './dishes-list.component.html',
-  styleUrls: ['./dishes-list.component.css'],
+  styleUrls: ['./dishes-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class DishesListComponent implements AfterViewInit, OnInit {
@@ -27,7 +27,9 @@ export class DishesListComponent implements AfterViewInit, OnInit {
     'bruttoPrice',
     'foodCost',
     'productMarginFC',
-    '_id'
+    'details',
+    'update',
+    'delete'
     ];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;

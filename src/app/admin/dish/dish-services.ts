@@ -25,6 +25,6 @@ export class DishServices {
 
       }
       deleteDish(id) {
-        return this._http.delete<Dish[]>("https://karmazdrowia.pl:8080/api/dish//" + id)
+        return this._http.delete<Dish[]>("https://karmazdrowia.pl:8080/api/dish/" + id)
     }
 }

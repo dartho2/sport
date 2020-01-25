@@ -23,7 +23,9 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
     "bruttoPrice",
     "weight",
     "unit",
-    "_id"];
+    "details",
+    "update",
+    "delete"];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -49,6 +51,19 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
   }
   getmember(a) {
     return parseFloat(a).toFixed(2)
+  }
+  productDelete(id){
+    if(confirm("Are you sure to delete "+id)) {
+      this.productService.deleteProduct(id).subscribe(() => {
+        this.productService.getProduct().subscribe(response => {
+          this.product = response
+          this.productData = this.product;
+          this.dataSource.data = this.productData;
+         console.log("usuniete", id)
+        });
+        
+    })
+    }
   }
   ngOnInit() { }
   exportTable() {

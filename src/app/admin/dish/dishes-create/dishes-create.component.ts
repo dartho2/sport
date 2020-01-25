@@ -211,16 +211,17 @@ export class DishesCreateComponent implements OnInit {
     console.log(control.status)
     if (control.value.lossesPriceNetto && control.value.productWeight && control.value.lossesPriceNetto) {
       control.patchValue({
-        productWeight: control.value.productWeight.replace(',', '.'),
-        valueProduct: ((control.value.lossesPriceNetto * control.value.productWeight.replace(',', '.'))
+        productWeight: control.value.productWeight.toString().replace(',', '.'),
+        valueProduct: ((control.value.lossesPriceNetto * control.value.productWeight.toString().replace(',', '.'))
           / control.value.weight).toFixed(2)
       })
     } else {
       console.log(control.status)
       if (control.value.productWeight && control.value.nettoPrice) {
+        console.log(control.value.productWeight)
         control.patchValue({
-          productWeight: control.value.productWeight.replace(',', '.'),
-          valueProduct: ((control.value.nettoPrice * control.value.productWeight.replace(',', '.'))
+          productWeight: control.value.productWeight.toString().replace(',', '.'),
+          valueProduct: ((control.value.nettoPrice * control.value.productWeight.toString().replace(',', '.'))
             / control.value.weight).toFixed(2)
 
         })
@@ -297,7 +298,7 @@ export class DishesCreateComponent implements OnInit {
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
   openDialog() {
-
+console.log('this.myForm.value',this.myForm.value)
     this.dialog.open(DialogDataExampleDialog, {
       data: this.myForm.value,
     });

@@ -15,10 +15,8 @@ export interface Product {
 })
 export class ProductsCreateComponent implements OnInit {
 
-  @Input()
-  foodCost;
-  @Input()
-  ProductDish;
+  @Input() foodCost: any;
+  @Input() ProductDish;
   productSelected;
   filteredOptions: Observable<Product[]>;
   myControl = new FormControl();
@@ -55,12 +53,38 @@ export class ProductsCreateComponent implements OnInit {
   message;
 
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService) {
+    console.log("wchodzi", this.foodCost, this.ProductDish)
     this.productService.getProduct().subscribe(response => {
       this.options = response
       // this.options = this.productRecipe
     });
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("idProduct")) {
+        this.mode = "edit";
+        this.productId = paramMap.get("idProduct");
+        this.productService.getProductID(this.productId).subscribe(productData => {
+          this.buildForm(productData);
+          this.bodyForm.value.supplier === 'Re' ? this.selectedValue = "Re" : '';
+          console.log(this.myControl)
+
+        })
+      } else {
+        this.mode = "create";
+      }
+    });
+
+  }
+  get formData() {
+    return <FormArray>this.bodyForm.get('recipe');
+  }
+  supplieronChange(date) {
+    console.log(date)
+  }
+  ngOnInit() {
+    console.log(this.foodCost)
     if (this.foodCost) {
       this.buildFormforProducts(this.foodCost)
+      this.bodyForm.value.supplier === 'Pp' ? this.selectedValue = "Pp" : '';
     } else {
       this.bodyForm = new FormGroup({
         _id: new FormControl(null),
@@ -81,30 +105,6 @@ export class ProductsCreateComponent implements OnInit {
         recipe: this._fb.array([])
       });
     }
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("idProduct")) {
-        this.mode = "edit";
-        this.productId = paramMap.get("idProduct");
-        this.productService.getProductID(this.productId).subscribe(productData => {
-          this.buildForm(productData);
-          this.bodyForm.value.supplier === 'Re' ? this.selectedValue = "Re" : '';
-          console.log(this.myControl)
-
-        })
-      } else {
-        this.mode = "create";
-      }
-    });
-
-    this.setCities();
-  }
-  get formData() {
-    return <FormArray>this.bodyForm.get('recipe');
-  }
-  supplieronChange(date) {
-    console.log(date)
-  }
-  ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -161,14 +161,14 @@ export class ProductsCreateComponent implements OnInit {
   buildFormforProducts(foodCost): FormGroup {
     return this.bodyForm = this._fb.group({
       _id: null,
-      name: '',
-      description: '',
+      name: foodCost.name ? foodCost.name : '',
+      description: foodCost.description ? foodCost.description : '',
       image: '',
-      nettoPrice: foodCost ? foodCost : '',
+      nettoPrice: foodCost.foodCost ? foodCost.foodCost : '',
       unit: '',
       qty: '',
       weight: '',
-      vat: '',
+      vat: foodCost.vat ? foodCost.vat : '',
       bruttoPrice: '',
       supplier: 'Pp',
       losses: '',
