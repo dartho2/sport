@@ -11,7 +11,7 @@ export interface Product {
 @Component({
   selector: 'app-products-create',
   templateUrl: './products-create.component.html',
-  styleUrls: ['./products-create.component.css']
+  styleUrls: ['./products-create.component.css'],
 })
 export class ProductsCreateComponent implements OnInit {
 
@@ -53,7 +53,6 @@ export class ProductsCreateComponent implements OnInit {
   message;
 
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService) {
-    console.log("wchodzi", this.foodCost, this.ProductDish)
     this.productService.getProduct().subscribe(response => {
       this.options = response
       // this.options = this.productRecipe
@@ -77,6 +76,7 @@ export class ProductsCreateComponent implements OnInit {
   get formData() {
     return <FormArray>this.bodyForm.get('recipe');
   }
+
   supplieronChange(date) {
     console.log(date)
   }

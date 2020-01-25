@@ -5,7 +5,7 @@
   </div>
 </div>
 <div class="content-body">
-  <form  [formGroup]="bodyForm" (submit)="onAddContent()">
+  <form [formGroup]="bodyForm" (submit)="onAddContent()">
     <mat-tab-group>
       <mat-tab label="Produkt">
         <div class="row">
@@ -20,13 +20,16 @@
                     <div class="example-container ">
                       <mat-form-field>
                         <input formControlName="name" matInput placeholder="Name" name="name">
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane podaj nazwę Produktu z FV" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                                
+                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane podaj nazwę Produktu z FV"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
                       <mat-form-field>
                         <input formControlName="description" matInput placeholder="Description">
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane podaj opis skrócony np. 'filet łosoś trym D'" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                                
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="*Wymagane podaj opis skrócony np. 'filet łosoś trym D'" #tooltip="matTooltip"
+                          (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
 
                       <mat-form-field>
@@ -40,37 +43,46 @@
                           <option value="Re">Receptura</option>
                           <option value="In">Inny</option>
                         </select>
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane: Wybierz dostawcę. Jęsli tworzysz recepturę to 'Receptura', 'Póprodukt' i 'Składowa' jest dla produktów które będa wykorzystywane jako część składowa innego dania" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                                
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="*Wymagane: Wybierz dostawcę. Jęsli tworzysz recepturę to 'Receptura', 'Póprodukt' i 'Składowa' jest dla produktów które będa wykorzystywane jako część składowa innego dania"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
                       <mat-form-field>
                         <input formControlName="image" matInput placeholder="Image">
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="Link do zdjęcia produktu" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                                
+                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="Link do zdjęcia produktu"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
                       <mat-form-field>
                         <input formControlName="qty" matInput placeholder="Quallity">
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="W przyszłości wykorzystana zostanie wartość do inwentaryzacji oraz magazynu" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="W przyszłości wykorzystana zostanie wartość do inwentaryzacji oraz magazynu"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                       </mat-form-field>
                       <mat-form-field>
                         <input formControlName="nettoPrice" matInput placeholder="Netto">
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagana: Podaj wartość netto z FV" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                                
+                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagana: Podaj wartość netto z FV"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
                       <mat-form-field>
                         <input formControlName="vat" matInput placeholder="Vat">
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagana: Podaj wartość Vat z FV" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                           
+                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagana: Podaj wartość Vat z FV"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
                       <mat-form-field>
                         <input formControlName="weight" matInput placeholder="Weight">
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagana: Podaj wartość Wagi z FV" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                           
+                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagana: Podaj wartość Wagi z FV"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
                       <mat-form-field>
                         <input formControlName="losses" matInput placeholder="Losses">
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="% straty na produkcie" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                           
+                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="% straty na produkcie"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
                       <mat-form-field>
                         <select matNativeControl required placeholder="Unit" formControlName="unit">
@@ -78,8 +90,9 @@
                           <option value="SZT.">szt- sztuki</option>
                           <option value="L">l- litry</option>
                         </select>
-                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagana: Podaj jednostkę" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                           
+                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagana: Podaj jednostkę"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+
                       </mat-form-field>
                     </div>
                   </div>
@@ -107,8 +120,8 @@
                       <div class="col mr-2" [formGroupName]="i">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                           <legend>
-                            <h4><span class="title-label">Produkt {{i+1}}:</span> <button style="margin-left:35px;" type="button" class="btn"
-                                (click)="deleteCity(i)">
+                            <h4><span class="title-label">Produkt {{i+1}}:</span> <button style="margin-left:35px;"
+                                type="button" class="btn" (click)="deleteCity(i)">
                                 <i class="fa fa-minus" aria-hidden="true"></i></button>
                               <span class="h6">
                                 <mat-form-field class="example-full-width h5">
