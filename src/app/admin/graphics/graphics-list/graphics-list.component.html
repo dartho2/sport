@@ -1,14 +1,25 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<mat-form-field>
+    <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp
+                    startView="multi-year"
+                    (yearSelected)="chosenYearHandler($event)"
+                    (monthSelected)="chosenMonthHandler($event, dp)"
+                    panelClass="example-month-picker">
+    </mat-datepicker>
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
   <!-- Position Column -->
   <ng-container *ngFor="let a of numberOfDays; index as ind" matColumnDef="{{a}}">
-    <th mat-header-cell *matHeaderCellDef [ngStyle]="{'background-color':ind === (week+1) || ind === (week+2) || ind === (week+1)+7 || ind === (week+2)+7 || ind === (week+1)+14 || ind === (week+2)+14 || ind === (week+1)+21 || ind === (week+2)+21 || ind === (week+1)+28 || ind === (week+2)+28 ? 'green' : '' }"> {{a}}</th>
-    <td mat-cell *matCellDef="let element; index as i"> 
-     <div *ngIf="element[0][ind] !== true && element[0][ind] !== false">{{element[0][ind]}}</div>
-     <mat-checkbox *ngIf="element[0][ind] === true || element[0][ind] === false" [checked]="isSelectrd(element[0][ind])">
+    <!-- <th mat-header-cell *matHeaderCellDef [ngStyle]="{'background-color':ind === (week+1) || ind === (week+2) || ind === (week+1)+7 || ind === (week+2)+7 || ind === (week+1)+14 || ind === (week+2)+14 || ind === (week+1)+21 || ind === (week+2)+21 || ind === (week+1)+28 || ind === (week+2)+28 ? 'green' : '' }"> {{a}}</th> -->
+    <th mat-header-cell [ngStyle]="{'background-color':getColor(a)}" *matHeaderCellDef>{{a}}</th>
+    <td mat-cell [ngStyle]="{'background-color':getColor(a)}" *matCellDef="let element; index as i"> 
+     <div *ngIf="element[ind] !== true && element[ind] !== false">{{element[ind]}}</div>
+     <mat-checkbox *ngIf="element[ind] === true || element[ind] === false" [checked]="isSelectrd(element[ind])">
    </mat-checkbox>
        <!-- {{element[0][a-1]}} -->
       </td>
@@ -19,3 +30,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<pre>{{rowN|json}}</pre>
