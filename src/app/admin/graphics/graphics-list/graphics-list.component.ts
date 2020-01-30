@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { GraphicService } from '../graphic.service';
-import {FormControl} from '@angular/forms';
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDatepicker} from '@angular/material/datepicker';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
-import {default as _rollupMoment, Moment} from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
 
 const moment = _rollupMoment || _moment;
-
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
-  },
-  display: {
+  }, display: {
     dateInput: 'MM/YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
@@ -37,7 +35,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
 export class GraphicsListComponent implements OnInit {
@@ -58,23 +56,25 @@ export class GraphicsListComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
   numberOfDays;
+  myForm: FormGroup;
   week;
   // rowN = [
   //   ["a"], ["b"], ["c"], ["p"]
   // ]
-  rowN =  [{ "date": "",
-   'items': []
+  rowN = [{
+    "date": "",
+    'items': []
   }]
-  userG = [["p"],["a"]];
+  userG = [["p"], ["a"]];
   rowGraphic;
-  datag: any[] = [];
-  dataf: any[] = [];
-  datafort: any;
+  // datag: any[] = [];
+  // dataf: any[] = [];
+  // datafort: any;
   month: number;
   year: number;
-  graphic: any[] = [];
+  // graphic: any[] = [];
   userGraphic: any[] = [];
-  constructor(private grapicService: GraphicService) { }
+  constructor(private grapicService: GraphicService, private _fb: FormBuilder) { }
   getColor(dayNumber) {
     let day = parseInt(dayNumber)
     if (!isNaN(day)) {
@@ -84,32 +84,44 @@ export class GraphicsListComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.grapicService.getGraphic()
-    this.setDateGraphic()
-    this.rowN.map(x=>{
-    x.date.length === 0 ? x.date = this.month+'.'+this.year: x.date ;
+    this.myForm = this._fb.group({
+      items: this._fb.array([])
+    })
+    this.setDateGraphic(new Date(this.date.value._d).getFullYear(), (new Date(this.date.value._d).getMonth() + 1))
+    this.onChanges();
+    // this.grapicService.getGraphic()
+    this.setDatetoTable();
+    this.dataSource = this.rowGraphic
+  }
+  setDatetoTable() {
+    this.rowN.map(x => {
+      x.date.length === 0 ? x.date = this.month + '.' + this.year : x.date;
       x['items'].push(...this.userG);
-      x['items'].forEach((a: any) =>{
-          if(Array.isArray(a)){
+      x['items'].forEach((a: any) => {
+        if (Array.isArray(a)) {
           a.push(...this.userGraphic)
-        } 
+        }
       })
       this.rowGraphic = x['items'];
     })
-    console.log(this.rowN)
-this.dataSource = this.rowGraphic
-
+    this.myForm.patchValue(this.rowN)
   }
-  setDateGraphic() {
-    this.year = new Date().getFullYear()
-    this.month = (new Date().getMonth() + 1)
+  onChanges(): void {
+    this.date.valueChanges.subscribe(val => {
+      let year = new Date(val._d).getFullYear();
+      let month = (new Date(val._d).getMonth() + 1)
+      this.setDateGraphic(year, month)
+    });
+  }
+  setDateGraphic(year, month) {
+    this.year = year
+    this.month = month
     let firstOfMonth = new Date(this.year, this.month - 1, 1)
     let lastOfMonth = new Date(this.year, this.month, 0).getDate()
     this.numberOfDays = Array.apply(null, Array(lastOfMonth)).map(function (x, i) { return (i + 1).toString(); })
     this.userGraphic = Array.apply(null, Array(lastOfMonth)).map(function (x, i) { return false })
     this.numberOfDays.unshift("Name")
     this.displayedColumns = this.numberOfDays
-
   }
 
   isSelectrd(x) {

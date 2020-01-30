@@ -30,4 +30,9 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<pre>{{rowN|json}}</pre>
+<form [formGroup]="myForm">
+    <div formArrayName="items">
+      asdas
+      </div>
+</form>
+<pre>{{myForm.value|json}}</pre>
