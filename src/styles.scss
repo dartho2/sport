@@ -261,6 +261,9 @@ button:focus {
   .mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
     padding-left: 10px;
   }
+  .table-responsive{
+    display: table;
+  }
 .content {
   padding-top:40px;
   background: #f8f9fc;
@@ -300,4 +303,12 @@ padding: 0px 0px 80px 0px !important;
 }
 .mat-list-item-content {
   padding: 0 10px !important;
+}
+.mat-list-base .mat-list-item{
+  font-size: 14px !important;
+}
+.mat-drawer-inner-container {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+
 }

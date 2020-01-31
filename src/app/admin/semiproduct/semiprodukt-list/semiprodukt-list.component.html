@@ -4,7 +4,7 @@
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" class="mat-form-field-wrapper" placeholder="Search">
       </mat-form-field>
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort class="table-responsive mat-elevation-z8">
         <ng-container matColumnDef="name">
   
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>

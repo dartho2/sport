@@ -58,15 +58,17 @@ export class GraphicsListComponent implements OnInit {
   constructor(private grapicService: GraphicService, private notification: NotificationService, private workerService: WorkerService, private _fb: FormBuilder) {
   }
   getTotal(items) {
-    let total = 0;
-    items.forEach(item => {
-      if(item.value === true){
-        total += Number(1);
-      }
-      
-    });
+    if (items) {
+      let total = 0;
+      items.forEach(item => {
+        if (item.value === true) {
+          total += Number(1);
+        }
 
-    return total;
+      });
+
+      return total;
+    } 
   }
   getWeek(dayNumber) {
     let day = parseInt(dayNumber)
@@ -181,9 +183,10 @@ export class GraphicsListComponent implements OnInit {
         this.notification.success("Success. Update Grafik" + this.rowN._id)
       })
     } else {
-      // this.grapicService.createGraphic(this.myForm.value).subscribe(() => {
-      //   this.notification.success("Success. Create Grafik")
-      // })
+      this.myForm.value._id =null
+      this.grapicService.createGraphic(this.myForm.value).subscribe(() => {
+        this.notification.success("Success. Create Grafik")
+      })
     }
 
   }

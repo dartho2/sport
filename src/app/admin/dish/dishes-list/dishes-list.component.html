@@ -64,7 +64,7 @@
       <input matInput (keyup)="applyFilter($event.target.value)" class="mat-form-field-wrapper" placeholder="Search">
     </mat-form-field>
 
-    <table id="ExampleTable" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <table id="ExampleTable" mat-table [dataSource]="dataSource" matSort class="table-responsive table mat-elevation-z8">
       <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
         <td mat-cell *matCellDef="let product"> <img src="{{product.image}}" style="width: 40px;"> </td>
