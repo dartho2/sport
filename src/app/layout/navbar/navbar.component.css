@@ -12,6 +12,21 @@ body {
   left: 0;
   right: 0;
 }
+.fa-apple-alt{
+color:#94d82d;
+}
+.fa-concierge-bell{
+  color: blue;
+}
+.fa-cookie-bite{
+  color:red;
+}
+.fa-calendar-check{
+  color: violet;
+}
+.fa-cocktail{
+  color: aqua;
+}
 
 .example-is-mobile .example-toolbar {
   position: fixed;
@@ -287,4 +302,11 @@ svg {
 }
 a.svg{
   position: relative;
+}
+.mat-list-base .mat-list-item  {
+  color: white !important; 
+  border-bottom: 0.1rem solid #404040;
+}
+.mat-list-item-content {
+  padding: 0 10px !important;
 }

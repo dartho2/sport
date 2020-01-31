@@ -12,7 +12,6 @@ import * as jspdf from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';  
 import { NotificationService } from '../../toastr-notification/toastr-notification.service';
-import { pbkdf2 } from 'crypto';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
   parse: {
