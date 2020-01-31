@@ -10,8 +10,8 @@
   <table id="ExampleTable" class="table">
     <thead>
       <tr>
-        <th scope="col" [ngStyle]="{'background-color':getColor(a)}" *ngFor="let a of numberOfDays; index as ind">{{getWeek(a)}}
-        </th>
+        <th scope="col" [ngStyle]="{'background-color':getColor(a)}" *ngFor="let a of numberOfDays; index as ind">{{getWeek(a)}}</th>
+        <th scope="col">Ilość Dni</th>
       </tr>
     </thead>
 
@@ -29,7 +29,9 @@
                  <span class="checkmark"></span>
               </label>
             </td>
+            <td class="bold-center"> {{ getTotal(items.controls) }}</td>
         </tr>
+        
       </tbody>
     
   </table>

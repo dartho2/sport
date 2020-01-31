@@ -49,6 +49,11 @@ th {
 .table-bordered{
   border: unset;
 }
+.bold-center{
+  text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+}
 /* On mouse-over, add a grey background color */
 .containers:hover input ~ .checkmark {
   background-color: #ccc;
