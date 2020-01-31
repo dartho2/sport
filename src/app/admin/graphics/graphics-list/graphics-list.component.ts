@@ -92,13 +92,13 @@ export class GraphicsListComponent implements OnInit {
     ctrlValue.year(normalizedYear.year());
     this.date.setValue(ctrlValue);
   }
-  captureScreen() {
+  captureScreen(m,y) {
     var data = document.getElementById('ExampleTable');
     html2canvas(data).then(canvas => {
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-      pdf.autoTable({ html: '#ExampleTable', headStyles: { textColor: [76, 76, 76] }, styles: { fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
-      pdf.autoTable({ html: '#ExampleTable1', headStyles: { textColor: [76, 76, 76] }, styles: { fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
-      pdf.save('Grafik.pdf'); // Generated PDF   
+      pdf.autoTable({ html: '#ExampleTable', headStyles: { textColor: [76, 76, 76] }, styles: { halign: 'center', fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
+      pdf.autoTable({ html: '#ExampleTable1', headStyles: { textColor: [76, 76, 76] }, styles: { halign: 'center', fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
+      pdf.save('Grafik_'+m+'_'+y+'.pdf'); // Generated PDF   
     });
   }
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {

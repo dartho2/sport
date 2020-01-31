@@ -130,3 +130,6 @@ th {
   .table {
     background-color: white;
   }
+  .center-table{
+    text-align: center;
+  }

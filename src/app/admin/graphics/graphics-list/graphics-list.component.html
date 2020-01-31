@@ -10,7 +10,7 @@
   <table id="ExampleTable" class="table">
     <thead>
       <tr>
-        <th [attr.colspan]="rowHeder+2">{{dateChange(month,year)}}</th>
+        <th [attr.colspan]="rowHeder+2" class="center-table">{{dateChange(month,year)}}</th>
       </tr>
       <tr>
         <th scope="col" [ngStyle]="{'background-color':getColor(a)}" *ngFor="let a of numberOfDays; index as ind">{{getWeek(a)}}</th>
@@ -42,7 +42,7 @@
   <div class='data-panel'>
     <div class='panel-sub'>
         <a mat-raised-button color="primary" (click)="exportTable()">Export to excel</a>
-        <a mat-raised-button color="primary" type="button"  (click)="captureScreen()">Export to PDF/Print</a>
+        <a mat-raised-button color="primary" type="button"  (click)="captureScreen(month,year)">Export to PDF/Print</a>
       <button *ngIf="!rowN._id"type="submit" class="btn btn-outline-success btn-rounded waves-effect">Save</button>
       <button *ngIf="rowN._id"type="submit" class="btn btn-outline-success btn-rounded waves-effect">Update</button>
     </div>
