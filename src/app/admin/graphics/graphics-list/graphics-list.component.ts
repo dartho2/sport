@@ -54,7 +54,9 @@ export class GraphicsListComponent implements OnInit {
   rowGraphic;
   month: number;
   year: number;
+  tableWork= { items: []}
   userGraphic: any[] = [];
+  rowHeder: number;
   constructor(private grapicService: GraphicService, private notification: NotificationService, private workerService: WorkerService, private _fb: FormBuilder) {
   }
   getTotal(items) {
@@ -93,18 +95,10 @@ export class GraphicsListComponent implements OnInit {
   captureScreen() {
     var data = document.getElementById('ExampleTable');
     html2canvas(data).then(canvas => {
-      // Few necessary setting options  
-      var imgWidth = 208;
-      var pageHeight = 295;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      var heightLeft = imgHeight;
-
-      const contentDataURL = canvas.toDataURL('image/png')
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-      var position = 0;
-      // pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
       pdf.autoTable({ html: '#ExampleTable', headStyles: { textColor: [76, 76, 76] }, styles: { fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
-      pdf.save('MYPdf.pdf'); // Generated PDF   
+      pdf.autoTable({ html: '#ExampleTable1', headStyles: { textColor: [76, 76, 76] }, styles: { fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
+      pdf.save('Grafik.pdf'); // Generated PDF   
     });
   }
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
@@ -116,11 +110,13 @@ export class GraphicsListComponent implements OnInit {
   get items() {
     return <FormArray>this.myForm.get('items');
   }
+  
   ngOnInit() {
     this.setDateGraphic(new Date(this.date.value._d).getFullYear(), (new Date(this.date.value._d).getMonth() + 1))
     this.onChanges();
     this.workerService.getWorker().subscribe(response => {
       this.userG = response
+      this.createListWork(this.userG);
       this.checkGraphicExists()
 
     });
@@ -130,6 +126,11 @@ export class GraphicsListComponent implements OnInit {
         this._fb.array([this._fb.control([])])
     })
     this.dataSource = this.rowGraphic
+  }
+  createListWork(user){
+    user.map(x=>{
+      this.tableWork.items.push({col1: "Start"}, {col1: "Koniec"}, {col1:"Czas"})
+    })
   }
   checkGraphicExists() {
     this.grapicService.getGraphic().subscribe(data => {
@@ -190,9 +191,7 @@ export class GraphicsListComponent implements OnInit {
     }
 
   }
-  datas(value) {
-    return "sd"
-  }
+ 
   exportTable() {
     exportData.exportToExcel("ExampleTable");
   }
@@ -214,6 +213,8 @@ export class GraphicsListComponent implements OnInit {
     let lastOfMonth = new Date(this.year, this.month, 0).getDate()
     this.numberOfDays = Array.apply(null, Array(lastOfMonth)).map(function (x, i) { return (i + 1).toString(); })
     this.userGraphic = Array.apply(null, Array(lastOfMonth)).map(function (x, i) { return false })
+    this.rowHeder = this.userGraphic.length
+
     this.numberOfDays.unshift("Name")
     this.displayedColumns = this.numberOfDays
 
@@ -222,5 +223,21 @@ export class GraphicsListComponent implements OnInit {
   isSelectrd(x) {
     return Boolean(JSON.parse(x))
   }
+  dateChange(month,year){
+    switch (month) {
+      case 1 : {return "Styczeń "+year}
+      case 2 : {return "Luty "+year}
+      case 3 : {return "Marzec "+year}
+      case 4 : {return "Kwiecień "+year}
+      case 5 : {return "Maj "+year}
+      case 6 : {return "Czerwiec "+year}
+      case 7 : {return "Lipiec "+year}
+      case 8 : {return "Sierpień "+year}
+      case 10 : {return "Pazdziernik "+year}
+      case 11 : {return "Listopad "+year}
+      case 12 : {return "Grudzień "+year}
+      case 9 : {return "Wrzesień "+year}
+  }
 
+}
 }

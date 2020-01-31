@@ -127,3 +127,6 @@ th {
     width: 200px;         
     background-color: #ccc;  
   }
+  .table {
+    background-color: white;
+  }
