@@ -6,16 +6,16 @@
   </mat-datepicker>
 </mat-form-field>
 
-<form class="table-responsive" (ngSubmit)="onSubmit()" [formGroup]="myForm">
+<form class="table-responsive table table-bordered" (ngSubmit)="onSubmit()" [formGroup]="myForm">
   <table id="ExampleTable" class="table">
     <thead>
       <tr>
-        <th scope="col" [ngStyle]="{'background-color':getColor(a)}" *ngFor="let a of numberOfDays; index as ind">{{a}}
+        <th scope="col" [ngStyle]="{'background-color':getColor(a)}" *ngFor="let a of numberOfDays; index as ind">{{getWeek(a)}}
         </th>
       </tr>
     </thead>
 
-      <tbody formArrayName="items" *ngFor="let items of items.controls; let i=index">
+      <tbody formArrayName="items" *ngFor="let items of items.controls; let i=index;">
         <tr>
             <td [formArrayName]="i" *ngFor="let data of items.controls; async as users; let c=index;">
                 <div class="d-none" [ngSwitch]="data.value">
@@ -23,11 +23,11 @@
                     <p *ngSwitchCase="true">X</p>
                     <p *ngSwitchDefault>{{data.value}}</p>
                 </div>
-              <!-- <p class="d-nones" *ngIf="data.value === false"></p>
-              <p class="d-nones" *ngIf="data.value === true">X</p>
-              <p class="d-nones" *ngIf="data.value !== true && data.value !== false">{{datas(data.value)}}</p> -->
-              <input *ngIf="c === 0" style="width: 20px;" [name]="data.value" [formControlName]="c">
-              <input *ngIf="c>0" [id]="i+''+c"type="checkbox" name="acceptRules" [value]="data.value" class="inline checkbox" id="checkbox1" [formControlName]="c">
+             <input *ngIf="c === 0" style="width: 63px;" type="text" class="form-control" [name]="data.value" [formControlName]="c">
+              <label *ngIf="c>0" class="containers">
+                <input  [id]="i+''+c"type="checkbox" name="acceptRules" [value]="data.value" class="inline checkbox" id="checkbox1" [formControlName]="c">
+                 <span class="checkmark"></span>
+              </label>
             </td>
         </tr>
       </tbody>
@@ -36,7 +36,7 @@
   <div class='data-panel'>
     <div class='panel-sub'>
         <a mat-raised-button color="primary" (click)="exportTable()">Export to excel</a>
-        
+        <a mat-raised-button color="primary" type="button"  (click)="captureScreen()">Export to PDF/Print</a>
       <button *ngIf="!rowN._id"type="submit" class="btn btn-outline-success btn-rounded waves-effect">Save</button>
       <button *ngIf="rowN._id"type="submit" class="btn btn-outline-success btn-rounded waves-effect">Update</button>
     </div>

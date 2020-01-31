@@ -8,7 +8,11 @@ import { WorkerService } from '../../shared/worker.service'
 import * as _moment from 'moment';
 import { exportData } from "../../products/export/exportData";
 import { default as _rollupMoment, Moment } from 'moment';
+import * as jspdf from 'jspdf';  
+import 'jspdf-autotable';
+import html2canvas from 'html2canvas';  
 import { NotificationService } from '../../toastr-notification/toastr-notification.service';
+import { pbkdf2 } from 'crypto';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
   parse: {
@@ -52,7 +56,13 @@ export class GraphicsListComponent implements OnInit {
   userGraphic: any[] = [];
   constructor(private grapicService: GraphicService, private notification: NotificationService, private workerService: WorkerService, private _fb: FormBuilder) {
   }
-
+  getWeek(dayNumber){
+    let day = parseInt(dayNumber)
+    if (!isNaN(day)) {
+      let today = new Date(this.month + '/' + day + '/' + this.year).getDay()
+      return today === 0 || today === 6 ? dayNumber+'*' : dayNumber
+    }
+  }
   getColor(dayNumber) {
     let day = parseInt(dayNumber)
     if (!isNaN(day)) {
@@ -60,12 +70,30 @@ export class GraphicsListComponent implements OnInit {
       return today === 0 || today === 6 ? '#b7b7b7' : ''
     }
   }
+  
   chosenYearHandler(normalizedYear: Moment) {
     const ctrlValue = this.date.value;
     ctrlValue.year(normalizedYear.year());
     this.date.setValue(ctrlValue);
   }
-
+   captureScreen()  
+  {  
+    var data = document.getElementById('ExampleTable');  
+    html2canvas(data).then(canvas => {  
+      // Few necessary setting options  
+      var imgWidth = 208;   
+      var pageHeight = 295;    
+      var imgHeight = canvas.height * imgWidth / canvas.width;  
+      var heightLeft = imgHeight;  
+  
+      const contentDataURL = canvas.toDataURL('image/png')  
+      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+      var position = 0;  
+      // pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
+      pdf.autoTable({html: '#ExampleTable', headStyles:{textColor: [76,76,76]}, styles: {fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6,overflow: 'visible', cellWidth: 'auto'},});
+      pdf.save('MYPdf.pdf'); // Generated PDF   
+    });  
+  }  
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
     const ctrlValue = this.date.value;
     ctrlValue.month(normalizedMonth.month());
@@ -148,7 +176,7 @@ export class GraphicsListComponent implements OnInit {
     }
     
   }
-  datas(s){
+  datas(value){
     return"sd"
   }
   exportTable() {
