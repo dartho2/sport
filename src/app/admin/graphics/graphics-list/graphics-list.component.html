@@ -1,38 +1,44 @@
 <mat-form-field>
-    <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
-    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-    <mat-datepicker #dp
-                    startView="multi-year"
-                    (yearSelected)="chosenYearHandler($event)"
-                    (monthSelected)="chosenMonthHandler($event, dp)"
-                    panelClass="example-month-picker">
-    </mat-datepicker>
-  </mat-form-field>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+    (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+  </mat-datepicker>
+</mat-form-field>
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
+<form class="table-responsive" (ngSubmit)="onSubmit()" [formGroup]="myForm">
+  <table id="ExampleTable" class="table">
+    <thead>
+      <tr>
+        <th scope="col" [ngStyle]="{'background-color':getColor(a)}" *ngFor="let a of numberOfDays; index as ind">{{a}}
+        </th>
+      </tr>
+    </thead>
 
-  <!-- Position Column -->
-  <ng-container *ngFor="let a of numberOfDays; index as ind" matColumnDef="{{a}}">
-    <!-- <th mat-header-cell *matHeaderCellDef [ngStyle]="{'background-color':ind === (week+1) || ind === (week+2) || ind === (week+1)+7 || ind === (week+2)+7 || ind === (week+1)+14 || ind === (week+2)+14 || ind === (week+1)+21 || ind === (week+2)+21 || ind === (week+1)+28 || ind === (week+2)+28 ? 'green' : '' }"> {{a}}</th> -->
-    <th mat-header-cell [ngStyle]="{'background-color':getColor(a)}" *matHeaderCellDef>{{a}}</th>
-    <td mat-cell [ngStyle]="{'background-color':getColor(a)}" *matCellDef="let element; index as i"> 
-     <div *ngIf="element[ind] !== true && element[ind] !== false">{{element[ind]}}</div>
-     <mat-checkbox *ngIf="element[ind] === true || element[ind] === false" [checked]="isSelectrd(element[ind])">
-   </mat-checkbox>
-       <!-- {{element[0][a-1]}} -->
-      </td>
-  </ng-container>
-
-
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-<form [formGroup]="myForm">
-    <div formArrayName="items">
-      asdas
-      </div>
+      <tbody formArrayName="items" *ngFor="let items of items.controls; let i=index">
+        <tr>
+            <td [formArrayName]="i" *ngFor="let data of items.controls; async as users; let c=index;">
+                <div class="d-none" [ngSwitch]="data.value">
+                    <p *ngSwitchCase="false"></p>
+                    <p *ngSwitchCase="true">X</p>
+                    <p *ngSwitchDefault>{{data.value}}</p>
+                </div>
+              <!-- <p class="d-nones" *ngIf="data.value === false"></p>
+              <p class="d-nones" *ngIf="data.value === true">X</p>
+              <p class="d-nones" *ngIf="data.value !== true && data.value !== false">{{datas(data.value)}}</p> -->
+              <input *ngIf="c === 0" style="width: 20px;" [name]="data.value" [formControlName]="c">
+              <input *ngIf="c>0" [id]="i+''+c"type="checkbox" name="acceptRules" [value]="data.value" class="inline checkbox" id="checkbox1" [formControlName]="c">
+            </td>
+        </tr>
+      </tbody>
+    
+  </table>
+  <div class='data-panel'>
+    <div class='panel-sub'>
+        <a mat-raised-button color="primary" (click)="exportTable()">Export to excel</a>
+        
+      <button *ngIf="!rowN._id"type="submit" class="btn btn-outline-success btn-rounded waves-effect">Save</button>
+      <button *ngIf="rowN._id"type="submit" class="btn btn-outline-success btn-rounded waves-effect">Update</button>
+    </div>
+  </div>
 </form>
-<pre>{{myForm.value|json}}</pre>

@@ -202,15 +202,15 @@
       </mat-tab-group>
       <div class='data-panel'>
         <div class="panel-sub">
-          <div>
+          
             <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
               [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'create'" type="submit">Zapisz</button>
               <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
-              [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'edit'" type="submit">update</button>
+              [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'edit'" type="submit">Update</button>
             <button type="button" class="btn btn-outline-info btn-rounded waves-effect" color="primary"
               [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'create'" type="button" (click)="openDialog()">Część
               składowa innego (dania/zestawu)</button>
-          </div>
+          
           <button type="button" class="btn btn-outline-info btn-rounded waves-effect" color="primary" type="button"
             (click)="calculatePrice()">Przelicz</button>
           <button type="button" class="btn btn-outline-danger btn-rounded waves-effect" color="primary"
