@@ -13,7 +13,10 @@
   </a>
 
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a [routerLink]="['/settings']" class="nav-item nav-link"><i class="fas fa-sign-out-alt"></i>Settings</a>
+    
     <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+  
   </div>
 </div>
   

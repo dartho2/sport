@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
 import { AuthenticationService, UserService } from 'src/app/_services';
 import { User, Role } from '../../_models';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class NavbarComponent implements OnInit {
     .observe(Breakpoints.Handset)
     .pipe(map((result: BreakpointState) => result.matches));
 
-  constructor(private breakpointObserver: BreakpointObserver, private userService: UserService,
+  constructor(private breakpointObserver: BreakpointObserver,  private router: Router,private userService: UserService,
     private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
@@ -49,6 +50,10 @@ export class NavbarComponent implements OnInit {
       this.userFromApi = user;
     });
   }
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+}
 
 }
 

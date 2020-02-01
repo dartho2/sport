@@ -42,6 +42,8 @@ export class GraphicsListComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
   numberOfDays;
+  oldYear;
+  oldMonth;
   myForm: FormGroup;
   week;
   graphics;
@@ -110,8 +112,9 @@ export class GraphicsListComponent implements OnInit {
   get items() {
     return <FormArray>this.myForm.get('items');
   }
-  
   ngOnInit() {
+    this.oldYear = new Date(this.date.value._d).getFullYear()
+    this.oldMonth =new Date(this.date.value._d).getMonth() + 1
     this.setDateGraphic(new Date(this.date.value._d).getFullYear(), (new Date(this.date.value._d).getMonth() + 1))
     this.onChanges();
     this.workerService.getWorker().subscribe(response => {

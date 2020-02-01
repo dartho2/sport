@@ -13,6 +13,8 @@ import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semipro
 import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.component';
 import { AuthGuard } from '../_helpers/auth.guard';
 import { Role } from '../_models/role';
+import { WorkerListComponent } from '../admin/shared/workers/worker-list/worker-list.component'
+import { SettingsComponent } from '../admin/settings/settings.component'
 const adminRoutes: Routes = [
   {
     path: '',
@@ -23,6 +25,18 @@ const adminRoutes: Routes = [
         component: ProductsListComponent,
         data: { roles: [Role.Admin, Role.User] }
       },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        children: [
+          {
+            path: 'worker',
+            component: WorkerListComponent,
+            data: { roles: [Role.Admin, Role.User] }
+          }
+        ]
+      },
+     
       {
         path: 'products/create',
         component: ProductsCreateComponent,
@@ -45,7 +59,7 @@ const adminRoutes: Routes = [
         component: RecipeListComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin, Role.User] }
-        
+
       },
       {
         path: 'graphics/list',
