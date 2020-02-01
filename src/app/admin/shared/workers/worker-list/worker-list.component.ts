@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkerService } from '../../worker.service';
+import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-worker-list',
@@ -7,14 +8,61 @@ import { WorkerService } from '../../worker.service';
   styleUrls: ['./worker-list.component.css']
 })
 export class WorkerListComponent implements OnInit {
-  worker;
-
-  constructor(private workerService: WorkerService) { }
-
+  workers;
+  users;
+  bodyForm: FormGroup;
+  constructor(private workerService: WorkerService, private _fb: FormBuilder) { }
+  
+  get user() {
+    return <FormArray>this.bodyForm.get('users');
+  }
   ngOnInit() {
     this.workerService.getWorker().subscribe(response => {
-      this.worker = response
+      this.workers = response
+      this.workers.map(x=>{
+        this.workers = x;
+        this.users = x.users})
+      this.buildFormforWorker(this.workers)
     });
+
+    this.bodyForm = new FormGroup({
+      _id: new FormControl(null),
+      users: this._fb.array([])
+
+    })
+    // this.buildFormforWorker(this.worker)
+  }
+  deleteUser(index) {
+    let control = <FormArray>this.bodyForm.controls.users;
+    control.removeAt(index)
+  }
+  addNewUser() {
+    let control = <FormArray>this.bodyForm.controls.users;
+    control.push(
+      this._fb.group({
+        name: '',
+      })
+    )
+  }
+
+  getUsers(user: any): FormGroup[] {
+    return user ? user.map(x => {
+      return this._fb.group({
+        name: x.name
+      })
+    }):''
+
+  }
+  buildFormforWorker(user): FormGroup {
+    return this.bodyForm = this._fb.group({
+      users: this._fb.array(
+        this.getUsers(user.users)
+      )
+    })
+  }
+
+  onSubmit() {
+
   }
 
 }

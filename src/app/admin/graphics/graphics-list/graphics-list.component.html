@@ -49,7 +49,9 @@
   <thead>
     <tr>
       <th rowspan="2" scope="col">No.</th>
-      <th colspan="3" scope="col" *ngFor="let user of userG;">{{user.name}}</th>
+      <th colspan="3" scope="col" *ngFor="let user of userG;">
+        {{user.name}}
+      </th>
     </tr>
     <tr>
       <th *ngFor="let a of tableWork.items">{{a.col1}}</th>

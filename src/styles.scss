@@ -6,6 +6,9 @@
 
 // @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
 /* BOTTOM NAVIGATE */
+.mat-tab-label, .mat-tab-link, .mat-tab-group, .mat-list-item, .mat-table {
+font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+}
 .sizes, .price{
   margin-bottom: 7px !important;
 }
@@ -52,7 +55,7 @@ body,html{
     background-size: cover;
     height: 100%;
     font-size: 0.875rem;
-    font-family: 'roboto';
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     }
 
 .fr-popup {
@@ -155,7 +158,7 @@ body {background-color: #f8f9fc;
       .text_muted{
         color: #6c757d!important;
         font-weight: 400;
-        font-family: robotlight;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
         font-style: normal;
       }
 
@@ -166,7 +169,7 @@ body {background-color: #f8f9fc;
       //   margin-left: -15px;
       // }
       .lead, dl, ol, p, ul {
-        font-family: 'roboto','sans-serif';
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
         font-size: 12px;
         font-weight: 400;
         line-height: 27.2px;

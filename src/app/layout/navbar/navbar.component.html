@@ -7,7 +7,7 @@
               {{userFromApi.firstName}}
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a [routerLink]="['/settings']" class="nav-item nav-link">Settings</a>
+                <a [routerLink]="['/settings'+'/worker']" class="nav-item nav-link">Settings</a>
               <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">Logout</a>
             </div>
           </div>

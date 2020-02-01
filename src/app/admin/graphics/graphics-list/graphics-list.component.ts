@@ -12,6 +12,7 @@ import * as jspdf from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
 import { NotificationService } from '../../toastr-notification/toastr-notification.service';
+import { map } from 'rxjs/operators';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
   parse: {
@@ -119,10 +120,14 @@ export class GraphicsListComponent implements OnInit {
     this.onChanges();
     this.workerService.getWorker().subscribe(response => {
       this.userG = response
+      this.userG.map(x=>{
+        this.userG = x.users
+      })
       this.createListWork(this.userG);
       this.checkGraphicExists()
 
     });
+
     this.myForm = this._fb.group({
       date: new FormControl(''),
       items:
