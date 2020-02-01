@@ -5,8 +5,11 @@ import {NotificationModule } from '../toastr-notification/toaster.module';
 import { WorkerListComponent } from '../shared/workers/worker-list/worker-list.component';
 import { SettingsComponent } from '../settings/settings.component'
 import { SettingsRoutingModule } from '../settings/settings-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     SettingsRoutingModule,
     NotificationModule,
     CommonModule,
