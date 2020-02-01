@@ -8,17 +8,21 @@ import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
   styleUrls: ['./worker-list.component.css']
 })
 export class WorkerListComponent implements OnInit {
-  worker = {
-    users: [{ name: "Pawel" }, { name: "xxx" }, { name: "vvv" }]
-  }
   workers;
+  users;
   bodyForm: FormGroup;
   constructor(private workerService: WorkerService, private _fb: FormBuilder) { }
-
+  
+  get user() {
+    return <FormArray>this.bodyForm.get('users');
+  }
   ngOnInit() {
     this.workerService.getWorker().subscribe(response => {
       this.workers = response
-      // this.buildFormforWorker(this.worker)
+      this.workers.map(x=>{
+        this.workers = x;
+        this.users = x.users})
+      this.buildFormforWorker(this.workers)
     });
 
     this.bodyForm = new FormGroup({
@@ -28,6 +32,19 @@ export class WorkerListComponent implements OnInit {
     })
     // this.buildFormforWorker(this.worker)
   }
+  deleteUser(index) {
+    let control = <FormArray>this.bodyForm.controls.users;
+    control.removeAt(index)
+  }
+  addNewUser() {
+    let control = <FormArray>this.bodyForm.controls.users;
+    control.push(
+      this._fb.group({
+        name: '',
+      })
+    )
+  }
+
   getUsers(user: any): FormGroup[] {
     return user ? user.map(x => {
       return this._fb.group({
