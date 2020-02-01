@@ -365,11 +365,18 @@ a.svg {
   height: 44px !important;
 }
 @media (max-width: 767px) {
+  .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle, .btn-secondary {
+    color: white;
+    background-color: unset;
+    border-color: unset;
+  }
 .toggler-i-true {
   display: none;
   margin-left: 150px;
 }
-
+.navigation-toggle{
+  display: none;
+}
 .toggler-i-false {
   display: none;
   margin-left: 150px;
@@ -385,9 +392,13 @@ a.svg {
   .toggler-i-true {
     margin-left: 65px;
   }
-  
+  .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle, .btn-secondary {
+    color: var(--secondary);
+    background-color: unset;
+    border-color: unset;
+  }
   .toggler-i-false {
-    margin-left: 150px;
+    padding-left: 150px;
   }
   .toggler-b {
     width: 53px;
@@ -396,4 +407,32 @@ a.svg {
   .toggler-c {
     margin-left: 53px !important;
   }
+}
+.toggler-icon {
+     height: 35px;
+    padding-top: 5px;
+    /* width: 100%; */
+    /* background: white;
+    border-bottom: 1px solid #d8d8d8; */
+}
+.navigation-toggle{
+  background: white;
+  border-bottom: 1px solid #e4e4e4;
+}
+.dropdown-toggler{
+  display: inline;
+}
+.dropdown-toggle-a{
+  float: right;
+  margin-right: 10px;
+}
+.dropdown-menu a {
+  font-weight: 500;
+  color: var(--secondary);
+}
+.btn-secondary:not(:disabled):not(.disabled).active:focus, .btn-secondary:not(:disabled):not(.disabled):active:focus, .show>.btn-secondary.dropdown-toggle:focus {
+  box-shadow: unset;
+}
+.btn {
+  border: unset;
 }

@@ -1,0 +1,22 @@
+nav.nav.nav-underline{
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: .875rem;
+}
+.nav-underline a {
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+@media (min-width: 767px) {
+    .navigation-toggle{
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+}
+@media (max-width: 767px) {
+    .navigation-toggle{
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}

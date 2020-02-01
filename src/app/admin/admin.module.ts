@@ -60,8 +60,6 @@ import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import {NotificationModule } from './toastr-notification/toaster.module';
-import { WorkerListComponent } from './shared/workers/worker-list/worker-list.component';
-import { SettingsComponent } from './settings/settings.component'
 
 @NgModule({
   imports: [
@@ -125,7 +123,7 @@ import { SettingsComponent } from './settings/settings.component'
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, WorkerListComponent, SettingsComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

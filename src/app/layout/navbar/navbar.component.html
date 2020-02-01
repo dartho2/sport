@@ -1,11 +1,24 @@
 <div class="example-container">
-        <mat-icon (click)="toogleNav()" [ngClass]="status ? 'toggler-i-true' : 'toggler-i-false'" class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"
+  <div class="content-body navigation-toggle">
+    <mat-icon (click)="toogleNav()" [ngClass]="status ? 'toggler-i-true' : 'toggler-i-false'" class="toggler-icon fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"
         aria-controls="menu-content" aria-expanded="false" aria-label="Toggle navigation"></mat-icon>
+        <div class="dropdown dropdown-toggler show px-3" *ngIf="userFromApi">
+            <a class="btn btn-secondary dropdown-toggle dropdown-toggle-a " href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{userFromApi.firstName}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a [routerLink]="['/settings']" class="nav-item nav-link">Settings</a>
+              <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">Logout</a>
+            </div>
+          </div>
+  </div>
+        
+
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav [ngClass]="status ? 'toggler-b' : ''" #drawer fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
           [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
-          <mat-toolbar color="primary" style="margin-top:30px;"> 
-          </mat-toolbar>
+          <!-- <mat-toolbar color="primary" style="margin-top:30px;"> 
+          </mat-toolbar> -->
            <mat-nav-list >
               <a matLine (click)="closeSideNav()" [routerLinkActive]="'is-active'" routerLink="/products" class="svg">
                 <mat-list-item >
@@ -52,7 +65,8 @@
                 </a>
               
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                    <a [routerLink]="['/settings']" class="nav-item nav-link">Settings</a>
+                  <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">Logout</a>
                 </div>
               </div>
           </mat-toolbar>
