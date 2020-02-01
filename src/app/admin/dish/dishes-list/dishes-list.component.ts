@@ -3,7 +3,8 @@ import { DishServices } from '../../dish/dish-services';
 import { ActivatedRoute } from '@angular/router';
 import { Dish } from '../../dish/dish.model';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
-
+import * as _ from 'lodash';
+import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 
 export interface DialogData {
 }
@@ -11,7 +12,7 @@ export interface DialogData {
 @Component({
   selector: 'app-dishes-list',
   templateUrl: './dishes-list.component.html',
-  styleUrls: ['./dishes-list.component.css'],
+  styleUrls: ['./dishes-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class DishesListComponent implements AfterViewInit, OnInit {
@@ -27,7 +28,9 @@ export class DishesListComponent implements AfterViewInit, OnInit {
     'bruttoPrice',
     'foodCost',
     'productMarginFC',
-    '_id'
+    'details',
+    'update',
+    'delete'
     ];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -43,11 +46,11 @@ export class DishesListComponent implements AfterViewInit, OnInit {
 
    
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute, private dishService: DishServices) { 
+  constructor(public dialog: MatDialog, private route: ActivatedRoute, private dishService: DishServices, private notification: NotificationService) { 
     this.dishService.getDish().subscribe(response => {
       this.dish = response
       this.dishData = this.dish;
-     this.dataSource.data = this.dishData;  
+     this.dataSource.data = _.sortBy(this.dishData, 'category')   
     });
     }
     openDialog(dish) {
@@ -68,6 +71,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   dishDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.dishService.deleteDish(id).subscribe(() => {
+        this.notification.info("Success. Deleted")
         this.dishService.getDish().subscribe(response => {
           this.dish = response
           this.dishData = this.dish;

@@ -7,22 +7,24 @@ import { Product } from "./product.model";
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-    private products: Product[] = [];
-    private productsUpdated = new Subject<Product[]>();
-    constructor(private _http: HttpClient, private router: Router) { }
+  private products: Product[] = [];
+  private productsUpdated = new Subject<Product[]>();
+  constructor(private _http: HttpClient, private router: Router) { }
 
-    getProduct(): Observable<Product[]> {
-        return this._http.get<Product[]>("https://karmazdrowia.pl:8080/api/products");
-      }
-      createProduct(bodyProduct) {
-        return this._http.post<Product[]>("https://karmazdrowia.pl:8080/api/products", bodyProduct);
-      }
-      getProductID(id: string)  {
-        return this._http.get<Product>("https://karmazdrowia.pl:8080/api/products/" + id);
-      }
-      updateProduct(product){
-        return this._http.post("https://karmazdrowia.pl:8080/api/products/" + product._id, product);
+  getProduct(): Observable<Product[]> {
+    return this._http.get<Product[]>("https://karmazdrowia.pl:8080/api/products");
+  }
+  createProduct(bodyProduct) {
+    return this._http.post<Product[]>("https://karmazdrowia.pl:8080/api/products", bodyProduct);
+  }
+  getProductID(id: string) {
+    return this._http.get<Product>("https://karmazdrowia.pl:8080/api/products/" + id);
+  }
+  updateProduct(product) {
+    return this._http.post("https://karmazdrowia.pl:8080/api/products/" + product._id, product);
+  }
+  deleteProduct(id) {
+    return this._http.delete<Product[]>("https://karmazdrowia.pl:8080/api/products/" + id)
+}
 
-      }
-     
 }

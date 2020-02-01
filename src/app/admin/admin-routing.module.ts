@@ -11,54 +11,81 @@ import { AnalysticListComponent } from './analystic/analystic-list/analystic-lis
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.component';
+import { AuthGuard } from '../_helpers/auth.guard';
+import { Role } from '../_models/role';
+
 const adminRoutes: Routes = [
+ 
   {
     path: '',
     component: AdminComponent,
     children: [
       {
+        path: 'settings',
+        loadChildren: './settings/settings.module#SettingsModule',
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
         path: 'products',
-        component: ProductsListComponent
+        component: ProductsListComponent,
+        data: { roles: [Role.Admin, Role.User] }
       },
       {
         path: 'products/create',
-        component: ProductsCreateComponent
+        component: ProductsCreateComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin, Role.User] }
       },
       {
         path: 'products/show/:idProduct',
-        component: ProductShowComponent
+        component: ProductShowComponent,
+        data: { roles: [Role.Admin, Role.User] }
       },
       {
         path: 'analystic/list',
-        component: AnalysticListComponent
+        component: AnalysticListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin] }
       },
       {
         path: 'recipe/list',
-        component: RecipeListComponent
+        component: RecipeListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin, Role.User] }
+
       },
       {
         path: 'graphics/list',
-        component: GraphicsListComponent
+        component: GraphicsListComponent,
+        data: { roles: [Role.Admin, Role.User] }
       },
       {
         path: 'semiproduct/list',
-        component: SemiproduktListComponent
+        component: SemiproduktListComponent,
+        data: { roles: [Role.Admin, Role.User] }
       },
       {
         path: 'products/edit/:idProduct',
-        component: ProductsCreateComponent
+        component: ProductsCreateComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin] }
       },
       {
         path: 'dish',
-        component: DishesListComponent
+        component: DishesListComponent,
+        data: { roles: [Role.Admin, Role.User] }
       },
       {
         path: 'dish/create',
-        component: DishesCreateComponent
+        component: DishesCreateComponent,
+        data: { roles: [Role.Admin, Role.User] }
       },
       {
         path: 'dish/edit/:id',
-        component: DishesCreateComponent
+        component: DishesCreateComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin] }
       },
     ]
   }

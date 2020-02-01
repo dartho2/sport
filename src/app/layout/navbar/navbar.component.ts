@@ -1,34 +1,59 @@
-import { Component, ViewChild, ElementRef, OnInit} from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import {
   BreakpointObserver,
   Breakpoints,
   BreakpointState,
 } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
+import { AuthenticationService, UserService } from 'src/app/_services';
+import { User, Role } from '../../_models';
+import { Router } from '@angular/router';
+
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css']
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-    @ViewChild('drawer') drawer: any;
- public selectedItem : string = '';
+  @ViewChild('drawer') drawer: any;
+  status: boolean = false;
+  loading = false;
+  currentUser: User;
+  userFromApi: User;
+  public selectedItem: string = '';
 
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(map((result: BreakpointState) => result.matches));
 
-    constructor(private breakpointObserver: BreakpointObserver) {}
-  
-    closeSideNav() {
-        if (this.drawer._mode=='over') {
-          this.drawer.close();
-        }
+  constructor(private breakpointObserver: BreakpointObserver,  private router: Router,private userService: UserService,
+    private authenticationService: AuthenticationService) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
+  get isAdmin() {
+    return this.currentUser && this.currentUser.role === Role.Admin;
+  }
+  closeSideNav() {
+    if (this.drawer._mode == 'over') {
+      this.drawer.close();
     }
-   
-    ngOnInit() { }
+  }
+  toogleNav() {
+    this.status = !this.status;
+  }
+  ngOnInit() {
+    this.loading = true;
+    this.userService.getById(this.currentUser.id).pipe(first()).subscribe(user => {
+      this.loading = false;
+      this.userFromApi = user;
+    });
+  }
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+}
 
 }
 

@@ -22,7 +22,9 @@ export class RecipeListComponent implements AfterViewInit, OnInit {
     "bruttoPrice",
     "weight",
     "unit",
-    "_id"];
+    "details",
+    "update",
+    "delete"];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     applyFilter(filterValue: string) {
@@ -44,6 +46,19 @@ export class RecipeListComponent implements AfterViewInit, OnInit {
      this.products = products
      this.dataSource = this.products
     });
+  }
+  productDelete(id){
+    if(confirm("Are you sure to delete "+id)) {
+      this.productService.deleteProduct(id).subscribe(() => {
+        this.productService.getProduct().subscribe(response => {
+          this.products = response
+          this.productData = this.products;
+          this.dataSource = this.productData;
+         console.log("usuniete", id)
+        });
+        
+    })
+    }
   }
 
 }

@@ -5,20 +5,20 @@ import { Product } from '../product.model'
 import { ProductService } from '../product.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+
+import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 export interface Product {
   name: string;
 }
 @Component({
   selector: 'app-products-create',
   templateUrl: './products-create.component.html',
-  styleUrls: ['./products-create.component.css']
+  styleUrls: ['./products-create.component.css'],
 })
 export class ProductsCreateComponent implements OnInit {
 
-  @Input()
-  foodCost;
-  @Input()
-  ProductDish;
+  @Input() foodCost: any;
+  @Input() ProductDish;
   productSelected;
   filteredOptions: Observable<Product[]>;
   myControl = new FormControl();
@@ -30,6 +30,7 @@ export class ProductsCreateComponent implements OnInit {
   value: ['kg', 'szt', 'l'];
   valueSupplier: ['KŚ', 'WoA', 'W', 'Pp', 'Sk', 'In', 'Re'];
   mode;
+  customeImg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6hC4zK0RMvnALdCE7WM3dmdD99-5OGybTgZ6ZP2HsCjCnD_P49g&s";
   options: Product[] = [];
   totalPrice;
   data = {
@@ -54,33 +55,11 @@ export class ProductsCreateComponent implements OnInit {
   pr_data;
   message;
 
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService) {
+  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private notification: NotificationService) {
     this.productService.getProduct().subscribe(response => {
       this.options = response
       // this.options = this.productRecipe
     });
-    if (this.foodCost) {
-      this.buildFormforProducts(this.foodCost)
-    } else {
-      this.bodyForm = new FormGroup({
-        _id: new FormControl(null),
-        name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-        description: new FormControl('', [Validators.required, Validators.minLength(4)]),
-        image: new FormControl(null),
-        nettoPrice: new FormControl('', Validators.required),
-        unit: new FormControl('', Validators.required),
-        qty: new FormControl(null),
-        weight: new FormControl('', Validators.required),
-        vat: new FormControl('', Validators.required),
-        bruttoPrice: new FormControl(null),
-        productDate: new FormControl(null),
-        supplier: new FormControl('', Validators.required),
-        losses: new FormControl(null),
-        lossesPriceNetto: new FormControl(null),
-        history: this._fb.array([]),
-        recipe: this._fb.array([])
-      });
-    }
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idProduct")) {
         this.mode = "edit";
@@ -96,15 +75,39 @@ export class ProductsCreateComponent implements OnInit {
       }
     });
 
-    this.setCities();
   }
   get formData() {
     return <FormArray>this.bodyForm.get('recipe');
   }
+
   supplieronChange(date) {
     console.log(date)
   }
   ngOnInit() {
+    
+    if (this.foodCost) {
+      this.buildFormforProducts(this.foodCost)
+      this.bodyForm.value.supplier === 'Pp' ? this.selectedValue = "Pp" : '';
+    } else {
+      this.bodyForm = new FormGroup({
+        _id: new FormControl(null),
+        name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+        description: new FormControl('', [Validators.required, Validators.minLength(4)]),
+        image: new FormControl(this.customeImg),
+        nettoPrice: new FormControl('', Validators.required),
+        unit: new FormControl('', Validators.required),
+        qty: new FormControl(null),
+        weight: new FormControl('', Validators.required),
+        vat: new FormControl('', Validators.required),
+        bruttoPrice: new FormControl(null),
+        productDate: new FormControl(null),
+        supplier: new FormControl('', Validators.required),
+        losses: new FormControl(null),
+        lossesPriceNetto: new FormControl(null),
+        history: this._fb.array([]),
+        recipe: this._fb.array([])
+      });
+    }
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -161,14 +164,14 @@ export class ProductsCreateComponent implements OnInit {
   buildFormforProducts(foodCost): FormGroup {
     return this.bodyForm = this._fb.group({
       _id: null,
-      name: '',
-      description: '',
-      image: '',
-      nettoPrice: foodCost ? foodCost : '',
+      name: foodCost.name ? foodCost.name : '',
+      description: foodCost.description ? foodCost.description : '',
+      image: this.customeImg,
+      nettoPrice: foodCost.foodCost ? foodCost.foodCost : '',
       unit: '',
       qty: '',
       weight: '',
-      vat: '',
+      vat: foodCost.vat ? foodCost.vat : '',
       bruttoPrice: '',
       supplier: 'Pp',
       losses: '',
@@ -188,7 +191,7 @@ export class ProductsCreateComponent implements OnInit {
       _id: [data ? data._id : null],
       name: [data ? data.name : '',],
       description: [data ? data.description : '',],
-      image: [data ? data.image : '',],
+      image: [data ? data.image : this.customeImg],
       nettoPrice: [data ? data.nettoPrice : '',],
       unit: [data ? data.unit : '',],
       qty: [data ? data.qty : '',],
@@ -246,7 +249,7 @@ export class ProductsCreateComponent implements OnInit {
       this.bodyForm.controls['bruttoPrice'].patchValue(this.calculateTotalPrice(this.bodyForm.value))
       this.bodyForm.controls['productDate'].patchValue(this.pr_data);
       this.productService.updateProduct(this.bodyForm.value).subscribe(response => {
-        this.message = "Został utworzony";
+        this.notification.success("Success. Update"); 
           this.router.navigate(["../../"], { relativeTo: this.route });
       })
     } else {
@@ -257,8 +260,9 @@ export class ProductsCreateComponent implements OnInit {
       }
       this.bodyForm.value.bruttoPrice = this.calculateTotalPrice(this.bodyForm.value)
       this.productService.createProduct(this.bodyForm.value).subscribe(() => {
-        this.foodCost ? this.message = "Został utworzony" :
-          this.router.navigate(["../"], { relativeTo: this.route });
+        // this.foodCost ? this.message = "Został utworzony" :
+        this.ProductDish ? this.notification.success("Success. Create for Półprodukt") : this.notification.success("Success. Create")
+        this.ProductDish ? '' : this.router.navigate(["../"], { relativeTo: this.route })
       })
     };
   }
