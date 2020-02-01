@@ -60,6 +60,7 @@ import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import {NotificationModule } from './toastr-notification/toaster.module';
+import { ColdListComponent } from './haccp/cold-list/cold-list.component';
 
 @NgModule({
   imports: [
@@ -123,7 +124,7 @@ import {NotificationModule } from './toastr-notification/toaster.module';
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

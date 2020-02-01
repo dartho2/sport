@@ -7,8 +7,7 @@
 </mat-form-field>
 
 <form class="table-responsive table table-bordered" (ngSubmit)="onSubmit()" [formGroup]="myForm">
-    <mat-tab-group>
-        <mat-tab label="Grafik">
+
   <table id="ExampleTable" class="table">
     <thead>
       <tr>
@@ -43,8 +42,7 @@
     </tbody>
 
   </table>
-  </mat-tab>
-  <mat-tab label="Godziny">
+
 <table id="ExampleTable1" class="table table-bordered">
   <thead>
     <tr>
@@ -65,8 +63,7 @@
 
   </tbody>
 </table>
-</mat-tab>
-</mat-tab-group>
+
   <div class='data-panel'>
     <div class='panel-sub'>
       <a mat-raised-button color="primary" (click)="exportTable()">Export to excel</a>

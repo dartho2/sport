@@ -1,0 +1,30 @@
+<form [formGroup]="bodyForm" (submit)="onSubmit()">
+  <button style="margin:5px;" type="button" class="btn btn-primary btn-sm" (click)="addNewItems()">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj Użytkownika
+  </button>
+  <button type="submit" class="btn btn-success btn-sm btn-rounded waves-effect">Zapisz</button>
+  <div class="my-3 p-3 bg-white rounded box-shadow">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Wyposażenie (Wymagane do HACCP)</h6>
+    <div formArrayName="items">
+      <div class="media text-muted pt-3" *ngFor="let equipment of items.controls; let i=index" [formGroupName]="i">
+        <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+          <div class="form-row d-flex justify-content-between align-items-center w-100">
+            <div class="col">
+                <label for="name">Nazwa</label>
+              <select matNativeControl required class="form-control" id="name" formControlName="name">
+              <option value="Zamrażalka">Zamrażalka</option>
+              <option value="Lodówka">Lodówka</option>
+            </select>
+            </div>
+            <div class="col">
+                <label for="number">Numer</label>
+              <input matInput class="form-control" id="number" formControlName="number" type="number" name="id">
+            </div>
+            <button style="margin-left:35px;" type="button" class="btn" (click)="deleteItems(i)">
+              <i class="fa fa-minus" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

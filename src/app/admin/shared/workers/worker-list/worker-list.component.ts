@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkerService } from '../../worker.service';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { NotificationService } from '../../../toastr-notification/toastr-notification.service'; 
 
 @Component({
   selector: 'app-worker-list',
@@ -11,7 +12,7 @@ export class WorkerListComponent implements OnInit {
   workers;
   users;
   bodyForm: FormGroup;
-  constructor(private workerService: WorkerService, private _fb: FormBuilder) { }
+  constructor(private workerService: WorkerService, private _fb: FormBuilder,private notification: NotificationService) { }
   
   get user() {
     return <FormArray>this.bodyForm.get('users');
@@ -30,7 +31,6 @@ export class WorkerListComponent implements OnInit {
       users: this._fb.array([])
 
     })
-    // this.buildFormforWorker(this.worker)
   }
   deleteUser(index) {
     let control = <FormArray>this.bodyForm.controls.users;
@@ -62,7 +62,7 @@ export class WorkerListComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.notification.error("Brak zaimplementowanej logiki do obsługi zapisu");
   }
 
 }
