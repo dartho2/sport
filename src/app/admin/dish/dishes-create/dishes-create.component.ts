@@ -145,26 +145,7 @@ export class DishesCreateComponent implements OnInit {
       this.notification.warn("Uzupełnij Wszystkie Dane");
     }
   }
-  // errorMessagesWarning(name) {
-  //   this.alert = 'alert alert-danger'
-  //   this.messageContent = name;
-  //   this.message = true;
 
-  //   setTimeout(() => {
-  //     this.message = false;
-  //     this.messageContent = "";
-  //   }, 3000);
-  // }
-  // errorMessagesSuccess(name) {
-  //   this.alert = 'alert alert-success'
-  //   this.messageContent = name;
-  //   this.message = true;
-
-  //   setTimeout(() => {
-  //     this.message = false;
-  //     this.messageContent = "";
-  //   }, 3000);
-  // }
   addNewCity() {
     let control = <FormArray>this.myForm.controls.products;
     control.push(

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EquipmentComponent } from '../shared/equipment/equipment.component';
 import { WorkerListComponent } from '../shared/workers/worker-list/worker-list.component';
 import { SettingsComponent } from '../settings/settings.component'
 import { AuthGuard } from '../../_helpers/auth.guard'
@@ -12,6 +13,11 @@ const settingsRoutes: Routes = [
       {
         path: 'worker',
         component: WorkerListComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
+      path: 'equipment',
+      component: EquipmentComponent,
         data: { roles: [Role.Admin, Role.User] }
       },
     ]
