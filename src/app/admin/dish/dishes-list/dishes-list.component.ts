@@ -5,7 +5,6 @@ import { Dish } from '../../dish/dish.model';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import * as _ from 'lodash';
 import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
-
 export interface DialogData {
 }
 
@@ -20,6 +19,14 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   buttonTable: any;
   checked= true;
   dishData;
+  valueRe: any[] = [
+    {value: 'Yapito', name: 'Yapito'},
+    {value: 'Sushi 1', name: 'Sushi 1'},
+    {value: 'Sushi 2', name: 'Sushi 2'},
+    {value: 'Brak', name: 'Brak'},
+    {value: 'All', name: 'All'}
+  ];
+  filDish ="Hosomaki";
   dataSource = new MatTableDataSource(this.dishData);
   displayedColumns: string[] = [
     'image',
@@ -34,17 +41,10 @@ export class DishesListComponent implements AfterViewInit, OnInit {
     ];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    
-
-    
-
+  
     applyFilter(filterValue: string) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
-
-  
-
-   
 
   constructor(public dialog: MatDialog, private route: ActivatedRoute, private dishService: DishServices, private notification: NotificationService) { 
     this.dishService.getDish().subscribe(response => {
@@ -52,6 +52,14 @@ export class DishesListComponent implements AfterViewInit, OnInit {
       this.dishData = this.dish;
      this.dataSource.data = _.sortBy(this.dishData, 'category')   
     });
+    }
+    onChange(name){
+      if(name !== 'All'){
+        let newDate =  this.dishData.filter(x=> x.categoryRes === name);
+        this.dataSource.data = newDate
+      } else {
+        this.dataSource.data = this.dish
+      }
     }
     openDialog(dish) {
       this.dialog.open(DialogDataListDialog, {

@@ -114,7 +114,7 @@ margin-top: 40px;
     width: 100%;
 }
 .mat-select {
-    height: calc(2.25rem + 2px);
+    /* height: calc(2.25rem + 2px); */
 }
 .mat-tab-group {
     width: 100%;
@@ -129,18 +129,18 @@ margin-top: 40px;
   }
   
 .mat-select-arrow-wrapper {
-    visibility: hidden;
+    /* visibility: hidden;
     opacity: 0;
     display: none !important;
-    vertical-align: middle;
+    vertical-align: middle; */
 }
 .mat-select-arrow {
-    visibility: hidden !important;
-    display: none !important;
+    /* visibility: hidden !important;
+    display: none !important; */
 }
 .mat-select-trigger {
-    visibility: hidden !important;
-    display: none !important;
+    /* visibility: hidden !important;
+    display: none !important; */
 }
 /* .mat-select-arrow-wrapper {
     display: none !important;

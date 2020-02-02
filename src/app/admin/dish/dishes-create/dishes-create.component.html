@@ -5,149 +5,169 @@
   </div>
 </div>
 <div class="content-body">
-  
-    
-    <form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
-      <mat-tab-group>
-        <mat-tab label="Danie">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        <h4 class="card-title">Dane Dania</h4>
-                      </div>
-                      <!-- <div class="h6 mb-0 font-weight-bold text-gray-800"> -->
-                        <div class="example-container">
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="name" class="form-control" placeholder="Name" name="name"
-                            formControlName="name" required matInput >
-                            <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane do zapisania i kalkulacji potrawy: wprowadz nazwę Dania" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                          <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
-                        </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="category" class="form-control" placeholder="Category" name="category"
-                            formControlName="category" required matInput>
-                            <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane do zapisania i kalkulacji potrawy: wprowadz kategorie Dania np. ('hosomaki')" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                        </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="description" class="form-control" placeholder="Description"
-                            name="description" formControlName="description" required matInput>
-                            <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane: Opis, w przyszłosci wymagane do składania zamówienia jako nazwa('nazwa skrócona')" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                        </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                            <input type="text" id="image" class="form-control" placeholder="image URL" name="image"
-                              formControlName="image" required matInput>
-                              <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane do zapisania i kalkulacji potrawy: link do zdjęcia ew. ('brak')" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                          </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="vat" class="form-control" placeholder="Vat" name="vat"
-                            formControlName="vat" type="number" required matInput>
-                            <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane do zapisania i kalkulacji potrawy: Vat Narzut potrawy przy sprzedaży" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                        </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="price_p" class="form-control" placeholder="Cena Dania [zł]"
-                            name="price_p" type="number" formControlName="bruttoPrice" required matInput>
-                            <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane do zapisania i kalkulacji potrawy: Cena Dania Brutto" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                          <mat-error *ngIf="bruttoPrice.invalid">{{getErrorMessage('bruttoPrice')}}</mat-error>
-                        </mat-form-field>
-                      </div>
+
+
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <mat-tab-group>
+      <mat-tab label="Danie">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                      <h4 class="card-title">Dane Dania</h4>
+                    </div>
+                    <!-- <div class="h6 mb-0 font-weight-bold text-gray-800"> -->
+                    <div class="example-container">
+                      <mat-form-field class="example-full-width">
+                        <input type="text" matInput  id="name"  placeholder="Name" name="name"
+                          formControlName="name" required matInput>
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="*Wymagane do zapisania i kalkulacji potrawy: wprowadz nazwę Dania"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                        <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <mat-select matNativeControl required placeholder="restauracja" formControlName="categoryRes">
+                          <mat-option *ngFor="let restaurant of valueRe" [value]="restaurant.value">{{restaurant.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="category" placeholder="Category" name="category"
+                          formControlName="category" required matInput>
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="*Wymagane do zapisania i kalkulacji potrawy: wprowadz kategorie Dania np. ('hosomaki')"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="description"  placeholder="Description"
+                          name="description" formControlName="description" required matInput>
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="*Wymagane: Opis, w przyszłosci wymagane do składania zamówienia jako nazwa('nazwa skrócona')"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="image"  placeholder="image URL" name="image"
+                          formControlName="image" required matInput>
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="*Wymagane do zapisania i kalkulacji potrawy: link do zdjęcia ew. ('brak')"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="vat"  placeholder="Vat" name="vat"
+                          formControlName="vat" type="number" required matInput>
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="*Wymagane do zapisania i kalkulacji potrawy: Vat Narzut potrawy przy sprzedaży"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="price_p" placeholder="Cena Dania [zł]"
+                          name="price_p" type="number" formControlName="bruttoPrice" required matInput>
+                        <mat-icon matSuffix class="fas fa-info-circle"
+                          matTooltip="*Wymagane do zapisania i kalkulacji potrawy: Cena Dania Brutto"
+                          #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                        <mat-error *ngIf="bruttoPrice.invalid">{{getErrorMessage('bruttoPrice')}}</mat-error>
+                      </mat-form-field>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </mat-tab>
-        <mat-tab label="Produkty">
+        </div>
+      </mat-tab>
+      <mat-tab label="Produkty">
+        <div class="row">
+          <div class="col-md-12">
+            <button style="margin:5px;" type="button" class="btn btn-primary btn-sm" (click)="addNewCity()">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj Składową dania
+            </button>
+          </div>
+        </div>
+        <div formArrayName="products">
           <div class="row">
             <div class="col-md-12">
-              <button style="margin:5px;" type="button" class="btn btn-primary btn-sm" (click)="addNewCity()">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj Składową dania
-              </button>
-            </div>
-          </div>
-          <div formArrayName="products">
-            <div class="row">
-              <div class="col-md-12">
-                <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of formData.controls; let i=index">
-                  <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2" [formGroupName]="i">
-                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            <legend>
-                              <h4><span class="title-label">Produkt {{i+1}}:</span> <button style="margin-left:35px;" type="button" class="btn"
-                                  (click)="deleteCity(i)">
-                                  <i class="fa fa-minus" aria-hidden="true"></i></button>
-                                  <span class="h6">
-                                    <mat-form-field class="example-full-width h5">
-                                      <mat-label>Wybierz produkt </mat-label>
-                                      <input type="text" class="input-absolute" aria-label="Assignee" matInput
-                                        [formControl]="myControl" [matAutocomplete]="auto">
-                                        <mat-icon matSuffix class="fas fa-info-circle" matTooltip="Wybierz Produkt z bazy danych" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                         
-                                      <mat-select formControlName="name" (selectionChange)="onChange($event.value, i)">
-                                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                            {{option.name}}
-                                          </mat-option>
-                                        </mat-autocomplete>
-                                      </mat-select>
-                                    </mat-form-field>
-                                  </span>
-                                </h4>
-                            </legend>
-                          </div>
-                          <div class="h6 mb-0 font-weight-bold text-gray-800">
-                            <div class="form-row">
-                              
+              <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of formData.controls; let i=index">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2" [formGroupName]="i">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          <legend>
+                            <h4><span class="title-label">Produkt {{i+1}}:</span> <button style="margin-left:35px;"
+                                type="button" class="btn" (click)="deleteCity(i)">
+                                <i class="fa fa-minus" aria-hidden="true"></i></button>
+                              <span class="h6">
+                                <mat-form-field class="example-full-width h5">
+                                  <mat-label>Wybierz produkt </mat-label>
+                                  <input type="text" class="input-absolute" aria-label="Assignee" matInput
+                                    [formControl]="myControl" [matAutocomplete]="auto">
+                                  <mat-icon matSuffix class="fas fa-info-circle"
+                                    matTooltip="Wybierz Produkt z bazy danych" #tooltip="matTooltip"
+                                    (click)="tooltip.toggle()"></mat-icon>
 
-                                <mat-form-field class="form-group col-md-5">
-                                  <mat-label>name</mat-label>
-                                  <input matInput class="form-control" formControlName="name" type="text" name="unit"
-                                    disabled readonly required>
+                                  <mat-select formControlName="name" (selectionChange)="onChange($event.value, i)">
+                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                        {{option.name}}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                  </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="hidden-field form-group col-md-2">
-                                  <mat-label>Cena Netto za produktu</mat-label>
-                                  <input matInput class="form-control" formControlName="nettoPrice" type="text"
-                                    name="price" disabled  required>
-                                </mat-form-field>
-                                <mat-form-field class="hidden-field">
-                                  <mat-label>Cena Netto za {{weight}} {{unit}} produktu wliczone straty</mat-label>
-                                  <input matInput class="form-control" formControlName="lossesPriceNetto" type="text"
-                                    name="lossesPriceNetto" disabled readonly  disabled>
-                                </mat-form-field>
-                                <mat-form-field class="hidden-field">
-                                  <mat-label>Waga</mat-label>
-                                  <input matInput formControlName="weight" type="text" name="weight" disabled required>
-                                </mat-form-field>
-                                <mat-form-field class="form-group col-md-3">
-                                  <mat-label>Waga Produktu</mat-label>
-                                  <input matInput class="form-control" formControlName="productWeight"
-                                    (change)="calculate(i)" type="number" name="productweight" required>
-                                    <mat-icon matSuffix class="fas fa-info-circle" matTooltip="Wpisz wagę produktu jednostka jest ustalona w 'Jednostka' 10g = 0.01kg, 10ml = 0.01l" #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                                  <mat-error *ngIf="name.hasError('required', 'productWeight')">Required</mat-error>
-                                </mat-form-field>
-                                <mat-form-field class="form-group col-md-1">
-                                    <mat-label>Jednostka</mat-label>
-                                    <input matInput class="form-control" formControlName="unit" type="text" name="unit"
-                                      disabled readonly required>
-                                  </mat-form-field>
-                                <mat-form-field class="form-group col-md-3">
-                                  <mat-label>Cena Netto </mat-label>
-                                  <input matInput class="form-control" formControlName="valueProduct" type="text"
-                                    name="valueproduct" required readonly disabled>
-                                </mat-form-field>
-                                <mat-form-field class="hidden-field">
-                                  <mat-label>id </mat-label>
-                                  <input matInput formControlName="id" type="text" name="id" required readonly disabled>
-                                </mat-form-field>
-                              </div>
-                           
+                              </span>
+                            </h4>
+                          </legend>
+                        </div>
+                        <div class="h6 mb-0 font-weight-bold text-gray-800">
+                          <div class="form-row">
+
+
+                            <mat-form-field class="form-group col-md-5">
+                              <mat-label>name</mat-label>
+                              <input matInput class="form-control" formControlName="name" type="text" name="unit"
+                                disabled readonly required>
+                            </mat-form-field>
+                            <mat-form-field class="hidden-field form-group col-md-2">
+                              <mat-label>Cena Netto za produktu</mat-label>
+                              <input matInput class="form-control" formControlName="nettoPrice" type="text" name="price"
+                                disabled required>
+                            </mat-form-field>
+                            <mat-form-field class="hidden-field">
+                              <mat-label>Cena Netto za {{weight}} {{unit}} produktu wliczone straty</mat-label>
+                              <input matInput class="form-control" formControlName="lossesPriceNetto" type="text"
+                                name="lossesPriceNetto" disabled readonly disabled>
+                            </mat-form-field>
+                            <mat-form-field class="hidden-field">
+                              <mat-label>Waga</mat-label>
+                              <input matInput formControlName="weight" type="text" name="weight" disabled required>
+                            </mat-form-field>
+                            <mat-form-field class="form-group col-md-3">
+                              <mat-label>Waga Produktu</mat-label>
+                              <input matInput class="form-control" formControlName="productWeight"
+                                (change)="calculate(i)" type="number" name="productweight" required>
+                              <mat-icon matSuffix class="fas fa-info-circle"
+                                matTooltip="Wpisz wagę produktu jednostka jest ustalona w 'Jednostka' 10g = 0.01kg, 10ml = 0.01l"
+                                #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                              <mat-error *ngIf="name.hasError('required', 'productWeight')">Required</mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="form-group col-md-1">
+                              <mat-label>Jednostka</mat-label>
+                              <input matInput class="form-control" formControlName="unit" type="text" name="unit"
+                                disabled readonly required>
+                            </mat-form-field>
+                            <mat-form-field class="form-group col-md-3">
+                              <mat-label>Cena Netto </mat-label>
+                              <input matInput class="form-control" formControlName="valueProduct" type="text"
+                                name="valueproduct" required readonly disabled>
+                            </mat-form-field>
+                            <mat-form-field class="hidden-field">
+                              <mat-label>id </mat-label>
+                              <input matInput formControlName="id" type="text" name="id" required readonly disabled>
+                            </mat-form-field>
                           </div>
+
                         </div>
                       </div>
                     </div>
@@ -156,67 +176,68 @@
               </div>
             </div>
           </div>
-        </mat-tab>
-        <mat-tab label="Kalkulacja">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        <h4 class="card-title">Kalkulacja</h4>
-                      </div>
-                      <div class="h6 mb-0 font-weight-bold text-gray-800">
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="foodCost" class="form-control" placeholder="FoodCost [zł]" name="foodCost"
-                            formControlName="foodCost" required disabled readonly matInput>
-                        </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="fC" class="form-control" placeholder="FoodCost [%]" name="fC"
-                            formControlName="fC" required disabled readonly matInput>
-                        </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="productMargin" class="form-control"
-                            placeholder="Marża od cenny sprzedaży [%]" name="productMargin"
-                            formControlName="productMargin" required readonly matInput>
-                        </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="productMarginFC" class="form-control"
-                            placeholder="Marża od FC [%]" name="productMarginFC"
-                            formControlName="productMarginFC" required readonly matInput>
-                        </mat-form-field>
-                        <mat-form-field class="f-control-n">
-                          <input type="text" id="productMargin" class="form-control" placeholder="Narzut [%]"
-                            name="coating" formControlName="coating" required readonly matInput>
-                        </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="Kalkulacja">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                      <h4 class="card-title">Kalkulacja</h4>
+                    </div>
+                    <div class="h6 mb-0 font-weight-bold text-gray-800">
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="foodCost" class="form-control" placeholder="FoodCost [zł]"
+                          name="foodCost" formControlName="foodCost" required disabled readonly matInput>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="fC" class="form-control" placeholder="FoodCost [%]" name="fC"
+                          formControlName="fC" required disabled readonly matInput>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="productMargin" class="form-control"
+                          placeholder="Marża od cenny sprzedaży [%]" name="productMargin"
+                          formControlName="productMargin" required readonly matInput>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="productMarginFC" class="form-control" placeholder="Marża od FC [%]"
+                          name="productMarginFC" formControlName="productMarginFC" required readonly matInput>
+                      </mat-form-field>
+                      <mat-form-field class="f-control-n">
+                        <input type="text" id="productMargin" class="form-control" placeholder="Narzut [%]"
+                          name="coating" formControlName="coating" required readonly matInput>
+                      </mat-form-field>
 
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </mat-tab>
-      </mat-tab-group>
-      <div class='data-panel'>
-        <div class="panel-sub">
-          
-            <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
-              [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'create'" type="submit">Zapisz</button>
-              <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
-              [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'edit'" type="submit">Update</button>
-            <button type="button" class="btn btn-outline-info btn-rounded waves-effect" color="primary"
-              [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'create'" type="button" (click)="openDialog()">Część
-              składowa innego (dania/zestawu)</button>
-          
-          <button type="button" class="btn btn-outline-info btn-rounded waves-effect" color="primary" type="button"
-            (click)="calculatePrice()">Przelicz</button>
-          <button type="button" class="btn btn-outline-danger btn-rounded waves-effect" color="primary"
-            type="button">Cancel</button>
         </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div class='data-panel'>
+      <div class="panel-sub">
+
+        <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
+          [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'create'" type="submit">Zapisz</button>
+        <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
+          [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'edit'" type="submit">Update</button>
+        <button type="button" class="btn btn-outline-info btn-rounded waves-effect" color="primary"
+          [disabled]="myForm.invalid" *ngIf="controlButton === 1 && mode === 'create'" type="button"
+          (click)="openDialog()">Część
+          składowa innego (dania/zestawu)</button>
+
+        <button type="button" class="btn btn-outline-info btn-rounded waves-effect" color="primary" type="button"
+          (click)="calculatePrice()">Przelicz</button>
+        <button type="button" class="btn btn-outline-danger btn-rounded waves-effect" color="primary"
+          type="button">Cancel</button>
       </div>
-    </form>
- 
+    </div>
+  </form>
+
 </div>

@@ -37,6 +37,12 @@ export class DishesCreateComponent implements OnInit {
   productMargin;
   controlButton = 0;
   mode;
+  valueRe: any[] = [
+    {value: 'Yapito', name: 'Yapito'},
+    {value: 'Sushi 1', name: 'Sushi 1'},
+    {value: 'Sushi 2', name: 'Sushi 2'},
+    {value: 'Brak', name: 'Brak'}
+  ];
   data = {
     products: [
       {
@@ -64,6 +70,7 @@ export class DishesCreateComponent implements OnInit {
     this.myForm = this._fb.group({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
       description: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      categoryRes: new FormControl('', [Validators.required]),
       category: new FormControl('', [Validators.required, Validators.minLength(4)]),
       image: new FormControl(this.customeImg),
       foodCost: new FormControl('', Validators.required),
@@ -244,6 +251,7 @@ export class DishesCreateComponent implements OnInit {
       name: [data ? data.name : '',],
       description: [data ? data.description : '',],
       image: [data ? data.image : this.customeImg],
+      categoryRes: [data ? data.categoryRes : null],
       category: [data ? data.category : null],
       vat: [data ? data.vat : '',],
       fC: [data ? data.fC : '',],
