@@ -5,6 +5,8 @@ import { WorkerListComponent } from '../shared/workers/worker-list/worker-list.c
 import { SettingsComponent } from '../settings/settings.component'
 import { AuthGuard } from '../../_helpers/auth.guard'
 import { Role } from '../../_models/role';
+import { RestaurantsComponent } from '../shared/restaurants/restaurants.component';
+
 const settingsRoutes: Routes = [
   {
     path: '',
@@ -13,6 +15,11 @@ const settingsRoutes: Routes = [
       {
         path: 'worker',
         component: WorkerListComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
+        path: 'restaurants',
+        component: RestaurantsComponent,
         data: { roles: [Role.Admin, Role.User] }
       },
       {

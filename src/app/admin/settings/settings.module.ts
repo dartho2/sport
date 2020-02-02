@@ -6,7 +6,7 @@ import { SettingsComponent } from '../settings/settings.component'
 import { SettingsRoutingModule } from '../settings/settings-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EquipmentComponent } from '../shared/equipment/equipment.component';
-
+import { RestaurantsComponent } from '../shared/restaurants/restaurants.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -18,7 +18,8 @@ import { EquipmentComponent } from '../shared/equipment/equipment.component';
   declarations: [
     SettingsComponent,
     WorkerListComponent,
-    EquipmentComponent
+    EquipmentComponent,
+    RestaurantsComponent
   ],
   entryComponents: [],
   bootstrap: [],

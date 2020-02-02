@@ -14,7 +14,6 @@
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
     </mat-card-header>
-
     <mat-card-content class="container mt-4">
 
       <div class="row">
@@ -63,6 +62,11 @@
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" class="mat-form-field-wrapper" placeholder="Search">
     </mat-form-field>
+     <mat-form-field class="example-full-width">
+        <mat-select placeholder="restauracja" (selectionChange)="onChange($event.value)">
+         <mat-option *ngFor="let restaurant of valueRe" [value]="restaurant.value">{{restaurant.name}}</mat-option>
+       </mat-select>
+     </mat-form-field>
 
     <table id="ExampleTable" mat-table [dataSource]="dataSource" matSort class="table-responsive table mat-elevation-z8">
       <ng-container matColumnDef="image">

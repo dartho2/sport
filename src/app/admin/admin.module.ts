@@ -62,6 +62,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {NotificationModule } from './toastr-notification/toaster.module';
 import { ColdListComponent } from './haccp/cold-list/cold-list.component';
 
+
 @NgModule({
   imports: [
     NotificationModule,
