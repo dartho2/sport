@@ -23,6 +23,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
     {value: 'Yapito', name: 'Yapito'},
     {value: 'Sushi 1', name: 'Sushi 1'},
     {value: 'Sushi 2', name: 'Sushi 2'},
+    {value: 'Sushi point', name: 'Sushi point'},
     {value: 'Brak', name: 'Brak'},
     {value: 'All', name: 'All'}
   ];
