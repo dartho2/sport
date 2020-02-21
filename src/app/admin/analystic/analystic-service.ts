@@ -17,4 +17,7 @@ export class AnalysticService {
       getAnalystictEvent(data): Observable<Event[]> {
         return this._http.get<Event[]>("https://karmazdrowia.pl:8080/api/events/" + data);
       }
+      getVotePrice(data): Observable<Event[]> {
+        return this._http.get<Event[]>("https://api.sofascore.com/api/v1/event/"+ data + "/odds/1/all?");
+      }
 }

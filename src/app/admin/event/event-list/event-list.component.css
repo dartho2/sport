@@ -1,6 +1,9 @@
 table {
     width:100%
 }
+.table .table {
+    background-color: #212529 !important;
+}
 .content-line{
     display:contents
 }

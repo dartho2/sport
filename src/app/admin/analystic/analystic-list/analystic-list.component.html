@@ -1,45 +1,106 @@
 <div class="content-body">
   <div class="photo-list card card-block">
-    <div *ngIf="matchFootball">
- 
-        <input type="number" matInput [ngModel]="model1" (ngModelChange)="changePercent($event)" min="1" max="100"  placeholder="Choose a %">
+     
+      
+      <input type="number" matInput [ngModel]="model1" (ngModelChange)="changePercent($event)" min="1" max="100"
+        placeholder="Choose a %">
       <mat-form-field>
-            <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker" placeholder="Choose a date">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-  win: {{win}}  Match: {{chance}} ile: {{indexWin - chance*2}}
-  <input type="text" class="form-control" (input)="onWinhange($event.target.value)">
-      <div *ngFor="let a of matchFootball">
-
-
-        <div *ngFor="let b of a.events;">
-
-          <!-- <div *ngIf="(b.startTimestamp*1000 | date:'yyyy-MM-dd')=== (stringData |date:'yyyy-MM-dd')"> -->
-            
-                  <!-- <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">{{a.tournament.name}}</th>
-                    </tr>
-                  </thead> -->
-                  <div class="table" *ngFor="let event of a.events;let i=index">
-                 
-<!-- {{event.formatedStartDate | slice:0,-1}} - {{formattedDate | date:'dd.MM.yyyy'}} -->
-<!-- <div *ngIf="checkeventsExists(event.formatedStartDate, formattedDate )">   -->
-  <app-event-list (amountChanged)="onAmountChanged($event)" (chanceChanged)="onchanceChanged($event)" [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp" [percentChance]="percentChance" [stringData]="stringData"></app-event-list>
-        </div>
-                  
-            <!-- </div> -->
+        <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker"
+          placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <!-- win: {{win}} Match: {{chance}} ile: {{indexWin - chance*2}} -->
+      <input type="text" class="form-control" (input)="onWinhange($event.target.value)">
+      
+      <!-- <div *ngFor="let a of matchFootball;let y=index">
         
-          <!-- </div> -->
+          <div class="table" *ngFor="let event of a.events;let i=index">
+              
+              <app-event-list *ngIf="checkeventsExists(event.formatedStartDate, formattedDate )" (amountChanged)="onAmountChanged($event)" (chanceChanged)="onchanceChanged($event)"
+              [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp"
+              [percentChance]="percentChance" [stringData]="stringData"></app-event-list>
+             
+          </div>
+        
+      </div> -->
+      <!-- <app-event-list [event]="matchData"></app-event-list> -->
+     
+      <table class="table-bordered table-dark">
+      <thead class="thead-light">
+          <tr style="width: 100%;">
+            <th scope="col">Flaga</th>
+            <th scope="col">Data</th>
+            <th scope="col">Teams</th>
+            <th scope="col">Vote</th>
+            <th scope="col">Chance</th>
+            <th scope="col">kurs</th>
+            <th scope="col">TeamRating</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead> 
+      <tr *ngFor="let event of matchData;let y=index">
+          <td scope="col"> <span [ngClass]="'flags--'+ event[1].category.flag" class="flags flags-category"></span></td>
+          <td scope="col">{{event[0].startTime}}</td>
+          <td scope="col">{{event[0].name}}</td>
+          <td scope="col">
+            <!-- <app-event-list (amountChanged)="onAmountChanged($event)" (chanceChanged)="onchanceChanged($event)"
+            [eventID]="event[0]" [event]="event[0].id" [startTimestamp]="event[0].startTimestamp"
+            [percentChance]="percentChance" [stringData]="stringData"></app-event-list> -->
+          </td>
+          <td scope="col">{{typeForVote}}</td>
+          <td scope="col">
+            <div *ngFor="let choices of event[2];let i = index">
+                <span *ngIf="i < 2"> {{calculateValueChance(choices.fractionalValue)}} / </span>
+                <span *ngIf="i === 2"> {{calculateValueChance(choices.fractionalValue)}} </span>
+              
+           <!-- {{choices.fractionalValue}} -->
+            </div>
+            <!-- <div class="inline-flex" *ngIf="event[3].choices"> -->
+                <!-- <div *ngFor="let choices of event[3].choices;let i = index"> -->
+                    <!-- <div *ngIf="calculateValueChance(choices.fractionalValue)">{{VotePrice |async}}</div> -->
+                    <!-- {{calculateValueChance(choices.fractionalValue)|async}} /  -->
+                    <!-- <span *ngIf="i < 2"> {{choices.fractionalValue}} / </span>
+                    <span *ngIf="i === 2"> {{choices.fractionalValue}} </span> -->
+                    <!-- {{choices.fractionalValue}} -->
+                    
+                               <!-- </div> -->
+            <!-- </div> -->
+         
+               <!-- <div class="content-line" *ngIf="event[2].winningOdds?.home?.decimalValue">
+                  {{event[2].winningOdds?.home?.decimalValue}}</div>
+                <div class="content-line" *ngIf="!event[2].winningOdds?.home?.decimalValue">brak</div> /
+                <div class="content-line" *ngIf="event[2].winningOdds?.away?.decimalValue">{{draw}}</div>
+                <div class="content-line" *ngIf="!event[2].winningOdds?.away?.decimalValue">brak</div>/
+                <div class="content-line" *ngIf="event[2].winningOdds?.away?.decimalValue">
+                  {{event[2].winningOdds?.away?.decimalValue}}</div>
+                <div class="content-line" *ngIf="!event[2].winningOdds?.away?.decimalValue">brak</div>  -->
+          </td>
+          <td scope="col"></td>
+          <td scope="col">
+              <!-- <div *ngIf="event[0].status.code === 100">
+                  <div *ngIf="event[0].winnerCode===3">0</div>
+                  <div *ngIf="event[0].winnerCode===2">2</div>
+                  <div *ngIf="event[0].winnerCode===1">1</div>
+                </div>
+                <div *ngIf="event[0].status.code === 70">odwołany</div>
+                <div *ngIf="event[0].status.code === 31"><b>
+                    <p> <i class="blink fas fa-play"></i> LIVE </p>
+                  </b>
+                </div>
+                <div *ngIf="event[0].status.code === 7"><b>
+                    <p> <i class="blink fas fa-play"></i> LIVE (2 połowa) </p>
+                  </b>
+                </div>
+                <div *ngIf="event[0].status.code === 6"><b>
+                    <p> <i class="blink fas fa-play"></i> LIVE (1 połowa) </p>
+                  </b>
+                </div>
+                <div *ngIf="event[0].status.code === 0">nie zaczety</div> -->
+          </td>
+      </tr>
+    </table>
 
-
-
-        </div>
-
-      </div>
-
-
-    </div>
+  
   </div>
 </div>
