@@ -5,6 +5,6 @@ export interface  Event {
     vote: String;
     markets: string;
     // markets: Market;
-};;
+};
 export interface Market {}
 
