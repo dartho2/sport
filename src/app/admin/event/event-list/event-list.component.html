@@ -29,10 +29,11 @@
   {{stringData}}<br> -->
 <!-- {{startTimestamp*1000 | date:'yyyy-MM-dd'}} = {{stringData |date:'yyyy-MM-dd'}} -->
 
-<table *ngIf="eventTournament && (startTimestamp*1000 | date:'yyyy-MM-dd')=== (stringData |date:'yyyy-MM-dd')">
  
+<table *ngIf="eventTournament && (startTimestamp*1000 | date:'yyyy-MM-dd')=== (stringData |date:'yyyy-MM-dd')">
   <thead class="thead-light">
     <tr style="width: 100%;">
+        <th scope="col">Flaga</th>
       <th scope="col">Data</th>
       <th scope="col">Home</th>
       <th scope="col">vs</th>
@@ -44,6 +45,11 @@
     </tr>
   </thead>
   <tr>
+      <td>
+          <span [ngClass]="'flags--'+ eventTournament.event.category.flag" class="flags flags-category"></span>
+          
+        </td>
+    <!-- <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">{{eventTournament.event.category.flag}}</td> -->
     <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">{{eventTournament.event.formatedStartDate}}<br>{{eventTournament.event.startTime}}</td>
     <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">{{eventTournament.event.homeTeam.name}}</td>
     <td scope="col" [ngStyle]="{'background-color': colorWin, 'color': colorText}">vs</td>
@@ -85,7 +91,6 @@
     </td>
   </tr>
 </table>
-
 
 <!-- <div *ngIf="eventID === eventTournament.events.id">{{eventTournament}}</div> -->
 <!-- <div *ngIf="eventTournament.event !== undefined">

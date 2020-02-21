@@ -13,26 +13,29 @@
       <div *ngFor="let a of matchFootball">
 
 
-        <!-- <div *ngFor="let b of a.events;"> -->
+        <div *ngFor="let b of a.events;">
 
           <!-- <div *ngIf="(b.startTimestamp*1000 | date:'yyyy-MM-dd')=== (stringData |date:'yyyy-MM-dd')"> -->
-              <table class="table">
-                  <thead class="thead-dark">
+            
+                  <!-- <thead class="thead-dark">
                     <tr>
                       <th scope="col">{{a.tournament.name}}</th>
                     </tr>
-                  </thead>
+                  </thead> -->
                   <div class="table" *ngFor="let event of a.events;let i=index">
-
+                 
+<!-- {{event.formatedStartDate | slice:0,-1}} - {{formattedDate | date:'dd.MM.yyyy'}} -->
+<!-- <div *ngIf="checkeventsExists(event.formatedStartDate, formattedDate )">   -->
+  <app-event-list (amountChanged)="onAmountChanged($event)" (chanceChanged)="onchanceChanged($event)" [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp" [percentChance]="percentChance" [stringData]="stringData"></app-event-list>
+        </div>
                   
-            <app-event-list (amountChanged)="onAmountChanged($event)" (chanceChanged)="onchanceChanged($event)" [eventID]="event" [event]="event.id" [startTimestamp]="event.startTimestamp" [percentChance]="percentChance" [stringData]="stringData"></app-event-list>
-          </div>
-        </table>
+            <!-- </div> -->
+        
           <!-- </div> -->
 
 
 
-        <!-- </div> -->
+        </div>
 
       </div>
 

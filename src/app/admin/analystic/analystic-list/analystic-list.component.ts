@@ -28,6 +28,7 @@ export class AnalysticListComponent implements OnInit {
   formattedDate;
   myDate
   format = 'yyyy-MM-dd';
+  actualformat = "dd.MM.yyyy"
   myNewDate;
   matchFootball;
   sportItem;
@@ -49,7 +50,13 @@ export class AnalysticListComponent implements OnInit {
      this.matchFootball = data;
     });
     }
-   
+    checkeventsExists(dataEvent, data) {
+      if(dataEvent.slice(0,-1) === formatDate(data, this.actualformat, 'en')){
+        return true
+      } else {
+        return false
+      }
+        }
     onSearchChange(data){
       data.setDate( data.getDate());
       this.formattedDate = formatDate(data, this.format, 'en');

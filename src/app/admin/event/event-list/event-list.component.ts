@@ -61,7 +61,7 @@ export class EventListComponent implements OnInit  {
               this.checkEvent(this.eventTournament);
               this.checkEventPercentWin(this.eventTournament)
               this.checkEventTeamWin(this.eventTournament)
-              console.log(this.typeForVote, "===", this.typeForPercent, "===", this.teamRating, this.typeForVote === this.typeForPercent === this.teamRating)
+             
               if (this.typeForVote === this.typeForPercent ) {
                 if(this.typeForVote === this.teamRating){
                 if (this.typeForVote === 0) {
@@ -79,7 +79,7 @@ export class EventListComponent implements OnInit  {
 
                       }
                       if (this.eventID.winnerCode >= 1 && this.eventID.winnerCode <= 3 && date === date1) {
-                        console.log(this.eventID.winnerCode)
+                      
                         this.changeAmountMatch();
 
                       }
