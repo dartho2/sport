@@ -5,12 +5,12 @@ import { Router } from "@angular/router";
 import { Analystic } from "./analystic.model";
 import { Event } from "./event.model";
 import { Markets } from "./markets.model";
-
+import 'rxjs/add/operator/do';
 @Injectable({ providedIn: 'root' })
 export class AnalysticService {
     analystic: Analystic[] = [];
     event: Event[] = [];
-    markets:  Markets[] = [];
+    markets:  any[];
     constructor(private _http: HttpClient, private router: Router) { }
 
     getAnalystict(data): Observable<Analystic[]> {
@@ -19,7 +19,7 @@ export class AnalysticService {
       getAnalystictEvent(data): Observable<Event[]> {
         return this._http.get<Event[]>("https://karmazdrowia.pl:8080/api/events/" + data);
       }
-      getVotePrice(data): Observable<Markets[]> {
-        return this._http.get<Markets[]>("https://api.sofascore.com/api/v1/event/"+ data + "/odds/1/all?");
+      getVotePrice(data): Observable<any> {
+        return this._http.get<any>("https://api.sofascore.com/api/v1/event/"+ data + "/odds/1/all?");
       }
 }

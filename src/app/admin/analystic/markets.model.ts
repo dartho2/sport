@@ -1,5 +1,7 @@
 export interface  Markets {
-    markets: Events
- 
+    markets: Events;
+   
 };
-export interface  Events {}
+export interface  Events {
+    choise: string;
+}

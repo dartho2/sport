@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AnalysticService } from '../analystic-service'
 import {formatDate} from '@angular/common';
 import { Analystic } from '../analystic.model';
-import { parse } from 'querystring';
 import { map } from 'rxjs/operators';
 
 
@@ -73,7 +72,7 @@ export class AnalysticListComponent implements OnInit {
                 this.eventTournament = eventsData;
                 this.analysticService.getVotePrice(events.id).subscribe(
                     vote=>{
-                      console.log(vote.markets[0].choices)
+                      // console.log(vote)
                       if(vote.markets[0].choices !== undefined){
                         keys.push(events, turnaments, vote.markets[0].choices, this.eventTournament)
                         this.matchData.push(keys)
@@ -93,7 +92,7 @@ export class AnalysticListComponent implements OnInit {
     .subscribe(
     data => {
      this.matchFootball = data; 
-     console.log(this.matchData)   
+    //  console.log(this.matchData)   
     })
     }
 

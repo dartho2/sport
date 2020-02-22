@@ -50,7 +50,7 @@
           </td>
           <td scope="col">{{typeForVote}}</td>
           <td scope="col">
-            <div *ngFor="let choices of event[2];let i = index">
+            <div class="inline-flex"  *ngFor="let choices of event[2];let i = index">
                 <span *ngIf="i < 2"> {{calculateValueChance(choices.fractionalValue)}} / </span>
                 <span *ngIf="i === 2"> {{calculateValueChance(choices.fractionalValue)}} </span>
               
