@@ -3,7 +3,8 @@ export interface  Analystic {
     sportItem: String
     members: String;
     vote: String;
-    events: [{formatedStartDate: string,id:string}];
+    category: [{}];
+    events: [{formatedStartDate: string,id:string,sport:string}];
 };
 
 export interface  Members {

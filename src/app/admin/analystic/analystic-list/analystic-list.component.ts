@@ -62,40 +62,47 @@ export class AnalysticListComponent implements OnInit {
     this.myDate = new Date();
     this.myDate.setDate( this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
-    this.analysticService.getAnalystict(this.formattedDate).pipe(map(res=>{
-      res.map(turnaments=>{
-        turnaments.events.map(events=>{
-          let keys = []
-          if(this.checkeventsExists(events.formatedStartDate, this.formattedDate) ){
-            this.analysticService.getAnalystictEvent(events.id).subscribe(
-              eventsData=>{
-                this.eventTournament = eventsData;
-                this.analysticService.getVotePrice(events.id).subscribe(
-                    vote=>{
-                      // console.log(vote)
-                      if(vote.markets[0].choices !== undefined){
-                        keys.push(events, turnaments, vote.markets[0].choices, this.eventTournament)
-                        this.matchData.push(keys)
-                      }
-                    
-                    }
-                )
-                
-               
-              }
-            )
-          }
-        })
-      })
-      
-    }))
-    .subscribe(
-    data => {
-     this.matchFootball = data; 
-    //  console.log(this.matchData)   
-    })
+    this.getMatches();
     }
-
+    getMatches(){
+      this.matchData = [];
+      this.analysticService.getAnalystict(this.formattedDate).pipe(map(res=>{
+        res.map(turnaments=>{
+          turnaments.events.forEach(events=>{
+            let keys = []
+            if(this.checkeventsExists(events.formatedStartDate, this.formattedDate) ){
+              this.analysticService.getAnalystictEvent(events.id).subscribe(
+                eventsData=>{
+                  this.eventTournament = eventsData;
+          
+                  this.analysticService.getVotePrice(events.id).subscribe(
+                      vote=>{
+                        events["vote"] =  vote.markets[0];
+                        events["turnament"] =  turnaments.category;
+                        events["events"] =  eventsData;
+                        // console.log(vote)
+                      
+                          keys.push(events)
+                          this.matchData.push(...keys)
+                      
+                      
+                      }
+                  )
+                  
+                 
+                }
+              )
+            }
+          })
+        })
+        
+      }))
+      .subscribe(
+      data => {
+       this.matchFootball = data; 
+       console.log(this.matchData)   
+      })
+    }
 
     mapingData(data){
       this.matchData = [];
@@ -299,15 +306,12 @@ export class AnalysticListComponent implements OnInit {
       }
         }
     onSearchChange(data){
+      console.log(data)
       data.setDate( data.getDate());
       this.formattedDate = formatDate(data, this.format, 'en');
       this.stringData = this.formattedDate
-     this.analysticService.getAnalystict(this.formattedDate)
-      .subscribe(
-      data => {
-       this.matchFootball = data;
-       this.mapingData(this.matchFootball)
-      });
+      
+    this.getMatches();
     }
     changePercent(event) {
       this.percentChance =event

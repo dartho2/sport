@@ -2,7 +2,7 @@
   <div class="photo-list card card-block">
      
       
-    <!--   <input type="number" matInput [ngModel]="model1" (ngModelChange)="changePercent($event)" min="1" max="100"
+      <input type="number" matInput [ngModel]="model1" (ngModelChange)="changePercent($event)" min="1" max="100"
         placeholder="Choose a %">
       <mat-form-field>
         <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker"
@@ -10,9 +10,9 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      win: {{win}} Match: {{chance}} ile: {{indexWin - chance*2}}
-      <input type="text" class="form-control" (input)="onWinhange($event.target.value)">
-    -->
+      <!-- win: {{win}} Match: {{chance}} ile: {{indexWin - chance*2}} -->
+      <!-- <input type="text" class="form-control" (input)="onWinhange($event.target.value)"> -->
+   
       
       <!-- <div *ngFor="let a of matchFootball;let y=index">
         
@@ -41,22 +41,26 @@
           </tr>
         </thead> 
       <tr *ngFor="let event of matchData;let y=index">
-          <td scope="col"> <span [ngClass]="'flags--'+ event[1].category.flag" class="flags flags-category"></span></td>
-          <td scope="col">{{event[0].startTime}}</td>
-          <td scope="col">{{event[0].name}}</td>
-          <td scope="col">
-            <!-- <app-event-list (amountChanged)="onAmountChanged($event)" (chanceChanged)="onchanceChanged($event)"
-            [eventID]="event[0]" [event]="event[0].id" [startTimestamp]="event[0].startTimestamp"
-            [percentChance]="percentChance" [stringData]="stringData"></app-event-list> -->
+          <td scope="col"> <span [ngClass]="'flags--'+event.turnament.flag" class="flags flags-category"></span></td>
+          <td scope="col">{{event.startTime}}</td>
+          <td scope="col">{{event.name}}</td>
+          <td scope="col">{{event.id}}
+             <!-- {{event.vote.markets.choices[0].fractionalValue}} -->
           </td>
           <td scope="col">{{typeForVote}}</td>
           <td scope="col">
-            <div class="inline-flex"  *ngFor="let choices of event[2];let i = index">
+              <div class="content-line" *ngIf="event.vote?.choices">
+ <div class="inline-flex"  *ngFor="let choices of event.vote.choices;let i = index">
+             
+              
                 <span *ngIf="i < 2"> {{calculateValueChance(choices.fractionalValue)}} / </span>
                 <span *ngIf="i === 2"> {{calculateValueChance(choices.fractionalValue)}} </span>
               
            <!-- {{choices.fractionalValue}} -->
             </div>
+
+              </div>
+           
             <!-- <div class="inline-flex" *ngIf="event[3].choices"> -->
                 <!-- <div *ngFor="let choices of event[3].choices;let i = index"> -->
                     <!-- <div *ngIf="calculateValueChance(choices.fractionalValue)">{{VotePrice |async}}</div> -->
@@ -77,27 +81,35 @@
                   {{event[2].winningOdds?.away?.decimalValue}}</div>
                 <div class="content-line" *ngIf="!event[2].winningOdds?.away?.decimalValue">brak</div>  -->
           </td>
-          <td scope="col"></td>
           <td scope="col">
-              <!-- <div *ngIf="event[0].status.code === 100">
-                  <div *ngIf="event[0].winnerCode===3">0</div>
-                  <div *ngIf="event[0].winnerCode===2">2</div>
-                  <div *ngIf="event[0].winnerCode===1">1</div>
+              <div class="content-line" *ngIf="event.events.winningOdds?.home?.actual">
+                 {{event.events.winningOdds?.home?.actual}}
+              </div>/
+              <div class="content-line" *ngIf="event.events.winningOdds?.away?.actual">
+                  {{event.events.winningOdds?.away?.actual}}
+               </div>
+             
+           </td>
+          <td scope="col">
+              <div *ngIf="event.status.code === 100">
+                  <div *ngIf="event.winnerCode===3">0</div>
+                  <div *ngIf="event.winnerCode===2">2</div>
+                  <div *ngIf="event.winnerCode===1">1</div>
                 </div>
-                <div *ngIf="event[0].status.code === 70">odwołany</div>
-                <div *ngIf="event[0].status.code === 31"><b>
+                <div *ngIf="event.status.code === 70">odwołany</div>
+                <div *ngIf="event.status.code === 31"><b>
                     <p> <i class="blink fas fa-play"></i> LIVE </p>
                   </b>
                 </div>
-                <div *ngIf="event[0].status.code === 7"><b>
+                <div *ngIf="event.status.code === 7"><b>
                     <p> <i class="blink fas fa-play"></i> LIVE (2 połowa) </p>
                   </b>
                 </div>
-                <div *ngIf="event[0].status.code === 6"><b>
+                <div *ngIf="event.status.code === 6"><b>
                     <p> <i class="blink fas fa-play"></i> LIVE (1 połowa) </p>
                   </b>
                 </div>
-                <div *ngIf="event[0].status.code === 0">nie zaczety</div> -->
+                <div *ngIf="event.status.code === 0">nie zaczety</div>
           </td>
       </tr>
     </table>
