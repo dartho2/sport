@@ -48,7 +48,7 @@
              <!-- {{event.vote.markets.choices[0].fractionalValue}} -->
           </td>
           <td scope="col">{{typeForVote}}</td>
-          <td scope="col">
+          <td class="content-line" scope="col">
               <div class="content-line" *ngIf="event.vote?.choices">
  <div class="inline-flex"  *ngFor="let choices of event.vote.choices;let i = index">
              
@@ -81,7 +81,7 @@
                   {{event[2].winningOdds?.away?.decimalValue}}</div>
                 <div class="content-line" *ngIf="!event[2].winningOdds?.away?.decimalValue">brak</div>  -->
           </td>
-          <td scope="col">
+          <td class="content-line" scope="col">
               <div class="content-line" *ngIf="event.events.winningOdds?.home?.actual">
                  {{event.events.winningOdds?.home?.actual}}
               </div>/

@@ -48,6 +48,8 @@ export class AnalysticListComponent implements OnInit {
   typeForVote;
   typeForPercent;
   amount;
+  model1;
+  mymodel;
   typPercent;
   teamRating;
   calculateWinner = 0;
