@@ -91,26 +91,30 @@
              
            </td>
           <td scope="col">
-              <div *ngIf="event.status.code === 100">
-                  <div *ngIf="event.winnerCode===3">0</div>
-                  <div *ngIf="event.winnerCode===2">2</div>
-                  <div *ngIf="event.winnerCode===1">1</div>
-                </div>
-                <div *ngIf="event.status.code === 70">odwołany</div>
-                <div *ngIf="event.status.code === 31"><b>
-                    <p> <i class="blink fas fa-play"></i> LIVE </p>
-                  </b>
-                </div>
-                <div *ngIf="event.status.code === 7"><b>
-                    <p> <i class="blink fas fa-play"></i> LIVE (2 połowa) </p>
-                  </b>
-                </div>
-                <div *ngIf="event.status.code === 6"><b>
-                    <p> <i class="blink fas fa-play"></i> LIVE (1 połowa) </p>
-                  </b>
-                </div>
-                <div *ngIf="event.status.code === 0">nie zaczety</div>
+            
+          </td>  
+          <td scope="col">
+             <div *ngIf="event.status.code === 100">
+              <div *ngIf="event.winnerCode===3">0</div>
+              <div *ngIf="event.winnerCode===2">2</div>
+              <div *ngIf="event.winnerCode===1">1</div>
+            </div>
+            <div *ngIf="event.status.code === 70">odwołany</div>
+            <div *ngIf="event.status.code === 31"><b>
+                <p> <i class="blink fas fa-play"></i> LIVE </p>
+              </b>
+            </div>
+            <div *ngIf="event.status.code === 7"><b>
+                <p> <i class="blink fas fa-play"></i> LIVE (2 połowa) </p>
+              </b>
+            </div>
+            <div *ngIf="event.status.code === 6"><b>
+                <p> <i class="blink fas fa-play"></i> LIVE (1 połowa) </p>
+              </b>
+            </div>
+            <div *ngIf="event.status.code === 0">not</div>
           </td>
+         
       </tr>
     </table>
 
