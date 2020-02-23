@@ -2,7 +2,9 @@
     display:flex;
 }
 table {
-    width:100%
+	width:100%;
+	overflow-x:auto;
+	display: block;
 }
 .table .table {
     background-color: #212529 !important;
