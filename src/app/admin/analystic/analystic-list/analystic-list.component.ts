@@ -84,7 +84,12 @@ export class AnalysticListComponent implements OnInit {
                         events["events"] =  eventsData;
                         events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
                         events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
-                        events["chanceEvent"] === events["chanceEventVote"] ? events["win"] = events["chanceEvent"] : events["win"] = null;
+                        events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
+
+                        
+
+ events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"]  ? events["win"] = events["h2hDuel"] : '';
+                        
                         keys.push(events)
                           this.matchData.push(...keys)
                       
@@ -106,13 +111,27 @@ export class AnalysticListComponent implements OnInit {
        console.log(this.matchData)
       })
     }
+    calculateH2hDuel(h2hDuel){
+    
+     const max = Math.max(...[Number(h2hDuel.awaywins), Number(h2hDuel.homewins), Number(h2hDuel.draws)]);
+
+     if(max === h2hDuel.awaywins){
+      return 2
+     }else{
+      if(max === h2hDuel.homewins){
+        return 1
+      }else{
+        return 0
+      }
+     }
+    }
     calcuateVoteChance(eventTournament){
       if(eventTournament !== undefined){
         this.MaxVote = Math.max.apply(null, [eventTournament.vote.vote1Percentage, eventTournament.vote.voteXPercentage, eventTournament.vote.vote2Percentage]);
            this.typeForVote = ((eventTournament.vote.vote1Percentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.vote1Percentage) :
              ((eventTournament.vote.voteXPercentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.voteXPercentage) :
                ((eventTournament.vote.vote2Percentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.vote2Percentage) : 0;
-           this.typeForVote > 56 ? (this.typPercent = this.typeForVote) : ''; //typPercent powyzej 70
+           this.typeForVote > 70 ? (this.typPercent = this.typeForVote) : ''; //typPercent powyzej 70
            this.typeForVote = ((eventTournament.vote.vote1Percentage * 100) === (this.typPercent * 100)) ? 1 :
              ((eventTournament.vote.voteXPercentage * 100) === (this.typPercent * 100)) ? 0 :
                ((eventTournament.vote.vote2Percentage * 100) === (this.typPercent * 100)) ? 2 : 0;
@@ -153,7 +172,7 @@ export class AnalysticListComponent implements OnInit {
                 }
               
          }else{
-      return 0
+      return ""
          }
  }
  calculateWinningOdds(vote){
@@ -162,22 +181,7 @@ export class AnalysticListComponent implements OnInit {
   
  }
 
- checkWining1(eventTournament) {
-  if (eventTournament.winningOdds.home !== undefined) {
-    return true
-  } else {
-    // eventTournament.winningOdds.home.set(JSON.parse('{actual: 0}'))
-    return false
-  }
-}
-checkWining2(eventTournament) {
-  if (eventTournament.winningOdds.away !== undefined) {
-    return true
-  } else {
-    // eventTournament.winningOdds.away.push(JSON.parse('{actual: 0}'))
-    return false
-  }
-}
+
   
   
    
