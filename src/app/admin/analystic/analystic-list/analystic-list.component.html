@@ -1,20 +1,20 @@
 <div class="content-body">
   <div class="photo-list card card-block">
-     
-      
-      <input type="number" matInput [ngModel]="model1" (ngModelChange)="changePercent($event)" min="1" max="100"
-        placeholder="Choose a %">
-      <mat-form-field>
-        <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker"
-          placeholder="Choose a date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <!-- win: {{win}} Match: {{chance}} ile: {{indexWin - chance*2}} -->
-      <!-- <input type="text" class="form-control" (input)="onWinhange($event.target.value)"> -->
-   
-      
-      <!-- <div *ngFor="let a of matchFootball;let y=index">
+
+
+    <input type="number" matInput [ngModel]="model1" (ngModelChange)="changePercent($event)" min="1" max="100"
+      placeholder="Choose a %">
+    <mat-form-field>
+      <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker"
+        placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <!-- win: {{win}} Match: {{chance}} ile: {{indexWin - chance*2}} -->
+    <!-- <input type="text" class="form-control" (input)="onWinhange($event.target.value)"> -->
+
+
+    <!-- <div *ngFor="let a of matchFootball;let y=index">
         
           <div class="table" *ngFor="let event of a.events;let i=index">
               
@@ -25,10 +25,10 @@
           </div>
         
       </div> -->
-      <!-- <app-event-list [event]="matchData"></app-event-list> -->
-     <div class="table-resposive">
+    <!-- <app-event-list [event]="matchData"></app-event-list> -->
+    <div class="table-resposive">
       <table class="table table-bordered table-dark">
-      <thead class="thead-light">
+        <thead class="thead-light">
           <tr style="width: 100%;">
             <th scope="col">Flaga</th>
             <th scope="col">Data</th>
@@ -39,85 +39,93 @@
             <th scope="col">TeamRating</th>
             <th scope="col">Status</th>
           </tr>
-        </thead> 
-      <tr *ngFor="let event of matchData;let y=index">
+        </thead>
+        <tr [ngClass]="'table-color-'+ event.win" *ngFor="let event of matchData;let y=index">
           <td scope="col"> <span [ngClass]="'flags--'+event.turnament.flag" class="flags flags-category"></span></td>
           <td scope="col">{{event.startTime}}</td>
-          <td scope="col">{{event.name}}</td>
-          <td scope="col">{{event.id}}
-             <!-- {{event.vote.markets.choices[0].fractionalValue}} -->
-          </td>
-          <td scope="col">{{typeForVote}}</td>
-          <td class="content-line" scope="col">
-              <div class="content-line" *ngIf="event.vote?.choices">
- <div class="inline-flex"  *ngFor="let choices of event.vote.choices;let i = index">
-             
-              
-                <span *ngIf="i < 2"> {{calculateValueChance(choices.fractionalValue)}} / </span>
-                <span *ngIf="i === 2"> {{calculateValueChance(choices.fractionalValue)}} </span>
-              
-           <!-- {{choices.fractionalValue}} -->
-            </div>
-
+          <td scope="col">{{event.name}}
+              <div class="inline-flex">
+                  <div class="content-line">{{event.events.h2hDuel.homewins}}</div>
+                  <div class="content-line slash-font-double"></div>
+                  <div class="content-line">{{event.events.h2hDuel.draws}}</div>
+                  <div class="content-line slash-font-double"></div>
+                  <div class="content-line">{{event.events.h2hDuel.awaywins}} </div>
               </div>
-           
-            <!-- <div class="inline-flex" *ngIf="event[3].choices"> -->
-                <!-- <div *ngFor="let choices of event[3].choices;let i = index"> -->
-                    <!-- <div *ngIf="calculateValueChance(choices.fractionalValue)">{{VotePrice |async}}</div> -->
-                    <!-- {{calculateValueChance(choices.fractionalValue)|async}} /  -->
-                    <!-- <span *ngIf="i < 2"> {{choices.fractionalValue}} / </span>
-                    <span *ngIf="i === 2"> {{choices.fractionalValue}} </span> -->
-                    <!-- {{choices.fractionalValue}} -->
-                    
-                               <!-- </div> -->
-            <!-- </div> -->
-         
-               <!-- <div class="content-line" *ngIf="event[2].winningOdds?.home?.decimalValue">
-                  {{event[2].winningOdds?.home?.decimalValue}}</div>
-                <div class="content-line" *ngIf="!event[2].winningOdds?.home?.decimalValue">brak</div> /
-                <div class="content-line" *ngIf="event[2].winningOdds?.away?.decimalValue">{{draw}}</div>
-                <div class="content-line" *ngIf="!event[2].winningOdds?.away?.decimalValue">brak</div>/
-                <div class="content-line" *ngIf="event[2].winningOdds?.away?.decimalValue">
-                  {{event[2].winningOdds?.away?.decimalValue}}</div>
-                <div class="content-line" *ngIf="!event[2].winningOdds?.away?.decimalValue">brak</div>  -->
-          </td>
-          <td class="content-line" scope="col">
-              <div class="content-line" *ngIf="event.events.winningOdds?.home?.actual">
-                 {{event.events.winningOdds?.home?.actual}}
-              </div>/
-              <div class="content-line" *ngIf="event.events.winningOdds?.away?.actual">
-                  {{event.events.winningOdds?.away?.actual}}
-               </div>
+              
              
-           </td>
+              
+            <div class="inline-flex" *ngIf="event.events.teamsForm">
+              <div class="content-line" *ngFor="let form of event.events.teamsForm.homeTeam.form">
+                  <span [ngClass]="'form-event-'+ form">{{form}}</span>
+              </div>
+              <div class="content-line slash-font-double">-</div>
+              <div class="content-line" *ngFor="let form of event.events.teamsForm.awayTeam.form">
+                  <span [ngClass]="'form-event-'+ form">{{form}}</span>
+              </div>
+            </div>
+          </td>
           <td scope="col">
-            
-          </td>  
+            <div class="inline-flex">
+              <div class="content-line">{{event.events.vote.vote1Percentage | slice:0:-3}}</div>
+              <div class="content-line slash-font">/</div>
+              <div class="content-line slash-font">{{event.events.vote.voteXPercentage | slice:0:-3}}</div>
+              <div class="content-line slash-font">/</div>
+              <div class="content-line slash-font">{{event.events.vote.vote2Percentage | slice:0:-3}}</div>
+            </div>
+          </td>
           <td scope="col">
-             <div *ngIf="event.status.code === 100">
+            <div class="inline-flex">
+              <div class="content-line" *ngIf="event.events.winningOdds?.home?.actual">
+                {{event.events.winningOdds?.home?.actual}}
+              </div>
+              <div class="content-line slash-font">/</div>
+              <div class="content-line slash-font" *ngIf="event.events.winningOdds?.away?.actual">
+                {{event.events.winningOdds?.away?.actual}}
+              </div>
+            </div>
+          </td>
+          <td scope="col">
+            <div class="inline-flex" *ngIf="event.vote?.choices">
+              <div class="inline-flex" *ngFor="let choices of event.vote.choices;let choicesIndex = index">
+                <div class="content-line" *ngIf="2 > choicesIndex">{{calculateValueChance(choices.fractionalValue)}}
+                </div>
+                <div class="content-line slash-font" *ngIf="2 > choicesIndex"></div>
+                <div class="content-line slash-font" *ngIf="choicesIndex === 2">
+                  {{calculateValueChance(choices.fractionalValue)}}</div>
+              </div>
+            </div>
+          </td>
+          <td scope="col">
+              <div class="inline-flex">
+                  <div class="content-line">{{event.chanceEvent}} </div>
+                  <div class="content-line slash-font"></div>
+                  <div class="content-line slash-font">{{event.chanceEventVote}}</div>
+                  </div>
+          </td>
+          <td scope="col">
+            <div *ngIf="event.status.code === 100">
               <div *ngIf="event.winnerCode===3">0</div>
               <div *ngIf="event.winnerCode===2">2</div>
               <div *ngIf="event.winnerCode===1">1</div>
             </div>
             <div *ngIf="event.status.code === 70">odwołany</div>
+            <div *ngIf="event.status.code === 70">przełożony</div>
             <div *ngIf="event.status.code === 31"><b>
                 <p> <i class="blink fas fa-play"></i> LIVE </p>
               </b>
             </div>
             <div *ngIf="event.status.code === 7"><b>
-                <p> <i class="blink fas fa-play"></i> LIVE (2 połowa) </p>
+                <p> <i class="blink fas fa-play"></i> LIVE (2) </p>
               </b>
             </div>
             <div *ngIf="event.status.code === 6"><b>
-                <p> <i class="blink fas fa-play"></i> LIVE (1 połowa) </p>
+                <p> <i class="blink fas fa-play"></i> LIVE (1) </p>
               </b>
             </div>
             <div *ngIf="event.status.code === 0">not</div>
           </td>
-         
-      </tr>
-    </table>
-  </div>
-  
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
