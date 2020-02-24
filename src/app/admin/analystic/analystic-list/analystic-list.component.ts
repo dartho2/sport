@@ -229,6 +229,9 @@ export class AnalysticListComponent implements OnInit {
         return false
       }
         }
+        changePercent(x){
+          
+        }
     onSearchChange(data){
       this.winSureAll = 0;
       this.totalWin=0;
