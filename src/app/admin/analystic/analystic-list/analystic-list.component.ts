@@ -38,6 +38,9 @@ export class AnalysticListComponent implements OnInit {
   percentChance = 70;
   startTimestamp;
   ClickCounter=0;
+  totalWin=0;
+  totalMatch=0;
+  totalWinTotal=0;
   indexWin=0
   win=0;
   eventTournament;
@@ -85,19 +88,38 @@ export class AnalysticListComponent implements OnInit {
                         events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
                         events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
                         events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
-
-                        
-
- events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"]  ? events["win"] = events["h2hDuel"] : '';
-                        
+                        events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"]  ? events["win"] = events["h2hDuel"] : '';
+                        if([1,2,3].includes(events.winnerCode)){
+                        this.totalMatch += 1;
+                        console.log(events["win"] !== undefined  &&  events.winnerCode !== undefined)
+                        if(events["win"] !== undefined  &&  events.winnerCode !== undefined){
+                          this.totalWinTotal += 1
+                        }
+                        if(events.winnerCode === 3){
+                          const winerCodeChange = 0;
+                          if([events["chanceEvent"], events["h2hDuel"],  events["chanceEventVote"]].includes(winerCodeChange)){
+                            this.totalWin += 1
+                          }
+                          events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
+                        }
+                        if(events.winnerCode === 2){
+                          const winerCodeChange = 2
+                          if([events["chanceEvent"], events["h2hDuel"],  events["chanceEventVote"]].includes(winerCodeChange)){
+                            this.totalWin += 1
+                          }
+                          events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
+                        }
+                        if(events.winnerCode === 1){
+                          const winerCodeChange = 1
+                          if([events["chanceEvent"], events["h2hDuel"],  events["chanceEventVote"]].includes(winerCodeChange)){
+                            this.totalWin += 1
+                          }
+                          events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
+                        }}
                         keys.push(events)
-                          this.matchData.push(...keys)
-                      
-                      
+                          this.matchData.push(...keys)         
                       }
                   )
-                  
-                 
                 }
               )
             }
@@ -193,7 +215,10 @@ export class AnalysticListComponent implements OnInit {
       }
         }
     onSearchChange(data){
-      console.log(data)
+      this.totalWin=0;
+      this.totalMatch=0;
+      this.totalWinTotal=0;
+      this.indexWin=0
       data.setDate( data.getDate());
       this.formattedDate = formatDate(data, this.format, 'en');
       this.stringData = this.formattedDate
