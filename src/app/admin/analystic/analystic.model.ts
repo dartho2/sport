@@ -4,7 +4,7 @@ export interface  Analystic {
     members: String;
     vote: String;
     category: [{}];
-    events: [{formatedStartDate: string,id:string,sport:string,startTimestamp:number,winnerCode: number}];
+    events: [{formatedStartDate: string,id:string,sport:string,startTimestamp:number,winnerCode: number,status:{code: number}}];
 };
 
 export interface  Members {

@@ -28,7 +28,12 @@
 .table-color-2{
 	background-color: #2c5885;
 }
-.table-color-nul{}
+.table-color-401{
+	background-color: red !important;
+}
+.bold-text{
+	font-weight: 800;
+}
 .form-event-L {
   background-color: #c1272d;
   height: 18px;
@@ -46,11 +51,24 @@
   padding-left: 5px;
   background-color: #a4aab0;
 }
+@media (max-width: 767px) {
+	table {
+		width: 100%;
+		overflow-x: auto;
+		display: block;
+	  }	
+}
+.mat-form-field-appearance-legacy .mat-form-field-label {
+    color: white !important;
+}
+.mat-datepicker-content .mat-calendar-next-button, .mat-datepicker-content .mat-calendar-previous-button, .mat-datepicker-toggle {
+    color: white !important;
+}
 
+@media (min-width: 767px) {
 table {
-  width: 100%;
   overflow-x: auto;
-  display: block;
+}
 }
 
 .table .table {

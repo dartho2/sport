@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AnalysticService } from '../analystic-service'
 import {formatDate} from '@angular/common';
 import { Analystic } from '../analystic.model';
-import { map } from 'rxjs/operators';
+import { map, reduce } from 'rxjs/operators';
 
 
 export const MY_FORMATS = {
@@ -55,6 +55,9 @@ export class AnalysticListComponent implements OnInit {
   mymodel;
   typPercent;
   teamRating;
+  voteWinValue= [];
+  voteWinSum= 0;
+  voteWinAVG=0;
   calculateWinner = 0;
   lose = 0;
   colorWin = 'none';
@@ -63,6 +66,8 @@ export class AnalysticListComponent implements OnInit {
   VotePrice: number;
   winSure = 0;
   winSureAll= 0;
+  returnCost: number;
+  numberPercent= 70;
   constructor(private analysticService: AnalysticService) { 
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData= +new Date()
@@ -93,9 +98,40 @@ export class AnalysticListComponent implements OnInit {
                         events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"]  ? events["win"] = events["h2hDuel"] : '';
                         if([1,2,3].includes(events.winnerCode)){
                         this.totalMatch += 1;
-                        console.log(events["win"] !== undefined  &&  events.winnerCode !== undefined)
                         if(events["win"] !== undefined  &&  events.winnerCode !== undefined){
                           this.totalWinTotal += 1
+                          
+                          if(events["win"] === 1){
+                            if(events["winnerCode"] === 1){
+                            this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[0].fractionalValue))
+                            this.voteWinSum= 0;
+                            this.voteWinValue.forEach(x=>{                             
+                              this.voteWinSum += parseFloat(x)
+                            })
+                          }
+                          }
+                          if(events["win"] === 2){
+                            if(events["winnerCode"] === 2){
+                               this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[2].fractionalValue))
+                            this.voteWinSum= 0;
+                            this.voteWinValue.forEach(x=>{
+                              this.voteWinSum += parseFloat(x)
+                            })
+                            }
+                           
+                           
+                          }
+                          if(events["win"] === 0){
+                            if(events["winnerCode"] === 3){
+                            this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[1].fractionalValue))
+                            this.voteWinSum= 0;
+                            this.voteWinValue.forEach(x=>{
+                              this.voteWinSum += parseFloat(x)
+                            })
+                          }
+                          }
+                          this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
+                          
                         }
                         if(events.winnerCode === 3){
                           const winerCodeChange = 0;
@@ -117,7 +153,10 @@ export class AnalysticListComponent implements OnInit {
                             this.totalWin += 1
                           }
                           events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
-                        }}
+                        }}else {
+                          if(events.status.code)
+                          events["win"] = 401;
+                        }
                         if(this.totalMatch === 0 ){
                           let winALL = 1;
                         this.winSureAll = Number(((this.totalWin*100)/winALL).toFixed(0))
@@ -130,7 +169,10 @@ export class AnalysticListComponent implements OnInit {
                         }else{
                           this.winSure = Number(((this.indexWin*100)/this.totalWinTotal).toFixed(0))
                         }
-                        
+                        if(this.voteWinAVG,this.indexWin ,this.totalWinTotal){
+                          this.returnCost = (((2*this.voteWinAVG)*this.indexWin)/1.14)-(this.totalWinTotal)*2 // stawka 2 
+                        }
+                          
                         keys.push(events)
                           this.matchData.push(...keys)         
                       }
@@ -147,6 +189,13 @@ export class AnalysticListComponent implements OnInit {
        this.matchFootball = data;  
        console.log(this.matchData)
       })
+    }
+    onWinhange(price){
+      this.returnCost = (((price*this.voteWinAVG)*this.indexWin)/1.14)-(this.totalWinTotal)*price
+    }
+    getColor(voteWinAVG){
+     if( voteWinAVG > 70) { return 'green'}else{return 'red';}
+
     }
     calculateH2hDuel(h2hDuel){
     
@@ -168,7 +217,7 @@ export class AnalysticListComponent implements OnInit {
            this.typeForVote = ((eventTournament.vote.vote1Percentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.vote1Percentage) :
              ((eventTournament.vote.voteXPercentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.voteXPercentage) :
                ((eventTournament.vote.vote2Percentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.vote2Percentage) : 0;
-           this.typeForVote > 70 ? (this.typPercent = this.typeForVote) : ''; //typPercent powyzej 70
+           this.typeForVote > this.numberPercent ? (this.typPercent = this.typeForVote) : 3; //typPercent powyzej 70
            this.typeForVote = ((eventTournament.vote.vote1Percentage * 100) === (this.typPercent * 100)) ? 1 :
              ((eventTournament.vote.voteXPercentage * 100) === (this.typPercent * 100)) ? 0 :
                ((eventTournament.vote.vote2Percentage * 100) === (this.typPercent * 100)) ? 2 : 0;
@@ -230,9 +279,23 @@ export class AnalysticListComponent implements OnInit {
       }
         }
         changePercent(x){
-          
+          // this.getMatches(x)
+        }
+        onSubmit(event){
+          this.numberPercent = event
+          this.voteWinAVG= 0;
+          this.voteWinValue=[];
+          this.winSureAll = 0;
+          this.totalWin=0;
+          this.winSure=0;
+          this.totalMatch=0;
+          this.totalWinTotal=0;
+          this.indexWin=0
+          this.getMatches()
         }
     onSearchChange(data){
+      this.voteWinAVG= 0;
+      this.voteWinValue=[];
       this.winSureAll = 0;
       this.totalWin=0;
       this.winSure=0;
