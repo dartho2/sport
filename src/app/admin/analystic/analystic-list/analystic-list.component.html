@@ -1,7 +1,7 @@
 <div class="content-body">
   <div class="photo-list card card-block">
 
-wszystkich meczy: {{totalMatch}} <br>wwygranych we wszystkich meczach: {{totalWin}}    <br>wygranych pewnych wszystkich: {{totalWinTotal}} <br> wygranych pewnych: {{indexWin}}
+wszystkich meczy: {{totalMatch}} <br>wwygranych we wszystkich meczach: {{totalWin}}    <br>wygranych pewnych wszystkich: {{totalWinTotal}} <br> wygranych pewnych: {{indexWin}} <br> Wygranych pewnych: {{winSure}}%<br> Wygrane we wszystkich pewnych: {{winSureAll}}%
     <input type="number" matInput [ngModel]="model1" (ngModelChange)="changePercent($event)" min="1" max="100"
       placeholder="Choose a %">
     <mat-form-field>
@@ -30,6 +30,7 @@ wszystkich meczy: {{totalMatch}} <br>wwygranych we wszystkich meczach: {{totalWi
       <table class="table table-bordered table-dark">
         <thead class="thead-light">
           <tr style="width: 100%;">
+              <th scope="col">number</th>
             <th scope="col">Flaga</th>
             <th scope="col">Data</th>
             <th scope="col">Teams</th>
@@ -42,6 +43,7 @@ wszystkich meczy: {{totalMatch}} <br>wwygranych we wszystkich meczach: {{totalWi
         </thead>
         <tr [ngClass]="'table-color-'+ event.win" *ngFor="let event of matchData;let y=index">
           <td scope="col"> <span [ngClass]="'flags--'+event.turnament.flag" class="flags flags-category"></span></td>
+          <td scope="col">{{y}}</td>
           <td scope="col">{{event.startTime}}</td>
           <td scope="col">{{event.name}}
               <div class="inline-flex">

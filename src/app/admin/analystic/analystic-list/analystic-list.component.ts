@@ -61,6 +61,8 @@ export class AnalysticListComponent implements OnInit {
   colorText = 'none';
   votePrice;
   VotePrice: number;
+  winSure = 0;
+  winSureAll= 0;
   constructor(private analysticService: AnalysticService) { 
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData= +new Date()
@@ -116,6 +118,19 @@ export class AnalysticListComponent implements OnInit {
                           }
                           events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
                         }}
+                        if(this.totalMatch === 0 ){
+                          let winALL = 1;
+                        this.winSureAll = Number(((this.totalWin*100)/winALL).toFixed(0))
+                        }else{
+                          this.winSureAll = Number(((this.totalWin*100)/this.totalMatch).toFixed(0))
+                        }
+                        if(this.indexWin === 0 ){
+                          let win = 1;
+                          this.winSure = Number(((win*100)/this.totalWinTotal).toFixed(0))
+                        }else{
+                          this.winSure = Number(((this.indexWin*100)/this.totalWinTotal).toFixed(0))
+                        }
+                        
                         keys.push(events)
                           this.matchData.push(...keys)         
                       }
@@ -215,7 +230,9 @@ export class AnalysticListComponent implements OnInit {
       }
         }
     onSearchChange(data){
+      this.winSureAll = 0;
       this.totalWin=0;
+      this.winSure=0;
       this.totalMatch=0;
       this.totalWinTotal=0;
       this.indexWin=0
