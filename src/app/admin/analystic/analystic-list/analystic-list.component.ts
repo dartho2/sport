@@ -131,7 +131,7 @@ export class AnalysticListComponent implements OnInit {
                           }
                           }
                           this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
-                          
+                           
                         }
                         if(events.winnerCode === 3){
                           const winerCodeChange = 0;
@@ -139,6 +139,7 @@ export class AnalysticListComponent implements OnInit {
                             this.totalWin += 1
                           }
                           events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
+            
                         }
                         if(events.winnerCode === 2){
                           const winerCodeChange = 2
@@ -153,10 +154,7 @@ export class AnalysticListComponent implements OnInit {
                             this.totalWin += 1
                           }
                           events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
-                        }}else {
-                          if(events.status.code)
-                          events["win"] = 401;
-                        }
+                        }}
                         if(this.totalMatch === 0 ){
                           let winALL = 1;
                         this.winSureAll = Number(((this.totalWin*100)/winALL).toFixed(0))
