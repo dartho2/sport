@@ -92,15 +92,16 @@
         <thead class="thead-light">
           <tr style="width: 100%;">
             <th scope="col">Flag</th>
-            <th scope="col">Number</th>
+            <th scope="col">No</th>
             <th scope="col">Data</th>
             <th scope="col">Teams</th>
             <th scope="col">Vote</th>
             <th scope="col">Chance</th>
             <th scope="col">kurs</th>
-            <th scope="col">TeamRating</th>
+            <th scope="col">MV</th>
             <th scope="col">Status</th>
-            <th scope="col">TYP</th>
+            <th scope="col">2,5</th>
+            <th scope="col">FTM</th>
           </tr>
         </thead>
         <tr [ngClass]="'table-color-'+ event.win" *ngFor="let event of matchData;let y=index ">
@@ -155,9 +156,11 @@
           <td scope="col">
             <div class="inline-flex" *ngIf="event.vote?.choices">
               <div class="inline-flex" *ngFor="let choices of event.vote.choices;let choicesIndex = index">
-                <div class="content-line" *ngIf="2 > choicesIndex">{{calculateValueChance(choices.fractionalValue)}}</div>
+                <div class="content-line" *ngIf="2 > choicesIndex">{{calculateValueChance(choices.fractionalValue)}}
+                </div>
                 <div class="content-line slash-font" *ngIf="2 > choicesIndex"></div>
-                <div class="content-line slash-font" *ngIf="choicesIndex === 2">{{calculateValueChance(choices.fractionalValue)}}</div>
+                <div class="content-line slash-font" *ngIf="choicesIndex === 2">
+                  {{calculateValueChance(choices.fractionalValue)}}</div>
               </div>
             </div>
           </td>
@@ -170,41 +173,86 @@
           </td>
           <td scope="col">
             <div *ngIf="event.status.code === 100">
-              <div *ngIf="event.winnerCode===3">0</div>
-              <div *ngIf="event.winnerCode===2">2</div>
-              <div *ngIf="event.winnerCode===1">1</div>
-            </div>
-            <div *ngIf="event.status.code === 70">Prze.</div>
-            <div *ngIf="event.status.code === 31"><b>
-                <p> <i class="blink fas fa-play"></i> LIVE </p>
-              </b>
-            </div>
-            <div *ngIf="event.status.code === 7"><b>
-                <p> <i class="blink fas fa-play"></i> LIVE (2) </p>
-              </b>
-            </div>
-            <div *ngIf="event.status.code === 6"><b>
-                <p> <i class="blink fas fa-play"></i> LIVE (1) </p>
-              </b>
-            </div>
-            <div *ngIf="event.status.code === 0">not</div>
-          </td>
-          <td scope="col">
+
+              <div class="content-line-center" *ngIf="event.winnerCode===3">0</div>
+              <div class="content-line-center" *ngIf="event.winnerCode===2">2</div>
+              <div class="content-line-center" *ngIf="event.winnerCode===1">1</div>
+              <!--  -->
               <div class="WinFT">
                 {{event.eventsWinFT}}
               </div>
               <div class="WinAP" *ngIf="event.eventsWinAP">
-                 ({{event.eventsWinAP}})
+                ({{event.eventsWinAP}})
               </div>
-            
-            <!-- <div class="inline-flex">
-              <div class="content-line" *ngIf="event.events.incidents">
-                <div *ngFor="let win of event.events.incidents">
-                    {{checkWins}}
-                </div>
-                
-              </div>
+            </div>
+            <div *ngIf="event.status.code === 70">Prze.</div>
+            <div *ngIf="event.status.code === 31"><b>
+                <p> <i class="blink fas fa-play"></i> LIVE (prze.) <br>{{event.liveResults}} </p>
+              </b>
+            </div>
+            <div *ngIf="event.status.code === 7"><b>
+                <p> <i class="blink fas fa-play"></i> LIVE (2) <br>{{event.liveResults}}</p>
+              </b>
+            </div>
+            <div *ngIf="event.status.code === 6"><b>
+                <p> <i class="blink fas fa-play"></i> LIVE (1) <br>{{event.liveResults}}</p>
+              </b>
+            </div>
+            <div *ngIf="event.status.code === 0">not</div>
+          </td>
+          <td scope="col" class="no-padd">
+            <!-- <div *ngFor="let match of event.events.matchInfo.general">{{match.name}}
+              {{match.team}}- {{match.value}} | {{match.outOf}}
             </div> -->
+            <table class="table table-bordered" id="ExampleTable" style="margin-bottom:0;">
+              <thead class="thead-light">
+                <tr>
+                  <th colspan="2">2,5+</th>
+                </tr>
+                <tr>
+                  <th scope="col">Home</th>
+                  <th scope="col">Away</th>
+                </tr>
+              </thead>
+              <tr>
+                <td scope="col">
+                  <div *ngIf="event.matchInfoMore25GoalsHome"> {{event.matchInfoMore25GoalsHome.value}}
+                    / {{event.matchInfoMore25GoalsHome.outOf}}
+                  </div>
+                </td>
+                <td scope="col">
+                  <div *ngIf="event.matchInfoMore25GoalsAway">{{event.matchInfoMore25GoalsAway.value}}
+                    / {{event.matchInfoMore25GoalsAway.outOf}}
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <table class="table table-bordered" id="ExampleTable" style="margin-bottom:0;">
+              <thead class="thead-light">
+                <tr>
+                  <th colspan="2">2,5-</th>
+                </tr>
+
+              </thead>
+              <tr>
+                <td scope="col">
+                  <div *ngIf="event.matchInfoLess25GoalsHome"> {{event.matchInfoLess25GoalsHome.value}}
+                    / {{event.matchInfoLess25GoalsHome.outOf}}
+                  </div>
+                </td>
+                <td scope="col">
+                  <div *ngIf="event.matchInfoLess25GoalsAway">{{event.matchInfoLess25GoalsAway.value}}
+                    / {{event.matchInfoLess25GoalsAway.outOf}}
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+          </td>
+          <td scope="col">
+              <div *ngIf="event.matchInfoMore25GoalsHome && event.matchInfoMore25GoalsAway">
+                  {{checkChance25Goal(event.matchInfoMore25GoalsHome.value, event.matchInfoMore25GoalsHome.outOf ,event.matchInfoMore25GoalsAway.value ,event.matchInfoMore25GoalsAway.outOf)}}
+              </div>
           </td>
         </tr>
       </table>

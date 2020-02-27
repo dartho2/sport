@@ -5,8 +5,14 @@
 .slash-font {
   padding-left: 4px;
 }
+.no-padd{
+  padding: 0px !important;
+}
 .WinFT{
 text-align: center;
+}
+.content-line-center{
+  text-align: center;
 }
 .WinAP{
   font-size: 9px;

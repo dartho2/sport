@@ -62,6 +62,20 @@ export class AnalysticListComponent implements OnInit {
   voteWinAVG = 0;
   calculateWinner = 0;
   lose = 0;
+  away ="away";
+  home = "home";
+  matchInfoMore25Goals= "More than 2.5 goals";
+  matchInfowins ="Wins";
+  matchInfoNoLosses = "No losses";
+  matchInfoBothScore ="Both teams scoring";
+  matchInfoFirstScore ="First to score";
+  matchInfoNoWins = "No wins";
+  matchInfoNoLose = "No losses";
+  matchInfoNoGoals= "No goals conceded";
+  matchInfoWithoutCleanSheet = "Without clean sheet";
+  matchInfoLess25Goals="Less than 2.5 goals";
+  matchInfoFirstHalfWinner ="First half winner";
+
   colorWin = 'none';
   colorText = 'none';
   votePrice;
@@ -112,9 +126,16 @@ export class AnalysticListComponent implements OnInit {
                     }else{
                       events["eventsWinFT"] = this.checkWin(eventsData, true)
                     }
+                    events["matchInfoMore25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.away)
+                    events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
+                   
+                    events["matchInfoLess25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.away)
+                    events["matchInfoLess25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.home)
+                   
+                    // events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
                     // events["eventsWin"] = this.checkWin(eventsData)
                     events["events"] = eventsData;
-
+                    events["liveResults"] = this.liveFilter(eventsData, events["status"].code)
                     events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
                     events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
                     events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
@@ -211,6 +232,46 @@ export class AnalysticListComponent implements OnInit {
           this.matchFootball = data;
           console.log(this.matchData)
         })
+  }
+  checkChance25Goal(homeV,homeO,awayV,awayO){
+    let homeW;
+    let awayW;
+    if(homeV && awayV){
+    (homeO-homeV)<=1 ? homeW = true : homeW = false;
+    (awayO-awayV)<=1 ? awayW = true : awayW = false;
+    if(awayW && homeW){
+      return '2,5+'
+    }}
+  }
+  away2Halfmore(data, name, team){
+    if(data.matchInfo.general !== undefined){
+      let c = data.matchInfo.general.filter(x=> x.name === name && x.team === team)[0]
+    if(c){
+     let b =  Object.assign( c )
+     return b}
+    
+  
+   }
+  }
+  liveFilter(dataFilter,status) {
+    
+    if(dataFilter.incidents.length > 0 && (status === 6 || status === 7 || status === 31)){
+      
+    let a = dataFilter.incidents.filter(x=> x.homeScore)
+    if(a.length){
+      return a[0].homeScore + '-'+ a[0].awayScore}else{
+      return '0-0'
+    }
+  }else {
+    if(status === 6 || status === 7 || status === 31){
+      return '0-0'
+    }
+  }
+  // if(a.length >0){
+  //   return a[0].homeScore + '-'+ a[0].awayScore
+  // }else{
+  //   return '0-0'
+  // }
   }
   checkWin(incident, typeWin) {
     this.checkWins = '';
