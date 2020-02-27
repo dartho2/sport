@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AnalysticService } from '../analystic-service'
-import {formatDate} from '@angular/common';
+import { formatDate } from '@angular/common';
 import { Analystic } from '../analystic.model';
 import { map, reduce } from 'rxjs/operators';
-
-
+import { exportData } from "../../products/export/exportData";
+import html2canvas from 'html2canvas';
+import * as jspdf from 'jspdf';
+import 'jspdf-autotable';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -37,12 +39,12 @@ export class AnalysticListComponent implements OnInit {
   stringData;
   percentChance = 70;
   startTimestamp;
-  ClickCounter=0;
-  totalWin=0;
-  totalMatch=0;
-  totalWinTotal=0;
-  indexWin=0
-  win=0;
+  ClickCounter = 0;
+  totalWin = 0;
+  totalMatch = 0;
+  totalWinTotal = 0;
+  indexWin = 0
+  win = 0;
   eventTournament;
   MaxVote;
   chanceChanged;
@@ -55,9 +57,9 @@ export class AnalysticListComponent implements OnInit {
   mymodel;
   typPercent;
   teamRating;
-  voteWinValue= [];
-  voteWinSum= 0;
-  voteWinAVG=0;
+  voteWinValue = [];
+  voteWinSum = 0;
+  voteWinAVG = 0;
   calculateWinner = 0;
   lose = 0;
   colorWin = 'none';
@@ -65,259 +67,302 @@ export class AnalysticListComponent implements OnInit {
   votePrice;
   VotePrice: number;
   winSure = 0;
-  winSureAll= 0;
+  winSureAll = 0;
   returnCost: number;
-  numberPercent= 70;
-  constructor(private analysticService: AnalysticService) { 
+  numberPercent = 70;
+  checkWins: string;
+  constructor(private analysticService: AnalysticService) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-    this.stringData= +new Date()
+    this.stringData = +new Date()
     this.myDate = new Date();
-    this.myDate.setDate( this.myDate.getDate());
+    this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
     this.getMatches();
-    }
-    getMatches(){
-      this.matchData = [];
-      this.analysticService.getAnalystict(this.formattedDate).pipe(map(res=>{
-        res.map(turnaments=>{
-          turnaments.events.forEach(events=>{
-            let keys = []
-            if(this.checkeventsExists(events.formatedStartDate, this.formattedDate) ){
-              this.analysticService.getAnalystictEvent(events.id).subscribe(
-                eventsData=>{
-                  this.eventTournament = eventsData;
-                  // console.log(this.eventTournament)
-                  this.analysticService.getVotePrice(events.id).subscribe(
-                      vote=>{
-                        events["vote"] =  vote.markets[0];
-                        events["turnament"] =  turnaments.category;
-                        events["events"] =  eventsData;
-                        events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
-                        events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
-                        events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
-                        events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"]  ? events["win"] = events["h2hDuel"] : '';
-                        if([1,2,3].includes(events.winnerCode)){
-                        this.totalMatch += 1;
-                        if(events["win"] !== undefined  &&  events.winnerCode !== undefined){
-                          this.totalWinTotal += 1
-                          
-                          if(events["win"] === 1){
-                            if(events["winnerCode"] === 1){
+  }
+  exportTable() {
+    exportData.exportToExcel("ExampleTable");
+  }
+  captureScreen(formattedDate) {
+    var data = document.getElementById('ExampleTable');
+    html2canvas(data).then(canvas => {
+      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+      pdf.autoTable({ html: '#ExampleTable', headStyles: { textColor: [76, 76, 76] }, styles: { halign: 'center', fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
+      pdf.autoTable({ html: '#ExampleTable1', headStyles: { textColor: [76, 76, 76] }, styles: { halign: 'center', fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
+      pdf.save('Mecze' + formattedDate + '.pdf'); // Generated PDF   
+    });
+  }
+  getMatches() {
+    this.matchData = [];
+    this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
+      res.map(turnaments => {
+        turnaments.events.forEach(events => {
+          let keys = []
+          if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
+            this.analysticService.getAnalystictEvent(events.id).subscribe(
+              eventsData => {
+                this.eventTournament = eventsData;
+                // console.log(this.eventTournament)
+                this.analysticService.getVotePrice(events.id).subscribe(
+                  vote => {
+                    events["vote"] = vote.markets[0];
+                    events["turnament"] = turnaments.category;
+                    if(events["statusDescription"].includes('AP')){
+                      events["eventsWinAP"] = this.checkWin(eventsData, false)
+                      events["eventsWinFT"] = this.checkWin(eventsData, true)
+                    }else{
+                      events["eventsWinFT"] = this.checkWin(eventsData, true)
+                    }
+                    // events["eventsWin"] = this.checkWin(eventsData)
+                    events["events"] = eventsData;
+
+                    events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
+                    events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
+                    events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
+                    events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"] ? events["win"] = events["h2hDuel"] : '';
+                    if ([1, 2, 3].includes(events.winnerCode)) {
+                      this.totalMatch += 1;
+                      if (events["win"] !== undefined && events.winnerCode !== undefined) {
+                        this.totalWinTotal += 1
+
+                        if (events["win"] === 1) {
+                          if (events["winnerCode"] === 1) {
                             this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[0].fractionalValue))
-                            this.voteWinSum= 0;
-                            this.voteWinValue.forEach(x=>{                             
+                            this.voteWinSum = 0;
+                            this.voteWinValue.forEach(x => {
                               this.voteWinSum += parseFloat(x)
                             })
                           }
-                          }
-                          if(events["win"] === 2){
-                            if(events["winnerCode"] === 2){
-                               this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[2].fractionalValue))
-                            this.voteWinSum= 0;
-                            this.voteWinValue.forEach(x=>{
+                        }
+                        if (events["win"] === 2) {
+                          if (events["winnerCode"] === 2) {
+                            this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[2].fractionalValue))
+                            this.voteWinSum = 0;
+                            this.voteWinValue.forEach(x => {
                               this.voteWinSum += parseFloat(x)
                             })
-                            }
-                           
-                           
                           }
-                          if(events["win"] === 0){
-                            if(events["winnerCode"] === 3){
+
+
+                        }
+                        if (events["win"] === 0) {
+                          if (events["winnerCode"] === 3) {
                             this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[1].fractionalValue))
-                            this.voteWinSum= 0;
-                            this.voteWinValue.forEach(x=>{
+                            this.voteWinSum = 0;
+                            this.voteWinValue.forEach(x => {
                               this.voteWinSum += parseFloat(x)
                             })
                           }
-                          }
-                          this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
-                           
                         }
-                        if(events.winnerCode === 3){
-                          const winerCodeChange = 0;
-                          if([events["chanceEvent"], events["h2hDuel"],  events["chanceEventVote"]].includes(winerCodeChange)){
-                            this.totalWin += 1
-                          }
-                          events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
-            
-                        }
-                        if(events.winnerCode === 2){
-                          const winerCodeChange = 2
-                          if([events["chanceEvent"], events["h2hDuel"],  events["chanceEventVote"]].includes(winerCodeChange)){
-                            this.totalWin += 1
-                          }
-                          events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
-                        }
-                        if(events.winnerCode === 1){
-                          const winerCodeChange = 1
-                          if([events["chanceEvent"], events["h2hDuel"],  events["chanceEventVote"]].includes(winerCodeChange)){
-                            this.totalWin += 1
-                          }
-                          events["win"] ===  winerCodeChange ? this.indexWin += 1 : '';
-                        }}
-                        if(this.totalMatch === 0 ){
-                          let winALL = 1;
-                        this.winSureAll = Number(((this.totalWin*100)/winALL).toFixed(0))
-                        }else{
-                          this.winSureAll = Number(((this.totalWin*100)/this.totalMatch).toFixed(0))
-                        }
-                        if(this.indexWin === 0 ){
-                          let win = 1;
-                          this.winSure = Number(((win*100)/this.totalWinTotal).toFixed(0))
-                        }else{
-                          this.winSure = Number(((this.indexWin*100)/this.totalWinTotal).toFixed(0))
-                        }
-                        if(this.voteWinAVG,this.indexWin ,this.totalWinTotal){
-                          this.returnCost = (((2*this.voteWinAVG)*this.indexWin)/1.14)-(this.totalWinTotal)*2 // stawka 2 
-                        }
-                          
-                        keys.push(events)
-                          this.matchData.push(...keys)         
+                        this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
+
                       }
-                  )
-                }
-              )
-            }
-          })
+                      if (events.winnerCode === 3) {
+                        const winerCodeChange = 0;
+                        if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                          this.totalWin += 1
+                        }
+                        events["win"] === winerCodeChange ? this.indexWin += 1 : '';
+
+                      }
+                      if (events.winnerCode === 2) {
+                        const winerCodeChange = 2
+                        if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                          this.totalWin += 1
+                        }
+                        events["win"] === winerCodeChange ? this.indexWin += 1 : '';
+                      }
+                      if (events.winnerCode === 1) {
+                        const winerCodeChange = 1
+                        if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                          this.totalWin += 1
+                        }
+                        events["win"] === winerCodeChange ? this.indexWin += 1 : '';
+                      }
+                    }
+                    if (this.totalMatch === 0) {
+                      let winALL = 1;
+                      this.winSureAll = Number(((this.totalWin * 100) / winALL).toFixed(0))
+                    } else {
+                      this.winSureAll = Number(((this.totalWin * 100) / this.totalMatch).toFixed(0))
+                    }
+                    if (this.indexWin === 0) {
+                      let win = 1;
+                      this.winSure = Number(((win * 100) / this.totalWinTotal).toFixed(0))
+                    } else {
+                      this.winSure = Number(((this.indexWin * 100) / this.totalWinTotal).toFixed(0))
+                    }
+                    if (this.voteWinAVG, this.indexWin, this.totalWinTotal) {
+                      this.returnCost = (((2 * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * 2 // stawka 2 
+                    }
+
+                    keys.push(events)
+                    this.matchData.push(...keys)
+                  }
+                )
+              }
+            )
+          }
         })
-        
-      }))
-      .subscribe(
-      data => {
-       this.matchFootball = data;  
-       console.log(this.matchData)
       })
-    }
-    onWinhange(price){
-      this.returnCost = (((price*this.voteWinAVG)*this.indexWin)/1.14)-(this.totalWinTotal)*price
-    }
-    getColor(voteWinAVG){
-     if( voteWinAVG > 70) { return 'green'}else{return 'red';}
 
+    }))
+      .subscribe(
+        data => {
+          this.matchFootball = data;
+          console.log(this.matchData)
+        })
+  }
+  checkWin(incident, typeWin) {
+    this.checkWins = '';
+    if(typeWin){
+      if (incident.incidents.length > 0) {
+        // incident.incidents[0].text.includes('FT') ? this.checkWins = incident.incidents[0].text : "";
+        incident.incidents.forEach(x => {
+          if (x.time === 90 && x.text) {
+            if (x.text.includes('FT')) {
+              this.checkWins = x.text.replace('FT', '')
+            }
+          }
+        }
+        )
+      }
+    }else{
+      if (incident.incidents.length > 0) {
+        incident.incidents[0].text.includes('PEN') ? this.checkWins = incident.incidents[0].text.replace('PEN', '') : '';
+      }
     }
-    calculateH2hDuel(h2hDuel){
-    
-     const max = Math.max(...[Number(h2hDuel.awaywins), Number(h2hDuel.homewins), Number(h2hDuel.draws)]);
+    return this.checkWins
+  }
+  onWinhange(price) {
+    this.returnCost = (((price * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * price
+  }
+  getColor(voteWinAVG) {
+    if (voteWinAVG > 70) { return 'green' } else { return 'red'; }
 
-     if(max === h2hDuel.awaywins){
+  }
+  calculateH2hDuel(h2hDuel) {
+
+    const max = Math.max(...[Number(h2hDuel.awaywins), Number(h2hDuel.homewins), Number(h2hDuel.draws)]);
+
+    if (max === h2hDuel.awaywins) {
       return 2
-     }else{
-      if(max === h2hDuel.homewins){
+    } else {
+      if (max === h2hDuel.homewins) {
         return 1
-      }else{
+      } else {
         return 0
       }
-     }
     }
-    calcuateVoteChance(eventTournament){
-      if(eventTournament !== undefined){
-        this.MaxVote = Math.max.apply(null, [eventTournament.vote.vote1Percentage, eventTournament.vote.voteXPercentage, eventTournament.vote.vote2Percentage]);
-           this.typeForVote = ((eventTournament.vote.vote1Percentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.vote1Percentage) :
-             ((eventTournament.vote.voteXPercentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.voteXPercentage) :
-               ((eventTournament.vote.vote2Percentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.vote2Percentage) : 0;
-           this.typeForVote > this.numberPercent ? (this.typPercent = this.typeForVote) : 3; //typPercent powyzej 70
-           this.typeForVote = ((eventTournament.vote.vote1Percentage * 100) === (this.typPercent * 100)) ? 1 :
-             ((eventTournament.vote.voteXPercentage * 100) === (this.typPercent * 100)) ? 0 :
-               ((eventTournament.vote.vote2Percentage * 100) === (this.typPercent * 100)) ? 2 : 0;
-               return this.typeForVote
+  }
+  calcuateVoteChance(eventTournament) {
+    if (eventTournament !== undefined) {
+      this.MaxVote = Math.max.apply(null, [eventTournament.vote.vote1Percentage, eventTournament.vote.voteXPercentage, eventTournament.vote.vote2Percentage]);
+      this.typeForVote = ((eventTournament.vote.vote1Percentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.vote1Percentage) :
+        ((eventTournament.vote.voteXPercentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.voteXPercentage) :
+          ((eventTournament.vote.vote2Percentage * 100) === (this.MaxVote * 100)) ? (eventTournament.vote.vote2Percentage) : 0;
+      this.typeForVote > this.numberPercent ? (this.typPercent = this.typeForVote) : 3; //typPercent powyzej 70
+      this.typeForVote = ((eventTournament.vote.vote1Percentage * 100) === (this.typPercent * 100)) ? 1 :
+        ((eventTournament.vote.voteXPercentage * 100) === (this.typPercent * 100)) ? 0 :
+          ((eventTournament.vote.vote2Percentage * 100) === (this.typPercent * 100)) ? 2 : 0;
+      return this.typeForVote
 
-      }
+    }
+  }
+
+  calculateChance(eventTournament, vote) {
+    if (vote.length !== 0 && (vote.home !== undefined || vote.away !== undefined)) {
+      const home = (vote.home !== undefined) ? vote.home.actual : 0;
+      const away = (vote.away !== undefined) ? vote.away.actual : 0;
+      const numberMax = Math.max.apply(null, [away, home]);
+      const numberMin = Math.min.apply(null, [away, home]);
+      const different = numberMax - numberMin;
+      if (home !== 0) {
+
+        if (home === numberMax) {
+          if (numberMax > 70) {
+
+            return 1
+          } else {
+            return 0
           }
+        } else {
+          if (numberMax > 70) {
+            return 2
+          } else {
+            return 0
 
- calculateChance(eventTournament, vote){
-    if(vote.length !== 0 && (vote.home !== undefined || vote.away !== undefined)){
-      const home = (vote.home !== undefined) ? vote.home.actual:  0;
-      const away = (vote.away !== undefined) ? vote.away.actual:  0;
-              const numberMax = Math.max.apply(null, [away, home]);
-              const numberMin = Math.min.apply(null, [away, home]);
-              const different = numberMax - numberMin;
-                if (home !== 0) {
-                  
-                  if (home === numberMax) {
-                    if (numberMax > 70) {
-                      
-                      return  1
-                    } else {
-                      return  0
-                    }
-                  } else {
-                    if (numberMax > 70) {
-                      return  2
-                    } else {
-                      return  0
-        
-                    }
-                  }
-                } else {
-                  if (away !== 0) {
-                    return away === numberMax ? 2 : 1;
-                  } else
-                    return 0
-                }
-              
-         }else{
-      return ""
-         }
- }
- calculateWinningOdds(vote){
-  
-  
-  
- }
-
-
-  
-  
-   
-    checkeventsExists(dataEvent, data) {
-      if(dataEvent.slice(0,-1) === formatDate(data, this.actualformat, 'en')){
-        return true
+          }
+        }
       } else {
-        return false
+        if (away !== 0) {
+          return away === numberMax ? 2 : 1;
+        } else
+          return 0
       }
-        }
-        changePercent(x){
-          // this.getMatches(x)
-        }
-        onSubmit(event){
-          this.numberPercent = event
-          this.voteWinAVG= 0;
-          this.voteWinValue=[];
-          this.winSureAll = 0;
-          this.totalWin=0;
-          this.winSure=0;
-          this.totalMatch=0;
-          this.totalWinTotal=0;
-          this.indexWin=0
-          this.getMatches()
-        }
-    onSearchChange(data){
-      this.voteWinAVG= 0;
-      this.voteWinValue=[];
-      this.winSureAll = 0;
-      this.totalWin=0;
-      this.winSure=0;
-      this.totalMatch=0;
-      this.totalWinTotal=0;
-      this.indexWin=0
-      data.setDate( data.getDate());
-      this.formattedDate = formatDate(data, this.format, 'en');
-      this.stringData = this.formattedDate
-      
+
+    } else {
+      return ""
+    }
+  }
+  calculateWinningOdds(vote) {
+
+
+
+  }
+
+
+
+
+
+  checkeventsExists(dataEvent, data) {
+    if (dataEvent.slice(0, -1) === formatDate(data, this.actualformat, 'en')) {
+      return true
+    } else {
+      return false
+    }
+  }
+  changePercent(x) {
+    // this.getMatches(x)
+  }
+  onSubmit(event) {
+    this.numberPercent = event
+    this.voteWinAVG = 0;
+    this.voteWinValue = [];
+    this.winSureAll = 0;
+    this.totalWin = 0;
+    this.winSure = 0;
+    this.totalMatch = 0;
+    this.totalWinTotal = 0;
+    this.indexWin = 0
+    this.getMatches()
+  }
+  onSearchChange(data) {
+    this.voteWinAVG = 0;
+    this.voteWinValue = [];
+    this.winSureAll = 0;
+    this.totalWin = 0;
+    this.winSure = 0;
+    this.totalMatch = 0;
+    this.totalWinTotal = 0;
+    this.indexWin = 0
+    data.setDate(data.getDate());
+    this.formattedDate = formatDate(data, this.format, 'en');
+    this.stringData = this.formattedDate
+
     this.getMatches();
-    }
-    calculateValueChance(value){
-      return (eval(value)+1).toFixed(2)
- 
-     }
-    onchanceChanged(amount: number) { 
-      this.chance = this.chance + amount
-    }
-   
+  }
+  calculateValueChance(value) {
+    return (eval(value) + 1).toFixed(2)
+
+  }
+  onchanceChanged(amount: number) {
+    this.chance = this.chance + amount
+  }
+
 
   ngOnInit() {
-   
-   
+
+
   }
-  
+
 }

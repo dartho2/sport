@@ -1,73 +1,78 @@
 <div class="content-body">
   <div class="photo-list card card-block">
 
-    
-      <table class="table table-bordered table-dark">
-          <thead class="thead-light">
-            <tr style="width: 100%;">
-                <th scope="col">Opis</th>
-              <th scope="col">Wartość</th>
-            </tr>
-          </thead>
-<tr>
-    <td scope="col">Wszystkich meczy:</td>
-    <td scope="col"><span class="bold-text"  *ngIf="totalMatch !== undefined">{{totalMatch}}  </span></td>
-</tr> 
-<tr>
-    <td scope="col">Wygranych we wszystkich meczach:</td>
-    <td scope="col"><span class="bold-text"  *ngIf="totalWin !== undefined">{{totalWin}}</span></td>
-</tr> 
-<tr>
-    <td scope="col">Wygrane we wszystkich w %:</td>
-    <td scope="col"><span class="bold-text"  [ngStyle]="{'color':getColor(winSureAll)}" *ngIf="winSureAll !== undefined">{{winSureAll}}% </span></td>
-</tr> 
-<tr>
-    <td scope="col">Wszystkie Pewne Mecze:</td>
-    <td scope="col"><span class="bold-text"  *ngIf="totalWinTotal !== undefined">{{totalWinTotal}}  </span></td>
-</tr> 
-<tr>
-    <td scope="col">Ilość wygranych w Pewnych Meczach:</td>
-    <td scope="col"><span class="bold-text" *ngIf="totalWin !== undefined">{{indexWin}} </span></td>
-</tr> 
-<tr>
-    <td scope="col">Wygranych pewnych w %:</td>
-    <td scope="col"><span class="bold-text" [ngStyle]="{'color':getColor(winSure)}" *ngIf="winSure !== undefined">{{winSure}}% </span></td>
-</tr> 
-<tr>
-    <td scope="col">średnia kursu wygranych:</td>
-    <td scope="col"><span class="bold-text"  *ngIf="voteWinAVG !== undefined">{{voteWinAVG.toFixed(2)}}</span></td>
-</tr> 
-<tr>
-    <td scope="col">Zarobek na czysto:</td>
-    <td scope="col"><span class="bold-text" *ngIf="returnCost !== undefined">{{returnCost.toFixed(2)}} zł</span></td>
-</tr> 
-<tr>
-    <td scope="col">Podaj Stawkę:</td>
-    <td scope="col"><input type="number" class="form-control" (input)="onWinhange($event.target.value)"></td>
-</tr>
-<tr>
-    <td scope="col">Procent Szans na zwycięstwo drużyny 1:</td>
-    <td scope="col"><form (ngSubmit)="onSubmit($event.target.player.value)">
-        <input type="number" name="player" value="70">
-        <button (click)="onSubmit($event)"type="submit">Akceptuj</button>
-      </form></td>
-</tr>
-<tr>
-    <td scope="col">Data:</td>
-    <td scope="col">
-        <mat-form-field>
+
+    <table class="table table-bordered table-dark">
+      <thead class="thead-light">
+        <tr style="width: 100%;">
+          <th scope="col">Opis</th>
+          <th scope="col">Wartość</th>
+        </tr>
+      </thead>
+      <tr>
+        <td scope="col">Wszystkich meczy:</td>
+        <td scope="col"><span class="bold-text" *ngIf="totalMatch !== undefined">{{totalMatch}} </span></td>
+      </tr>
+      <tr>
+        <td scope="col">Wygranych we wszystkich meczach:</td>
+        <td scope="col"><span class="bold-text" *ngIf="totalWin !== undefined">{{totalWin}}</span></td>
+      </tr>
+      <tr>
+        <td scope="col">Wygrane we wszystkich w %:</td>
+        <td scope="col"><span class="bold-text" [ngStyle]="{'color':getColor(winSureAll)}"
+            *ngIf="winSureAll !== undefined">{{winSureAll}}% </span></td>
+      </tr>
+      <tr>
+        <td scope="col">Wszystkie Pewne Mecze:</td>
+        <td scope="col"><span class="bold-text" *ngIf="totalWinTotal !== undefined">{{totalWinTotal}} </span></td>
+      </tr>
+      <tr>
+        <td scope="col">Ilość wygranych w Pewnych Meczach:</td>
+        <td scope="col"><span class="bold-text" *ngIf="totalWin !== undefined">{{indexWin}} </span></td>
+      </tr>
+      <tr>
+        <td scope="col">Wygranych pewnych w %:</td>
+        <td scope="col"><span class="bold-text" [ngStyle]="{'color':getColor(winSure)}"
+            *ngIf="winSure !== undefined">{{winSure}}% </span></td>
+      </tr>
+      <tr>
+        <td scope="col">średnia kursu wygranych:</td>
+        <td scope="col"><span class="bold-text" *ngIf="voteWinAVG !== undefined">{{voteWinAVG.toFixed(2)}}</span></td>
+      </tr>
+      <tr>
+        <td scope="col">Zarobek na czysto:</td>
+        <td scope="col"><span class="bold-text" *ngIf="returnCost !== undefined">{{returnCost.toFixed(2)}} zł</span>
+        </td>
+      </tr>
+      <tr>
+        <td scope="col">Podaj Stawkę:</td>
+        <td scope="col"><input type="number" class="form-control" (input)="onWinhange($event.target.value)"></td>
+      </tr>
+      <tr>
+        <td scope="col">Procent Szans na zwycięstwo drużyny 1:</td>
+        <td scope="col">
+          <form (ngSubmit)="onSubmit($event.target.player.value)">
+            <input type="number" name="player" value="70">
+            <button (click)="onSubmit($event)" type="submit">Akceptuj</button>
+          </form>
+        </td>
+      </tr>
+      <tr>
+        <td scope="col">Data:</td>
+        <td scope="col">
+          <mat-form-field>
             <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker"
               placeholder="Choose a date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-    </td>
-</tr>
-</table>
+        </td>
+      </tr>
+    </table>
 
 
     <!-- win: {{win}} Match: {{chance}} ile: {{indexWin - chance*2}} -->
-    
+
 
 
     <!-- <div *ngFor="let a of matchFootball;let y=index">
@@ -83,11 +88,11 @@
       </div> -->
     <!-- <app-event-list [event]="matchData"></app-event-list> -->
     <div class="table-resposive">
-      <table class="table table-bordered table-dark">
+      <table id="ExampleTable" class="table table-bordered table-dark" matSort (matSortChange)="sortData($event)">
         <thead class="thead-light">
           <tr style="width: 100%;">
-              <th scope="col">number</th>
-            <th scope="col">Flaga</th>
+            <th scope="col" mat-sort-header="name">Flag</th>
+            <th scope="col">Number</th>
             <th scope="col">Data</th>
             <th scope="col">Teams</th>
             <th scope="col">Vote</th>
@@ -95,30 +100,35 @@
             <th scope="col">kurs</th>
             <th scope="col">TeamRating</th>
             <th scope="col">Status</th>
+            <th scope="col">TYP</th>
           </tr>
         </thead>
-        <tr [ngClass]="'table-color-'+ event.win" *ngFor="let event of matchData;let y=index">
-          <td scope="col"> <span [ngClass]="'flags--'+event.turnament.flag" class="flags flags-category"></span></td>
+        <tr [ngClass]="'table-color-'+ event.win" *ngFor="let event of matchData;let y=index ">
+          <td scope="col"> <span [ngClass]="'flags--'+event.turnament.flag" class="flags flags-category"></span>
+            <div class="inline-flex">
+              <div class="content-line">{{event.turnament.name}}</div>
+            </div>
+          </td>
           <td scope="col">{{y}}</td>
           <td scope="col">{{event.startTime}}</td>
           <td scope="col">{{event.name}}
-              <div class="inline-flex">
-                  <div class="content-line">{{event.events.h2hDuel.homewins}}</div>
-                  <div class="content-line slash-font-double"></div>
-                  <div class="content-line">{{event.events.h2hDuel.draws}}</div>
-                  <div class="content-line slash-font-double"></div>
-                  <div class="content-line">{{event.events.h2hDuel.awaywins}} </div>
-              </div>
-              
-             
-              
+            <div class="inline-flex">
+              <div class="content-line">{{event.events.h2hDuel.homewins}}</div>
+              <div class="content-line slash-font-double"></div>
+              <div class="content-line">{{event.events.h2hDuel.draws}}</div>
+              <div class="content-line slash-font-double"></div>
+              <div class="content-line">{{event.events.h2hDuel.awaywins}} </div>
+            </div>
+
+
+
             <div class="inline-flex" *ngIf="event.events.teamsForm">
               <div class="content-line" *ngFor="let form of event.events.teamsForm.homeTeam.form">
-                  <span [ngClass]="'form-event-'+ form">{{form}}</span>
+                <span [ngClass]="'form-event-'+ form">{{form}}</span>
               </div>
               <div class="content-line slash-font-double">-</div>
               <div class="content-line" *ngFor="let form of event.events.teamsForm.awayTeam.form">
-                  <span [ngClass]="'form-event-'+ form">{{form}}</span>
+                <span [ngClass]="'form-event-'+ form">{{form}}</span>
               </div>
             </div>
           </td>
@@ -136,7 +146,7 @@
               <div class="content-line" *ngIf="event.events.winningOdds?.home?.actual">
                 {{event.events.winningOdds?.home?.actual}}
               </div>
-              <div class="content-line slash-font">/</div>
+              <div class="content-line slash-font"> | </div>
               <div class="content-line slash-font" *ngIf="event.events.winningOdds?.away?.actual">
                 {{event.events.winningOdds?.away?.actual}}
               </div>
@@ -145,20 +155,18 @@
           <td scope="col">
             <div class="inline-flex" *ngIf="event.vote?.choices">
               <div class="inline-flex" *ngFor="let choices of event.vote.choices;let choicesIndex = index">
-                <div class="content-line" *ngIf="2 > choicesIndex">{{calculateValueChance(choices.fractionalValue)}}
-                </div>
+                <div class="content-line" *ngIf="2 > choicesIndex">{{calculateValueChance(choices.fractionalValue)}}</div>
                 <div class="content-line slash-font" *ngIf="2 > choicesIndex"></div>
-                <div class="content-line slash-font" *ngIf="choicesIndex === 2">
-                  {{calculateValueChance(choices.fractionalValue)}}</div>
+                <div class="content-line slash-font" *ngIf="choicesIndex === 2">{{calculateValueChance(choices.fractionalValue)}}</div>
               </div>
             </div>
           </td>
           <td scope="col">
-              <div class="inline-flex">
-                  <div class="content-line">{{event.chanceEvent}} </div>
-                  <div class="content-line slash-font">{{event.h2hDuel}}</div>
-                  <div class="content-line slash-font">{{event.chanceEventVote}}</div>
-                  </div>
+            <div class="inline-flex">
+              <div class="content-line">{{event.chanceEvent}} | </div>
+              <div class="content-line slash-font">{{event.h2hDuel}} | </div>
+              <div class="content-line slash-font">{{event.chanceEventVote}} | </div>
+            </div>
           </td>
           <td scope="col">
             <div *ngIf="event.status.code === 100">
@@ -166,8 +174,7 @@
               <div *ngIf="event.winnerCode===2">2</div>
               <div *ngIf="event.winnerCode===1">1</div>
             </div>
-            <div *ngIf="event.status.code === 70">odwołany</div>
-            <div *ngIf="event.status.code === 70">przełożony</div>
+            <div *ngIf="event.status.code === 70">Prze.</div>
             <div *ngIf="event.status.code === 31"><b>
                 <p> <i class="blink fas fa-play"></i> LIVE </p>
               </b>
@@ -182,8 +189,32 @@
             </div>
             <div *ngIf="event.status.code === 0">not</div>
           </td>
+          <td scope="col">
+              <div class="WinFT">
+                {{event.eventsWinFT}}
+              </div>
+              <div class="WinAP" *ngIf="event.eventsWinAP">
+                 ({{event.eventsWinAP}})
+              </div>
+            
+            <!-- <div class="inline-flex">
+              <div class="content-line" *ngIf="event.events.incidents">
+                <div *ngFor="let win of event.events.incidents">
+                    {{checkWins}}
+                </div>
+                
+              </div>
+            </div> -->
+          </td>
         </tr>
       </table>
+      <div class="data-panel">
+        <div class="panel-sub">
+          <button mat-raised-button color="primary" (click)="exportTable()">Export to excel</button>
+          <a mat-raised-button color="primary" type="button" (click)="captureScreen(formattedDate)">Export to
+            PDF/Print</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

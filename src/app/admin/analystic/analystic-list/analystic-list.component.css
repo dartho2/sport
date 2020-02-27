@@ -5,7 +5,13 @@
 .slash-font {
   padding-left: 4px;
 }
-
+.WinFT{
+text-align: center;
+}
+.WinAP{
+  font-size: 9px;
+  text-align: center;
+}
 .slash-font-double {
   padding-left: 2px;
   padding-right: 2px;
