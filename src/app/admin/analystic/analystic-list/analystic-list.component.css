@@ -1,16 +1,25 @@
 .inline-flex {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 .slash-font {
   padding-left: 4px;
 }
 .no-padd{
   padding: 0px !important;
 }
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  border: 1px rgba(0,0,0,.12) solid;
+  text-align: center;
+}
 .WinFT{
 text-align: center;
 }
+::ng-deep .mat-sort-header-button{
+  margin: 0 auto !important;
+}
+
 .content-line-center{
   text-align: center;
 }

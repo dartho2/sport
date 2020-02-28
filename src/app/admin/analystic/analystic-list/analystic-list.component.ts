@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { AnalysticService } from '../analystic-service'
 import { formatDate } from '@angular/common';
 import { Analystic } from '../analystic.model';
@@ -7,6 +7,9 @@ import { exportData } from "../../products/export/exportData";
 import html2canvas from 'html2canvas';
 import * as jspdf from 'jspdf';
 import 'jspdf-autotable';
+import {MatSort} from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material';
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -18,13 +21,23 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+export interface PeriodicElement {
+  name: string;
+  flag: string;
+  time: string;
+  form: string;
+  choice: string;
+}
+const ELEMENT_DATA: PeriodicElement[] = [];
 @Component({
   selector: 'app-analystic-list',
   templateUrl: './analystic-list.component.html',
   styleUrls: ['./analystic-list.component.css'],
   providers: []
 })
-export class AnalysticListComponent implements OnInit {
+export class AnalysticListComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['flag','time','name', 'vote','chance', 'kurs', 'MV','status','homeChance25+', 'awayChance25+','homeChance25-', 'awayChance25-'];
+  
   @Input()
   eventID;
   chance = 0;
@@ -75,7 +88,6 @@ export class AnalysticListComponent implements OnInit {
   matchInfoWithoutCleanSheet = "Without clean sheet";
   matchInfoLess25Goals="Less than 2.5 goals";
   matchInfoFirstHalfWinner ="First half winner";
-
   colorWin = 'none';
   colorText = 'none';
   votePrice;
@@ -85,6 +97,7 @@ export class AnalysticListComponent implements OnInit {
   returnCost: number;
   numberPercent = 70;
   checkWins: string;
+  dataSource = new MatTableDataSource(this.matchData);
   constructor(private analysticService: AnalysticService) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
@@ -92,6 +105,8 @@ export class AnalysticListComponent implements OnInit {
     this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
     this.getMatches();
+    
+    
   }
   exportTable() {
     exportData.exportToExcel("ExampleTable");
@@ -231,6 +246,9 @@ export class AnalysticListComponent implements OnInit {
         data => {
           this.matchFootball = data;
           console.log(this.matchData)
+          this.dataSource.data = this.matchData
+         
+          console.log(this.dataSource)
         })
   }
   checkChance25Goal(homeV,homeO,awayV,awayO){
@@ -421,9 +439,14 @@ export class AnalysticListComponent implements OnInit {
   }
 
 
+  @ViewChild(MatSort) sort: MatSort;
   ngOnInit() {
+    this.dataSource.sort = this.sort;
+    // this.dataSource.sort = this.sort;
 
-
+  }
+  ngAfterViewInit() {
+    // this.dataSource.sort = this.sort;
   }
 
 }

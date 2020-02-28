@@ -61,10 +61,11 @@ import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import {NotificationModule } from './toastr-notification/toaster.module';
 import { ColdListComponent } from './haccp/cold-list/cold-list.component';
-
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @NgModule({
   imports: [
+    MatTableExporterModule,
     NotificationModule,
     HttpClientModule,
     ChartsModule,
