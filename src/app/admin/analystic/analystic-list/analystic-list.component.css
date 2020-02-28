@@ -9,6 +9,85 @@
 .no-padd{
   padding: 0px !important;
 }
+.border-th-sub{
+  border-left-color: black !important;
+  border-right-color: black !important;
+  border-top-color: black !important;
+}
+
+th:nth-child(4) {
+  border-left-color: black !important;
+}
+th:nth-child(23) {
+  border-right-color: black !important;
+}
+th:nth-child(21) {
+  border-right-color: black !important;
+}
+th:nth-child(20) {
+  border-right-color: black !important;
+}
+th:nth-child(18) {
+  border-right-color: black !important;
+}
+th:nth-child(16) {
+  border-right-color: black !important;
+}
+th:nth-child(14) {
+  border-right-color: black !important;
+}
+th:nth-child(11) {
+  border-right-color: black !important;
+}
+th:nth-child(8) {
+  border-right-color: black !important;
+}
+th:nth-child(6) {
+  border-right-color: black !important;
+}
+th:nth-child(3) {
+  border-right-color: black !important;
+}
+th:nth-child(4) {
+  border-left-color: black !important;
+}
+th:nth-child(1) {
+  border-left-color: black !important;
+}
+td:nth-child(23) {
+  border-right-color: black !important;
+}
+td:nth-child(21) {
+  border-right-color: black !important;
+}
+td:nth-child(20) {
+  border-right-color: black !important;
+}
+td:nth-child(18) {
+  border-right-color: black !important;
+}
+td:nth-child(16) {
+  border-right-color: black !important;
+}
+td:nth-child(14) {
+  border-right-color: black !important;
+}
+
+td:nth-child(11) {
+  border-right-color: black !important;
+}
+td:nth-child(8) {
+  border-right-color: black !important;
+}
+td:nth-child(6) {
+  border-right-color: black !important;
+}
+td:nth-child(3) {
+  border-right-color: black !important;
+}
+td:nth-child(1) {
+  border-left-color: black !important;
+}
 td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
   border: 1px rgba(0,0,0,.12) solid;
   text-align: center;
@@ -41,16 +120,32 @@ text-align: center;
   padding-left: 3px;
 }
 .table-color-0{
-	background-color: #711b6a;
+  background-color: #711b6a;
+  color:white;
+}
+.table-color-0 td {
+  color:white;
 }
 .table-color-1{
-	background-color: #175919;
+  background-color: #175919;
+  color:white;
 }
+.table-color-1 td {
+  color:white;
+}
+
 .table-color-2{
-	background-color: #2c5885;
+  background-color: #2c5885;
+  color:white;
+}
+.table-color-2 td {
+  color:white;
 }
 .table-color-401{
 	background-color: red !important;
+}
+.table-color-401 td {
+  color:white;
 }
 .bold-text{
 	font-weight: 800;

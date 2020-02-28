@@ -9,7 +9,6 @@ import * as jspdf from 'jspdf';
 import 'jspdf-autotable';
 import {MatSort} from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material';
-
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -23,8 +22,9 @@ export const MY_FORMATS = {
 };
 export interface PeriodicElement {
   name: string;
-  flag: string;
   time: string;
+  startTime: string;
+  vote1:number;
   form: string;
   choice: string;
 }
@@ -36,12 +36,14 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   providers: []
 })
 export class AnalysticListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['flag','time','name', 'vote','chance', 'kurs', 'MV','status','homeChance25+', 'awayChance25+','homeChance25-', 'awayChance25-'];
+  displayedColumns: string[] = ['flag','time','name', 'vote1','votex','vote2','chance1','chance2', 'kurs1','kursx','kurs2', 'MVC1','MVCx','MVC2','status','result','homeChance25+', 'awayChance25+','homeChance25-', 'awayChance25-', '25chance', 'yellowCard','redCard'];
   
   @Input()
   eventID;
   chance = 0;
   formattedDate;
+  awayYellow;
+  homeYellow;
   myDate
   format = 'yyyy-MM-dd';
   actualformat = "dd.MM.yyyy"
@@ -105,9 +107,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
     this.getMatches();
-    
+
     
   }
+ 
   exportTable() {
     exportData.exportToExcel("ExampleTable");
   }
@@ -136,11 +139,13 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
                     events["vote"] = vote.markets[0];
                     events["turnament"] = turnaments.category;
                     if(events["statusDescription"].includes('AP')){
-                      events["eventsWinAP"] = this.checkWin(eventsData, false)
-                      events["eventsWinFT"] = this.checkWin(eventsData, true)
+                      events["eventsWinAP"] = this.checkWin(eventsData, false, "win")
+                      events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
                     }else{
-                      events["eventsWinFT"] = this.checkWin(eventsData, true)
+                      events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
                     }
+                    // events["eventsYelHome"] = this.checkWin(eventsData, this.home, "yellow")
+                    // events["eventsYelAway"] = this.checkWin(eventsData, this.away, "yellow")
                     events["matchInfoMore25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.away)
                     events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
                    
@@ -233,6 +238,8 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
                     keys.push(events)
                     this.matchData.push(...keys)
+                    this.dataSource.data = this.matchData
+                    this.dataSource.sort = this.sort;
                   }
                 )
               }
@@ -246,7 +253,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
         data => {
           this.matchFootball = data;
           console.log(this.matchData)
-          this.dataSource.data = this.matchData
+          // this.dataSource.data = this.matchData
          
           console.log(this.dataSource)
         })
@@ -291,8 +298,9 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   //   return '0-0'
   // }
   }
-  checkWin(incident, typeWin) {
+  checkWin(incident, typeWin, formatData) {
     this.checkWins = '';
+    if(formatData === "win"){
     if(typeWin){
       if (incident.incidents.length > 0) {
         // incident.incidents[0].text.includes('FT') ? this.checkWins = incident.incidents[0].text : "";
@@ -311,6 +319,28 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       }
     }
     return this.checkWins
+  }
+  // LICZBA kartek
+    // if(formatData === "yellow"){
+    //   this.awayYellow = 0;
+    //   this.homeYellow = 0;
+    //   var a;
+    //   typeWin === "home" ? a = true : a = false
+      
+    //     if (incident.incidents.length > 0) {
+    //       incident.incidents.forEach(x => {
+    //         if(x.type){
+    //         if(a && x.type.includes('Yellow') && x.isHome === a){
+    //           this.awayYellow += 1
+    //       }
+    //       if(!a && (x.type.includes('Yellow') && x.isHome === a)){
+    //         this.awayYellow += 1
+    //     }}
+    //       })
+    //     }
+      
+    //   return this.awayYellow
+    // }
   }
   onWinhange(price) {
     this.returnCost = (((price * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * price
@@ -442,11 +472,32 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   ngOnInit() {
     this.dataSource.sort = this.sort;
-    // this.dataSource.sort = this.sort;
+    this.dataSource = new MatTableDataSource(this.matchData);
+  this.dataSource.sortingDataAccessor = (item, property) => {
+    switch(property) {
+      case 'flag': return item.turnament.flag;
+      case 'time': return item.startTime;
+      case 'vote1': return item.events.vote.vote1Percentage;
+      case 'votex': return item.events.vote.voteXPercentage;
+      case 'vote2': return item.events.vote.vote2Percentage;
+      // case 'kurs1':  if(item.vote){return this.calculateValueChance(item.vote.choices[0].fractionalValue)};
+      // case 'kursx':  if(item.vote){return this.calculateValueChance(item.vote.choices[1].fractionalValue)};
+      // case 'kurs2':  if("undefined" === typeof(item.vote.choices[2].fractionalValue)){return this.calculateValueChance(item.vote.choices[2].fractionalValue)};
+      case 'chance1':  if(item.events.winningOdds.home !== undefined){ return item.events.winningOdds.home.actual};
+      case 'chance2':  if(item.events.winningOdds.away !== undefined){return item.events.winningOdds.away.actual};
+      case 'header-row-status-group': return item.win
+      
+      default: return item[property];
+    }
+  };
+  this.dataSource.sort = this.sort;
 
   }
   ngAfterViewInit() {
     // this.dataSource.sort = this.sort;
   }
 
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
