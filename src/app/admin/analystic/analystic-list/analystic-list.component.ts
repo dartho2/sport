@@ -160,6 +160,12 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
                     events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
                     events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
                     events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"] ? events["win"] = events["h2hDuel"] : '';
+                   if(vote.markets[0]){
+                     if(vote.markets[0].choices[0].fractionalValue){
+                      events["vot1"] = this.calculateValueChance(vote.markets[0].choices[0].fractionalValue)}
+                      events["votX"] = this.calculateValueChance(vote.markets[0].choices[1].fractionalValue)
+                      events["vot2"] = this.calculateValueChance(vote.markets[0].choices[2].fractionalValue)
+                    }
                     if ([1, 2, 3].includes(events.winnerCode)) {
                       this.totalMatch += 1;
                       if (events["win"] !== undefined && events.winnerCode !== undefined) {
@@ -167,31 +173,36 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
                         if (events["win"] === 1) {
                           if (events["winnerCode"] === 1) {
+                            if(events["vote"].length >0){
                             this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[0].fractionalValue))
                             this.voteWinSum = 0;
                             this.voteWinValue.forEach(x => {
                               this.voteWinSum += parseFloat(x)
-                            })
+                            })}
                           }
                         }
                         if (events["win"] === 2) {
                           if (events["winnerCode"] === 2) {
+                            if(events["vote"]){
                             this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[2].fractionalValue))
                             this.voteWinSum = 0;
                             this.voteWinValue.forEach(x => {
                               this.voteWinSum += parseFloat(x)
                             })
                           }
+                          }
 
 
                         }
                         if (events["win"] === 0) {
                           if (events["winnerCode"] === 3) {
+                            if(events["vote"]){
                             this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[1].fractionalValue))
                             this.voteWinSum = 0;
                             this.voteWinValue.forEach(x => {
                               this.voteWinSum += parseFloat(x)
                             })
+                          }
                           }
                         }
                         this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
@@ -240,6 +251,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
                     this.matchData.push(...keys)
                     this.dataSource.data = this.matchData
                     this.dataSource.sort = this.sort;
+                    console.log(this.matchData)
                   }
                 )
               }
@@ -461,7 +473,11 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.getMatches();
   }
   calculateValueChance(value) {
-    return (eval(value) + 1).toFixed(2)
+ 
+    if(value){
+      return (eval(value)+1).toFixed(2)
+    }
+    
 
   }
   onchanceChanged(amount: number) {

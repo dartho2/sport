@@ -137,30 +137,24 @@
       <ng-container matColumnDef="kurs1">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>1</th>
         <td mat-cell *matCellDef="let element">
-          <div class="inline-flex" *ngIf="element.vote?.choices[0]?.fractionalValue">
-            {{calculateValueChance(element.vote.choices[0].fractionalValue)}}
-
-
-          </div>
+            
+            {{element.vot1}}
+            
+          
         </td>
       </ng-container>
       <ng-container matColumnDef="kursx">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>x</th>
         <td mat-cell *matCellDef="let element">
-          <div class="inline-flex" *ngIf="element.vote?.choices[1]?.fractionalValue">
-            {{calculateValueChance(element.vote.choices[1].fractionalValue)}}
-
-
-          </div>
+            {{element.votX}}
+         
         </td>
       </ng-container>
       <ng-container matColumnDef="kurs2">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2</th>
         <td mat-cell *matCellDef="let element">
-          <div class="inline-flex" *ngIf="element.vote?.choices[2]?.fractionalValue">
-            {{calculateValueChance(element.vote.choices[2].fractionalValue)}}
-
-          </div>
+            {{element.vot2}}
+          
         </td>
       </ng-container>
       <ng-container matColumnDef="chance1">
