@@ -251,7 +251,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
                     this.matchData.push(...keys)
                     this.dataSource.data = this.matchData
                     this.dataSource.sort = this.sort;
-                    console.log(this.matchData)
                   }
                 )
               }
