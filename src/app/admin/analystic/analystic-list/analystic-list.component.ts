@@ -36,7 +36,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   providers: []
 })
 export class AnalysticListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['flag','time','name', 'vote1','votex','vote2','chance1','chance2', 'kurs1','kursx','kurs2', 'MVC1','MVCx','MVC2','status','result','homeChance25+', 'awayChance25+','homeChance25-', 'awayChance25-', '25chance', 'yellowCard','redCard'];
+  displayedColumns: string[] = ['flag','time','name', 'vote1','votex','vote2', 'kurs1','kursx','kurs2','chance1','chance2', 'MVC1','MVCx','MVC2','chanceEventDraw', 'status','result','homeChance25+', 'awayChance25+','homeChance25-', 'awayChance25-', '25chance', 'yellowCard','redCard'];
   
   @Input()
   eventID;
@@ -157,6 +157,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
                     events["events"] = eventsData;
                     events["liveResults"] = this.liveFilter(eventsData, events["status"].code)
                     events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
+                    events["chanceEventDraw"] = this.calculateChanceWin(events["events"], events["events"].winningOdds)
                     events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
                     events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
                     events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"] ? events["win"] = events["h2hDuel"] : '';
@@ -388,7 +389,20 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
     }
   }
-
+  calculateChanceWin(eventTournament, vote){
+    if (vote.length !== 0 && (vote.home !== undefined || vote.away !== undefined)) {
+      const home = (vote.home !== undefined) ? vote.home.actual : 0;
+      const away = (vote.away !== undefined) ? vote.away.actual : 0;
+      const numberMax = Math.max.apply(null, [away, home]);
+      const numberMin = Math.min.apply(null, [away, home]);
+      const different = numberMax - numberMin;
+      if(different < 15){
+        return 0
+      }else{
+        return null
+      }
+    }
+  }
   calculateChance(eventTournament, vote) {
     if (vote.length !== 0 && (vote.home !== undefined || vote.away !== undefined)) {
       const home = (vote.home !== undefined) ? vote.home.actual : 0;

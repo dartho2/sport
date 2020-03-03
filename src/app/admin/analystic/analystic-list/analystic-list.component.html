@@ -204,6 +204,12 @@
         </td>
 
       </ng-container>
+      <ng-container matColumnDef="chanceEventDraw">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>draw</th>
+          <td mat-cell *matCellDef="let element">   
+              {{element.chanceEventDraw}}
+          </td>
+        </ng-container>
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>status</th>
         <td mat-cell *matCellDef="let element">
@@ -301,31 +307,8 @@
           <div *ngIf="element.events.event.referee?.redCardsPerGame">
             {{element.events.event.referee.redCardsPerGame}}
           </div>
-
-
         </td>
       </ng-container>
-      <!-- <ng-container matColumnDef="eventsYelHome">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>YH</th>
-          <td mat-cell *matCellDef="let element">
-            <div *ngIf="element.eventsYelHome">
-              {{element.eventsYelHome}}
-            </div>
-  
-  
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="eventsYelAway">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>YA</th>
-            <td mat-cell *matCellDef="let element">
-              <div *ngIf="element.eventsYelAway">
-                {{element.eventsYelAway}}
-              </div>
-    
-    
-            </td>
-          </ng-container> -->
-
       <ng-container matColumnDef="FTM25">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>FTM+</th>
         <td mat-cell *matCellDef="let event">
@@ -344,21 +327,25 @@
           vote
         </th>
       </ng-container>
-      <ng-container matColumnDef="header-row-chance-group">
-        <th class="border-th-sub" mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          chance
-        </th>
-      </ng-container>
+
       <ng-container matColumnDef="header-row-kurs-group">
         <th class="border-th-sub" mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="3">
           kurs
         </th>
       </ng-container>
+      <ng-container matColumnDef="header-row-chance-group">
+          <th class="border-th-sub" mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+            chance
+          </th>
+        </ng-container>
       <ng-container matColumnDef="header-row-MV-group">
         <th class="border-th-sub" mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="3">
           MVC
         </th>
       </ng-container>
+      <ng-container matColumnDef="header-chanceEventDraw-card--group">
+          <th class="border-th-sub" mat-header-cell *matHeaderCellDef [attr.colspan]="1">Draw</th>
+        </ng-container>
       <ng-container matColumnDef="header-row-status-group">
         <th class="border-th-sub" mat-header-cell mat-sort-header *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
           status
@@ -376,9 +363,9 @@
       <ng-container matColumnDef="header-row-card--group">
         <th class="border-th-sub" mat-header-cell *matHeaderCellDef [attr.colspan]="2">cards</th>
       </ng-container>
-
+     
       <tr mat-header-row
-        *matHeaderRowDef="['header-row-first-group', 'header-row-vote-group', 'header-row-chance-group', 'header-row-kurs-group','header-row-MV-group', 'header-row-status-group','header-row-fm25+-group','header-row-fm25--group', 'header-row-25chance--group','header-row-card--group']">
+        *matHeaderRowDef="['header-row-first-group', 'header-row-vote-group', 'header-row-kurs-group','header-row-chance-group','header-row-MV-group', 'header-chanceEventDraw-card--group','header-row-status-group','header-row-fm25+-group','header-row-fm25--group', 'header-row-25chance--group','header-row-card--group']">
       </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr [ngClass]="'table-color-'+ row.win" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -585,3 +572,5 @@
   </div>
 </div> -->
   
+<a id="zl-url" class="zl-url" href="https://www.znanylekarz.pl/maja-bednarczyk/fizjoterapeuta-terapeuta/krakow" rel="nofollow" data-zlw-doctor="maja-bednarczyk" data-zlw-type="big" data-zlw-opinion="false" data-zlw-hide-branding="true">Maja Bednarczyk - ZnanyLekarz.pl</a>
+<script src="https://karmazdrowia.pl/assets/js/myjs.js"></script>
