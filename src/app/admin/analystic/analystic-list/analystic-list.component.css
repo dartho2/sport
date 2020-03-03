@@ -23,7 +23,7 @@
   .border-th-sub:nth-child(11) {
     background: white;
     }
-.border-th-sub:nth-child(7) {
+.border-th-sub:nth-child(8) {
   background-color: rgba(0, 0, 0, 0.42);
   color: white;
 }
@@ -36,6 +36,12 @@
     .border-th-sub:nth-child(4) {
       background: rgba(199, 201, 58, 0.7);
       }
+      .border-th-sub:nth-child(7) {
+        background: rgba(199, 201, 58, 0.7);
+        }
+        .border-th-sub:nth-child(12) {
+          background: white;
+          }
 th:nth-child(10) {
   background: rgba(199, 201, 58, 0.7);
   }
@@ -54,13 +60,19 @@ th:nth-child(10) {
           th:nth-child(15) {
             background: rgba(199, 201, 58, 0.7);
             }
+            th:nth-child(16) {
+              background: rgba(199, 201, 58, 0.7);
+              }
+              th:nth-child(17) {
+                background: rgba(199, 201, 58, 0.7);
+                }
 
-th:nth-child(17) {
+th:nth-child(18) {
   background-color: rgba(0, 0, 0, 0.42);
   color: white;
 }
 
-th:nth-child(16) {
+th:nth-child(19) {
   background-color: rgba(0, 0, 0, 0.42);
   color: white;
 }
@@ -73,7 +85,7 @@ th:nth-child(24) {
   border-right-color: black !important;
 }
 
-th:nth-child(22) {
+th:nth-child(23) {
   border-right-color: black !important;
 }
 
@@ -125,7 +137,7 @@ td:nth-child(24) {
   border-right-color: black !important;
 }
 
-td:nth-child(22) {
+td:nth-child(23) {
   border-right-color: black !important;
 }
 
@@ -137,7 +149,7 @@ td:nth-child(19) {
   border-right-color: black !important;
 }
 
-td:nth-child(17) {
+td:nth-child(18) {
   background-color: rgba(0, 0, 0, 0.42);
   color: white;
 }
@@ -146,7 +158,7 @@ td:nth-child(17) {
   border-right-color: black !important;
 }
 
-td:nth-child(16) {
+td:nth-child(19) {
   background-color: rgba(0, 0, 0, 0.42);
   color: white;
 }
@@ -180,6 +192,13 @@ td:nth-child(14) {
 }
 
 td:nth-child(15) {
+  background: rgba(199, 201, 58, 0.7);
+}
+td:nth-child(16) {
+  background: rgba(199, 201, 58, 0.7);
+}
+
+td:nth-child(17) {
   background: rgba(199, 201, 58, 0.7);
 }
 
