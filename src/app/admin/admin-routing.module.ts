@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 
+import { BetComponent } from '../admin/bet/bet-list/bet.component'
 import { ProductShowComponent } from './products/products-show/product-show.component';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
@@ -47,6 +48,21 @@ const adminRoutes: Routes = [
         component: AnalysticListComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin] }
+      },
+      {
+        path: 'bet',
+        component: BetComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
+        path: 'bet/:date',
+        component: BetComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
+        path: 'bet/:date/:id',
+        component: BetComponent,
+        data: { roles: [Role.Admin, Role.User] }
       },
       {
         path: 'recipe/list',

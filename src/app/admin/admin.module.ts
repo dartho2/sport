@@ -62,6 +62,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {NotificationModule } from './toastr-notification/toaster.module';
 import { ColdListComponent } from './haccp/cold-list/cold-list.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { BetComponent } from './bet/bet-list/bet.component';
 
 @NgModule({
   imports: [
@@ -126,7 +127,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

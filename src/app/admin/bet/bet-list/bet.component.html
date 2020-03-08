@@ -1,0 +1,8 @@
+<div *ngFor="let eventM of event">
+  <a [routerLink]="['/bet/'+ eventM.date +'/'+ eventM._id]"> {{eventM.date}}</a>
+ <div *ngIf="(eventM.date === dataEvent) && (eventM._id === idEvent)">
+    <div *ngFor="let eventData of eventM.events">
+      {{eventData.name}} {{eventData.vot1}} {{eventData.votX}} {{eventData.vot2}}
+    </div>
+  </div> 
+</div>

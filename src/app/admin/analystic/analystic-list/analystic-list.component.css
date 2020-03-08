@@ -11,7 +11,14 @@
 .no-padd {
   padding: 0px !important;
 }
-
+.f-control-n-f{
+  display: unset !important;
+  width: 13px;
+  padding: 0px 2px;
+}
+td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
 .border-th-sub {
   border-left-color: black !important;
   border-right-color: black !important;
