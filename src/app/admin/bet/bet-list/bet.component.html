@@ -1,8 +1,99 @@
-<div *ngFor="let eventM of event">
+<!-- <div *ngFor="let eventM of event">
   <a [routerLink]="['/bet/'+ eventM.date +'/'+ eventM._id]"> {{eventM.date}}</a>
- <div *ngIf="(eventM.date === dataEvent) && (eventM._id === idEvent)">
+  <div *ngIf="(eventM.date === dataEvent) && (eventM._id === idEvent)">
     <div *ngFor="let eventData of eventM.events">
       {{eventData.name}} {{eventData.vot1}} {{eventData.votX}} {{eventData.vot2}}
     </div>
-  </div> 
+  </div>
 </div>
+<table mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> status </th>
+    <td mat-cell *matCellDef="let element">
+      <span [ngClass]="'flags--'+element.status +element.statusChanged" class="flags flags-category"></span>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> date </th>
+    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+  </ng-container>
+  <ng-container matColumnDef="rate">
+    <th mat-header-cell *matHeaderCellDef> rate </th>
+    <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element">
+      <span *ngIf="column === 'status'" [ngClass]="'flags--'+element.status +element.statusChanged"
+        class="flags flags-category"></span>
+      <span *ngIf="column !== 'status'">{{element[column]}}</span> </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <td>status</td>
+              <td>name</td>
+              <td>type</td>
+              <td>typeBT</td>
+              <td>typeYT</td>
+              <td>typeVI</td>
+               <td>wynik</td>
+            </thead>
+            <tr *ngFor="let events of element.events">
+              <td>
+                <span *ngIf="(events.winCode === events.type) && events.type !== '0'" [ngClass]="'flags--11'"
+                class="flags flags-category"></span>
+                <span *ngIf="(events.winCode !== events.type) && events.type === '0'" [ngClass]="'flags--01'"
+                class="flags flags-category"></span>
+                <span *ngIf="(events.winCode !== events.type) && events.type !== '0'" [ngClass]="'flags--10'"
+                class="flags flags-category"></span>
+              </td>
+              <td>{{events.name}}</td>
+              <td>{{events.type}}</td>
+              <td>{{events.typeBT}}</td>
+              <td>{{events.typeYT}}</td>
+              <td>{{events.typeVI}}</td>
+              <td>{{events.eventsWinFT}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="example-element-description">
+          <span class="example-element-description-attribution"> </span>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+    [class.example-expanded-row]="expandedElement === element" (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false" (click)="checki(expandedElement, element)">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

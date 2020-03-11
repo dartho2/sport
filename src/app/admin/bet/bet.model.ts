@@ -1,2 +1,5 @@
 
-export interface  Bet {}
+export interface  Bet {
+
+    name:string;
+}

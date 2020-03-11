@@ -6,7 +6,8 @@ export interface  Event {
     vote: String;
     status:String,
     markets: string;
-    events: [{incidents: {}}]
+    event: [{status:{ code:string}}],
+    events: [{incidents: {}, status:{ code:string}}]
     // markets: Market;
 };
 export interface Market {}

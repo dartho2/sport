@@ -42,8 +42,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   @Input()
   eventID;
   chance = 0;
+  dateEventsBet = { date: '', status: 70, rate: "0", statusChanged: 0, events: [] };
   formattedDate;
   awayYellow;
+  betAllRateResult = 1;
   homeYellow;
   myDate
   format = 'yyyy-MM-dd';
@@ -107,11 +109,15 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   constructor(private analysticService: AnalysticService, private _fb: FormBuilder) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
-    
+
     this.myDate = new Date();
     this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
     this.getMatches();
+    this.formbuilder();
+
+  }
+  formbuilder() {
     this.myForm = this._fb.group({
       date: new FormControl(''),
       events: new FormArray([
@@ -120,7 +126,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
       ])
     })
-
   }
   get events() { return this.myForm.get('events') as FormArray }
 
@@ -312,10 +317,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       .subscribe(
         data => {
           this.matchFootball = data;
-          console.log(this.matchData)
-          // this.dataSource.data = this.matchData
-
-          console.log(this.dataSource)
         })
   }
   checkChance25Goal(homeV, homeO, awayV, awayO) {
@@ -454,6 +455,22 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       }
     }
   }
+  betRate(type, v1, vx, v2) {
+    switch (type) {
+      case '1': return v1
+      case '2': return v2
+      case '0': return vx
+    }
+
+  }
+  betAllRateResults(x) {
+    let a = 1;
+    
+      x.type === '1' ? this.betAllRateResult *= x.vot1 : x.type === '2' ? this.betAllRateResult *= x.vot2 : x.type === '3' ? this.betAllRateResult *= x.votX : '';
+  
+    return (a / 1.14).toFixed(2)
+  }
+
   calculateChance(eventTournament, vote) {
     if (vote.length !== 0 && (vote.home !== undefined || vote.away !== undefined)) {
       const home = (vote.home !== undefined) ? vote.home.actual : 0;
@@ -489,16 +506,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       return ""
     }
   }
-  calculateWinningOdds(vote) {
-
-
-
-  }
-
-
-
-
-
   checkeventsExists(dataEvent, data) {
     if (dataEvent.slice(0, -1) === formatDate(data, this.actualformat, 'en')) {
       return true
@@ -510,26 +517,34 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     // this.getMatches(x)
   }
   onSubmitForm(f) {
-    console.log(this.myForm.value)
-    var dateEvents = {date: '', events:[]}
-this.myForm.value.events.forEach(x=> {
-      if(x.name && (x.type || x.typeBT || x.typeYT || x.typeVI)){
-        dateEvents.date = this.formattedDate
-        dateEvents.events.push(x)
+    let stawka = 1;
+    this.dateEventsBet.events.forEach(x => {
+      if (x.name && (x.type.length > 0)) {
+        if (x.type === "1") {
+          stawka *= parseFloat(x.vot1)
+        }
+        if (x.type === "2") {
+          stawka *= parseFloat(x.vot2)
+        }
+        if (x.type === "0") {
+          stawka *= parseFloat(x.votX)
+        }
       }
     })
-    if(dateEvents.events.length > 0 ){
-      // dateEvents["name"](dateEvents.events[0].dateControl)
-      console.log(dateEvents)
-      this.analysticService.addEvents(dateEvents).subscribe(x=> {
-      console.log(x)
-    })
+    this.dateEventsBet.rate = stawka.toFixed(2)
+    if (this.dateEventsBet.events.length > 0) {
+      this.analysticService.addEvents(this.dateEventsBet).subscribe(x => {
+      })
+
     }
-    
+
   }
   onSubmit(event) {
     this.numberPercent = event
+    console.log(this.eventTournament, "rtur")
     this.voteWinAVG = 0;
+    this.myForm.controls.events.reset();
+    this.matchData = [];
     this.voteWinValue = [];
     this.winSureAll = 0;
     this.totalWin = 0;
@@ -540,7 +555,11 @@ this.myForm.value.events.forEach(x=> {
     this.getMatches()
   }
   onSearchChange(data) {
+
+    this.formbuilder()
+    this.myForm.reset();
     this.voteWinAVG = 0;
+    this.matchData = [];
     this.voteWinValue = [];
     this.winSureAll = 0;
     this.totalWin = 0;
@@ -565,7 +584,19 @@ this.myForm.value.events.forEach(x=> {
   onchanceChanged(amount: number) {
     this.chance = this.chance + amount
   }
+  addBet(x) {
+    
+    this.myForm.value.events.forEach(x => {
+      if (x.name && (x.type.length > 0)) {
+        let a = this.dateEventsBet.events.find(y=> y.idEvent === x.idEvent)
+        if(!a){
+          this.betAllRateResults(x)
+        this.dateEventsBet.date = this.formattedDate
+        this.dateEventsBet.events.push(x)}
+      }
 
+    })
+  }
 
   @ViewChild(MatSort) sort: MatSort;
   ngOnInit() {

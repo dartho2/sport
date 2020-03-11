@@ -15,6 +15,10 @@ export class BetServiceComponent {
       getBetAll(): Observable<Bet[]> {
         return this._http.get<Bet[]>("https://karmazdrowia.pl:8080/api/bet/");
       }
+      updateBet(data){
+        return this._http.post("https://karmazdrowia.pl:8080/api/bet/" + data._id, data);
+
+      }
     //   getVotePrice(data): Observable<any> {
     //     return this._http.get<any>("https://api.sofascore.com/api/v1/event/"+ data + "/odds/1/all?");
     //   }
