@@ -37,7 +37,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   providers: []
 })
 export class AnalysticListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['type', 'flag', 'time', 'name', 'vote1', 'votex', 'vote2', 'kurs1', 'kursx', 'kurs2', 'chance1', 'chance2', 'MVC1', 'MVCx', 'MVC2', 'chanceEventDraw', 'homeForm', 'awayForm', 'status', 'result', 'homeChance25+', 'awayChance25+', 'homeChance25-', 'awayChance25-', '25chance', 'yellowCard', 'redCard'];
+  displayedColumns: string[] = ['type', 'flag', 'time', 'name', 'vote1', 'votex', 'vote2', 'kurs1', 'kursx', 'kurs2', 'chance1', 'chance2', 'MVC1', 'MVCx', 'MVC2', 'chanceEventDraw', 'homeForm', 'awayForm', 'status', 'result', 'homeChance25+', 'awayChance25+', 'homeChance25-', 'awayChance25-', '25chance'];
 
   @Input()
   eventID;
@@ -95,7 +95,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   matchInfoFirstHalfWinner = "First half winner";
   colorWin = 'none';
   colorText = 'none';
-  ligueId = [1, 36, 42, 33, 39, 52, 53, 62, 38, 202]
+  ligueId = [1, 4, 8, 13, 19, 36, 39, 42, 33, 39, 52, 53, 62, 38, 679, 202,1465]
   statusCode = [100]
   votePrice;
   VotePrice: number;

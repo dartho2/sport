@@ -1,29 +1,24 @@
 <div *ngIf="dateEventsBet.events.length >0">
-  <div class="slideout-widget widget-facebook">
-    <div class="slideout-widget-handler">
-      <a class="fb-ic">
-        <img class="img-rotate" src="https://www.bettingsider24.com/wp-content/uploads/2019/10/LVbet-Reviewlogo.png"
-          alt="Smiley face" height="42" width="42"></a>
-    </div>
-
-    <div class="slideout-widget-content">
-      <table class="table">
-        <tr *ngFor="let bet of dateEventsBet.events">
-          <td> {{bet.name}}</td>
-          <td> {{bet.type}}</td>
-          <td> {{betRate(bet.type, bet.vot1,bet.votX,bet.vot2)}}</td>
-        </tr>
-        <tr>
-          <td class="right-result-desc" colspan="3"><span>Kurs Całkowity:</span></td>
-        </tr>
-        <tr>
-          <td class="right-result" colspan="3"><span>{{(betAllRateResult/1.14).toFixed(2)}}</span></td>
-        </tr>
-      </table>
-
-
-    </div>
+<div class="slideout-widget widget-facebook">
+  <div class="slideout-widget-handler">
+    <a class="fb-ic">
+      <img class="img-rotate" src="https://www.bettingsider24.com/wp-content/uploads/2019/10/LVbet-Reviewlogo.png" alt="Smiley face" height="42" width="42"></a>
   </div>
+  
+    <div class="slideout-widget-content">
+    <table class="table">
+       <tr *ngFor="let bet of dateEventsBet.events">
+        <td> {{bet.name}}</td>
+        <td> {{bet.type}}</td>
+        <td> {{betRate(bet.type, bet.vot1,bet.votX,bet.vot2)}}</td>
+    </tr>
+    <tr><td class="right-result-desc" colspan="3"><span>Kurs Całkowity:</span></td></tr>
+    <tr><td class="right-result" colspan="3"><span>{{(betAllRateResult/1.14).toFixed(2)}}</span></td></tr>
+    </table>
+   
+
+  </div>
+</div>
 </div>
 
 <div class="content-body">
@@ -368,24 +363,7 @@
             </div>
           </td>
         </ng-container>
-        <ng-container matColumnDef="yellowCard">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Yellow</th>
-          <td mat-cell *matCellDef="let element">
-            <div *ngIf="element.events.event.referee?.yellowCardsPerGame">
-              {{element.events.event.referee.yellowCardsPerGame}}
-            </div>
-
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="redCard">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>red</th>
-          <td mat-cell *matCellDef="let element">
-            <div *ngIf="element.events.event.referee?.redCardsPerGame">
-              {{element.events.event.referee.redCardsPerGame}}
-            </div>
-          </td>
-        </ng-container>
+      
         <ng-container matColumnDef="FTM25">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>FTM+</th>
           <td mat-cell *matCellDef="let event">
@@ -394,6 +372,11 @@
             </div>
           </td>
         </ng-container>
+        <ng-container matColumnDef="header-row-type-group">
+            <th class="border-th-sub" mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="1">
+              type
+            </th>
+          </ng-container>
         <ng-container matColumnDef="header-row-first-group">
           <th class="border-th-sub" mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="3">
             Description
@@ -444,12 +427,8 @@
         <ng-container matColumnDef="header-row-25chance--group">
           <th class="border-th-sub" mat-header-cell *matHeaderCellDef [attr.colspan]="1">FM</th>
         </ng-container>
-        <ng-container matColumnDef="header-row-card--group">
-          <th class="border-th-sub" mat-header-cell *matHeaderCellDef [attr.colspan]="2">cards</th>
-        </ng-container>
-
         <tr mat-header-row
-          *matHeaderRowDef="['header-row-first-group', 'header-row-vote-group', 'header-row-kurs-group','header-row-chance-group','header-row-MV-group', 'header-chanceEventDraw-card--group','header-row-form-group','header-row-status-group','header-row-fm25+-group','header-row-fm25--group', 'header-row-25chance--group','header-row-card--group']">
+          *matHeaderRowDef="['header-row-type-group','header-row-first-group', 'header-row-vote-group', 'header-row-kurs-group','header-row-chance-group','header-row-MV-group', 'header-chanceEventDraw-card--group','header-row-form-group','header-row-status-group','header-row-fm25+-group','header-row-fm25--group', 'header-row-25chance--group']">
         </tr>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr [ngClass]="'table-color-'+ row.win" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
