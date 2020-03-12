@@ -141,6 +141,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       typeYT: '',
       typeBT: '',
       typeVI: '',
+      time: events.startTime,
       home: events.homeTeam.name,
       away: events.awayTeam.name,
       date: events.formatedStartDate ? events.formatedStartDate : '',

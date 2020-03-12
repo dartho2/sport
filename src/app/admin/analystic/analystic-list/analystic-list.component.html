@@ -133,8 +133,19 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="time">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> time </th>
-          <td mat-cell *matCellDef="let element"> {{element.startTime}} </td>
+            <div formArrayName="events">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> time </th>
+                <td mat-cell *matCellDef="let element;  let i = index;">
+                  <div class="col mr-2 inline-flex" [formGroupName]="i">
+                      
+                      <mat-form-field class=" content-line">
+                          <input type="text" id="description" placeholder="" name="type" formControlName="time" required
+                            matInput >
+                        </mat-form-field>
+                </div>
+               </td>
+                </div>
+                
         </ng-container>
 
         <ng-container matColumnDef="name">
