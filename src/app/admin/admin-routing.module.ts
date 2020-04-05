@@ -14,6 +14,7 @@ import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semipro
 import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.component';
 import { AuthGuard } from '../_helpers/auth.guard';
 import { Role } from '../_models/role';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const adminRoutes: Routes = [
  
@@ -46,6 +47,12 @@ const adminRoutes: Routes = [
       {
         path: 'analystic/list',
         component: AnalysticListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin] }
+      },
+      {
+        path: 'calendar',
+        component: CalendarComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin] }
       },

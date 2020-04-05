@@ -1,0 +1,44 @@
+<div class="dp-carousel">
+  
+  <div id="dpCarousel_dpCalendar60-mw" class="tns-ovh tns-ah">
+      <button [className]="prvExists ? 'dp-carousel-nav dp-carousel-nav-prev circle bg-gray-dark': 'dp-carousel-nav dp-carousel-nav-prev-op circle bg-gray-dark'" type="button" (click)="prevWeek()"
+       aria-controls="dpCarousel_dpCalendar60"
+      tabindex="-1" data-controls="prev"><i class="svg-icon svg-icon__caret-left svg-icon__color-white"><svg width="16"
+          height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M10.636 3.536c.351-.351.351-.921 0-1.273-.351-.351-.921-.351-1.273 0l-5.1 5.1c-.351.351-.351.921 0 1.273l5.1 5.1c.351.351.921.351 1.273 0 .351-.351.351-.921 0-1.273l-4.464-4.464 4.464-4.464z">
+          </path>
+        </svg></i></button>
+        <div class="d-inline-block padding-left-block">
+    <div class="d-inline-block" *ngFor="let a of dataFormated;let i = index">
+      <div class="calendar-day-date padding-bottom-1 offset-0 text-ellipsis">
+        <p class="offset-0 text-ellipsis">
+          {{iiidate[i].date |date:'EEEE'}}
+        </p>
+        <p class="offset-0 text-ellipsis small text-muted">
+          {{iiidate[i].date |date:'d,MMMM'}}
+        </p>
+
+      </div>
+
+
+      <div *ngFor="let h of a.hours">
+        <a title="Dostępny termin – umów wizytę" role="button"
+          class="calendar-slot btn calendar-slot-available btn-primary-light offset-bottom-1" *ngIf="!h.res">{{h.h}}</a>
+        <a title="Zajęty termin" role="button"
+          class="calendar-slot btn calendar-slot-booked btn-link disabled offset-bottom-1" *ngIf="h.res"><s>{{h.h}}</s>
+
+        </a>
+      </div>
+    </div>
+  </div>
+    <button type="button" (click)="nextWeek()" class="dp-carousel-nav dp-carousel-nav-next circle bg-gray-dark"
+    aria-controls="dpCarousel_dpCalendar60" tabindex="-1" data-controls="next"><i
+      class="svg-icon svg-icon__caret-right svg-icon__color-white"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+        height="16" viewBox="0 0 16 16">
+        <path
+          d="M5.26360388,3.53639612 C4.91213204,3.18492422 4.91213204,2.61507578 5.26360388,2.26360388 C5.61507578,1.91213204 6.18492422,1.91213204 6.53639612,2.26360388 L11.6363961,7.36360388 C11.987868,7.71507578 11.987868,8.28492422 11.6363961,8.63639612 L6.53639612,13.7363961 C6.18492422,14.087868 5.61507578,14.087868 5.26360388,13.7363961 C4.91213204,13.3849242 4.91213204,12.8150758 5.26360388,12.4636039 L9.72720782,8 L5.26360388,3.53639612 Z">
+        </path>
+      </svg></i></button>
+  </div>
+</div>

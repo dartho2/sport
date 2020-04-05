@@ -1326,6 +1326,15 @@ tr.example-element-row:not(.example-expanded-row):active {
   .flags--10 {
     background: url('https://www.sts.pl/pages/frontend/gfx/icon/icon-status-unresolved.png') top left / contain no-repeat
   }
+  .flags--3 {
+    background: url('https://www.sts.pl/pages/frontend/gfx/icon/icon-status-unresolved.png') top left / contain no-repeat
+  }
+  .flags--0 {
+    background: url('https://www.sts.pl/pages/frontend/gfx/icon/icon-status-lost.png') top left / contain no-repeat
+  }
+  .flags--1 {
+    background: url('https://www.sts.pl/pages/frontend/gfx/icon/icon-status-won.png') top left / contain no-repeat
+  }
   
   @media (-webkit-min-device-pixel-ratio:1.5),
   (-o-min-device-pixel-ratio:3/2),

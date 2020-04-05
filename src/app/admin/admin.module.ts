@@ -63,7 +63,11 @@ import {NotificationModule } from './toastr-notification/toaster.module';
 import { ColdListComponent } from './haccp/cold-list/cold-list.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { BetComponent } from './bet/bet-list/bet.component';
-
+import { CalendarComponent } from './calendar/calendar.component';
+import { registerLocaleData } from '@angular/common';
+import localePl from '@angular/common/locales/pl';
+import { LOCALE_ID } from '@angular/core';
+registerLocaleData(localePl, 'pl-PL');
 @NgModule({
   imports: [
     MatTableExporterModule,
@@ -117,6 +121,7 @@ import { BetComponent } from './bet/bet-list/bet.component';
   ],
   declarations: [
     AdminComponent,
+    CalendarComponent,
     HeaderComponent,
     NavbarComponent,
     ProductsListComponent,
@@ -131,6 +136,6 @@ import { BetComponent } from './bet/bet-list/bet.component';
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],
-  providers: [DatePipe]
+  providers: [ DatePipe,{ provide: LOCALE_ID, useValue: "pl-PL" }]
 })
 export class AdminModule { }

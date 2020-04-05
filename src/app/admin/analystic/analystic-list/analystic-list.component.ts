@@ -37,7 +37,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   providers: []
 })
 export class AnalysticListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['type', 'flag', 'time', 'name', 'vote1', 'votex', 'vote2', 'kurs1', 'kursx', 'kurs2', 'chance1', 'chance2', 'MVC1', 'MVCx', 'MVC2', 'chanceEventDraw', 'homeForm', 'awayForm', 'status', 'result', 'homeChance25+', 'awayChance25+', 'homeChance25-', 'awayChance25-', '25chance'];
+  displayedColumns: string[] = ['type', 'flag', 'time', 'name', 'vote1', 'votex', 'vote2', 'kurs1', 'kursx', 'kurs2', 'chance1', 'chance2', 'MVC1', 'MVCx', 'MVC2', 'chanceEventDraw', 'homeForm', 'awayForm', 'status', 'result'];
 
   @Input()
   eventID;

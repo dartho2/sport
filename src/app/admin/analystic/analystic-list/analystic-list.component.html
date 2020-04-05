@@ -334,7 +334,7 @@
           </td>
 
         </ng-container>
-        <ng-container matColumnDef="25chance">
+        <!-- <ng-container matColumnDef="25chance">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>MV25</th>
           <td mat-cell *matCellDef="let element">
             <div *ngIf="element.matchInfoMore25GoalsHome && element.matchInfoMore25GoalsAway">
@@ -365,8 +365,8 @@
               / {{element.matchInfoLess25GoalsHome.outOf}}
             </div>
           </td>
-        </ng-container>
-        <ng-container matColumnDef="awayChance25-">
+        </ng-container> -->
+        <!-- <ng-container matColumnDef="awayChance25-">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>away</th>
           <td mat-cell *matCellDef="let element">
             <div *ngIf="element.matchInfoLess25GoalsAway">{{element.matchInfoLess25GoalsAway.value}}
@@ -374,7 +374,7 @@
             </div>
           </td>
         </ng-container>
-      
+       -->
         <ng-container matColumnDef="FTM25">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>FTM+</th>
           <td mat-cell *matCellDef="let event">
@@ -429,7 +429,7 @@
             status
           </th>
         </ng-container>
-        <ng-container matColumnDef="header-row-fm25+-group">
+        <!-- <ng-container matColumnDef="header-row-fm25+-group">
           <th class="border-th-sub" mat-header-cell *matHeaderCellDef [attr.colspan]="2">FM2,5+ </th>
         </ng-container>
         <ng-container matColumnDef="header-row-fm25--group">
@@ -437,9 +437,9 @@
         </ng-container>
         <ng-container matColumnDef="header-row-25chance--group">
           <th class="border-th-sub" mat-header-cell *matHeaderCellDef [attr.colspan]="1">FM</th>
-        </ng-container>
+        </ng-container> -->
         <tr mat-header-row
-          *matHeaderRowDef="['header-row-type-group','header-row-first-group', 'header-row-vote-group', 'header-row-kurs-group','header-row-chance-group','header-row-MV-group', 'header-chanceEventDraw-card--group','header-row-form-group','header-row-status-group','header-row-fm25+-group','header-row-fm25--group', 'header-row-25chance--group']">
+          *matHeaderRowDef="['header-row-type-group','header-row-first-group', 'header-row-vote-group', 'header-row-kurs-group','header-row-chance-group','header-row-MV-group', 'header-chanceEventDraw-card--group','header-row-form-group','header-row-status-group']">
         </tr>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr [ngClass]="'table-color-'+ row.win" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

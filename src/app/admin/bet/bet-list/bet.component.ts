@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AnalysticService } from '../../analystic/analystic-service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Bet } from '../bet.model'
 import { map } from 'rxjs/operators';
 const ELEMENT_DATA: Bet[] = [];
@@ -14,14 +14,14 @@ const ELEMENT_DATA: Bet[] = [];
   styleUrls: ['./bet.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ]
 })
 export class BetComponent implements OnInit {
-  displayedColumns: string[] = ['status','date','rate'];
+  displayedColumns: string[] = ['status', 'date', 'rate'];
   bets;
   event: any;
   dupa;
@@ -29,7 +29,7 @@ export class BetComponent implements OnInit {
   dataSource = new MatTableDataSource<Bet>(ELEMENT_DATA);
   newEvents;
   expandedElement: any;
-  checkWins= '';
+  checkWins = '';
 
   constructor(private betService: BetServiceComponent, private analysticService: AnalysticService, private route: ActivatedRoute, private router: Router, ) {
 
@@ -38,8 +38,8 @@ export class BetComponent implements OnInit {
       console.log(this.bets)
       this.bets.map(ev => {
         ev.events.map(t => {
-          this.analysticService.getAnalystictEvent(t.idEvent).subscribe(even => { 
-            if(t.type === "0"){
+          this.analysticService.getAnalystictEvent(t.idEvent).subscribe(even => {
+            if (t.type === "0") {
               t["type"] = "3"
             }
             t.win = even.event.winnerCode
@@ -54,21 +54,45 @@ export class BetComponent implements OnInit {
             }
             ev.status = this.betWin(ev)
             ev.statusChanged = this.betCoupon(ev)
-            if( ev.statusChanged !== 1){
-            this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
-          }
+            if (ev.statusChanged !== 1) {
+              this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
+            }
           },
             err => {
               console.error(err);
             })
         })
       })
-      this.dataSource.data =this.bets
+
+      this.checkCup(this.bets)
+      this.dataSource.data = this.bets
     })
 
 
 
   }
+  
+  checkCup(element) {
+    element.forEach(x => {
+     x.events.forEach(y => {
+       if(x['winers'] !== 0 ){
+           if (Number(y.type) !== y.win) {
+         if(y.win !== 0){
+          x['winers'] = 0 
+        }else{
+          x['winers'] = 3
+        }
+        }else{
+          x['winers'] = 1
+        }
+       }
+      
+      })
+    })
+  }
+
+
+
   checkWin(incident, typeWin, formatData) {
     let checkWin = '';
     if (formatData === "win") {
@@ -113,11 +137,12 @@ export class BetComponent implements OnInit {
     //   return this.awayYellow
     // }
   }
-  checki(expandedElement, element){
-    if(this.expandedElement !== element){
-     this.expandedElement = element}else{
-      this.expandedElement =null
-     }
+  checki(expandedElement, element) {
+    if (this.expandedElement !== element) {
+      this.expandedElement = element
+    } else {
+      this.expandedElement = null
+    }
   }
   // checkWinnerCode(events){
   //   switch(events) { 
@@ -133,32 +158,33 @@ export class BetComponent implements OnInit {
   //  } 
 
   // }
-  betCoupon(event){
+  betCoupon(event) {
     let statusChanged = []
     for (let index = 0; index < event.events.length; index++) {
       statusChanged.push(event.events[index].win)
     }
-    if(statusChanged.includes(0)){
+    if (statusChanged.includes(0)) {
       return 0
-    } else{
+    } else {
       return 1
     }
   }
   betWin(event) {
     let win = 1
     for (let index = 0; index < event.events.length; index++) {
-      if(event.events[0].win){
-      if (event.events[0].type === event.events[0].win.toString()) {
+      if (event.events[0].win) {
+        if (event.events[0].type === event.events[0].win.toString()) {
 
-      } else {
-        win = 0
+        } else {
+          win = 0
+        }
+
       }
-
-    }}
+    }
     return win
 
   }
-  ngOnInit() {}
+  ngOnInit() { }
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
