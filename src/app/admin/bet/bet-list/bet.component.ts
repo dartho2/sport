@@ -7,6 +7,7 @@ import { AnalysticService } from '../../analystic/analystic-service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Bet } from '../bet.model'
 import { map } from 'rxjs/operators';
+import { CompileTemplateMetadata } from '@angular/compiler';
 const ELEMENT_DATA: Bet[] = [];
 @Component({
   selector: 'app-bet',
@@ -21,7 +22,7 @@ const ELEMENT_DATA: Bet[] = [];
   ]
 })
 export class BetComponent implements OnInit {
-  displayedColumns: string[] = ['status', 'date', 'rate'];
+  displayedColumns: string[] = ['status', 'date','kurs', 'rate'];
   bets;
   event: any;
   dupa;
@@ -35,14 +36,15 @@ export class BetComponent implements OnInit {
 
     this.betService.getBetAll().subscribe(res => {
       this.bets = res
-      console.log(this.bets)
       this.bets.map(ev => {
+        let wins = []
+        if(ev.statusChanged === 2){
         ev.events.map(t => {
+          
           this.analysticService.getAnalystictEvent(t.idEvent).subscribe(even => {
-            if (t.type === "0") {
-              t["type"] = "3"
-            }
+            if (t.type === "0") { t["type"] = "3"}
             t.win = even.event.winnerCode
+            if(t.win !== 0) {
             if (even.event["statusDescription"].includes('AP')) {
               t["eventsWinAP"] = this.checkWin(even, false, "win")
               t["eventsWinFT"] = this.checkWin(even, true, "win")
@@ -52,17 +54,35 @@ export class BetComponent implements OnInit {
             if ([0, 1, 2, 3].includes(even.event.winnerCode)) {
               t["winCode"] = even.event.winnerCode.toString()
             }
+          }
+            //winCode = 0-remis, 1-1,2-2, 3-3 nie rozstrzygnite
             ev.status = this.betWin(ev)
-            ev.statusChanged = this.betCoupon(ev)
-            if (ev.statusChanged !== 1) {
-              this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
+         
+              t.winers = this.editDataMatch(t)
+              ev.winers = this.editData(ev)
+              wins.push(this.checkAll(t.winers))
+              if(wins.length === ev.events.length){
+                ev.statusChanged = this.checkAllWins(wins)
+                if( ev.statusChanged !== 2){
+                  if(ev.statusChanged === 0) {
+                    ev.rate = ''
+                  }
+                this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
+              }
+              // ev.statusWin = this.statusEvent(t.winers)
+              // ev.statusWin = this.statusEvent(ev.winers)
+              // this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
+              
             }
           },
             err => {
               console.error(err);
             })
         })
-      })
+        
+        // console.log(ev)
+     } })
+      
 
       this.checkCup(this.bets)
       this.dataSource.data = this.bets
@@ -71,22 +91,76 @@ export class BetComponent implements OnInit {
 
 
   }
-  
+  statusEvent(event){
+  console.log(event, "-event")
+    
+  }
+  checkAllWins(match){
+    if(match.indexOf(0) !== -1){
+      return 0
+    } else {
+      if(match.indexOf(2) !== -1){
+        return 2
+      } else {
+        return 1
+      }
+    }
+  }
+  checkAll(win){
+    // console.log(win, [0].includes(win),  "- win")
+    if([0].includes(win)){
+      return 0
+    } else {
+      if([2].includes(win)){
+        return 2
+      } else {
+        return 1
+      }
+    }
+  }
+  editDataMatch(match){
+    
+      if (Number(match.win) === Number(match.type)) {
+        return 1 //wygrana
+      } else {
+        if (Number(match.win) === 0) {
+          return 2 //nierozstrzygniete
+        } else {
+         return 0 //przegrana
+        }
+      }
+  }
+  editData(event) {
+    // 1 wygrana 1, 2 wygrana 2, 3 remis, 0 brak
+    let result = []
+    event.events.map(x => {
+      if (Number(x.win) === Number(x.type)) {
+        result.push(1) //wygrana
+      } else {
+        if (Number(x.win) === 0) {
+          result.push(2) //nierozstrzygniete
+        } else {
+          result.push(0) //przegrana
+        }
+      }
+    })
+    return result
+  }
   checkCup(element) {
     element.forEach(x => {
-     x.events.forEach(y => {
-       if(x['winers'] !== 0 ){
-           if (Number(y.type) !== y.win) {
-         if(y.win !== 0){
-          x['winers'] = 0 
-        }else{
-          x['winers'] = 3
+      x.events.forEach(y => {
+        if (x['winers'] !== 0) {
+          if (Number(y.type) !== y.win) {
+            if (y.win !== 0) {
+              x['winers'] = 0
+            } else {
+              x['winers'] = 3
+            }
+          } else {
+            x['winers'] = 1
+          }
         }
-        }else{
-          x['winers'] = 1
-        }
-       }
-      
+
       })
     })
   }

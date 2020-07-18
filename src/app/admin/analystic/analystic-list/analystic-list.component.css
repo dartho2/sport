@@ -4,6 +4,11 @@
   justify-content: center;
 }
 
+::ng-deep table thead tr th,
+table tfoot tr td {
+  font-weight: 800 !important;
+}
+
 .slash-font {
   padding-left: 4px;
 }
@@ -86,9 +91,11 @@ th:nth-child(14) {
 th:nth-child(15) {
   background: rgba(199, 201, 58, 0.7);
 }
- th:nth-child(16) {
+
+th:nth-child(16) {
   background: rgba(199, 201, 58, 0.7);
 }
+
 /*
 th:nth-child(18) {
   background: rgba(199, 201, 58, 0.7);
@@ -168,9 +175,11 @@ th:nth-child(4) {
 th:nth-child(1) {
   border-left-color: black !important;
 }
+
 td:nth-child(25) {
   border-right-color: black !important;
 }
+
 td:nth-child(24) {
   border-right-color: black !important;
 }
@@ -238,6 +247,7 @@ td:nth-child(14) {
 td:nth-child(15) {
   background: rgba(199, 201, 58, 0.7);
 }
+
 td:nth-child(16) {
   background: rgba(199, 201, 58, 0.7);
 }
@@ -253,9 +263,11 @@ td:nth-child(10) {
 td:nth-child(7) {
   border-right-color: black !important;
 }
+
 td:nth-child(4) {
   border-right-color: black !important;
 }
+
 td:nth-child(1) {
   border-right-color: black !important;
 }
@@ -789,17 +801,17 @@ th.mat-header-cell {
 .flags--eng,
 .flags--england-amateur,
 .flags--england {
-  background-position: 28.86822% 0
+  background-position: 28.76822% 0
 }
 
 .flags--gnq,
 .flags--equatorial-guinea {
-  background-position: 29.2866% 0
+  background-position: 29.1866% 0
 }
 
 .flags--eri,
 .flags--eritrea {
-  background-position: 29.70498% 0
+  background-position: 29.60498% 0
 }
 
 .flags--est,
@@ -1328,7 +1340,7 @@ th.mat-header-cell {
 
 .flags--pol,
 .flags--poland {
-  background-position: 73.63488% 0
+  background-position: 73.3488% 0
 }
 
 .flags--prt,
@@ -2037,6 +2049,10 @@ span.span-header {
   right: -19em;
 }
 
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+  width: auto;
+}
+
 .slideout-widget-contact {
   position: fixed;
   right: -20em;
@@ -2044,4 +2060,41 @@ span.span-header {
   transition: right .4s;
   width: 19em;
   z-index: 10;
+}
+
+::ng-deep .radio-toolbar {
+  margin: 10px;
+}
+
+::ng-deep .radio-toolbar .radio {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+::ng-deep .radio-toolbar label {
+  display: inline-block;
+  background-color: #ddd;
+  padding: 10px 20px;
+  font-family: sans-serif, Arial;
+  font-size: 16px;
+  border: 2px solid #444;
+  border-radius: 4px;
+}
+
+::ng-deep .radio-toolbar label:hover {
+  background-color: #dfd;
+}
+
+::ng-deep .radio-toolbar .radio:focus+label {
+  border: 2px dashed #444;
+}
+
+::ng-deep .mat-radio-container {
+  display: none !important;
+}
+
+::ng-deep .mat-radio-checked>label {
+  background-color: #bfb !important;
+  border-color: #4c4 !important;
 }

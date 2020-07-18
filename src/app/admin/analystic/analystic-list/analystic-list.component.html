@@ -102,25 +102,45 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> type </th>
           <div formArrayName="events">
             <td mat-cell *matCellDef="let element; let i = index;">
-              <div class="col mr-2 inline-flex" [formGroupName]="i">
+              <div [formGroupName]="i">
 
-
-                <mat-form-field class="f-control-n-f content-line">
-                  <input type="text" id="description" placeholder="" name="type" formControlName="type" required
-                    matInput>
-                </mat-form-field>
-                <mat-form-field class="f-control-n-f content-line">
-                  <input type="text" id="description" placeholder="" name="typeYT" formControlName="typeYT" required
-                    matInput>
-                </mat-form-field>
+                <div class="inline-flex">
+                  <div class="content-line"> <mat-form-field class="f-control-n-f content-line">
+                    <input type="text" id="description" placeholder="" name="type" formControlName="type" required
+                      matInput>
+                  </mat-form-field>
+                  <mat-radio-group class="radio-toolbar" formControlName="type"  aria-label="Select an option">
+                      <mat-radio-button #button (click)="checkState(button, i)"value="1">1</mat-radio-button>
+                      <mat-radio-button #button (click)="checkState(button,i)" value="3">0</mat-radio-button>
+                      <mat-radio-button #button (click)="checkState(button,i)"value="2">2</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                </div>
+                <div class="inline-flex">
+                  <div class="content-line">
+                      <mat-form-field class="f-control-n-f content-line">
+                          <input type="text" id="description" placeholder="" name="typeYT" formControlName="typeYT" required
+                            matInput>
+                        </mat-form-field>
+                </div>
+                </div>
+               
+                <div class="inline-flex">
+                    <div class="content-line">
                 <mat-form-field class="f-control-n-f content-line">
                   <input type="text" id="description" placeholder="" name="typeBT" formControlName="typeBT" required
                     matInput>
                 </mat-form-field>
+                </div>
+                </div>
+                <div class="inline-flex">
+                    <div class="content-line">
                 <mat-form-field class="f-control-n-f content-line">
                   <input type="text" id="description" placeholder="" name="typeVI" formControlName="typeVI" required
                     matInput>
                 </mat-form-field>
+                </div>
+                </div>
               </div>
             </td>
           </div>
@@ -139,7 +159,7 @@
                   <div class="col mr-2 inline-flex" [formGroupName]="i">
                       
                       <mat-form-field class=" content-line">
-                          <input type="text" id="description" placeholder="" name="type" formControlName="time" required
+                          <input [style.width]="myInput.value.length*8+'px'" #myInput type="text" id="description" placeholder="" name="type" formControlName="time" required
                             matInput >
                         </mat-form-field>
                 </div>

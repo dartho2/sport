@@ -1317,6 +1317,9 @@ tr.example-element-row:not(.example-expanded-row):active {
   .flags--00{
     background: url('https://www.sts.pl/pages/frontend/gfx/icon/icon-status-unresolved.png') top left / contain no-repeat
   }
+  .flags--2{
+    background: url('https://www.sts.pl/pages/frontend/gfx/icon/icon-status-unresolved.png') top left / contain no-repeat
+  }
   .flags--700{
     background: url('https://www.sts.pl/pages/frontend/gfx/icon/icon-status-unresolved.png') top left / contain no-repeat
   }
