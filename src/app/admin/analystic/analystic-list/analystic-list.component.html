@@ -24,6 +24,7 @@
 <div class="content-body">
   <div class="photo-list card card-block">
 
+
     <table class="table table-bordered table-dark">
       <thead class="thead-light">
         <tr style="width: 100%;">
@@ -105,14 +106,19 @@
               <div [formGroupName]="i">
 
                 <div class="inline-flex">
-                  <div class="content-line"> <mat-form-field class="f-control-n-f content-line">
+                  <div class="content-line"> 
+                    <!-- <mat-form-field class="f-control-n-f content-line">
                     <input type="text" id="description" placeholder="" name="type" formControlName="type" required
                       matInput>
-                  </mat-form-field>
+                  </mat-form-field> -->
                   <mat-radio-group class="radio-toolbar" formControlName="type"  aria-label="Select an option">
-                      <mat-radio-button #button (click)="checkState(button, i)"value="1">1</mat-radio-button>
-                      <mat-radio-button #button (click)="checkState(button,i)" value="3">0</mat-radio-button>
-                      <mat-radio-button #button (click)="checkState(button,i)"value="2">2</mat-radio-button>
+                    <mat-radio-button value="1" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 1, i)" >1</mat-radio-button>
+                    <mat-radio-button value="3" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 3, i)" >0</mat-radio-button>
+                   
+                    <mat-radio-button value="2" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 2, i)" >2</mat-radio-button>
+                    <!-- <mat-radio-button  (change)="onSelectionChange($event, i)" (click)="checkState(button, i,type)" value="1">1</mat-radio-button>
+                      <mat-radio-button  (change)="onSelectionChange($event, i)" (click)="checkState(button, i,type)" value="0">0</mat-radio-button>
+                      <mat-radio-button  (change)="onSelectionChange($event, i)" (click)="checkState(button, i,type)" value="2">2</mat-radio-button> -->
                     </mat-radio-group>
                 </div>
                 </div>

@@ -10,6 +10,7 @@ import 'jspdf-autotable';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { a } from '@angular/core/src/render3';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -96,23 +97,24 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   matchInfoFirstHalfWinner = "First half winner";
   colorWin = 'none';
   colorText = 'none';
-  ligueId = [1, 4, 8, 13, 19, 36, 39, 42, 47,33, 39, 52, 53, 62, 38, 679, 202,7918,1465,33563]
+  ligueId = [1, 4, 8, 13, 19, 36, 39, 42, 47, 33, 39, 52, 53, 62, 38, 679, 202, 7918, 1465, 33563]
   statusCode = [100]
   votePrice;
   VotePrice: number;
+  radioVal;
   winSure = 0;
   winSureAll = 0;
   returnCost: number;
   numberPercent = 70;
   checkWins: string;
-  public RadioOpts= [
-    { id: '1', value : '1'},
-    { id: '0', value : '0'},
-    { id: '2', value: '2'}
-];
+  public RadioOpts = [
+    { id: '1', value: '1' },
+    { id: '0', value: '0' },
+    { id: '2', value: '2' }
+  ];
   myForm: FormGroup;
   favoriteSeason: string;
-  seasons: string[] = ['1','2','0'];
+  seasons: string[] = ['1', '2', '0'];
 
   currentCheckedValue = null;
   dataSource = new MatTableDataSource(this.matchData);
@@ -127,60 +129,76 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.formbuilder();
 
   }
-  checkState(el,type) {
-    
-  console.log(this.myForm, "before")
-  console.log(this.myForm.controls['events'].setValue({type:''}, type))
-  console.log(this.myForm, "after")
+  onSelectionChange(el, type) {
+    console.log(el)
+
+    console.log(el.value)
+
+  }
+  checkState(el, type, con) {
+    // console.log(el.value)
+    // console.log(el, type,el.checked)
+    // this.eventss.at(type).patchValue({type:"4"})
+    // console.log(this.eventss)
+    // el.checked = false
+    // // console.log(this.eventss, "before", type, con)
+    // // console.log(this.myForm.controls['events'].patchValue({type:''}), "a")
+    // // console.log(this.myForm, "after")
     setTimeout(() => {
       if (this.currentCheckedValue && this.currentCheckedValue === el.value) {
-        console.log("if", this.currentCheckedValue )
+        console.log("if", this.currentCheckedValue)
         el.checked = false;
-        console.log((el['_elementRef'].nativeElement, 'cdk-focused'))
+        // console.log((el['_elementRef'].nativeElement, 'cdk-focused'))
         this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-focused');
         this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-focused');
         this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-program-focused');
         this.currentCheckedValue = null;
         this.favoriteSeason = null;
       } else {
-        console.log("else", this.currentCheckedValue )
+        console.log('=> ', this.currentCheckedValue)
+        el.checked = true;
+        // console.log("else", this.currentCheckedValue )
         this.currentCheckedValue = el.value
+
       }
     })
   }
 
-  resetRadio(e){
+  resetRadio(e) {
     console.log(e)
   }
 
   formbuilder() {
     this.myForm = this._fb.group({
       date: new FormControl(''),
-      events: new FormArray([])
-      
+      events: this._fb.array([
+
+      ])
+
     })
   }
-  get events() { return this.myForm.get('events') as FormArray }
+
+  get eventss() { return this.myForm.get('events') as FormArray }
   onCheckChange(event) {
     const formArray: FormArray = this.myForm.get('type') as FormArray;
-  
+
     /* Selected */
-    if(event.target.checked){
+    if (event.target.checked) {
       // Add a new control in the arrayForm
       formArray.push(new FormControl(event.target.value));
     }
     /* unselected */
-    else{
+    else {
       // find the unselected element
       let i: number = 0;
-  
+
       formArray.controls.forEach((ctrl: FormControl) => {
-        if(ctrl.value == event.target.value) {
+        if (ctrl.value == event.target.value) {
           // Remove the unselected element from the arrayForm
           formArray.removeAt(i);
           return;
         }
-  
+
         i++;
       });
     }
@@ -211,7 +229,26 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     }))
 
   }
+  clickRadio(event: Event, value: any, i) {
+    // event.preventDefault();
 
+    if (!this.radioVal || this.radioVal !== value) {
+      this.radioVal = value;
+      this.eventss.at(i).patchValue({ type: this.radioVal });
+      return;
+    }
+
+    if (this.radioVal === value) {
+      event.preventDefault();
+      this.radioVal = 4;
+      this.eventss.at(i).patchValue({ type: '' });
+    }
+  }
+
+  isRadioSelected(value: any) {
+    console.log(value, "radio")
+    return (this.radioVal === value);
+  }
   captureScreen(formattedDate) {
     var data = document.getElementById('ExampleTable');
     html2canvas(data).then(canvas => {
@@ -520,11 +557,14 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     }
 
   }
+  betAllRateResultsMinus(x){
+    let a = 1;
+    x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === '0' ? this.betAllRateResult /= x.votX : '';
+     return (a / 1.14).toFixed(2)
+  }
   betAllRateResults(x) {
     let a = 1;
-    
-      x.type === '1' ? this.betAllRateResult *= x.vot1 : x.type === '2' ? this.betAllRateResult *= x.vot2 : x.type === '0' ? this.betAllRateResult *= x.votX : '';
-  
+    x.type === '1' ? this.betAllRateResult *= x.vot1 : x.type === '2' ? this.betAllRateResult *= x.vot2 : x.type === '0' ? this.betAllRateResult *= x.votX : '';
     return (a / 1.14).toFixed(2)
   }
 
@@ -642,16 +682,33 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.chance = this.chance + amount
   }
   addBet(x) {
-    
-    this.myForm.value.events.forEach(x => {
+ 
+    this.eventss.value.forEach(x => {
       if (x.name && (x.type.length > 0)) {
-        let a = this.dateEventsBet.events.find(y=> y.idEvent === x.idEvent)
-        if(!a){
+       
+        if (x.type === "3") {
+          x.type = "0"
+        }
+        let b = false;
+        var a = this.dateEventsBet.events.find(y => y.idEvent === x.idEvent)
+        a ? a = a : a = false
+        if (!a) {
           this.betAllRateResults(x)
-        this.dateEventsBet.date = this.formattedDate
-        this.dateEventsBet.events.push(x)}
+          this.dateEventsBet.date = this.formattedDate
+          this.dateEventsBet.events.push(x)
+        }
+       else {
+        if (a) {
+          if (a.type !== x.type) {
+            this.betAllRateResultsMinus(a)
+            this.betAllRateResults(x)
+            // this.dateEventsBet.events.push(x)
+       this.dateEventsBet.events.find(y=> {y.idEvent === x.idEvent, y.type = x.type})
+          
+          }
+        }
       }
-
+      }
     })
   }
 
@@ -660,7 +717,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
     this.dataSource = new MatTableDataSource(this.matchData);
     this.dataSource.sortingDataAccessor = (item, property) => {
-      
+
       switch (property) {
         case 'flag': return item.turnament.flag;
         case 'time': return item.startTime;
