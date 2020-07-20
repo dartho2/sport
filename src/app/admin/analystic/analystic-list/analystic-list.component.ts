@@ -703,7 +703,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
             this.betAllRateResultsMinus(a)
             this.betAllRateResults(x)
             // this.dateEventsBet.events.push(x)
-       this.dateEventsBet.events.find(y=> {y.idEvent === x.idEvent, y.type = x.type})
+       this.dateEventsBet.events.find(y=> y.idEvent === x.idEvent, a.type = x.type)
           
           }
         }
