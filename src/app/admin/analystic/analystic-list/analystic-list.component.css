@@ -2098,3 +2098,17 @@ span.span-header {
   background-color: #bfb !important;
   border-color: #4c4 !important;
 }
+::ng-deep tr.mat-footer-row, tr.mat-row {
+  background: #131d2d !important;
+}
+::ng-deep .radio-toolbar label {
+  border: none;
+    text-shadow: none;
+    height: 30px;
+    background: rgba(46, 62, 87, 0.7);
+    font-weight: 400;
+    border-radius: 3px;
+    background-clip: padding-box;
+    transition: background-color 0.3s ease-in-out;
+    margin: 0 2px;
+}

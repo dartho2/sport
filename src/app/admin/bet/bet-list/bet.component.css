@@ -1559,3 +1559,6 @@ tr.example-element-row:not(.example-expanded-row):active {
     height: 28px;
     background-position: -364px 0
   }
+::ng-deep tr.mat-footer-row, tr.mat-row {
+  background: #131d2d !important;
+}
