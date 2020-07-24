@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { a } from '@angular/core/src/render3';
+import {MatAccordion} from '@angular/material/expansion';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -39,9 +40,10 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 })
 export class AnalysticListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [ 'time','type'];
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   @Input()
   eventID;
+  panelOpenState;
   chance = 0;
   dateEventsBet = { date: '', status: 70, rate: "0", statusEvent: 2, statusChanged: 2, events: [] };
   formattedDate;
