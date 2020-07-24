@@ -378,7 +378,6 @@ th.mat-header-cell {
   table {
     width: 100%;
     overflow-x: auto;
-    display: block;
   }
 }
 
