@@ -104,24 +104,59 @@
           <div formArrayName="events">
             <td mat-cell *matCellDef="let element; let i = index;">
               <div [formGroupName]="i">
-
+                  
+                    <div class="progress">
+                        <div *ngIf="element.events.winningOdds?.home?.actual" class="progress-bar win1" role="progressbar" [ngStyle]="{'width': element.events.winningOdds?.home?.actual + '%'}" aria-valuenow="15" aria-valuemin="0" aria-valuemax="200">{{element.events.winningOdds?.home?.actual}}</div>
+                        <div *ngIf="element.events.winningOdds?.away?.actual && element.events.winningOdds?.home?.actual" class="progress-bar winX" role="progressbar" [ngStyle]="{'width':  ((element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)-100) > 0? 
+                            ((element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)-100)+ '%' :
+                            (100-(element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)) + '%'}" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"> {{((element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)-100) > 0? 
+                            ((element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)-100):
+                            (100-(element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual))}}</div>
+                        <div *ngIf="element.events.winningOdds?.away?.actual" class="progress-bar win2" role="progressbar" [ngStyle]="{'width':  element.events.winningOdds?.away?.actual + '%'}" aria-valuenow="20" aria-valuemin="0" aria-valuemax="200">{{element.events.winningOdds?.away?.actual}}</div>
+                      </div>
+                  <div class="progress">
+                      <div class="progress-bar win1" role="progressbar" [ngStyle]="{'width': element.events.vote.vote1Percentage + '%'}" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">{{element.events.vote.vote1Percentage | slice:0:-3}}</div>
+                      <div class="progress-bar winX" role="progressbar" [ngStyle]="{'width': element.events.vote.voteXPercentage + '%'}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{element.events.vote.voteXPercentage | slice:0:-3}}</div>
+                      <div class="progress-bar win2" role="progressbar" [ngStyle]="{'width': element.events.vote.vote2Percentage + '%'}" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">{{element.events.vote.vote2Percentage | slice:0:-3}}</div>
+                    </div>
+                {{element.name}}
                 <div class="inline-flex">
-                  <div class="content-line row"> 
+                  <div class="content-line">{{element.events.h2hDuel.homewins}}</div>
+                  <div class="content-line slash-font-double"></div>
+                  <div class="content-line">{{element.events.h2hDuel.draws}}</div>
+                  <div class="content-line slash-font-double"></div>
+                  <div class="content-line">{{element.events.h2hDuel.awaywins}} </div>
+                </div>
+                <div class="inline-flex">
+                  <div class="content-line">{{element.turnament.name}}</div>
+                </div>
+                <div class="inline-flex">
+                  <div class="content-line">{{element.events.event.tournament.uniqueName}}</div>
+                </div>
+                <div class="inline-flex" *ngIf="element.events.teamsForm">
+                  <div class="content-line" *ngFor="let form of element.events.teamsForm.homeTeam.form">
+                    <span [ngClass]="'form-event-'+ form">{{form}}</span>
+                  </div>
+                  <div class="content-line slash-font-double">-</div>
+                  <div class="content-line" *ngFor="let form of element.events.teamsForm.awayTeam.form">
+                    <span [ngClass]="'form-event-'+ form">{{form}}</span>
+                  </div>
+                </div>
+            
                     <!-- <mat-form-field class="f-control-n-f content-line">
                     <input type="text" id="description" placeholder="" name="type" formControlName="type" required
                       matInput>
                   </mat-form-field> -->
-                  <mat-radio-group class="col-12 radio-toolbar" formControlName="type"  aria-label="Select an option">
-                    <mat-radio-button class="col-4" value="1" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 1, i)" >{{element.homeTeam.name}}<span>{{element.vot1}}</span></mat-radio-button>
-                    <mat-radio-button class="col-4" value="3" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 3, i)" ><span>{{element.votX}}</span></mat-radio-button>
+                  <mat-radio-group class="radio-toolbar" formControlName="type"  aria-label="Select an option">
+                    <mat-radio-button class="" value="1" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 1, i)" >1<span>{{element.vot1}}</span></mat-radio-button>
+                    <mat-radio-button class="" value="3" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 3, i)" >X<span>{{element.votX}}</span></mat-radio-button>
                    
-                    <mat-radio-button class="col-4" value="2" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 2, i)" >{{element.awayTeam.name}}<span>{{element.vot2}}</span></mat-radio-button>
+                    <mat-radio-button class="" value="2" (change)="onSelectionChange($event, i)" (click)="clickRadio($event, 2, i)" >2<span>{{element.vot2}}</span></mat-radio-button>
                     <!-- <mat-radio-button  (change)="onSelectionChange($event, i)" (click)="checkState(button, i,type)" value="1">1</mat-radio-button>
                       <mat-radio-button  (change)="onSelectionChange($event, i)" (click)="checkState(button, i,type)" value="0">0</mat-radio-button>
                       <mat-radio-button  (change)="onSelectionChange($event, i)" (click)="checkState(button, i,type)" value="2">2</mat-radio-button> -->
                     </mat-radio-group>
-                </div>
-                </div>
+             
                 <div class="inline-flex">
                   <div class="content-line">
                       <mat-form-field class="f-control-n-f content-line">
@@ -174,7 +209,7 @@
                 
         </ng-container>
 
-        <ng-container matColumnDef="name">
+        <!-- <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> name </th>
           <td mat-cell *matCellDef="let element"> {{element.name}}
             <div class="inline-flex">
@@ -200,8 +235,8 @@
               </div>
             </div>
           </td>
-        </ng-container>
-        <ng-container matColumnDef="vote1">
+        </ng-container> -->
+        <!-- <ng-container matColumnDef="vote1">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> 1 </th>
           <td mat-cell *matCellDef="let element">
             <div class="inline-flex">
@@ -224,7 +259,7 @@
               <div class="content-line slash-font">{{element.events.vote.vote2Percentage | slice:0:-3}}</div>
             </div>
           </td>
-        </ng-container>
+        </ng-container> -->
         <!-- <ng-container matColumnDef="kurs1">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>1</th>
           <td mat-cell *matCellDef="let element">

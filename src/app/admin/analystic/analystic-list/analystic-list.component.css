@@ -2112,3 +2112,26 @@ span.span-header {
     transition: background-color 0.3s ease-in-out;
     margin: 0 2px;
 }
+.mat-cell, .mat-footer-cell {
+  color: rgb(191 191 191 / 87%) !important;
+}
+.win1{
+  background:#52b030;
+}
+.winX {
+  background: #bac0c6;
+}
+.win2 {
+  background:#0057a3;
+}
+::ng-deep .mat-radio-label-content span {
+  padding-left: 10px;
+  color: #ffa500;
+  transition: color 0.3s ease-in-out;
+    font-weight: 400;
+    float: right;
+    padding-top: 10px;
+}
+::ng-deep .mat-radio-label-content {
+  width: 28px;
+}
