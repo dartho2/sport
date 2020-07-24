@@ -1007,7 +1007,7 @@ th.mat-header-cell {
 
 .flags--ita,
 .flags--italy {
-  background-position: 46.0218% 0
+  background-position: 46.25% 0;
 }
 
 .flags--civ,
@@ -1572,7 +1572,7 @@ th.mat-header-cell {
 .flags--tur,
 .flags--turkey-amateur,
 .flags--turkey {
-  background-position: 92.46198% 0
+  background-position: 92.47198% 0
 }
 
 .flags--tkm,
@@ -2095,8 +2095,8 @@ span.span-header {
 }
 
 ::ng-deep .mat-radio-checked>label {
-  background-color: #bfb !important;
-  border-color: #4c4 !important;
+  background-color: #d38b08 !important;
+  border-color: #d38b08 !important;
 }
 ::ng-deep tr.mat-footer-row, tr.mat-row {
   background: #131d2d !important;
@@ -2138,4 +2138,21 @@ span.span-header {
 .img-club {
   height: 56px;
     min-width: 56px;
+}
+.WinFT , .WinAP{
+  font-size:25px !important;
+  padding-top:10px;
+  padding-bottom: 15px;
+}
+span.event-name {
+padding:20px 5px 0px 5px;
+}
+.radio-top {
+  padding-top: 30px;
+}
+.avg-left{
+  padding-right:90px;
+}
+.avg-right{
+  padding-left:90px;
 }
