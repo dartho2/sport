@@ -119,8 +119,13 @@
                       <div class="progress-bar winX" role="progressbar" [ngStyle]="{'width': element.events.vote.voteXPercentage + '%'}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{element.events.vote.voteXPercentage | slice:0:-3}}</div>
                       <div class="progress-bar win2" role="progressbar" [ngStyle]="{'width': element.events.vote.vote2Percentage + '%'}" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">{{element.events.vote.vote2Percentage | slice:0:-3}}</div>
                     </div>
-                {{element.name}}
-                <div class="inline-flex">
+
+               
+                    <img src="https://www.sofascore.com/images/team-logo/football_{{element.events.event.homeTeam.id}}.png" class="img-club">
+                     {{element.name}}
+                
+                     <img src="https://www.sofascore.com/images/team-logo/football_{{element.events.event.awayTeam.id}}.png" class="img-club">
+                     <div class="inline-flex">
                   <div class="content-line">{{element.events.h2hDuel.homewins}}</div>
                   <div class="content-line slash-font-double"></div>
                   <div class="content-line">{{element.events.h2hDuel.draws}}</div>
