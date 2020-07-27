@@ -2313,6 +2313,12 @@ padding-top: 15px;
   border: unset;
 }
 ::ng-deep .fixed-panel {
+  /* position: fixed; */
+  width: 100%;
+}
+::ng-deep .panel-fixed {
   position: fixed;
-  width: 97%;
+  margin-right: 15px;
+  right: 0px;
+  width: 100%;
 }
