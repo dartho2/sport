@@ -130,7 +130,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
     this.getMatches();
     this.formbuilder();
-
   }
   onSelectionChange(el, type) {
     console.log(el)
@@ -278,7 +277,12 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
               this.analysticService.getAnalystictEvent(events.id).subscribe(
                 eventsData => {
                   this.eventTournament = eventsData;
-                  // console.log(this.eventTournament)
+                  this.analysticService.getEventsLast(events.awayTeam.id).subscribe(x=> {
+                    events["last"]= x
+                  })
+                  this.analysticService.getEventsNext(events.homeTeam.id).subscribe(x=> {
+                    events["next"]= x
+                  })
                   this.analysticService.getVotePrice(events.id).subscribe(
                     vote => {
                       events["vote"] = vote.markets[0];

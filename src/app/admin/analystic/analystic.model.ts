@@ -1,16 +1,34 @@
 
-export interface  Analystic {
+export interface Analystic {
     sportItem: String
     id: number;
     members: String;
-    name:string;
+    name: string;
     vote: String;
     category: [{}];
-    tournament: {id:number, name:string;};
-    events: [{formatedStartDate: string,id:string,sport:string,startTimestamp:number,winnerCode: number,status:{code: number}}];
+    tournament: { 
+        id: number, 
+        name: string; };
+    events: [{
+        id: number, 
+        homeTeam: { 
+            name: string, 
+            id: number 
+            },
+        awayTeam: {
+             id: number 
+            }, 
+        formatedStartDate: string,
+        sport: string,
+        startTimestamp: number,
+        winnerCode: number,
+        status: { 
+            code: number 
+        }
+    }];
 };
 
-export interface  Members {
+export interface Members {
     sportItem: String
     members: String;
 };

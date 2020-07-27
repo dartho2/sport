@@ -25,4 +25,10 @@ export class AnalysticService {
       addEvents(data): Observable<any> {
         return this._http.post<any>("https://karmazdrowia.pl:8080/api/bet", data );
       }
-}
+      getEventsLast(id){
+        return this._http.get("https://api.sofascore.com/api/v1/team/" + id + "/events/last/0")
+      }
+      getEventsNext(id){
+        return this._http.get("https://api.sofascore.com/api/v1/team/" + id + "/events/last/0")
+      }
+    }
