@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { a } from '@angular/core/src/render3';
 import {MatAccordion} from '@angular/material/expansion';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -121,14 +122,22 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
   currentCheckedValue = null;
   dataSource = new MatTableDataSource(this.matchData);
-  constructor(private analysticService: AnalysticService, private ren: Renderer2, private _fb: FormBuilder) {
+  constructor(private analysticService: AnalysticService, private ren: Renderer2, private _fb: FormBuilder,private route: ActivatedRoute,private router: Router) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
 
     this.myDate = new Date();
     this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
-    this.getMatches();
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("data")) {
+        let data = paramMap.get("data");
+        this.onSearchChange(new Date(data))
+      }else{
+        
+      }})
+
+    // this.getMatches();
     this.formbuilder();
   }
   onSelectionChange(el, type) {
@@ -659,8 +668,11 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.indexWin = 0
     this.getMatches()
   }
+  onSearchChangeParam(data){
+    this.router.navigate(['analystic/list/',formatDate(data, this.format, 'en')])
+  }
   onSearchChange(data) {
-
+    this.mymodel = formatDate(data, this.format, 'en')
     this.formbuilder()
     this.myForm.reset();
     this.voteWinAVG = 0;

@@ -99,7 +99,7 @@
             <td scope="col">Data:</td>
             <td scope="col">
               <mat-form-field>
-                <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChange($event)" [matDatepicker]="picker"
+                <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChangeParam($event)" [matDatepicker]="picker"
                   placeholder="Choose a date">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -134,7 +134,7 @@
                     <mat-expansion-panel hideToggle>
                       <mat-expansion-panel-header>
                         <mat-panel-title>
-                          Ustawienia
+                          Mecze poprzednie
                         </mat-panel-title>
                       </mat-expansion-panel-header>
 
@@ -142,7 +142,7 @@
                   <div class="col-6">
                     <div *ngFor="let last of element.last.events">
                       <span>{{(last.startTimestamp)* 1000 | date:'M/dd/yy'}}</span>
-                      <span>{{last.tournament.name}}</span>
+                      <!-- <span>{{last.tournament.name}}</span> -->
                       <span
                         [ngStyle]="last.winnerCode === 1 ? {'color':'yellow'} : {'color': 'unset'}">{{last.homeTeam.name}}
                       </span>-<span
@@ -152,7 +152,7 @@
                   <div class="col-6">
                     <div *ngFor="let last of element.next.events">
                       <span>{{(last.startTimestamp)* 1000 | date:'M/dd/yy'}}</span>
-                      <span>{{last.tournament.name}}</span>
+                      <!-- <span>{{last.tournament.name}}</span> -->
                       <span
                         [ngStyle]="last.winnerCode === 1 ? {'color':'yellow'} : {'color': 'unset'}">{{last.homeTeam.name}}
                       </span>-<span

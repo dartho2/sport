@@ -51,6 +51,12 @@ const adminRoutes: Routes = [
         data: { roles: [Role.Admin] }
       },
       {
+        path: 'analystic/list/:data',
+        component: AnalysticListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin] }
+      },
+      {
         path: 'calendar',
         component: CalendarComponent,
         canActivate: [AuthGuard],
