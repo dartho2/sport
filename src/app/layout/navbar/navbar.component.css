@@ -405,8 +405,11 @@ a.svg {
   }
   
   .toggler-c {
-    margin-left: 53px !important;
+    margin-left: 42px !important;
   }
+}
+::ng-deep .mat-sidenav-content.mat-drawer-content.mat-sidenav-content{
+  padding: 0px;
 }
 .toggler-icon {
      height: 35px;

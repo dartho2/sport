@@ -2312,3 +2312,7 @@ padding-top: 15px;
   background-color: white !important;
   border: unset;
 }
+::ng-deep .fixed-panel {
+  position: fixed;
+  width: 97%;
+}
