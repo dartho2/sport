@@ -205,6 +205,7 @@
                 </div>
                 <!-- END FORM -->
                 <!-- Begin DESCRIPTION -->
+                <div [ngClass]="'table-color-'+ element.win"><span [ngClass]="'span-' + element.win">{{element.win}}</span></div>
                 <div class="inline-flex">
                   <div class="content-line">
                     <img
@@ -370,7 +371,7 @@
         <tr mat-header-row *matHeaderRowDef="['header-row-type-group','header-row-first-group']">
         </tr>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr [ngClass]="'table-color-'+ row.win" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr [ngClass]="'table-color--'+ row.win" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       <div class="data-panel">
         <div class="panel-sub">
@@ -385,4 +386,4 @@
         </div>
       </div>
     </form>
-  
+  <div *ngFor="let a of turnamentEvent">{{a}}</div>

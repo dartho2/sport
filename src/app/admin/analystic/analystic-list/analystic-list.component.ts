@@ -103,6 +103,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   statusCode = [100]
   votePrice;
   VotePrice: number;
+  turnamentEvent = [];
   radioVal;
   winSure = 0;
   winSureAll = 0;
@@ -264,6 +265,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.matchData = [];
     this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
       res.map(turnaments => {
+        this.turnamentEvent.push(turnaments.tournament.name);
         if (this.ligueId.includes(turnaments.tournament.id)) {
 
 

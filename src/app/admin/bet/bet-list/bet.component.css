@@ -1562,3 +1562,6 @@ tr.example-element-row:not(.example-expanded-row):active {
 ::ng-deep tr.mat-footer-row, tr.mat-row {
   background: #131d2d !important;
 }
+::ng-deep .mat-cell, .mat-footer-cell{
+  color: white !important;
+}

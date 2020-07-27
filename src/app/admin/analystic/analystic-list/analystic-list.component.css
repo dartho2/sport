@@ -29,9 +29,11 @@ td.mat-footer-cell:first-of-type,
 th.mat-header-cell:first-of-type {
   padding-left: 0px;
 }
-th.mat-header-cell{
-  color:rgb(168 170 172);
+
+th.mat-header-cell {
+  color: rgb(168 170 172);
 }
+
 .border-th-sub {
   border-left-color: black !important;
   border-right-color: black !important;
@@ -318,7 +320,7 @@ th.mat-header-cell {
 }
 
 .table-color-0 {
-  background-color: #711b6a;
+  /* background-color: #711b6a; */
   color: white;
 }
 
@@ -326,9 +328,94 @@ th.mat-header-cell {
   color: white;
 }
 
-.table-color-1 {
-  background-color: #175919;
+.span-1 {
+  text-shadow: -1px 2px #3a3a3a;
   color: white;
+  z-index: 2;
+  margin-left: -231px;
+  font-weight: 700;
+  font-size: 17px;
+  position: absolute;
+  opacity: 1;
+}
+.span-2 {
+  text-shadow: -1px 2px #3a3a3a;
+  color: white;
+  z-index: 2;
+  margin-left: 231px;
+  font-weight: 700;
+  font-size: 17px;
+  position: absolute;
+  opacity: 1;
+}
+.span-0 {
+  text-shadow: -1px 2px #3a3a3a;
+  color: white;
+  z-index: 2;
+  margin-left: 9px;
+  font-weight: 700;
+  font-size: 17px;
+  position: absolute;
+  opacity: 1;
+}
+
+.table-color-1::after {
+  /* background-color: #175919; */
+  /* color: white;   */
+  color: #ffa500;
+  z-index: 3;
+  content: "\f0a3";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-size: 33px;
+  top: 10px;
+  left: -15px;
+  margin-left: -240px;
+}
+.table-color-2::after {
+  /* background-color: #175919; */
+  /* color: white;   */
+  color: #ffa500;
+  z-index: 3;
+  content: "\f0a3";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-size: 33px;
+  top: 10px;
+  left: -15px;
+  margin-left: 223px;
+}
+.table-color-0::after {
+  /* background-color: #175919; */
+  /* color: white;   */
+  color: #ffa500;
+  z-index: 3;
+  content: "\f0a3";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-size: 33px;
+  top: 10px;
+  left: -15px;
+  margin-left: 0;
+}
+.table-color-1 {
+  /* background-color: #175919;
+  color: white;  
+  content: "\f0a3";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #000;
+  font-size: 18px;
+  top: 10px;
+  left: 0; */
 }
 
 .table-color-1 td {
@@ -336,7 +423,7 @@ th.mat-header-cell {
 }
 
 .table-color-2 {
-  background-color: #2c5885;
+  /* background-color: #2c5885; */
   color: white;
 }
 
@@ -745,7 +832,7 @@ th.mat-header-cell {
 .flags--dnk,
 .flags--denmark-amateur,
 .flags--denmark {
-  background-position: 24.68442% 0
+  background-position: 24.58442% 0
 }
 
 .flags--dji,
@@ -1347,7 +1434,7 @@ th.mat-header-cell {
 
 .flags--prt,
 .flags--portugal {
-  background-position: 74.05326% 0
+  background-position: 73.75% 0
 }
 
 .flags--pri,
@@ -2100,64 +2187,82 @@ span.span-header {
   background-color: #d38b08 !important;
   border-color: #d38b08 !important;
 }
-::ng-deep tr.mat-footer-row, tr.mat-row {
+
+::ng-deep tr.mat-footer-row,
+tr.mat-row {
   background: #131d2d !important;
 }
+
 ::ng-deep .radio-toolbar label {
   border: none;
-    text-shadow: none;
-    height: 30px;
-    background: rgba(46, 62, 87, 0.7);
-    font-weight: 400;
-    border-radius: 3px;
-    background-clip: padding-box;
-    transition: background-color 0.3s ease-in-out;
-    margin: 0 2px;
+  text-shadow: none;
+  height: 30px;
+  background: rgba(46, 62, 87, 0.7);
+  font-weight: 400;
+  border-radius: 3px;
+  background-clip: padding-box;
+  transition: background-color 0.3s ease-in-out;
+  margin: 0 2px;
 }
-.mat-cell, .mat-footer-cell {
+
+.mat-cell,
+.mat-footer-cell {
   color: rgb(191 191 191 / 87%) !important;
 }
-.win1{
-  background:#52b030;
+
+.win1 {
+  background: #52b030;
 }
+
 .winX {
   background: #bac0c6;
 }
+
 .win2 {
-  background:#0057a3;
+  background: #0057a3;
 }
+
 ::ng-deep .mat-radio-label-content span {
   padding-left: 10px;
   color: #ffa500;
   transition: color 0.3s ease-in-out;
-    font-weight: 400;
-    float: right;
-    padding-top: 10px;
+  font-weight: 400;
+  float: right;
+  padding-top: 10px;
 }
+
 ::ng-deep .mat-radio-label-content {
   width: 28px;
 }
+
 .img-club {
   height: 56px;
-    min-width: 56px;
+  min-width: 56px;
 }
-.WinFT , .WinAP{
-  font-size:25px !important;
-  padding-top:10px;
+
+.WinFT,
+.WinAP {
+  font-size: 25px !important;
+  padding-top: 10px;
   padding-bottom: 15px;
 }
+
 span.event-name {
-padding:20px 5px 0px 5px;
+  padding: 20px 5px 0px 5px;
 }
+
 .radio-top {
   padding-top: 30px;
 }
-.avg-left{
-  padding-right:90px;
+
+.avg-left {
+  padding-right: 90px;
 }
-.avg-right{
-  padding-left:90px;
+
+.avg-right {
+  padding-left: 90px;
 }
+
 ::ng-deep .mat-expansion-panel-header {
   background: #131d2d;
   /* border-top-right-radius: 4px;
@@ -2166,20 +2271,26 @@ padding:20px 5px 0px 5px;
   border-color: #ffa500;
   border-width: 2px; */
 }
+
 ::ng-deep .mat-expansion-panel-header-title {
   color: rgb(168 170 172);
-  font-weight:600;
-  
+  font-weight: 600;
+
 }
-::ng-deep .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused, .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused, .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover {
+
+::ng-deep .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover {
   background: #131d2d;
   /* border: 2px solid #ffa500; */
 }
+
 ::ng-deep .mat-expansion-panel-header-title:hover {
   /* color:rgba(46, 62, 87, 0.7) !important; */
   font-weight: 600;
 }
-::ng-deep .mat-expansion-panel:hover > span.mat-content {
+
+::ng-deep .mat-expansion-panel:hover>span.mat-content {
   /* color:rgba(46, 62, 87, 0.7) !important; */
   font-weight: 600;
 }
