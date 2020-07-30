@@ -29,6 +29,9 @@ td.mat-footer-cell:first-of-type,
 th.mat-header-cell:first-of-type {
   padding-left: 0px;
 }
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
 
 th.mat-header-cell {
   color: rgb(168 170 172);
@@ -2131,7 +2134,9 @@ span.span-header {
   width: 19em;
   z-index: 10;
 }
-
+.pull-left-lg{
+  float: left;
+}
 ::ng-deep .radio-toolbar {
   margin: 10px;
 }

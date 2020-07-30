@@ -39,13 +39,13 @@
             Ustawienia
           </mat-panel-title>
           <mat-panel-description>
-              <mat-form-field>
-                  <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChangeParam($event)" [matDatepicker]="picker"
-                    placeholder="Choose a date">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </mat-panel-description>
+            <mat-form-field>
+              <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChangeParam($event)" [matDatepicker]="picker"
+                placeholder="Choose a date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </mat-panel-description>
         </mat-expansion-panel-header>
         <table class="table table-bordered table-dark">
           <thead class="thead-light">
@@ -139,41 +139,76 @@
               <div [formGroupName]="i">
                 <!--    BEGIN     -->
                 <mat-accordion>
-                    <mat-expansion-panel hideToggle>
-                      <mat-expansion-panel-header>
-                        <mat-panel-title>
-                          Mecze poprzednie
-                        </mat-panel-title>
-                      </mat-expansion-panel-header>
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Mecze poprzednie
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <!-- <pre style="color:white">{{element|json}}</pre> -->
+                    <div class="">
+                      <!-- <pre>{{element.standings.teamEvents['2814'] | json}}</pre> -->
+  
+                      <!-- <pre>{{element.events.event.homeTeam.id | json}}</pre> -->
+                      <div  *ngFor="let last of element.standings.teamEvents | keyvalue">
+                        <!-- <pre>{{last.key}} -sss {{element.events.event.homeTeam.id}}</pre>  -->
+                        <div class="col-lg-6 pull-left-lg" *ngIf="checkStandings(last.key, element.events.event.homeTeam.id)">
+                         <div *ngFor ="let standingMatch of sortData(last.value.total, last.value.home, last.value.away)">
 
-                <div class="row">
-                  <div class="col-6">
-                    <div *ngFor="let last of element.last.events">
-                      <span>{{(last.startTimestamp)* 1000 | date:'M/dd/yy'}}</span>
-                      <!-- <span>{{last.tournament.name}}</span> -->
-                      <span
-                        [ngStyle]="last.winnerCode === 1 ? {'color':'yellow'} : {'color': 'unset'}">{{last.homeTeam.name}}
-                      </span>-<span
-                        [ngStyle]="last.winnerCode === 2 ? {'color':'yellow'} : {'color': 'unset'}">{{last.awayTeam.name}}</span>
+                              {{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}}              <span
+                              [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">{{standingMatch.homeTeam.name}}</span>
+                              -
+                              <span
+                              [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">{{standingMatch.awayTeam.name}}</span>
+                              {{standingMatch.homeScore.display}}:{{standingMatch.awayScore.display}}
+                          
+                         </div>
+                        </div>
+                        <div  class="col-lg-6 pull-left-lg" *ngIf="checkStandings(last.key, element.events.event.awayTeam.id)">
+                            <div *ngFor ="let standingMatch of sortData(last.value.total, last.value.away, last.value.home)">
+
+                                {{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}}
+                                <span
+                                [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}"> {{standingMatch.homeTeam.name}}
+                                </span>-
+                                <span
+                                [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">{{standingMatch.awayTeam.name}}
+                              </span>
+                              {{standingMatch.homeScore.display}}:{{standingMatch.awayScore.display}}
+                           
+                           </div>
+                          </div>
+                      </div>
+                     
+                  
+                        
+
+                      <!-- <div class="col-6">
+                        <div *ngFor="let last of element.last.events">
+                          <span>{{(last.startTimestamp)* 1000 | date:'M/dd/yy'}}</span>
+                           <span
+                            [ngStyle]="last.winnerCode === 1 ? {'color':'yellow'} : {'color': 'unset'}">{{last.homeTeam.name}}
+                          </span>-<span
+                            [ngStyle]="last.winnerCode === 2 ? {'color':'yellow'} : {'color': 'unset'}">{{last.awayTeam.name}}</span>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div *ngFor="let last of element.next.events">
+                          <span>{{(last.startTimestamp)* 1000 | date:'M/dd/yy'}}</span>
+                          
+                          <span
+                            [ngStyle]="last.winnerCode === 1 ? {'color':'yellow'} : {'color': 'unset'}">{{last.homeTeam.name}}
+                          </span>-<span
+                            [ngStyle]="last.winnerCode === 2 ? {'color':'yellow'} : {'color': 'unset'}">{{last.awayTeam.name}}</span>
+                        </div>
+                      </div> -->
                     </div>
-                  </div>
-                  <div class="col-6">
-                    <div *ngFor="let last of element.next.events">
-                      <span>{{(last.startTimestamp)* 1000 | date:'M/dd/yy'}}</span>
-                      <!-- <span>{{last.tournament.name}}</span> -->
-                      <span
-                        [ngStyle]="last.winnerCode === 1 ? {'color':'yellow'} : {'color': 'unset'}">{{last.homeTeam.name}}
-                      </span>-<span
-                        [ngStyle]="last.winnerCode === 2 ? {'color':'yellow'} : {'color': 'unset'}">{{last.awayTeam.name}}</span>
-                    </div>
-                  </div>
-                </div>
-              </mat-expansion-panel>
-              <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-        
-              </mat-expansion-panel>
-            </mat-accordion>
-        
+                  </mat-expansion-panel>
+                  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+
+                  </mat-expansion-panel>
+                </mat-accordion>
+
                 <div class="progress">
                   <div *ngIf="element.events.winningOdds?.home?.actual" class="progress-bar win1" role="progressbar"
                     [ngStyle]="{'width': element.events.winningOdds?.home?.actual + '%'}" aria-valuenow="15"
@@ -431,4 +466,3 @@
         </div>
       </div>
     </form>
-  

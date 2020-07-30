@@ -11,7 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { a } from '@angular/core/src/render3';
-import {MatAccordion} from '@angular/material/expansion';
+import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 export const MY_FORMATS = {
   parse: {
@@ -40,7 +40,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   providers: []
 })
 export class AnalysticListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = [ 'time','type'];
+  displayedColumns: string[] = ['time', 'type'];
   @ViewChild(MatAccordion) accordion: MatAccordion;
   @Input()
   eventID;
@@ -122,7 +122,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
   currentCheckedValue = null;
   dataSource = new MatTableDataSource(this.matchData);
-  constructor(private analysticService: AnalysticService, private ren: Renderer2, private _fb: FormBuilder,private route: ActivatedRoute,private router: Router) {
+  constructor(private analysticService: AnalysticService, private ren: Renderer2, private _fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
 
@@ -133,50 +133,30 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       if (paramMap.has("data")) {
         let data = paramMap.get("data");
         this.onSearchChange(new Date(data))
-      }else{
-        
-      }})
+      } else {
+
+      }
+    })
 
     // this.getMatches();
     this.formbuilder();
   }
-  onSelectionChange(el, type) {
-    console.log(el)
 
-    console.log(el.value)
-
-  }
   checkState(el, type, con) {
-    // console.log(el.value)
-    // console.log(el, type,el.checked)
-    // this.eventss.at(type).patchValue({type:"4"})
-    // console.log(this.eventss)
-    // el.checked = false
-    // // console.log(this.eventss, "before", type, con)
-    // // console.log(this.myForm.controls['events'].patchValue({type:''}), "a")
-    // // console.log(this.myForm, "after")
     setTimeout(() => {
       if (this.currentCheckedValue && this.currentCheckedValue === el.value) {
-        console.log("if", this.currentCheckedValue)
         el.checked = false;
-        // console.log((el['_elementRef'].nativeElement, 'cdk-focused'))
         this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-focused');
         this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-focused');
         this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-program-focused');
         this.currentCheckedValue = null;
         this.favoriteSeason = null;
       } else {
-        console.log('=> ', this.currentCheckedValue)
         el.checked = true;
-        // console.log("else", this.currentCheckedValue )
         this.currentCheckedValue = el.value
 
       }
     })
-  }
-
-  resetRadio(e) {
-    console.log(e)
   }
 
   formbuilder() {
@@ -257,7 +237,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   }
 
   isRadioSelected(value: any) {
-    console.log(value, "radio")
     return (this.radioVal === value);
   }
   captureScreen(formattedDate) {
@@ -275,160 +254,195 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       res.map(turnaments => {
         this.turnamentEvent.push(turnaments.tournament.name);
         if (this.ligueId.includes(turnaments.tournament.id)) {
+          this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
 
 
-          turnaments.events.forEach(events => {
-
-            let keys = []
-            if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
 
 
-              this.analysticService.getAnalystictEvent(events.id).subscribe(
-                eventsData => {
-                  this.eventTournament = eventsData;
-                  this.analysticService.getEventsLast(events.awayTeam.id).subscribe(x=> {
-                    events["last"]= x
-                  })
-                  this.analysticService.getEventsNext(events.homeTeam.id).subscribe(x=> {
-                    events["next"]= x
-                  })
-                  this.analysticService.getVotePrice(events.id).subscribe(
-                    vote => {
-                      events["vote"] = vote.markets[0];
-                      events["turnament"] = turnaments.category;
-                      if (events["statusDescription"].includes('AP')) {
-                        events["eventsWinAP"] = this.checkWin(eventsData, false, "win")
-                        events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
-                      } else {
-                        events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
-                      }
-                      // events["eventsYelHome"] = this.checkWin(eventsData, this.home, "yellow")
-                      // events["eventsYelAway"] = this.checkWin(eventsData, this.away, "yellow")
-                      events["matchInfoMore25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.away)
-                      events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
-
-                      events["matchInfoLess25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.away)
-                      events["matchInfoLess25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.home)
-
-                      // events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
-                      // events["eventsWin"] = this.checkWin(eventsData)
-                      events["events"] = eventsData;
-                      events["liveResults"] = this.liveFilter(eventsData, events["status"].code)
-                      events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
-                      events["chanceEventDraw"] = this.calculateChanceWin(events["events"], events["events"].winningOdds)
-                      events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
-                      events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
-                      events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"] ? events["win"] = events["h2hDuel"] : '';
-                      if (vote.markets[0]) {
-                        if (vote.markets[0].choices[0].fractionalValue) {
-                          events["vot1"] = this.calculateValueChance(vote.markets[0].choices[0].fractionalValue)
+            turnaments.events.forEach(events => {
+              let keys = []
+              if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
+                events["standings"] = standing;
+                this.analysticService.getAnalystictEvent(events.id).subscribe(
+                  eventsData => {
+                    this.eventTournament = eventsData;
+                    this.analysticService.getEventsLast(events.awayTeam.id).subscribe(x => {
+                      events["last"] = x
+                    })
+                    this.analysticService.getEventsNext(events.homeTeam.id).subscribe(x => {
+                      events["next"] = x
+                    })
+                    this.analysticService.getVotePrice(events.id).subscribe(
+                      vote => {
+                        console.log(events , " tur")
+                        events["vote"] = vote.markets[0];
+                        events["turnament"] = turnaments.category;
+                        if (events["statusDescription"].includes('AP')) {
+                          events["eventsWinAP"] = this.checkWin(eventsData, false, "win")
+                          events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
+                        } else {
+                          events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
                         }
-                        events["votX"] = this.calculateValueChance(vote.markets[0].choices[1].fractionalValue)
-                        events["vot2"] = this.calculateValueChance(vote.markets[0].choices[2].fractionalValue)
-                      }
-                      if ([1, 2, 3].includes(events.winnerCode)) {
-                        this.totalMatch += 1;
-                        if (events["win"] !== undefined && events.winnerCode !== undefined) {
-                          this.totalWinTotal += 1
+                        // events["eventsYelHome"] = this.checkWin(eventsData, this.home, "yellow")
+                        // events["eventsYelAway"] = this.checkWin(eventsData, this.away, "yellow")
+                        events["matchInfoMore25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.away)
+                        events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
 
-                          if (events["win"] === 1) {
-                            if (events["winnerCode"] === 1) {
-                              if (events["vote"].length > 0) {
-                                this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[0].fractionalValue))
-                                this.voteWinSum = 0;
-                                this.voteWinValue.forEach(x => {
-                                  this.voteWinSum += parseFloat(x)
-                                })
+                        events["matchInfoLess25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.away)
+                        events["matchInfoLess25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.home)
+
+                        // events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
+                        // events["eventsWin"] = this.checkWin(eventsData)
+                        events["events"] = eventsData;
+                        events["liveResults"] = this.liveFilter(eventsData, events["status"].code)
+                        events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
+                        events["chanceEventDraw"] = this.calculateChanceWin(events["events"], events["events"].winningOdds)
+                        events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
+                        events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
+                        events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"] ? events["win"] = events["h2hDuel"] : '';
+                        if (vote.markets[0]) {
+                          if (vote.markets[0].choices[0].fractionalValue) {
+                            events["vot1"] = this.calculateValueChance(vote.markets[0].choices[0].fractionalValue)
+                          }
+                          events["votX"] = this.calculateValueChance(vote.markets[0].choices[1].fractionalValue)
+                          events["vot2"] = this.calculateValueChance(vote.markets[0].choices[2].fractionalValue)
+                        }
+                        if ([1, 2, 3].includes(events.winnerCode)) {
+                          this.totalMatch += 1;
+                          if (events["win"] !== undefined && events.winnerCode !== undefined) {
+                            this.totalWinTotal += 1
+
+                            if (events["win"] === 1) {
+                              if (events["winnerCode"] === 1) {
+                                if (events["vote"].length > 0) {
+                                  this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[0].fractionalValue))
+                                  this.voteWinSum = 0;
+                                  this.voteWinValue.forEach(x => {
+                                    this.voteWinSum += parseFloat(x)
+                                  })
+                                }
                               }
                             }
-                          }
-                          if (events["win"] === 2) {
-                            if (events["winnerCode"] === 2) {
-                              if (events["vote"]) {
-                                this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[2].fractionalValue))
-                                this.voteWinSum = 0;
-                                this.voteWinValue.forEach(x => {
-                                  this.voteWinSum += parseFloat(x)
-                                })
+                            if (events["win"] === 2) {
+                              if (events["winnerCode"] === 2) {
+                                if (events["vote"]) {
+                                  this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[2].fractionalValue))
+                                  this.voteWinSum = 0;
+                                  this.voteWinValue.forEach(x => {
+                                    this.voteWinSum += parseFloat(x)
+                                  })
+                                }
+                              }
+
+
+                            }
+                            if (events["win"] === 0) {
+                              if (events["winnerCode"] === 3) {
+                                if (events["vote"]) {
+                                  this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[1].fractionalValue))
+                                  this.voteWinSum = 0;
+                                  this.voteWinValue.forEach(x => {
+                                    this.voteWinSum += parseFloat(x)
+                                  })
+                                }
                               }
                             }
-
+                            this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
 
                           }
-                          if (events["win"] === 0) {
-                            if (events["winnerCode"] === 3) {
-                              if (events["vote"]) {
-                                this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[1].fractionalValue))
-                                this.voteWinSum = 0;
-                                this.voteWinValue.forEach(x => {
-                                  this.voteWinSum += parseFloat(x)
-                                })
-                              }
+                          if (events.winnerCode === 3) {
+                            const winerCodeChange = 0;
+                            if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                              this.totalWin += 1
                             }
-                          }
-                          this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
+                            events["win"] === winerCodeChange ? this.indexWin += 1 : '';
 
-                        }
-                        if (events.winnerCode === 3) {
-                          const winerCodeChange = 0;
-                          if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
-                            this.totalWin += 1
                           }
-                          events["win"] === winerCodeChange ? this.indexWin += 1 : '';
-
-                        }
-                        if (events.winnerCode === 2) {
-                          const winerCodeChange = 2
-                          if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
-                            this.totalWin += 1
+                          if (events.winnerCode === 2) {
+                            const winerCodeChange = 2
+                            if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                              this.totalWin += 1
+                            }
+                            events["win"] === winerCodeChange ? this.indexWin += 1 : '';
                           }
-                          events["win"] === winerCodeChange ? this.indexWin += 1 : '';
-                        }
-                        if (events.winnerCode === 1) {
-                          const winerCodeChange = 1
-                          if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
-                            this.totalWin += 1
+                          if (events.winnerCode === 1) {
+                            const winerCodeChange = 1
+                            if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                              this.totalWin += 1
+                            }
+                            events["win"] === winerCodeChange ? this.indexWin += 1 : '';
                           }
-                          events["win"] === winerCodeChange ? this.indexWin += 1 : '';
                         }
-                      }
-                      if (this.totalMatch === 0) {
-                        let winALL = 1;
-                        this.winSureAll = Number(((this.totalWin * 100) / winALL).toFixed(0))
-                      } else {
-                        this.winSureAll = Number(((this.totalWin * 100) / this.totalMatch).toFixed(0))
-                      }
-                      if (this.indexWin === 0) {
-                        let win = 1;
-                        this.winSure = Number(((win * 100) / this.totalWinTotal).toFixed(0))
-                      } else {
-                        this.winSure = Number(((this.indexWin * 100) / this.totalWinTotal).toFixed(0))
-                      }
-                      if (this.voteWinAVG, this.indexWin, this.totalWinTotal) {
-                        this.returnCost = (((2 * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * 2 // stawka 2 
-                      }
+                        if (this.totalMatch === 0) {
+                          let winALL = 1;
+                          this.winSureAll = Number(((this.totalWin * 100) / winALL).toFixed(0))
+                        } else {
+                          this.winSureAll = Number(((this.totalWin * 100) / this.totalMatch).toFixed(0))
+                        }
+                        if (this.indexWin === 0) {
+                          let win = 1;
+                          this.winSure = Number(((win * 100) / this.totalWinTotal).toFixed(0))
+                        } else {
+                          this.winSure = Number(((this.indexWin * 100) / this.totalWinTotal).toFixed(0))
+                        }
+                        if (this.voteWinAVG, this.indexWin, this.totalWinTotal) {
+                          this.returnCost = (((2 * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * 2 // stawka 2 
+                        }
 
-                      keys.push(events)
-                      this.matchData.push(...keys)
-                      this.setCities(events, turnaments)
-                      this.dataSource.data = this.matchData
-                      this.dataSource.sort = this.sort;
-                    }
-                  )
-                }
-              )
+                        keys.push(events)
+                        this.matchData.push(...keys)
+                        this.setCities(events, turnaments)
+                        this.dataSource.data = this.matchData
+                        this.dataSource.sort = this.sort;
+                      }
+                    )
+                  }
+                )
 
-            }
+              }
+            })
           })
-
         }
       })
 
     }))
       .subscribe(
         data => {
+          console.log(data)
           this.matchFootball = data;
         })
+  }
+  sort_unique(arr) {
+    if (arr.length === 0) return arr;
+    arr = arr.sort(function (a, b) { return a*1 - b*1; });
+    var ret = [arr[0]];
+    for (var i = 1; i < arr.length; i++) { //Start loop at 1: arr[0] can never be a duplicate
+      if (arr[i-1].id !== arr[i].id) {
+        ret.push(arr[i]);
+      }
+    }
+    return ret;
+  }
+  sortData(total,home, away){
+    let a =[];
+   a = [...total,...home,...away]
+  //  a = a.sort(function(o){ return o });
+   a = a.sort((a,b) =>a.startTimestamp - b.startTimestamp);
+   const reult = Array.from(new Set(a.map(s=>s.id))).map(
+     id=>{
+      return a.find( s=> s.id === id)
+     }
+   )
+   return reult
+  
+  }
+
+  checkStandings(key,home){
+    if((Number(key) === Number(home))){
+      return true
+    } else {
+      return false
+    }
   }
   checkChance25Goal(homeV, homeO, awayV, awayO) {
     let homeW;
@@ -574,10 +588,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     }
 
   }
-  betAllRateResultsMinus(x){
+  betAllRateResultsMinus(x) {
     let a = 1;
     x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === '0' ? this.betAllRateResult /= x.votX : '';
-     return (a / 1.14).toFixed(2)
+    return (a / 1.14).toFixed(2)
   }
   betAllRateResults(x) {
     let a = 1;
@@ -655,7 +669,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   }
   onSubmit(event) {
     this.numberPercent = event
-    console.log(this.eventTournament, "rtur")
     this.voteWinAVG = 0;
     this.myForm.controls.events.reset();
     this.matchData = [];
@@ -668,8 +681,8 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.indexWin = 0
     this.getMatches()
   }
-  onSearchChangeParam(data){
-    this.router.navigate(['analystic/list/',formatDate(data, this.format, 'en')])
+  onSearchChangeParam(data) {
+    this.router.navigate(['analystic/list/', formatDate(data, this.format, 'en')])
   }
   onSearchChange(data) {
     this.mymodel = formatDate(data, this.format, 'en')
@@ -702,10 +715,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.chance = this.chance + amount
   }
   addBet(x) {
- 
+
     this.eventss.value.forEach(x => {
       if (x.name && (x.type.length > 0)) {
-       
+
         if (x.type === "3") {
           x.type = "0"
         }
@@ -717,17 +730,17 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
           this.dateEventsBet.date = this.formattedDate
           this.dateEventsBet.events.push(x)
         }
-       else {
-        if (a) {
-          if (a.type !== x.type) {
-            this.betAllRateResultsMinus(a)
-            this.betAllRateResults(x)
-            // this.dateEventsBet.events.push(x)
-       this.dateEventsBet.events.find(y=> y.idEvent === x.idEvent, a.type = x.type)
-          
+        else {
+          if (a) {
+            if (a.type !== x.type) {
+              this.betAllRateResultsMinus(a)
+              this.betAllRateResults(x)
+              // this.dateEventsBet.events.push(x)
+              this.dateEventsBet.events.find(y => y.idEvent === x.idEvent, a.type = x.type)
+
+            }
           }
         }
-      }
       }
     })
   }

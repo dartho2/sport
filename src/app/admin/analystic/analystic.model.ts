@@ -9,6 +9,9 @@ export interface Analystic {
     tournament: { 
         id: number, 
         name: string; };
+    season: {
+        id: number
+    }
     events: [{
         id: number, 
         homeTeam: { 

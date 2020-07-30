@@ -16,6 +16,9 @@ export class AnalysticService {
     getAnalystict(data): Observable<Analystic[]> {
         return this._http.get<Analystic[]>("https://karmazdrowia.pl:8080/api/analystic/" + data);
       }
+      getMatches(turnament, season){
+        return this._http.get<any>('https://karmazdrowia.pl:8080/api/standings/' + turnament +'/'+ season)
+      }
       getAnalystictEvent(data): Observable<any> {
         return this._http.get<any>("https://karmazdrowia.pl:8080/api/events/" + data);
       }
