@@ -2125,7 +2125,35 @@ span.span-header {
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   width: auto;
 }
-
+.separator_right_cell {
+  margin-left: 4px;
+    padding-right: 4px;
+    height: 28px;
+    border-left: 1px solid rgb(224 224 224 / 37%);
+}
+.home_away_standing {
+  text-align: left;
+  -webkit-box-flex: 1;
+    -ms-flex: 1 0 64px;
+    flex: 1 0 64px;
+    overflow: auto;
+}
+.cell-event-standing {
+  display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgb(224 224 224 / 37%);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-width: 1px;
+}
+.time-standings {
+  text-align: center;
+    font-size: 12px;
+    max-width: 64px;
+}
 .slideout-widget-contact {
   position: fixed;
   right: -20em;
@@ -2146,7 +2174,9 @@ span.span-header {
   position: fixed;
   width: 0;
 }
-
+.clearfix-content {
+  overflow: auto;
+}
 ::ng-deep .radio-toolbar label {
   display: inline-block;
   background-color: #ddd;
@@ -2156,7 +2186,53 @@ span.span-header {
   border: 2px solid #444;
   border-radius: 4px;
 }
+::ng-deep .mat-expansion-panel-body {
+  padding: 0px !important;
+}
+.header-expansion , .header-expansion:hovers{
+  background: rgba(46, 62, 87, 0.7);
+  font-weight: 400;
+  border-radius: 3px;
+  background-clip: padding-box;
+  transition: background-color 0.3s ease-in-out;
+}
 
+@media screen and (max-width:995px) {
+.pc-content {
+  display:none;
+}
+::ng-deep .mat-tab-labels {
+  background: rgba(46, 62, 87, 0.7);
+    font-weight: 400;
+    border-radius: 3px;
+    background-clip: padding-box;
+    transition: background-color 0.3s ease-in-out;
+}
+::ng-deep .mat-expansion-panel-header {
+  background: #131d2d;
+font-weight: 400;
+/* background-clip: padding-box; */
+
+}
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover {
+  background: #131d2d;
+}
+::ng-deep .mat-tab-labels {
+  justify-content: center;
+}
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+background-color: #ffa500;
+transition: color 0.3s ease-in-out;
+}
+::ng-deep .mat-tab-label-content {
+  color: #a6a8aa;
+}
+}
+@media screen and (min-width:995px) {
+.kom-content {
+  display: none;
+}
+}
 ::ng-deep .radio-toolbar label:hover {
   background-color: #dfd;
 }
@@ -2177,6 +2253,7 @@ span.span-header {
 ::ng-deep tr.mat-footer-row,
 tr.mat-row {
   background: #131d2d !important;
+  border-left: 1px solid rgb(224 224 224 / 37%);
 }
 
 ::ng-deep .radio-toolbar label {
@@ -2269,32 +2346,26 @@ span.event-name {
  mat-datepicker-toggle {
   color: white !important;
  }
-::ng-deep .mat-expansion-panel-header {
-  background: #131d2d;
+::ng-deep .mat-expansion-panel-header { 
   font-size: 14px;
-  /* border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
-  border-style: solid;
-  border-color: #ffa500;
-  border-width: 2px; */
 }
 
 ::ng-deep .mat-expansion-panel-header-title {
   color: rgb(168 170 172);
-  font-weight: 600;
+  font-weight: 500;
 
 }
 
 ::ng-deep .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,
 .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,
 .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover {
-  background: #131d2d;
+  /* background: #131d2d; */
   /* border: 2px solid #ffa500; */
 }
 
 ::ng-deep .mat-expansion-panel-header-title:hover {
   /* color:rgba(46, 62, 87, 0.7) !important; */
-  font-weight: 600;
+  font-weight: 500;
 }
 
 ::ng-deep .mat-expansion-panel:hover>span.mat-content {
@@ -2325,5 +2396,6 @@ padding-top: 15px;
   position: fixed;
   margin-right: 15px;
   right: 0px;
+  z-index: 999;
   width: 100%;
 }

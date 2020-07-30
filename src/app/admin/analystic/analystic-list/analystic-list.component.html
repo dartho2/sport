@@ -140,69 +140,118 @@
                 <!--    BEGIN     -->
                 <mat-accordion>
                   <mat-expansion-panel hideToggle>
-                    <mat-expansion-panel-header>
+                    <mat-expansion-panel-header class="header-expansion">
                       <mat-panel-title>
-                        Mecze poprzednie
+                        MECZE
                       </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <!-- <pre style="color:white">{{element|json}}</pre> -->
-                    <div class="">
-                      <!-- <pre>{{element.standings.teamEvents['2814'] | json}}</pre> -->
-  
-                      <!-- <pre>{{element.events.event.homeTeam.id | json}}</pre> -->
-                      <div  *ngFor="let last of element.standings.teamEvents | keyvalue">
-                        <!-- <pre>{{last.key}} -sss {{element.events.event.homeTeam.id}}</pre>  -->
-                        <div class="col-lg-6 pull-left-lg" *ngIf="checkStandings(last.key, element.events.event.homeTeam.id)">
-                         <div *ngFor ="let standingMatch of sortData(last.value.total, last.value.home, last.value.away)">
-
-                              {{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}}              <span
-                              [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">{{standingMatch.homeTeam.name}}</span>
-                              -
-                              <span
-                              [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">{{standingMatch.awayTeam.name}}</span>
-                              {{standingMatch.homeScore.display}}:{{standingMatch.awayScore.display}}
-                          
-                         </div>
-                        </div>
-                        <div  class="col-lg-6 pull-left-lg" *ngIf="checkStandings(last.key, element.events.event.awayTeam.id)">
-                            <div *ngFor ="let standingMatch of sortData(last.value.total, last.value.away, last.value.home)">
-
-                                {{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}}
-                                <span
-                                [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}"> {{standingMatch.homeTeam.name}}
-                                </span>-
-                                <span
-                                [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">{{standingMatch.awayTeam.name}}
-                              </span>
-                              {{standingMatch.homeScore.display}}:{{standingMatch.awayScore.display}}
-                           
-                           </div>
+                    <!-- pc Mecze -->
+                    <div class="clearfix-content pc-content">
+                      <div *ngFor="let last of element.standings.teamEvents | keyvalue">
+                        <div class="col-lg-6 pull-left-lg"
+                          *ngIf="checkStandings(last.key, element.events.event.awayTeam.id)">
+                          <div class="cell-event-standing"
+                            *ngFor="let standingMatch of sortData(last.value.total, last.value.away, last.value.home)">
+                            <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
+                            <div class="separator_right_cell"></div>
+                            <div class="home_away_standing">
+                              <div
+                                [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                {{standingMatch.homeTeam.name}}</div>
+                              <div
+                                [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                {{standingMatch.awayTeam.name}}</div>
+                            </div>
+                            <div class="separator_right_cell"></div>
+                            <div class="result">
+                              <div class="home_standing">{{standingMatch.homeScore.display}}</div>
+                              <div class="away_standing">{{standingMatch.awayScore.display}}</div>
+                            </div>
                           </div>
-                      </div>
-                     
-                  
-                        
+                        </div>
+                        <div class="col-lg-6 pull-left-lg"
+                          *ngIf="checkStandings(last.key, element.events.event.homeTeam.id)">
+                          <div class="cell-event-standing"
+                            *ngFor="let standingMatch of sortData(last.value.total, last.value.home, last.value.away)">
 
-                      <!-- <div class="col-6">
-                        <div *ngFor="let last of element.last.events">
-                          <span>{{(last.startTimestamp)* 1000 | date:'M/dd/yy'}}</span>
-                           <span
-                            [ngStyle]="last.winnerCode === 1 ? {'color':'yellow'} : {'color': 'unset'}">{{last.homeTeam.name}}
-                          </span>-<span
-                            [ngStyle]="last.winnerCode === 2 ? {'color':'yellow'} : {'color': 'unset'}">{{last.awayTeam.name}}</span>
+                            <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
+                            <div class="separator_right_cell"></div>
+                            <div class="home_away_standing">
+                              <div
+                                [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                {{standingMatch.homeTeam.name}}</div>
+                              <div
+                                [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                {{standingMatch.awayTeam.name}}</div>
+                            </div>
+                            <div class="separator_right_cell"></div>
+                            <div class="result">
+                              <div class="home_standing">{{standingMatch.homeScore.display}}</div>
+                              <div class="away_standing">{{standingMatch.awayScore.display}}</div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div class="col-6">
-                        <div *ngFor="let last of element.next.events">
-                          <span>{{(last.startTimestamp)* 1000 | date:'M/dd/yy'}}</span>
-                          
-                          <span
-                            [ngStyle]="last.winnerCode === 1 ? {'color':'yellow'} : {'color': 'unset'}">{{last.homeTeam.name}}
-                          </span>-<span
-                            [ngStyle]="last.winnerCode === 2 ? {'color':'yellow'} : {'color': 'unset'}">{{last.awayTeam.name}}</span>
-                        </div>
-                      </div> -->
                     </div>
+                    <!-- END PC MECZE  -->
+                    <!-- BEGIN KOM MECZE -->
+                    <mat-tab-group class="kom-content">
+                      <mat-tab label="{{element.events.event.awayTeam.name}}">
+                        <div *ngFor="let last of element.standings.teamEvents | keyvalue">
+                          <div class="col-lg-6 pull-left-lg"
+                            *ngIf="checkStandings(last.key, element.events.event.awayTeam.id)">
+                            <div class="cell-event-standing"
+                              *ngFor="let standingMatch of sortData(last.value.total, last.value.away, last.value.home)">
+                              <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}}
+                              </div>
+                              <div class="separator_right_cell"></div>
+                              <div class="home_away_standing">
+                                <div
+                                  [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                  {{standingMatch.homeTeam.name}}</div>
+                                <div
+                                  [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                  {{standingMatch.awayTeam.name}}</div>
+                              </div>
+                              <div class="separator_right_cell"></div>
+                              <div class="result">
+                                <div class="home_standing">{{standingMatch.homeScore.display}}</div>
+                                <div class="away_standing">{{standingMatch.awayScore.display}}</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-tab>
+                      <mat-tab label="{{element.events.event.homeTeam.name}}">
+                        <div *ngFor="let last of element.standings.teamEvents | keyvalue">
+
+                          <div class="col-lg-6 pull-left-lg"
+                            *ngIf="checkStandings(last.key, element.events.event.homeTeam.id)">
+                            <div class="cell-event-standing"
+                              *ngFor="let standingMatch of sortData(last.value.total, last.value.home, last.value.away)">
+
+                              <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}}
+                              </div>
+                              <div class="separator_right_cell"></div>
+                              <div class="home_away_standing">
+                                <div
+                                  [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                  {{standingMatch.homeTeam.name}}</div>
+                                <div
+                                  [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                  {{standingMatch.awayTeam.name}}</div>
+                              </div>
+                              <div class="separator_right_cell"></div>
+                              <div class="result">
+                                <div class="home_standing">{{standingMatch.homeScore.display}}</div>
+                                <div class="away_standing">{{standingMatch.awayScore.display}}</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-tab>
+                    </mat-tab-group>
+                    <!-- END KOM CONTENT -->
                   </mat-expansion-panel>
                   <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
 
