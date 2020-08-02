@@ -348,10 +348,12 @@ a.svg {
 .toggler-c {
   margin-left: 53px !important;
 } */
-
+.mat-drawer-container{
+  overflow: unset;
+}
 .mat-drawer-inner-container {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
+  /* overflow-x: hidden !important; */
+  /* overflow-y: auto !important; */
 }
 
 /* .toggler-i-true {
@@ -365,8 +367,13 @@ a.svg {
   height: 44px !important;
 }
 @media (max-width: 767px) {
+  .mat-toolbar-row, .mat-toolbar-single-row{
+   position: fixed;
+   z-index: 999;
+  }
   .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle, .btn-secondary {
     color: white;
+    padding-top: 14px;
     background-color: unset;
     border-color: unset;
   }
@@ -441,4 +448,17 @@ a.svg {
 }
 .mat-list-base {
   padding-top: 20px;
+}
+@media screen and (min-width:995px) {
+.pc-input-datapicker{
+color:black
+}
+.pc-form-datapicker {
+padding-left: 20px;
+}
+}
+@media screen and (max-width:995px) {
+::ng-deep .mat-datepicker-toggle{
+  color:white;
+}
 }

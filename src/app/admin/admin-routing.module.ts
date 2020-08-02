@@ -48,7 +48,8 @@ const adminRoutes: Routes = [
         path: 'analystic/list',
         component: AnalysticListComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin] }
+        data: { roles: [Role.Admin], state: 'anal' },
+        
       },
       {
         path: 'analystic/list/:data',

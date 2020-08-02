@@ -39,12 +39,12 @@
             Ustawienia
           </mat-panel-title>
           <mat-panel-description>
-            <mat-form-field>
+            <!-- <mat-form-field>
               <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChangeParam($event)" [matDatepicker]="picker"
                 placeholder="Choose a date">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
           </mat-panel-description>
         </mat-expansion-panel-header>
         <table class="table table-bordered table-dark">
@@ -103,17 +103,17 @@
               </form>
             </td>
           </tr>
-          <tr>
+         <!--  <tr>
             <td scope="col">Data:</td>
             <td scope="col">
-              <!-- <mat-form-field>
+              <mat-form-field>
                 <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChangeParam($event)" [matDatepicker]="picker"
                   placeholder="Choose a date">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field> -->
+              </mat-form-field> 
             </td>
-          </tr>
+          </tr>-->
         </table>
       </mat-expansion-panel>
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
