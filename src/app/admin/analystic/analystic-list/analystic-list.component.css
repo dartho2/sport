@@ -2187,11 +2187,22 @@ span.span-header {
   border: 2px solid #444;
   border-radius: 4px;
 }
+.icon_more_less {
+  color: white;
+  padding-right: 20px;
+  /* display: table-caption; */
+  position: absolute;
+  /* text-align: right; */
+  /* float: right; */
+  right: 0px;
+  margin-right: 20px;;
+
+}
 ::ng-deep .mat-expansion-panel-body {
   padding: 0px !important;
 }
 .header-expansion , .header-expansion:hover{
-  background: rgba(46, 62, 87, 0.7);
+  background: unset;
   font-weight: 400;
   border-radius: 3px;
   background-clip: padding-box;
@@ -2384,7 +2395,7 @@ span.event-name {
 }
 ::ng-deep mat-panel-title.mat-expansion-panel-header-title {
 display: unset;
-padding-top: 15px;
+padding-top: 0px;
 }
 ::ng-deep .mat-calendar-table-header >tr >th {
   background-color: white !important;

@@ -714,8 +714,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   onchanceChanged(amount: number) {
     this.chance = this.chance + amount
   }
-  addBet(x) {
-
+  addBet(bet) {
     this.eventss.value.forEach(x => {
       if (x.name && (x.type.length > 0)) {
 
@@ -741,7 +740,8 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
             }
           }
         }
-      }
+      } 
+      // usuniecie z bet
     })
   }
 

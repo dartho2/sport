@@ -33,18 +33,14 @@
 
 
     <mat-accordion class="fixed-panel">
-      <mat-expansion-panel hideToggle>
+      <mat-expansion-panel hideToggle="true" #xyz>
         <mat-expansion-panel-header class="panel-fixed">
           <mat-panel-title>
             Ustawienia
           </mat-panel-title>
           <mat-panel-description>
-            <!-- <mat-form-field>
-              <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChangeParam($event)" [matDatepicker]="picker"
-                placeholder="Choose a date">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field> -->
+              <mat-icon class="icon_more_less" *ngIf="!xyz.expanded">expand_less</mat-icon>
+              <mat-icon class="icon_more_less" *ngIf="xyz.expanded">expand_more</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <table class="table table-bordered table-dark">
@@ -508,9 +504,8 @@
             type="submit">Zapisz</button>
           <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
             (click)="addBet(myForm.value)">Dodaj</button>
-          <button mat-raised-button color="primary" (click)="exportTable()">Export to excel</button>
-          <a mat-raised-button color="primary" type="button" (click)="captureScreen(formattedDate)">Export to
-            PDF/Print</a>
+          <button mat-raised-button color="primary" (click)="exportTable()">Exc</button>
+          <a mat-raised-button color="primary" type="button" (click)="captureScreen(formattedDate)">PDF/Print</a>
           <button mat-button (click)="exporter.exportTable('xlsx')">ex</button>
         </div>
       </div>
