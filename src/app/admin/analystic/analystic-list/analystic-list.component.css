@@ -473,6 +473,7 @@ th.mat-header-cell {
   table {
     overflow-x: auto;
   }
+  
 }
 
 .table .table {
@@ -2083,7 +2084,7 @@ th.mat-header-cell {
 
 /* demo */
 .widget-facebook {
-  top: 5%;
+  top: 10%;
 }
 
 .widget-gplus {
@@ -2189,7 +2190,7 @@ span.span-header {
 ::ng-deep .mat-expansion-panel-body {
   padding: 0px !important;
 }
-.header-expansion , .header-expansion:hovers{
+.header-expansion , .header-expansion:hover{
   background: rgba(46, 62, 87, 0.7);
   font-weight: 400;
   border-radius: 3px;
@@ -2200,6 +2201,11 @@ span.span-header {
 @media screen and (max-width:995px) {
 .pc-content {
   display:none;
+}
+::ng-deep .fixed-panel {
+  /* position: fixed; */
+  width: 100%;
+  padding-top: 40px;
 }
 ::ng-deep .mat-tab-labels {
   background: rgba(46, 62, 87, 0.7);
@@ -2388,14 +2394,4 @@ padding-top: 15px;
   background-color: white !important;
   border: unset;
 }
-::ng-deep .fixed-panel {
-  /* position: fixed; */
-  width: 100%;
-}
-::ng-deep .panel-fixed {
-  /* position: fixed; */
-  margin-right: 15px;
-  right: 0px;
-  z-index: 999;
-  width: 100%;
-}
+

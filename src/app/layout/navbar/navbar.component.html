@@ -117,12 +117,12 @@
         </button>
       
         <div class="dropdown dropdown-logout show px-3" *ngIf="userFromApi">  
-          <mat-form-field   *ngIf="activated">
-            <input matInput [ngModel]="mymodel" (ngModelChange)="onSearchChangeParam($event)" [matDatepicker]="picker"
-              placeholder="Choose a date">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker  #picker></mat-datepicker>
-          </mat-form-field>
+            <mat-form-field class="pc-form-datapicker">
+                <input matInput class="pc-input-datapicker" [ngModel]="mymodel" (ngModelChange)="onSearchChangeParam($event)" [matDatepicker]="picker"
+                  placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
           <a class="btn btn-secondary dropdown-logout-a dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{userFromApi.firstName}}
