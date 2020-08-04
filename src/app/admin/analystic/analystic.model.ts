@@ -19,7 +19,8 @@ export interface Analystic {
             id: number 
             },
         awayTeam: {
-             id: number 
+             id: number ,
+             name: string
             }, 
         formatedStartDate: string,
         sport: string,

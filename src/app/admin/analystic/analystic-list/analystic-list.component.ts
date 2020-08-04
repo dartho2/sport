@@ -10,7 +10,7 @@ import 'jspdf-autotable';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
-import { a } from '@angular/core/src/render3';
+import { a, e } from '@angular/core/src/render3';
 import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 export const MY_FORMATS = {
@@ -122,6 +122,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
   currentCheckedValue = null;
   dataSource = new MatTableDataSource(this.matchData);
+  dateALL: any;
   constructor(private analysticService: AnalysticService, private ren: Renderer2, private _fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
@@ -141,7 +142,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     // this.getMatches();
     this.formbuilder();
   }
+  fff() {
 
+    // console.log(this.eventss)
+  }
   checkState(el, type, con) {
     setTimeout(() => {
       if (this.currentCheckedValue && this.currentCheckedValue === el.value) {
@@ -216,16 +220,18 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       win: events.win,
       vot1: events.vot1,
       votX: events.votX,
-      vot2: events.vot2
+      vot2: events.vot2,
+      vot1_d: events.vot1_d,
+      votX_d: events.votX_d,
+      vot2_d: events.vot2_d
     }))
 
   }
-  onSelectionChange(a,b){
-    console.log(a,b)
+  onSelectionChange(a, b) {
+
   }
   clickRadio(event: Event, value: any, i) {
     // event.preventDefault();
-console.log(event,value,i, this.myForm)
     if (!this.radioVal || this.radioVal !== value) {
       this.radioVal = value;
       this.eventss.at(i).patchValue({ type: this.radioVal });
@@ -258,17 +264,54 @@ console.log(event,value,i, this.myForm)
         this.turnamentEvent.push(turnaments.tournament.name);
         if (this.ligueId.includes(turnaments.tournament.id)) {
           this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
-
-
-
-
             turnaments.events.forEach(events => {
               let keys = []
               if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
                 events["standings"] = standing;
+
+                Object.keys(events["standings"].teamEvents).forEach(key => {
+                  if (Number(key) === Number(events.awayTeam.id)) {
+                    events["standingsMatchesAway"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
+                    events["standingsWinAway"] = 0;
+                    events["standingsDrawAway"] = 0;
+                    events["standingsLosseAway"] = 0;
+                    events["standingsMatchesAway"].forEach(win => {
+                      if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
+                        events["standingsWinAway"] = events["standingsWinAway"] + 1
+                      }
+                      if (win.winnerCode === 3) {
+                        events["standingsDrawAway"] = events["standingsDrawAway"] + 1
+                      }
+                      if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
+                        events["standingsLosseAway"] = events["standingsLosseAway"] + 1
+                      }
+                    })
+                  }
+                  if (Number(key) === Number(events.homeTeam.id)) {
+                    events["standingsMatchesHome"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
+                    events["standingsWinHome"] = 0;
+                    events["standingsDrawHome"] = 0;
+                    events["standingsLosseHome"] = 0;
+                    events["standingsMatchesHome"].forEach(win => {
+                      if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 1) {
+                        events["standingsWinHome"] = events["standingsWinHome"] + 1
+                      }
+                      if (win.winnerCode === 3) {
+                        events["standingsDrawHome"] = events["standingsDrawHome"] + 1
+                      }
+                      if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 2) {
+                        events["standingsLosseHome"] = events["standingsLosseHome"] + 1
+                      }
+                    })
+                  }
+                })
+                // events["standings"].teamEvents.forEach((keys : any, vals :any)=>{
+
+                // })
                 this.analysticService.getAnalystictEvent(events.id).subscribe(
                   eventsData => {
                     this.eventTournament = eventsData;
+
                     this.analysticService.getEventsLast(events.awayTeam.id).subscribe(x => {
                       events["last"] = x
                     })
@@ -277,8 +320,9 @@ console.log(event,value,i, this.myForm)
                     })
                     this.analysticService.getVotePrice(events.id).subscribe(
                       vote => {
-                        console.log(events , " tur")
+
                         events["vote"] = vote.markets[0];
+                        events["vote_double"] = vote.markets[1]
                         events["turnament"] = turnaments.category;
                         if (events["statusDescription"].includes('AP')) {
                           events["eventsWinAP"] = this.checkWin(eventsData, false, "win")
@@ -309,6 +353,13 @@ console.log(event,value,i, this.myForm)
                           }
                           events["votX"] = this.calculateValueChance(vote.markets[0].choices[1].fractionalValue)
                           events["vot2"] = this.calculateValueChance(vote.markets[0].choices[2].fractionalValue)
+                        }
+                        if (vote.markets[1]) {
+                          if (vote.markets[1].choices[0].fractionalValue) {
+                            events["vot1_d"] = this.calculateValueChance(vote.markets[1].choices[0].fractionalValue)
+                          }
+                          events["votX_d"] = this.calculateValueChance(vote.markets[1].choices[1].fractionalValue)
+                          events["vot2_d"] = this.calculateValueChance(vote.markets[1].choices[2].fractionalValue)
                         }
                         if ([1, 2, 3].includes(events.winnerCode)) {
                           this.totalMatch += 1;
@@ -411,37 +462,38 @@ console.log(event,value,i, this.myForm)
     }))
       .subscribe(
         data => {
-          console.log(data)
+
           this.matchFootball = data;
         })
   }
   sort_unique(arr) {
     if (arr.length === 0) return arr;
-    arr = arr.sort(function (a, b) { return a*1 - b*1; });
+    arr = arr.sort(function (a, b) { return a * 1 - b * 1; });
     var ret = [arr[0]];
     for (var i = 1; i < arr.length; i++) { //Start loop at 1: arr[0] can never be a duplicate
-      if (arr[i-1].id !== arr[i].id) {
+      if (arr[i - 1].id !== arr[i].id) {
         ret.push(arr[i]);
       }
     }
     return ret;
   }
-  sortData(total,home, away){
-    let a =[];
-   a = [...total,...home,...away]
-  //  a = a.sort(function(o){ return o });
-   a = a.sort((a,b) =>a.startTimestamp - b.startTimestamp);
-   const reult = Array.from(new Set(a.map(s=>s.id))).map(
-     id=>{
-      return a.find( s=> s.id === id)
-     }
-   )
-   return reult
-  
+  sortData(total, home, away) {
+
+    let a = [];
+    a = [...total, ...home, ...away]
+    //  a = a.sort(function(o){ return o });
+    a = a.sort((a, b) => a.startTimestamp - b.startTimestamp);
+    const reult = Array.from(new Set(a.map(s => s.id))).map(
+      id => {
+        return a.find(s => s.id === id)
+      }
+    )
+    return reult
+
   }
 
-  checkStandings(key,home){
-    if((Number(key) === Number(home))){
+  checkStandings(key, home) {
+    if ((Number(key) === Number(home))) {
       return true
     } else {
       return false
@@ -583,22 +635,30 @@ console.log(event,value,i, this.myForm)
       }
     }
   }
-  betRate(type, v1, vx, v2) {
+  betRate(type, v1, vx, v2, v1_d, vx_d, v2_d) {
     switch (type) {
       case '1': return v1
       case '2': return v2
       case '0': return vx
+      case '10': return v1_d
+      case '02': return v2_d
+      case '12': return vx_d
     }
 
   }
   betAllRateResultsMinus(x) {
     let a = 1;
+    if(x.type.length <= 1){
     x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === '0' ? this.betAllRateResult /= x.votX : '';
-    return (a / 1.14).toFixed(2)
+  } else {x.type === '10' ? this.betAllRateResult /= x.vot1_d : x.type === '02' ? this.betAllRateResult /= x.vot2_d : x.type === '12' ? this.betAllRateResult /= x.votX_d : '';
+}
+return (a / 1.14).toFixed(2)
   }
   betAllRateResults(x) {
     let a = 1;
     x.type === '1' ? this.betAllRateResult *= x.vot1 : x.type === '2' ? this.betAllRateResult *= x.vot2 : x.type === '0' ? this.betAllRateResult *= x.votX : '';
+    x.type === '10' ? this.betAllRateResult *= x.vot1_d : x.type === '02' ? this.betAllRateResult *= x.vot2_d : x.type === '12' ? this.betAllRateResult *= x.votX_d : '';
+  
     return (a / 1.14).toFixed(2)
   }
 
@@ -719,27 +779,31 @@ console.log(event,value,i, this.myForm)
   }
   addBet(bet) {
     bet.events.forEach(element => {
-      if(element.type === "3"){
-        element.type = "0"
+      if (element.type.includes("3")) {
+        element.type = element.type.replace("3", "0")
       }
-     const a = this.dateEventsBet.events.find(x=> x.name === element.name)
-    if(a){
-      if(element.type.length > 0){
-      a.type = element.type
-    }else {
-      console.log("usun")
-      this.betAllRateResultsMinus(a)
-              this.betAllRateResults(element)
-      this.dateEventsBet.events = this.dateEventsBet.events.filter(d=> d.name !== a.name)
-      
-    }
-    } else {
-      if(element.type.length > 0){
-        console.log("dodaj")
+      const a = this.dateEventsBet.events.find(x => x.name === element.name)
+      if (a) {
+       if ((element.type.length > 0) && Number(a.type) !== Number(element.type))  {
+          this.betAllRateResultsMinus(a)
+          a.type = element.type
+         
+          
         this.betAllRateResults(element)
-        this.dateEventsBet.events.push(element)
+        } else {
+          if(a.type === element.type){
+            a.type = element.type
+          this.betAllRateResultsMinus(a)
+          this.betAllRateResults(element)
+          this.dateEventsBet.events = this.dateEventsBet.events.filter(d => d.name !== a.name)
+        }
+        }
+      } else {
+        if (element.type.length > 0) {
+          this.betAllRateResults(element)
+          this.dateEventsBet.events.push(element)
+        }
       }
-    }
     });
     // this.eventss.value.forEach(x => {
     //   if (x.name && ((x.type.length > 0) || bet.type)) {

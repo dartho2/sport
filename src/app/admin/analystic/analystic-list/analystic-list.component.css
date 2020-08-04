@@ -2122,7 +2122,9 @@ span.span-header {
 .slideout-widget-contact:hover {
   right: -19em;
 }
-
+.radio-double-type{
+  margin-top:25px;
+}
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   width: auto;
 }
@@ -2167,7 +2169,10 @@ span.span-header {
   float: left;
 }
 ::ng-deep .radio-toolbar {
-  margin: 10px;
+  margin-bottom: 30px;
+}
+::ng-deep .radio-toolbar-other {
+  margin: 2px;
 }
 
 ::ng-deep .radio-toolbar .radio {
@@ -2332,8 +2337,10 @@ span.event-name {
 }
 
 .radio-top {
-  padding-top: 30px;
+  padding-top: 0px;
+  padding-bottom: 30px;
 }
+
 
 .avg-left {
   padding-right: 90px;

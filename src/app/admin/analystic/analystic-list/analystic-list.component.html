@@ -11,7 +11,7 @@
         <tr *ngFor="let bet of dateEventsBet.events">
           <td> {{bet.name}}</td>
           <td> {{bet.type}}</td>
-          <td> {{betRate(bet.type, bet.vot1,bet.votX,bet.vot2)}}</td>
+          <td> {{betRate(bet.type, bet.vot1, bet.votX, bet.vot2, bet.vot1_d, bet.votX_d, bet.vot2_d)}}</td>
         </tr>
         <tr>
           <td class="right-result-desc" colspan="3"><span>Kurs Całkowity:</span></td>
@@ -39,8 +39,8 @@
             Ustawienia
           </mat-panel-title>
           <mat-panel-description>
-              <mat-icon class="icon_more_less" *ngIf="!xyz.expanded">expand_less</mat-icon>
-              <mat-icon class="icon_more_less" *ngIf="xyz.expanded">expand_more</mat-icon>
+            <mat-icon class="icon_more_less" *ngIf="!xyz.expanded">expand_less</mat-icon>
+            <mat-icon class="icon_more_less" *ngIf="xyz.expanded">expand_more</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <table class="table table-bordered table-dark">
@@ -99,7 +99,7 @@
               </form>
             </td>
           </tr>
-         <!--  <tr>
+          <!--  <tr>
             <td scope="col">Data:</td>
             <td scope="col">
               <mat-form-field>
@@ -142,49 +142,81 @@
                       </mat-panel-title>
                     </mat-expansion-panel-header>
                     <!-- pc Mecze -->
+                    <div class="progress">
+                      <div class="progress-bar win1" role="progressbar"
+                        [ngStyle]="{'width': ((element.standingsWinHome + element.standingsLosseAway)*100)/(element.standingsWinHome + element.standingsLosseAway +element.standingsDrawHome + element.standingsDrawAway + element.standingsLosseHome + element.standingsWinAway) +'%'}"
+                        aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                        {{element.standingsWinHome +  element.standingsLosseAway   }}</div>
+                      <div class="progress-bar winX" role="progressbar"
+                        [ngStyle]="{'width': ((element.standingsDrawHome + element.standingsDrawAway)*100)/(element.standingsWinHome + element.standingsLosseAway +element.standingsDrawHome + element.standingsDrawAway + element.standingsLosseHome + element.standingsWinAway) +'%'}"
+                        aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                        {{element.standingsDrawHome + element.standingsDrawAway }}</div>
+                      <div class="progress-bar win2" role="progressbar"
+                        [ngStyle]="{'width': ((element.standingsLosseHome + element.standingsWinAway)*100)/(element.standingsWinHome + element.standingsLosseAway +element.standingsDrawHome + element.standingsDrawAway + element.standingsLosseHome + element.standingsWinAway) + '%'}"
+                        aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                        {{element.standingsWinAway + element.standingsLosseHome  }}</div>
+                    </div>
+                    <div class="inline-flex">
+
+                      <div class="content-line">
+                        Prawdopodobieństwo domniemane
+                      </div>
+                    </div>
+                    <div class="inline-flex">
+
+                      <div class="content-line">
+                        <mat-radio-group class="radio-toolbar radio-top" aria-label="Select an option">
+                          <mat-radio-button value="1" class="">1
+                            <span>{{(element.vot1*100/(element.vot1*1 + element.votX*1 + element.vot2*1)).toFixed(2)}}
+                            </span></mat-radio-button>
+                          <mat-radio-button value="X" class="">X
+                            <span>{{(element.votX*100/(element.vot1*1 + element.votX*1 + element.vot2*1)).toFixed(2)}}</span>
+                          </mat-radio-button>
+                          <mat-radio-button value="2" class="">2
+                            <span>{{(element.vot2*100/(element.vot1*1 + element.votX*1 + element.vot2*1)).toFixed(2)}}</span>
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
                     <div class="clearfix-content pc-content">
-                      <div *ngFor="let last of element.standings.teamEvents | keyvalue">
-                        <div class="col-lg-6 pull-left-lg"
-                          *ngIf="checkStandings(last.key, element.events.event.awayTeam.id)">
-                          <div class="cell-event-standing"
-                            *ngFor="let standingMatch of sortData(last.value.total, last.value.away, last.value.home)">
-                            <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
-                            <div class="separator_right_cell"></div>
-                            <div class="home_away_standing">
-                              <div
-                                [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
-                                {{standingMatch.homeTeam.name}}</div>
-                              <div
-                                [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
-                                {{standingMatch.awayTeam.name}}</div>
-                            </div>
-                            <div class="separator_right_cell"></div>
-                            <div class="result">
-                              <div class="home_standing">{{standingMatch.homeScore.display}}</div>
-                              <div class="away_standing">{{standingMatch.awayScore.display}}</div>
-                            </div>
+                      <div class="col-lg-6 pull-left-lg">
+                        {{element.standingsLosseHome}} - {{element.standingsDrawHome}} - {{element.standingsWinHome}}
+                        <div class="cell-event-standing" *ngFor="let standingMatch of element.standingsMatchesHome">
+                          <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
+                          <div class="separator_right_cell"></div>
+                          <div class="home_away_standing">
+                            <div
+                              [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                              {{standingMatch.homeTeam.name}}</div>
+                            <div
+                              [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                              {{standingMatch.awayTeam.name}}</div>
+                          </div>
+                          <div class="separator_right_cell"></div>
+                          <div class="result">
+                            <div class="home_standing">{{standingMatch.homeScore.display}}</div>
+                            <div class="away_standing">{{standingMatch.awayScore.display}}</div>
                           </div>
                         </div>
-                        <div class="col-lg-6 pull-left-lg"
-                          *ngIf="checkStandings(last.key, element.events.event.homeTeam.id)">
-                          <div class="cell-event-standing"
-                            *ngFor="let standingMatch of sortData(last.value.total, last.value.home, last.value.away)">
+                      </div>
+                      <div class="col-lg-6 pull-left-lg">
+                        {{element.standingsLosseAway}} - {{element.standingsDrawAway}} - {{element.standingsWinAway}}
 
-                            <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
-                            <div class="separator_right_cell"></div>
-                            <div class="home_away_standing">
-                              <div
-                                [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
-                                {{standingMatch.homeTeam.name}}</div>
-                              <div
-                                [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
-                                {{standingMatch.awayTeam.name}}</div>
-                            </div>
-                            <div class="separator_right_cell"></div>
-                            <div class="result">
-                              <div class="home_standing">{{standingMatch.homeScore.display}}</div>
-                              <div class="away_standing">{{standingMatch.awayScore.display}}</div>
-                            </div>
+                        <div class="cell-event-standing" *ngFor="let standingMatch of element.standingsMatchesAway">
+                          <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
+                          <div class="separator_right_cell"></div>
+                          <div class="home_away_standing">
+                            <div
+                              [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                              {{standingMatch.homeTeam.name}}</div>
+                            <div
+                              [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                              {{standingMatch.awayTeam.name}}</div>
+                          </div>
+                          <div class="separator_right_cell"></div>
+                          <div class="result">
+                            <div class="home_standing">{{standingMatch.homeScore.display}}</div>
+                            <div class="away_standing">{{standingMatch.awayScore.display}}</div>
                           </div>
                         </div>
                       </div>
@@ -192,56 +224,44 @@
                     <!-- END PC MECZE  -->
                     <!-- BEGIN KOM MECZE -->
                     <mat-tab-group class="kom-content">
-                      <mat-tab label="{{element.events.event.awayTeam.name}}">
-                        <div *ngFor="let last of element.standings.teamEvents | keyvalue">
-                          <div class="col-lg-6 pull-left-lg"
-                            *ngIf="checkStandings(last.key, element.events.event.awayTeam.id)">
-                            <div class="cell-event-standing"
-                              *ngFor="let standingMatch of sortData(last.value.total, last.value.away, last.value.home)">
-                              <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}}
-                              </div>
-                              <div class="separator_right_cell"></div>
-                              <div class="home_away_standing">
-                                <div
-                                  [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
-                                  {{standingMatch.homeTeam.name}}</div>
-                                <div
-                                  [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
-                                  {{standingMatch.awayTeam.name}}</div>
-                              </div>
-                              <div class="separator_right_cell"></div>
-                              <div class="result">
-                                <div class="home_standing">{{standingMatch.homeScore.display}}</div>
-                                <div class="away_standing">{{standingMatch.awayScore.display}}</div>
-                              </div>
+                      <mat-tab label="{{element.events.event.homeTeam.name}}">
+                        <div class="col-lg-6 pull-left-lg">
+                          <div class="cell-event-standing" *ngFor="let standingMatch of element.standingsMatchesHome">
+                            <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
+                            <div class="separator_right_cell"></div>
+                            <div class="home_away_standing">
+                              <div
+                                [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                {{standingMatch.homeTeam.name}}</div>
+                              <div
+                                [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                {{standingMatch.awayTeam.name}}</div>
+                            </div>
+                            <div class="separator_right_cell"></div>
+                            <div class="result">
+                              <div class="home_standing">{{standingMatch.homeScore.display}}</div>
+                              <div class="away_standing">{{standingMatch.awayScore.display}}</div>
                             </div>
                           </div>
                         </div>
                       </mat-tab>
-                      <mat-tab label="{{element.events.event.homeTeam.name}}">
-                        <div *ngFor="let last of element.standings.teamEvents | keyvalue">
-
-                          <div class="col-lg-6 pull-left-lg"
-                            *ngIf="checkStandings(last.key, element.events.event.homeTeam.id)">
-                            <div class="cell-event-standing"
-                              *ngFor="let standingMatch of sortData(last.value.total, last.value.home, last.value.away)">
-
-                              <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}}
-                              </div>
-                              <div class="separator_right_cell"></div>
-                              <div class="home_away_standing">
-                                <div
-                                  [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
-                                  {{standingMatch.homeTeam.name}}</div>
-                                <div
-                                  [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
-                                  {{standingMatch.awayTeam.name}}</div>
-                              </div>
-                              <div class="separator_right_cell"></div>
-                              <div class="result">
-                                <div class="home_standing">{{standingMatch.homeScore.display}}</div>
-                                <div class="away_standing">{{standingMatch.awayScore.display}}</div>
-                              </div>
+                      <mat-tab label="{{element.events.event.awayTeam.name}}">
+                        <div class="col-lg-6 pull-left-lg">
+                          <div class="cell-event-standing" *ngFor="let standingMatch of element.standingsMatchesAway">
+                            <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
+                            <div class="separator_right_cell"></div>
+                            <div class="home_away_standing">
+                              <div
+                                [ngStyle]="standingMatch.winnerCode === 1 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                {{standingMatch.homeTeam.name}}</div>
+                              <div
+                                [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
+                                {{standingMatch.awayTeam.name}}</div>
+                            </div>
+                            <div class="separator_right_cell"></div>
+                            <div class="result">
+                              <div class="home_standing">{{standingMatch.homeScore.display}}</div>
+                              <div class="away_standing">{{standingMatch.awayScore.display}}</div>
                             </div>
                           </div>
                         </div>
@@ -355,30 +375,45 @@
                 <!-- BEGIN TYPE1 -->
                 <mat-radio-group class="radio-toolbar" formControlName="type" aria-label="Select an option">
                   <mat-radio-button class="" value="1" (change)="onSelectionChange($event, i)"
-                    (click)="clickRadio($event, 1, i)">1<span>{{element.vot1}}</span></mat-radio-button>
+                    (click)="clickRadio($event, 1, i)">1<span>{{element.vot1}} </span></mat-radio-button>
                   <mat-radio-button class="" value="3" (change)="onSelectionChange($event, i)"
                     (click)="clickRadio($event, 3, i)">X<span>{{element.votX}}</span></mat-radio-button>
                   <mat-radio-button class="" value="2" (change)="onSelectionChange($event, i)"
                     (click)="clickRadio($event, 2, i)">2<span>{{element.vot2}}</span></mat-radio-button>
                 </mat-radio-group>
+                <div class="inline-flex radio-double-type">
+                  <mat-radio-group class="radio-toolbar" formControlName="type" aria-label="Select an option">
+                    <mat-radio-button class="" value="13" (change)="onSelectionChange($event, i)"
+                      (click)="clickRadio($event, 1, i)">1x<span>{{element.vot1_d}} </span></mat-radio-button>
+                    <mat-radio-button class="" value="12" (change)="onSelectionChange($event, i)"
+                      (click)="clickRadio($event, 3, i)">12<span>{{element.votX_d}}</span></mat-radio-button>
+                    <mat-radio-button class="" value="32" (change)="onSelectionChange($event, i)"
+                      (click)="clickRadio($event, 2, i)">x2<span>{{element.vot2_d}}</span></mat-radio-button>
+                  </mat-radio-group>
+                </div>
                 <!-- END TYPE1 -->
                 <!-- BEGIN TYPE rest -->
                 <div class="inline-flex">
                   <div class="content-line">
-                    <mat-radio-group class="radio-toolbar radio-top" formControlName="typeYT"
+                    <mat-radio-group class="radio-toolbar radio-toolbar-other" formControlName="typeYT"
                       aria-label="Select an option">
                       <mat-radio-button class="" value="1" (change)="onSelectionChange($event, i)"
-                        (click)="clickRadio($event, 1, i)">1<span></span></mat-radio-button>
+                        (click)="clickRadio($event, 1, i)">1
+                        <span></span></mat-radio-button>
                       <mat-radio-button class="" value="3" (change)="onSelectionChange($event, i)"
-                        (click)="clickRadio($event, 3, i)">X<span></span></mat-radio-button>
+                        (click)="clickRadio($event, 3, i)">X
+                        <span></span>
+                      </mat-radio-button>
                       <mat-radio-button class="" value="2" (change)="onSelectionChange($event, i)"
-                        (click)="clickRadio($event, 2, i)">2<span></span></mat-radio-button>
+                        (click)="clickRadio($event, 2, i)">2
+                       <span></span>
+                      </mat-radio-button>
                     </mat-radio-group>
                   </div>
                 </div>
                 <div class="inline-flex">
                   <div class="content-line">
-                    <mat-radio-group class="radio-toolbar" formControlName="typeBT" aria-label="Select an option">
+                    <mat-radio-group class="radio-toolbar radio-toolbar-other" formControlName="typeBT" aria-label="Select an option">
                       <mat-radio-button class="" value="1" (change)="onSelectionChange($event, i)"
                         (click)="clickRadio($event, 1, i)">1<span></span></mat-radio-button>
                       <mat-radio-button class="" value="3" (change)="onSelectionChange($event, i)"
@@ -390,7 +425,7 @@
                 </div>
                 <div class="inline-flex">
                   <div class="content-line">
-                    <mat-radio-group class="radio-toolbar" formControlName="typeVI" aria-label="Select an option">
+                    <mat-radio-group class="radio-toolbar radio-toolbar-other" formControlName="typeVI" aria-label="Select an option">
                       <mat-radio-button class="" value="1" (change)="onSelectionChange($event, i)"
                         (click)="clickRadio($event, 1, i)">1<span></span></mat-radio-button>
                       <mat-radio-button class="" value="3" (change)="onSelectionChange($event, i)"
@@ -493,9 +528,9 @@
 
 
 
-        <tr mat-header-row *matHeaderRowDef="['header-row-type-group','header-row-first-group']">
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- <tr mat-header-row *matHeaderRowDef="['header-row-type-group','header-row-first-group']">
+        </tr> -->
+        <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
         <tr [ngClass]="'table-color--'+ row.win" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       <div class="data-panel">
