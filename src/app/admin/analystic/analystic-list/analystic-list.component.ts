@@ -220,9 +220,12 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     }))
 
   }
+  onSelectionChange(a,b){
+    console.log(a,b)
+  }
   clickRadio(event: Event, value: any, i) {
     // event.preventDefault();
-
+console.log(event,value,i, this.myForm)
     if (!this.radioVal || this.radioVal !== value) {
       this.radioVal = value;
       this.eventss.at(i).patchValue({ type: this.radioVal });
@@ -715,34 +718,57 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.chance = this.chance + amount
   }
   addBet(bet) {
-    this.eventss.value.forEach(x => {
-      if (x.name && (x.type.length > 0)) {
+    bet.events.forEach(element => {
+      if(element.type === "3"){
+        element.type = "0"
+      }
+     const a = this.dateEventsBet.events.find(x=> x.name === element.name)
+    if(a){
+      if(element.type.length > 0){
+      a.type = element.type
+    }else {
+      console.log("usun")
+      this.betAllRateResultsMinus(a)
+              this.betAllRateResults(element)
+      this.dateEventsBet.events = this.dateEventsBet.events.filter(d=> d.name !== a.name)
+      
+    }
+    } else {
+      if(element.type.length > 0){
+        console.log("dodaj")
+        this.betAllRateResults(element)
+        this.dateEventsBet.events.push(element)
+      }
+    }
+    });
+    // this.eventss.value.forEach(x => {
+    //   if (x.name && ((x.type.length > 0) || bet.type)) {
 
-        if (x.type === "3") {
-          x.type = "0"
-        }
-        let b = false;
-        var a = this.dateEventsBet.events.find(y => y.idEvent === x.idEvent)
-        a ? a = a : a = false
-        if (!a) {
-          this.betAllRateResults(x)
-          this.dateEventsBet.date = this.formattedDate
-          this.dateEventsBet.events.push(x)
-        }
-        else {
-          if (a) {
-            if (a.type !== x.type) {
-              this.betAllRateResultsMinus(a)
-              this.betAllRateResults(x)
-              // this.dateEventsBet.events.push(x)
-              this.dateEventsBet.events.find(y => y.idEvent === x.idEvent, a.type = x.type)
+    //     if (x.type === "3") {
+    //       x.type = "0"
+    //     }
+    //     let b = false;
+    //     var a = this.dateEventsBet.events.find(y => y.idEvent === x.idEvent)
+    //     a ? a = a : a = false
+    //     if (!a) {
+    //       this.betAllRateResults(x)
+    //       this.dateEventsBet.date = this.formattedDate
+    //       this.dateEventsBet.events.push(x)
+    //     }
+    //     else {
+    //       if (a) {
+    //         if (a.type !== x.type) {
+    //           this.betAllRateResultsMinus(a)
+    //           this.betAllRateResults(x)
+    //           // this.dateEventsBet.events.push(x)
+    //           this.dateEventsBet.events.find(y => y.idEvent === x.idEvent, a.type = x.type)
 
-            }
-          }
-        }
-      } 
-      // usuniecie z bet
-    })
+    //         }
+    //       }
+    //     }
+    //   } 
+    //   // usuniecie z bet
+    // })
   }
 
   @ViewChild(MatSort) sort: MatSort;
