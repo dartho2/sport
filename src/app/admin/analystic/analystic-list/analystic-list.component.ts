@@ -648,17 +648,18 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   }
   betAllRateResultsMinus(x) {
     let a = 1;
-    if(x.type.length <= 1){
-    x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === '0' ? this.betAllRateResult /= x.votX : '';
-  } else {x.type === '10' ? this.betAllRateResult /= x.vot1_d : x.type === '02' ? this.betAllRateResult /= x.vot2_d : x.type === '12' ? this.betAllRateResult /= x.votX_d : '';
-}
-return (a / 1.14).toFixed(2)
+    if (x.type.length <= 1) {
+      x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === '0' ? this.betAllRateResult /= x.votX : '';
+    } else {
+    x.type === '10' ? this.betAllRateResult /= x.vot1_d : x.type === '02' ? this.betAllRateResult /= x.vot2_d : x.type === '12' ? this.betAllRateResult /= x.votX_d : '';
+    }
+    return (a / 1.14).toFixed(2)
   }
   betAllRateResults(x) {
     let a = 1;
     x.type === '1' ? this.betAllRateResult *= x.vot1 : x.type === '2' ? this.betAllRateResult *= x.vot2 : x.type === '0' ? this.betAllRateResult *= x.votX : '';
     x.type === '10' ? this.betAllRateResult *= x.vot1_d : x.type === '02' ? this.betAllRateResult *= x.vot2_d : x.type === '12' ? this.betAllRateResult *= x.votX_d : '';
-  
+
     return (a / 1.14).toFixed(2)
   }
 
@@ -784,19 +785,19 @@ return (a / 1.14).toFixed(2)
       }
       const a = this.dateEventsBet.events.find(x => x.name === element.name)
       if (a) {
-       if ((element.type.length > 0) && Number(a.type) !== Number(element.type))  {
+        if ((element.type.length > 0) && Number(a.type) !== Number(element.type)) {
           this.betAllRateResultsMinus(a)
           a.type = element.type
-         
-          
-        this.betAllRateResults(element)
-        } else {
-          if(a.type === element.type){
-            a.type = element.type
-          this.betAllRateResultsMinus(a)
+
+
           this.betAllRateResults(element)
-          this.dateEventsBet.events = this.dateEventsBet.events.filter(d => d.name !== a.name)
-        }
+        } else {
+          if (a.type !== element.type) {
+            a.type = element.type
+            this.betAllRateResultsMinus(a)
+            this.betAllRateResults(element)
+            this.dateEventsBet.events = this.dateEventsBet.events.filter(d => d.name !== a.name)
+          }
         }
       } else {
         if (element.type.length > 0) {

@@ -4,8 +4,7 @@
 // @import "~bootstrap/dist/css/bootstrap.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-// @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-/* BOTTOM NAVIGATE */
+.mat-expansion-panel-body/* BOTTOM NAVIGATE */
 .mat-tab-label, .mat-tab-link, .mat-tab-group, .mat-list-item, .mat-table {
 font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
 }
@@ -110,6 +109,7 @@ body {background-color: #f8f9fc;
       .select2Buttons .disabled {
         border: 1px solid #9dc4e3;
         -moz-border-radius: 3px; 
+        border-radius: 3px; 
         -webkit-border-radius: 3px; 
       }
       
@@ -272,9 +272,7 @@ button:focus {
   padding-top:40px;
   background: #f8f9fc;
 }
-.example-container{
-// top:50px !important;
-}
+
 .content-page {
   padding: 5px 0px 0px 0px !important;
 }
@@ -609,6 +607,7 @@ a.close-reveal.close-icon:after,
   border-top: 7px solid transparent;
   border-right: 7px solid #1d75a3;
   -webkit-transform: rotate(12deg);
+  transform:  rotate(12deg);;
   -moz-transform: rotate(12deg);
   -ms-transform: rotate(12deg);
   -o-transform: rotate(12deg);
@@ -626,6 +625,7 @@ a.close-reveal.close-icon:after,
   width: 14px;
   height: 12px;
   -webkit-transform: rotate(15deg);
+  transform: rotate(15deg);;
   -moz-transform: rotate(15deg);
   -ms-transform: rotate(15deg);
   -o-transform: rotate(15deg);
@@ -638,6 +638,7 @@ a.close-reveal.close-icon:after,
   border-top: 7px solid transparent;
   border-right: 7px solid #1d75a3;
   -webkit-transform: rotate(193deg);
+  transform: rotate(193deg);
   -moz-transform: rotate(193deg);
   -ms-transform: rotate(193deg);
   -o-transform: rotate(193deg);
@@ -655,6 +656,7 @@ a.close-reveal.close-icon:after,
   width: 14px;
   height: 12px;
   -webkit-transform: rotate(15deg);
+  transform: rotate(15deg);
   -moz-transform: rotate(15deg);
   -ms-transform: rotate(15deg);
   -o-transform: rotate(15deg);
