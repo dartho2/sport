@@ -113,19 +113,13 @@
         </table>
       </mat-expansion-panel>
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-
       </mat-expansion-panel>
     </mat-accordion>
 
-
-
-
-
-
-
-
+    <div *ngIf="messageEvent.length !== 0" class="alert alert-info" role="alert">
+        <strong>Heads up!</strong>      {{messageEvent}}
+      </div>
     <form [formGroup]="myForm" (ngSubmit)="onSubmitForm(f)" #f="ngForm">
-
       <table matTableExporter #exporter="matTableExporter" id="ExampleTable" mat-table [dataSource]="dataSource" matSort
         class="mat-elevation-z8">
         <ng-container matColumnDef="type">

@@ -108,6 +108,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   radioVal;
   winSure = 0;
   winSureAll = 0;
+  messageEvent = "";
   returnCost: number;
   numberPercent = 70;
   checkWins: string;
@@ -123,6 +124,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   currentCheckedValue = null;
   dataSource = new MatTableDataSource(this.matchData);
   dateALL: any;
+  controlEvent: number;
   constructor(private analysticService: AnalysticService, private ren: Renderer2, private _fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
@@ -141,10 +143,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
     // this.getMatches();
     this.formbuilder();
-  }
-  fff() {
-
-    // console.log(this.eventss)
   }
   checkState(el, type, con) {
     setTimeout(() => {
@@ -260,15 +258,17 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   getMatches() {
     this.matchData = [];
     this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
+      this.controlEvent = 0
       res.map(turnaments => {
         this.turnamentEvent.push(turnaments.tournament.name);
         if (this.ligueId.includes(turnaments.tournament.id)) {
           this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
-            turnaments.events.forEach(events => {
+            turnaments.events.forEach(events => { 
               let keys = []
               if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
+                this.messageEvent = "";
+                this.controlEvent += 1;
                 events["standings"] = standing;
-
                 Object.keys(events["standings"].teamEvents).forEach(key => {
                   if (Number(key) === Number(events.awayTeam.id)) {
                     events["standingsMatchesAway"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
@@ -311,7 +311,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
                 this.analysticService.getAnalystictEvent(events.id).subscribe(
                   eventsData => {
                     this.eventTournament = eventsData;
-
                     this.analysticService.getEventsLast(events.awayTeam.id).subscribe(x => {
                       events["last"] = x
                     })
@@ -458,14 +457,16 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
           })
         }
       })
-
+      console.log("reset")
+      this.dataSource = new MatTableDataSource(this.matchData); //RESET Data if 0 EVENT
+      this.messageEvent = "brak Danych do pokazania";
     }))
       .subscribe(
         data => {
-
           this.matchFootball = data;
         })
   }
+ 
   sort_unique(arr) {
     if (arr.length === 0) return arr;
     arr = arr.sort(function (a, b) { return a * 1 - b * 1; });
