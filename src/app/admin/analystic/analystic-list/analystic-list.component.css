@@ -2246,7 +2246,7 @@ span.span-header {
   ::ng-deep .fixed-panel {
     /* position: fixed; */
     width: 100%;
-    padding-top: 40px;
+    /* padding-top: 40px; */
   }
 
   ::ng-deep .mat-tab-labels {
