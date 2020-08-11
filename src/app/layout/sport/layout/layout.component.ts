@@ -18,7 +18,7 @@ export class LayoutComponent implements OnInit {
     mobileQuery: MediaQueryList;
     showSpinner: boolean;
     format = 'yyyy-MM-dd';
-  
+    mymodel;
     private autoLogoutSubscription: Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router,
