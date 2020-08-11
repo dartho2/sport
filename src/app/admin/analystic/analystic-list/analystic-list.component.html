@@ -115,7 +115,7 @@
        <li *ngFor="let tur of grupCategory">
           {{tur.name}} 
           <ol *ngFor="let s of tur.values">
-            {{s.tournament.uniqueName}}
+            {{s.tournament.name}} - {{s.events.length}}
           </ol>
         </li>
       </mat-expansion-panel>

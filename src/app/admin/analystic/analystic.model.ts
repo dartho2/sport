@@ -8,10 +8,11 @@ export interface Analystic {
     category: [{}];
     tournament: { 
         id: number, 
+        events: [{}],
         name: string; };
     season: {
         id: number
-    }
+    },
     events: [{
         id: number, 
         homeTeam: { 

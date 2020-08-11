@@ -26,7 +26,7 @@
   
 
 
-  <mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-container *ngIf="!activated" class="sidenav-container">
     <mat-sidenav [ngClass]="status ? 'toggler-b' : ''" #drawer fixedInViewport="true"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">

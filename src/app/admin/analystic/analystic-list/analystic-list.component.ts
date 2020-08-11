@@ -139,6 +139,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      console.log("ddddd")
       if (paramMap.has("data")) {
         let data = paramMap.get("data");
         this.onSearchChange(new Date(data))
@@ -263,17 +264,33 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   }
   getMatches() {
     this.matchData = [];
+    var filterTur: any = [];
     this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
       this.turnament = res
-      var groups = new Set(this.turnament.map((item:any )=> item.category.name))
-      console.log(groups, "ssss")
-      groups.forEach(g => 
-        this.grupCategory.push({
-          name: g, 
-          values: this.turnament.filter((i:any) => i.category.name === g)
+      var groups = new Set(this.turnament.map((item: any) => item.category.name))
+      groups.forEach(g => {
+        filterTur = this.turnament.filter((i: any) => i.category.name === g)
+        this.turnament.forEach((x, indexX, objectX) => {
+          x.events.forEach((a, index, object) => {
+            a.formatedStartDate === formatDate(this.formattedDate, this.actualformat + '.', 'en') ? a : object.splice(index, 1)
+            if (x.events.length <= 0) {
+              objectX.splice(indexX, 1)
+            }
+          })
+
+        })
+        if (this.turnament.find((i: any) => i.category.name === g)) {
+          this.grupCategory.push({
+            name: g,
+            values: this.turnament.filter((i: any) => i.category.name === g)
+          }
+          )
         }
-      ))
+
+      }
+      )
       console.log(this.grupCategory)
+
       // this.grupCategory = _.groupBy(this.turnament, 'category.name')
       // console.log(this.grupCategory, "group")
       this.controlEvent = 0
@@ -281,7 +298,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
         this.turnamentEvent.push(turnaments.tournament.name);
         if (this.ligueId.includes(turnaments.tournament.id)) {
           this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
-            turnaments.events.forEach(events => { 
+            turnaments.events.forEach(events => {
               let keys = []
               if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
                 this.messageEvent = "";
@@ -484,7 +501,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
           this.matchFootball = data;
         })
   }
- 
+
   sort_unique(arr) {
     if (arr.length === 0) return arr;
     arr = arr.sort(function (a, b) { return a * 1 - b * 1; });
@@ -670,7 +687,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     if (x.type.length <= 1) {
       x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === '0' ? this.betAllRateResult /= x.votX : '';
     } else {
-    x.type === '10' ? this.betAllRateResult /= x.vot1_d : x.type === '02' ? this.betAllRateResult /= x.vot2_d : x.type === '12' ? this.betAllRateResult /= x.votX_d : '';
+      x.type === '10' ? this.betAllRateResult /= x.vot1_d : x.type === '02' ? this.betAllRateResult /= x.vot2_d : x.type === '12' ? this.betAllRateResult /= x.votX_d : '';
     }
     return (a / 1.14).toFixed(2)
   }
