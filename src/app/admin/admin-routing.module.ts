@@ -15,9 +15,11 @@ import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.co
 import { AuthGuard } from '../_helpers/auth.guard';
 import { Role } from '../_models/role';
 import { CalendarComponent } from './calendar/calendar.component';
+import { NavbarSportComponent } from '../layout/sport/navbar-sport/navbar-sport.component';
+import { LayoutComponent } from '../layout/sport/layout/layout.component';
 
 const adminRoutes: Routes = [
- 
+
   {
     path: '',
     component: AdminComponent,
@@ -45,21 +47,66 @@ const adminRoutes: Routes = [
         data: { roles: [Role.Admin, Role.User] }
       },
       {
-        path: 'analystic/list',
-        component: AnalysticListComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin], state: 'anal' },
-        
-      },
-      {
-        path: 'analystic/list/:data',
-        component: AnalysticListComponent,
+        path: 'calendar',
+        component: CalendarComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin] }
       },
       {
-        path: 'calendar',
-        component: CalendarComponent,
+              path: 'recipe/list',
+              component: RecipeListComponent,
+              canActivate: [AuthGuard],
+              data: { roles: [Role.Admin, Role.User] }
+      
+            },
+            {
+              path: 'graphics/list',
+              component: GraphicsListComponent,
+              data: { roles: [Role.Admin, Role.User] }
+            },
+            {
+              path: 'semiproduct/list',
+              component: SemiproduktListComponent,
+              data: { roles: [Role.Admin, Role.User] }
+            },
+            {
+              path: 'products/edit/:idProduct',
+              component: ProductsCreateComponent,
+              canActivate: [AuthGuard],
+              data: { roles: [Role.Admin] }
+            },
+            {
+              path: 'dish',
+              component: DishesListComponent,
+              data: { roles: [Role.Admin, Role.User] }
+            },
+            {
+              path: 'dish/create',
+              component: DishesCreateComponent,
+              data: { roles: [Role.Admin, Role.User] }
+            },
+            {
+              path: 'dish/edit/:id',
+              component: DishesCreateComponent,
+              canActivate: [AuthGuard],
+              data: { roles: [Role.Admin] }
+            },
+    ]
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: 'analystic/list',
+        component: AnalysticListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin], state: 'anal' },
+
+      },
+      {
+        path: 'analystic/list/:data',
+        component: AnalysticListComponent,
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin] }
       },
@@ -77,46 +124,8 @@ const adminRoutes: Routes = [
         path: 'bet/:date/:id',
         component: BetComponent,
         data: { roles: [Role.Admin, Role.User] }
-      },
-      {
-        path: 'recipe/list',
-        component: RecipeListComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin, Role.User] }
-
-      },
-      {
-        path: 'graphics/list',
-        component: GraphicsListComponent,
-        data: { roles: [Role.Admin, Role.User] }
-      },
-      {
-        path: 'semiproduct/list',
-        component: SemiproduktListComponent,
-        data: { roles: [Role.Admin, Role.User] }
-      },
-      {
-        path: 'products/edit/:idProduct',
-        component: ProductsCreateComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin] }
-      },
-      {
-        path: 'dish',
-        component: DishesListComponent,
-        data: { roles: [Role.Admin, Role.User] }
-      },
-      {
-        path: 'dish/create',
-        component: DishesCreateComponent,
-        data: { roles: [Role.Admin, Role.User] }
-      },
-      {
-        path: 'dish/edit/:id',
-        component: DishesCreateComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin] }
-      },
+      }
+      
     ]
   }
 ]

@@ -60,6 +60,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   matchData = [];
   matchFootball;
   sportItem;
+  exampleChild: string = "sdsdsdas adas das das da"
   stringData;
   percentChance = 70;
   startTimestamp;
@@ -139,7 +140,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      console.log("ddddd")
       if (paramMap.has("data")) {
         let data = paramMap.get("data");
         this.onSearchChange(new Date(data))

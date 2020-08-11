@@ -1,3 +1,5 @@
+
+
 <div *ngIf="dateEventsBet.events.length >0">
   <div class="slideout-widget widget-facebook">
     <div class="slideout-widget-handler">
@@ -122,7 +124,27 @@
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       </mat-expansion-panel>
     </mat-accordion>
-
+    <mat-accordion class="fixed-panel">
+    <mat-expansion-panel hideToggle="true" #xyzy>
+      <mat-expansion-panel-header class="panel-fixed">
+        <mat-panel-title>
+          Filter
+        </mat-panel-title>
+        <mat-panel-description>
+          <mat-icon class="icon_more_less" *ngIf="!xyzy.expanded">expand_less</mat-icon>
+          <mat-icon class="icon_more_less" *ngIf="xyzy.expanded">expand_more</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+     <li *ngFor="let tur of grupCategory">
+        {{tur.name}} 
+        <ol *ngFor="let s of tur.values">
+          {{s.tournament.name}} - {{s.events.length}}
+        </ol>
+      </li>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    </mat-expansion-panel>
+  </mat-accordion>
     <div *ngIf="messageEvent.length !== 0" class="alert alert-info" role="alert">
         <strong>Heads up!</strong>      {{messageEvent}}
       </div>

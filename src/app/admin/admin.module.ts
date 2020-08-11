@@ -67,6 +67,9 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { LOCALE_ID } from '@angular/core';
+import { NavbarSportComponent } from '../layout/sport/navbar-sport/navbar-sport.component';
+import { LayoutComponent } from '../layout/sport/layout/layout.component';
+
 registerLocaleData(localePl, 'pl-PL');
 
 
@@ -122,10 +125,11 @@ registerLocaleData(localePl, 'pl-PL');
     ScrollingModule
   ],
   declarations: [
+    LayoutComponent,
     AdminComponent,
     CalendarComponent,
     HeaderComponent,
-    NavbarComponent,
+    NavbarComponent, NavbarSportComponent,
     ProductsListComponent,
     ProductsCreateComponent,
     DishesListComponent, DialogDataListDialog,
