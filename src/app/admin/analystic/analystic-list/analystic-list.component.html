@@ -111,6 +111,13 @@
             </td>
           </tr>-->
         </table>
+       
+       <li *ngFor="let tur of grupCategory">
+          {{tur.name}} 
+          <ol *ngFor="let s of tur.values">
+            {{s.tournament.uniqueName}}
+          </ol>
+        </li>
       </mat-expansion-panel>
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       </mat-expansion-panel>

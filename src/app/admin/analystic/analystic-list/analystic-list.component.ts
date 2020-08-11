@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, AfterViewInit, Renderer2 } from '@
 import { AnalysticService } from '../analystic-service'
 import { formatDate } from '@angular/common';
 import { Analystic } from '../analystic.model';
-import { map, reduce } from 'rxjs/operators';
+import { map, reduce, groupBy, mergeMap, toArray } from 'rxjs/operators';
 import { exportData } from "../../products/export/exportData";
 import html2canvas from 'html2canvas';
 import * as jspdf from 'jspdf';
@@ -13,6 +13,8 @@ import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { a, e } from '@angular/core/src/render3';
 import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import _ from 'lodash';
+import { from } from 'rxjs';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -125,6 +127,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource(this.matchData);
   dateALL: any;
   controlEvent: number;
+  turnament: Analystic[];
+  grupCategory = [];;
+  // grupCategory: { [x: string]: Pick<any, string | number | symbol>[]; };
+
   constructor(private analysticService: AnalysticService, private ren: Renderer2, private _fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
@@ -258,6 +264,18 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   getMatches() {
     this.matchData = [];
     this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
+      this.turnament = res
+      var groups = new Set(this.turnament.map((item:any )=> item.category.name))
+      console.log(groups, "ssss")
+      groups.forEach(g => 
+        this.grupCategory.push({
+          name: g, 
+          values: this.turnament.filter((i:any) => i.category.name === g)
+        }
+      ))
+      console.log(this.grupCategory)
+      // this.grupCategory = _.groupBy(this.turnament, 'category.name')
+      // console.log(this.grupCategory, "group")
       this.controlEvent = 0
       res.map(turnaments => {
         this.turnamentEvent.push(turnaments.tournament.name);

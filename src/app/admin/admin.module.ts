@@ -68,6 +68,8 @@ import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { LOCALE_ID } from '@angular/core';
 registerLocaleData(localePl, 'pl-PL');
+
+
 @NgModule({
   imports: [
     MatTableExporterModule,
