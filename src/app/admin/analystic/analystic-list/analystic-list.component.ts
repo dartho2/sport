@@ -267,14 +267,17 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     var filterTur: any = [];
     this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
       this.turnament = res
+      // BEGIN GRUPOWANIE MECZY
       var groups = new Set(this.turnament.map((item: any) => item.category.name))
       groups.forEach(g => {
         filterTur = this.turnament.filter((i: any) => i.category.name === g)
         this.turnament.forEach((x, indexX, objectX) => {
           x.events.forEach((a, index, object) => {
-            a.formatedStartDate === formatDate(this.formattedDate, this.actualformat + '.', 'en') ? a : object.splice(index, 1)
-            if (x.events.length <= 0) {
+           var dateEvent = formatDate(new Date(a.startTimestamp*1000), 'dd.MM.yyyy', 'en')
+               dateEvent === formatDate(this.formattedDate, this.actualformat, 'en') ? a : object.splice(index, 1)
+              if (x.events.length <= 0) {
               objectX.splice(indexX, 1)
+              
             }
           })
 
@@ -289,18 +292,16 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
       }
       )
-      console.log(this.grupCategory)
-
-      // this.grupCategory = _.groupBy(this.turnament, 'category.name')
-      // console.log(this.grupCategory, "group")
+//  END Grupowanie meczy
       this.controlEvent = 0
       res.map(turnaments => {
         this.turnamentEvent.push(turnaments.tournament.name);
         if (this.ligueId.includes(turnaments.tournament.id)) {
-          this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
-            turnaments.events.forEach(events => {
+           turnaments.events.forEach(events => {
               let keys = []
               if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
+              // BEGIN OSTATNIE MECZE
+                this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
                 this.messageEvent = "";
                 this.controlEvent += 1;
                 events["standings"] = standing;
@@ -340,9 +341,11 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
                     })
                   }
                 })
-                // events["standings"].teamEvents.forEach((keys : any, vals :any)=>{
+                events["standings"].teamEvents.forEach((keys : any, vals :any)=>{
 
-                // })
+                })
+              })
+              //  END LAST MECZE
                 this.analysticService.getAnalystictEvent(events.id).subscribe(
                   eventsData => {
                     this.eventTournament = eventsData;
@@ -489,7 +492,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
               }
             })
-          })
+          // })
         }
       })
       console.log("reset")
@@ -621,6 +624,17 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
     //   return this.awayYellow
     // }
+  }
+  addID(id) {
+
+    const index = this.ligueId.indexOf(id);
+    if (index > -1) {
+      this.ligueId.splice(index, 1);
+    } else {
+      this.ligueId.push(id)
+    }
+
+    this.getMatches()
   }
   onWinhange(price) {
     this.returnCost = (((price * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * price

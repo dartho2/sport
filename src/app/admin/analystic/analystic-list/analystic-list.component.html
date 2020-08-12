@@ -135,10 +135,12 @@
           <mat-icon class="icon_more_less" *ngIf="xyzy.expanded">expand_more</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
+      <!-- <app-match-list [matchData]="grupCategory"></app-match-list> -->
      <li *ngFor="let tur of grupCategory">
         {{tur.name}} 
         <ol *ngFor="let s of tur.values">
-          {{s.tournament.name}} - {{s.events.length}}
+          {{s.tournament.name}} - ID: {{s.tournament.id}}  - {{s.events.length}} <button (click)="addID(s.tournament.id)">id</button>
+        <li *ngFor="let event of s.events"> {{(event.startTimestamp)* 1000 | date:'M/dd/yy'}}</li>
         </ol>
       </li>
     </mat-expansion-panel>

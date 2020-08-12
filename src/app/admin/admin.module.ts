@@ -69,6 +69,7 @@ import localePl from '@angular/common/locales/pl';
 import { LOCALE_ID } from '@angular/core';
 import { NavbarSportComponent } from '../layout/sport/navbar-sport/navbar-sport.component';
 import { LayoutComponent } from '../layout/sport/layout/layout.component';
+import { MatchListComponent } from './analystic/match-list/match-list.component';
 
 registerLocaleData(localePl, 'pl-PL');
 
@@ -138,7 +139,7 @@ registerLocaleData(localePl, 'pl-PL');
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],
