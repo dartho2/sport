@@ -250,7 +250,7 @@
                       
                       <div class="col-lg-6 pull-left-lg">
                         {{element.standingsLosseHome}} - {{element.standingsDrawHome}} - {{element.standingsWinHome}}
-                      <div *ngIf="ccc(element.lastHome)"></div>
+                  
                         <div class="cell-event-standing" *ngFor="let standingMatch of element.lastHome.events">
                           <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                           <div class="separator_right_cell"></div>

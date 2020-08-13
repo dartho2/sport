@@ -20,6 +20,7 @@ export class LayoutComponent implements OnInit {
     showSpinner: boolean;
     format = 'yyyy-MM-dd';
     mymodel;
+    votePrice = 1;
     eventNumber: number;
     betAllRateResult: any = null;
     private autoLogoutSubscription: Subscription;
@@ -65,11 +66,20 @@ export class LayoutComponent implements OnInit {
         this.mobileQuery.removeListener(this._mobileQueryListener);
   
     }
-
+    deleted(bet){
+      this.dateEventsBet.events.splice(bet, 1)
+      this.checkPriceTotal()
+      this.eventNumber = this.dateEventsBet.events.length
+    }
+    checkPriceTotal(){
+      this.votePrice = 1
+      this.dateEventsBet.events.forEach(x=> { this.votePrice *= x.votePrice})
+    }
     ngAfterViewInit(): void {
         this.changeDetectorRef.detectChanges();
         this.headerService.subject.subscribe((event: any) => {
           this.dateEventsBet = event;
+          this.checkPriceTotal()
          this.eventNumber = this.dateEventsBet.events.length
         })
         this.headerService.subject1.subscribe((result: any) => {

@@ -567,14 +567,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
           this.matchFootball = data;
         })
   }
-  ccc(id){
- 
-    if(typeof id["events"] === 'undefined'){
   
-    } else {
-
-    }
-  }
   sort_unique(arr) {
     if (arr.length === 0) return arr;
     arr = arr.sort(function (a, b) { return a * 1 - b * 1; });
@@ -777,16 +770,16 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   betAllRateResultsMinus(x) {
     let a = 1;
     if (x.type.length <= 1) {
-      x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === '0' ? this.betAllRateResult /= x.votX : '';
+      x.type === '1' ? x.votePrice = x.vot1 : x.type === '2' ? x.votePrice = x.vot2 : x.type === '0' ? x.votePrice = x.votX : '';
     } else {
-      x.type === '10' ? this.betAllRateResult /= x.vot1_d : x.type === '02' ? this.betAllRateResult /= x.vot2_d : x.type === '12' ? this.betAllRateResult /= x.votX_d : '';
+      x.type === '10' ? x.votePrice = x.vot1_d : x.type === '02' ? x.votePrice = x.vot2_d : x.type === '12' ? x.votePrice = x.votX_d : '';
     }
     return (a / 1.14).toFixed(2)
   }
   betAllRateResults(x) {
     let a = 1;
-    x.type === '1' ? this.betAllRateResult *= x.vot1 : x.type === '2' ? this.betAllRateResult *= x.vot2 : x.type === '0' ? this.betAllRateResult *= x.votX : '';
-    x.type === '10' ? this.betAllRateResult *= x.vot1_d : x.type === '02' ? this.betAllRateResult *= x.vot2_d : x.type === '12' ? this.betAllRateResult *= x.votX_d : '';
+    x.type === '1' ? x.votePrice = x.vot1 : x.type === '2' ? x.votePrice = x.vot2 : x.type === '0' ? x.votePrice = x.votX : '';
+    x.type === '10' ? x.votePrice = x.vot1_d : x.type === '02' ? x.votePrice = x.vot2_d : x.type === '12' ? x.votePrice = x.votX_d : '';
 
     return (a / 1.14).toFixed(2)
   }
@@ -852,9 +845,11 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       }
     })
     this.dateEventsBet.rate = stawka.toFixed(2)
+    this.dateEventsBet.date =  this.myNewDate 
     if (this.dateEventsBet.events.length > 0) {
-      this.analysticService.addEvents(this.dateEventsBet).subscribe(x => {
+      this.analysticService.addEvents(this.dateEventsBet).subscribe(xresum => {
       })
+    
 
     }
 
@@ -907,7 +902,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.chance = this.chance + amount
   }
   addBet(bet) {
-   
+    this.headerService.subject.subscribe((x: any)=>{ 
+      
+      this.dateEventsBet = x
+    })
     bet.events.forEach(element => {
       if (element.type.includes("3")) {
         element.type = element.type.replace("3", "0")
@@ -924,7 +922,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
         } else {
           if (a.type !== element.type) {
             // a.type = element.type
-            console.log(element)
             this.betAllRateResultsMinus(a)
             this.betAllRateResults(element)
             this.dateEventsBet.events = this.dateEventsBet.events.filter(d => d.name !== a.name)
@@ -967,6 +964,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     //   } 
     //   // usuniecie z bet
     // })
+ 
   }
 
   @ViewChild(MatSort) sort: MatSort;
