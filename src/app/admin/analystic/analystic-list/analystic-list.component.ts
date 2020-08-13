@@ -774,14 +774,15 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     } else {
       x.type === '10' ? x.votePrice = x.vot1_d : x.type === '02' ? x.votePrice = x.vot2_d : x.type === '12' ? x.votePrice = x.votX_d : '';
     }
-    return (a / 1.14).toFixed(2)
+    return x.votePrice
+    
   }
   betAllRateResults(x) {
     let a = 1;
     x.type === '1' ? x.votePrice = x.vot1 : x.type === '2' ? x.votePrice = x.vot2 : x.type === '0' ? x.votePrice = x.votX : '';
     x.type === '10' ? x.votePrice = x.vot1_d : x.type === '02' ? x.votePrice = x.vot2_d : x.type === '12' ? x.votePrice = x.votX_d : '';
-
-    return (a / 1.14).toFixed(2)
+    return x.votePrice
+   
   }
 
   calculateChance(eventTournament, vote) {
@@ -913,15 +914,17 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       const a = this.dateEventsBet.events.find(x => x.name === element.name)
       if (a) {
         if ((element.type.length > 0) && Number(a.type) !== Number(element.type)) {
-          this.betAllRateResultsMinus(a)
+        this.betAllRateResultsMinus(a)
           a.type = element.type
-
-
-          this.betAllRateResults(element)
+console.log(this.betAllRateResultsMinus(element))
+         a.votePrice = this.betAllRateResults(element)
+          
+          console.log("1")
           this.headerService.changeHeaderTitle(this.dateEventsBet, this.betAllRateResult)
         } else {
           if (a.type !== element.type) {
             // a.type = element.type
+            console.log("2")
             this.betAllRateResultsMinus(a)
             this.betAllRateResults(element)
             this.dateEventsBet.events = this.dateEventsBet.events.filter(d => d.name !== a.name)
@@ -930,6 +933,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
         }
       } else {
         if (element.type.length > 0) {
+          console.log("3")
           this.betAllRateResults(element)
           this.dateEventsBet.events.push(element)
           this.headerService.changeHeaderTitle(this.dateEventsBet, this.betAllRateResult)

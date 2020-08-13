@@ -82,8 +82,8 @@ export class LayoutComponent implements OnInit {
           this.checkPriceTotal()
          this.eventNumber = this.dateEventsBet.events.length
         })
-        this.headerService.subject1.subscribe((result: any) => {
-          this.betAllRateResult = result;
-        })
+        // this.headerService.subject1.subscribe((result: any) => {
+        //   this.betAllRateResult = 0;
+        // })
     }
 }
