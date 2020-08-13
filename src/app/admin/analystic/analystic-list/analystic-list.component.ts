@@ -15,6 +15,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import _ from 'lodash';
 import { from } from 'rxjs';
+import { HeaderService } from 'src/app/layout/sport/layout/layout.service';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -129,10 +130,12 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   dateALL: any;
   controlEvent: number;
   turnament: Analystic[];
-  grupCategory = [];;
+  grupCategory = [];
+  filterLigue = [];
+;
   // grupCategory: { [x: string]: Pick<any, string | number | symbol>[]; };
 
-  constructor(private analysticService: AnalysticService, private ren: Renderer2, private _fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
+  constructor(private analysticService: AnalysticService, private headerService: HeaderService,private ren: Renderer2, private _fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
 
@@ -267,235 +270,295 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     var filterTur: any = [];
     this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
       this.turnament = res
+
       // BEGIN GRUPOWANIE MECZY
       var groups = new Set(this.turnament.map((item: any) => item.category.name))
       groups.forEach(g => {
         filterTur = this.turnament.filter((i: any) => i.category.name === g)
-        this.turnament.forEach((x, indexX, objectX) => {
-          x.events.forEach((a, index, object) => {
-           var dateEvent = formatDate(new Date(a.startTimestamp*1000), 'dd.MM.yyyy', 'en')
-               dateEvent === formatDate(this.formattedDate, this.actualformat, 'en') ? a : object.splice(index, 1)
-              if (x.events.length <= 0) {
-              objectX.splice(indexX, 1)
-              
+        for (var i = this.turnament.length - 1; i >= 0; --i) {
+          for (var a = this.turnament[i].events.length - 1; a >= 0; --a) {
+            var dateEvent = formatDate(new Date(this.turnament[i].events[a].startTimestamp * 1000), 'dd.MM.yyyy', 'en')
+            dateEvent === formatDate(this.formattedDate, this.actualformat, 'en') ? a : this.turnament[i].events.splice(a, 1)
+            if (this.turnament[i].events.length <= 0) {
+              this.turnament.splice(i, 1)
             }
-          })
-
-        })
+          }
+        }
         if (this.turnament.find((i: any) => i.category.name === g)) {
           this.grupCategory.push({
             name: g,
             values: this.turnament.filter((i: any) => i.category.name === g)
-          }
-          )
+          })
         }
+      })
+      //  END Grupowanie meczy
 
-      }
-      )
-//  END Grupowanie meczy
       this.controlEvent = 0
       res.map(turnaments => {
         this.turnamentEvent.push(turnaments.tournament.name);
         if (this.ligueId.includes(turnaments.tournament.id)) {
-           turnaments.events.forEach(events => {
-              let keys = []
-              if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
+          turnaments.events.forEach(events => {
+            events.lastHome = [{}];
+            events.lastAway = [{}];
+            let keys = []
+            if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
+              
               // BEGIN OSTATNIE MECZE
-                this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
-                this.messageEvent = "";
-                this.controlEvent += 1;
-                events["standings"] = standing;
-                Object.keys(events["standings"].teamEvents).forEach(key => {
-                  if (Number(key) === Number(events.awayTeam.id)) {
-                    events["standingsMatchesAway"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
+              // this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
+              //   this.messageEvent = "";
+              //   this.controlEvent += 1;
+              //   // events["standings"] = standing;
+              //   // console.log(standing, "stand")
+              //   // Object.keys(events["standings"].teamEvents).forEach(key => {
+              //   //   if (Number(key) === Number(events.awayTeam.id)) {
+              //   //     events["standingsMatchesAway"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
+              //   //     events["standingsWinAway"] = 0;
+              //   //     events["standingsDrawAway"] = 0;
+              //   //     events["standingsLosseAway"] = 0;
+              //   //     events["standingsMatchesAway"].forEach(win => {
+              //   //       if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
+              //   //         events["standingsWinAway"] = events["standingsWinAway"] + 1
+              //   //       }
+              //   //       if (win.winnerCode === 3) {
+              //   //         events["standingsDrawAway"] = events["standingsDrawAway"] + 1
+              //   //       }
+              //   //       if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
+              //   //         events["standingsLosseAway"] = events["standingsLosseAway"] + 1
+              //   //       }
+              //   //     })
+              //   //   }
+              //   //   if (Number(key) === Number(events.homeTeam.id)) {
+              //   //     events["standingsMatchesHome"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
+              //   //     events["standingsWinHome"] = 0;
+              //   //     events["standingsDrawHome"] = 0;
+              //   //     events["standingsLosseHome"] = 0;
+              //   //     events["standingsMatchesHome"].forEach(win => {
+              //   //       if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 1) {
+              //   //         events["standingsWinHome"] = events["standingsWinHome"] + 1
+              //   //       }
+              //   //       if (win.winnerCode === 3) {
+              //   //         events["standingsDrawHome"] = events["standingsDrawHome"] + 1
+              //   //       }
+              //   //       if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 2) {
+              //   //         events["standingsLosseHome"] = events["standingsLosseHome"] + 1
+              //   //       }
+              //   //     })
+              //   //   }
+              //   // })
+              //   // events["standings"].teamEvents.forEach((keys : any, vals :any)=>{
+
+              //   // })
+              // })
+              //  END LAST MECZE
+              this.analysticService.getAnalystictEvent(events.id).subscribe(
+                eventsData => {
+                  this.eventTournament = eventsData;
+                  this.messageEvent = ""
+                  this.analysticService.getEventsLast(events.awayTeam.id).subscribe(x => {
+                    events["lastAway"] = x
                     events["standingsWinAway"] = 0;
                     events["standingsDrawAway"] = 0;
                     events["standingsLosseAway"] = 0;
-                    events["standingsMatchesAway"].forEach(win => {
-                      if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
-                        events["standingsWinAway"] = events["standingsWinAway"] + 1
-                      }
-                      if (win.winnerCode === 3) {
-                        events["standingsDrawAway"] = events["standingsDrawAway"] + 1
-                      }
-                      if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
-                        events["standingsLosseAway"] = events["standingsLosseAway"] + 1
+                    events["lastAway"].events.forEach(win => {
+                      if (Number(win.awayTeam.id) === Number(events.awayTeam.id)) {
+                        if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
+                          events["standingsWinAway"] = events["standingsWinAway"] + 1
+                        }
+                        if (win.winnerCode === 3) {
+                          events["standingsDrawAway"] = events["standingsDrawAway"] + 1
+                        }
+                        if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
+                          events["standingsLosseAway"] = events["standingsLosseAway"] + 1
+                        }
                       }
                     })
-                  }
-                  if (Number(key) === Number(events.homeTeam.id)) {
-                    events["standingsMatchesHome"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
+
+                  })
+                  this.analysticService.getEventsLast(events.homeTeam.id).subscribe(x => {
+                    events.lastHome = x
+             
                     events["standingsWinHome"] = 0;
                     events["standingsDrawHome"] = 0;
                     events["standingsLosseHome"] = 0;
-                    events["standingsMatchesHome"].forEach(win => {
-                      if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 1) {
-                        events["standingsWinHome"] = events["standingsWinHome"] + 1
-                      }
-                      if (win.winnerCode === 3) {
-                        events["standingsDrawHome"] = events["standingsDrawHome"] + 1
-                      }
-                      if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 2) {
-                        events["standingsLosseHome"] = events["standingsLosseHome"] + 1
+                    events["lastHome"].events.forEach(win => {
+                      if (Number(win.homeTeam.id) === Number(events.homeTeam.id)) {
+                        if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 2) {
+                          events["standingsWinHome"] = events["standingsWinHome"] + 1
+                        }
+                        if (win.winnerCode === 3) {
+                          events["standingsDrawHome"] = events["standingsDrawHome"] + 1
+                        }
+                        if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
+                          events["standingsLosseHome"] = events["standingsLosseHome"] + 1
+                        }
                       }
                     })
-                  }
-                })
-                events["standings"].teamEvents.forEach((keys : any, vals :any)=>{
 
-                })
-              })
-              //  END LAST MECZE
-                this.analysticService.getAnalystictEvent(events.id).subscribe(
-                  eventsData => {
-                    this.eventTournament = eventsData;
-                    this.analysticService.getEventsLast(events.awayTeam.id).subscribe(x => {
-                      events["last"] = x
-                    })
-                    this.analysticService.getEventsNext(events.homeTeam.id).subscribe(x => {
-                      events["next"] = x
-                    })
-                    this.analysticService.getVotePrice(events.id).subscribe(
-                      vote => {
+                  })
+                  this.analysticService.getEventsLast(events.homeTeam.id).subscribe(x => {
+                   
 
-                        events["vote"] = vote.markets[0];
-                        events["vote_double"] = vote.markets[1]
-                        events["turnament"] = turnaments.category;
-                        if (events["statusDescription"].includes('AP')) {
-                          events["eventsWinAP"] = this.checkWin(eventsData, false, "win")
-                          events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
-                        } else {
-                          events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
-                        }
-                        // events["eventsYelHome"] = this.checkWin(eventsData, this.home, "yellow")
-                        // events["eventsYelAway"] = this.checkWin(eventsData, this.away, "yellow")
-                        events["matchInfoMore25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.away)
-                        events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
+                  })
+                  // this.analysticService.getEventsNext(events.homeTeam.id).subscribe(x => {
+                  //   events["next"] = x
+                  // })
+                  this.analysticService.getVotePrice(events.id).subscribe(
+                    vote => {
 
-                        events["matchInfoLess25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.away)
-                        events["matchInfoLess25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.home)
-
-                        // events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
-                        // events["eventsWin"] = this.checkWin(eventsData)
-                        events["events"] = eventsData;
-                        events["liveResults"] = this.liveFilter(eventsData, events["status"].code)
-                        events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
-                        events["chanceEventDraw"] = this.calculateChanceWin(events["events"], events["events"].winningOdds)
-                        events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
-                        events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
-                        events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"] ? events["win"] = events["h2hDuel"] : '';
-                        if (vote.markets[0]) {
-                          if (vote.markets[0].choices[0].fractionalValue) {
-                            events["vot1"] = this.calculateValueChance(vote.markets[0].choices[0].fractionalValue)
-                          }
-                          events["votX"] = this.calculateValueChance(vote.markets[0].choices[1].fractionalValue)
-                          events["vot2"] = this.calculateValueChance(vote.markets[0].choices[2].fractionalValue)
-                        }
-                        if (vote.markets[1]) {
-                          if (vote.markets[1].choices[0].fractionalValue) {
-                            events["vot1_d"] = this.calculateValueChance(vote.markets[1].choices[0].fractionalValue)
-                          }
-                          events["votX_d"] = this.calculateValueChance(vote.markets[1].choices[1].fractionalValue)
-                          events["vot2_d"] = this.calculateValueChance(vote.markets[1].choices[2].fractionalValue)
-                        }
-                        if ([1, 2, 3].includes(events.winnerCode)) {
-                          this.totalMatch += 1;
-                          if (events["win"] !== undefined && events.winnerCode !== undefined) {
-                            this.totalWinTotal += 1
-
-                            if (events["win"] === 1) {
-                              if (events["winnerCode"] === 1) {
-                                if (events["vote"].length > 0) {
-                                  this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[0].fractionalValue))
-                                  this.voteWinSum = 0;
-                                  this.voteWinValue.forEach(x => {
-                                    this.voteWinSum += parseFloat(x)
-                                  })
-                                }
-                              }
-                            }
-                            if (events["win"] === 2) {
-                              if (events["winnerCode"] === 2) {
-                                if (events["vote"]) {
-                                  this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[2].fractionalValue))
-                                  this.voteWinSum = 0;
-                                  this.voteWinValue.forEach(x => {
-                                    this.voteWinSum += parseFloat(x)
-                                  })
-                                }
-                              }
-
-
-                            }
-                            if (events["win"] === 0) {
-                              if (events["winnerCode"] === 3) {
-                                if (events["vote"]) {
-                                  this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[1].fractionalValue))
-                                  this.voteWinSum = 0;
-                                  this.voteWinValue.forEach(x => {
-                                    this.voteWinSum += parseFloat(x)
-                                  })
-                                }
-                              }
-                            }
-                            this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
-
-                          }
-                          if (events.winnerCode === 3) {
-                            const winerCodeChange = 0;
-                            if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
-                              this.totalWin += 1
-                            }
-                            events["win"] === winerCodeChange ? this.indexWin += 1 : '';
-
-                          }
-                          if (events.winnerCode === 2) {
-                            const winerCodeChange = 2
-                            if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
-                              this.totalWin += 1
-                            }
-                            events["win"] === winerCodeChange ? this.indexWin += 1 : '';
-                          }
-                          if (events.winnerCode === 1) {
-                            const winerCodeChange = 1
-                            if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
-                              this.totalWin += 1
-                            }
-                            events["win"] === winerCodeChange ? this.indexWin += 1 : '';
-                          }
-                        }
-                        if (this.totalMatch === 0) {
-                          let winALL = 1;
-                          this.winSureAll = Number(((this.totalWin * 100) / winALL).toFixed(0))
-                        } else {
-                          this.winSureAll = Number(((this.totalWin * 100) / this.totalMatch).toFixed(0))
-                        }
-                        if (this.indexWin === 0) {
-                          let win = 1;
-                          this.winSure = Number(((win * 100) / this.totalWinTotal).toFixed(0))
-                        } else {
-                          this.winSure = Number(((this.indexWin * 100) / this.totalWinTotal).toFixed(0))
-                        }
-                        if (this.voteWinAVG, this.indexWin, this.totalWinTotal) {
-                          this.returnCost = (((2 * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * 2 // stawka 2 
-                        }
-
-                        keys.push(events)
-                        this.matchData.push(...keys)
-                        this.setCities(events, turnaments)
-                        this.dataSource.data = this.matchData
-                        this.dataSource.sort = this.sort;
+                      events["vote"] = vote.markets[0];
+                      events["vote_double"] = vote.markets[1]
+                      events["turnament"] = turnaments.category;
+                      if (events["statusDescription"].includes('AP')) {
+                        events["eventsWinAP"] = this.checkWin(eventsData, false, "win")
+                        events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
+                      } else {
+                        events["eventsWinFT"] = this.checkWin(eventsData, true, "win")
                       }
-                    )
-                  }
-                )
+                      // events["eventsYelHome"] = this.checkWin(eventsData, this.home, "yellow")
+                      // events["eventsYelAway"] = this.checkWin(eventsData, this.away, "yellow")
+                      events["matchInfoMore25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.away)
+                      events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
 
-              }
-            })
+                      events["matchInfoLess25GoalsAway"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.away)
+                      events["matchInfoLess25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoLess25Goals, this.home)
+
+                      // events["matchInfoMore25GoalsHome"] = this.away2Halfmore(eventsData, this.matchInfoMore25Goals, this.home)
+                      // events["eventsWin"] = this.checkWin(eventsData)
+                      events["events"] = eventsData;
+                      events["liveResults"] = this.liveFilter(eventsData, events["status"].code)
+                      events["chanceEvent"] = this.calculateChance(events["events"], events["events"].winningOdds)
+                      events["chanceEventDraw"] = this.calculateChanceWin(events["events"], events["events"].winningOdds)
+                      events["chanceEventVote"] = this.calcuateVoteChance(events["events"])
+                      events["h2hDuel"] = this.calculateH2hDuel(events["events"].h2hDuel)
+                      events["chanceEvent"] === events["chanceEventVote"] && events["chanceEventVote"] === events["h2hDuel"] ? events["win"] = events["h2hDuel"] : '';
+                      if (vote.markets[0]) {
+                        if (vote.markets[0].choices[0].fractionalValue) {
+                          events["vot1"] = this.calculateValueChance(vote.markets[0].choices[0].fractionalValue)
+                        }
+                        events["votX"] = this.calculateValueChance(vote.markets[0].choices[1].fractionalValue)
+                        events["vot2"] = this.calculateValueChance(vote.markets[0].choices[2].fractionalValue)
+                      }
+                      if (vote.markets[1]) {
+                        if (vote.markets[1].choices[0].fractionalValue) {
+                          events["vot1_d"] = this.calculateValueChance(vote.markets[1].choices[0].fractionalValue)
+                        }
+                        events["votX_d"] = this.calculateValueChance(vote.markets[1].choices[1].fractionalValue)
+                        events["vot2_d"] = this.calculateValueChance(vote.markets[1].choices[2].fractionalValue)
+                      }
+                      if ([1, 2, 3].includes(events.winnerCode)) {
+                        this.totalMatch += 1;
+                        if (events["win"] !== undefined && events.winnerCode !== undefined) {
+                          this.totalWinTotal += 1
+
+                          if (events["win"] === 1) {
+                            if (events["winnerCode"] === 1) {
+                              if (events["vote"].length > 0) {
+                                this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[0].fractionalValue))
+                                this.voteWinSum = 0;
+                                this.voteWinValue.forEach(x => {
+                                  this.voteWinSum += parseFloat(x)
+                                })
+                              }
+                            }
+                          }
+                          if (events["win"] === 2) {
+                            if (events["winnerCode"] === 2) {
+                              if (events["vote"]) {
+                                this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[2].fractionalValue))
+                                this.voteWinSum = 0;
+                                this.voteWinValue.forEach(x => {
+                                  this.voteWinSum += parseFloat(x)
+                                })
+                              }
+                            }
+
+
+                          }
+                          if (events["win"] === 0) {
+                            if (events["winnerCode"] === 3) {
+                              if (events["vote"]) {
+                                this.voteWinValue.push(this.calculateValueChance(events["vote"].choices[1].fractionalValue))
+                                this.voteWinSum = 0;
+                                this.voteWinValue.forEach(x => {
+                                  this.voteWinSum += parseFloat(x)
+                                })
+                              }
+                            }
+                          }
+                          this.voteWinAVG = (this.voteWinSum / this.voteWinValue.length);
+
+                        }
+                        if (events.winnerCode === 3) {
+                          const winerCodeChange = 0;
+                          if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                            this.totalWin += 1
+                          }
+                          events["win"] === winerCodeChange ? this.indexWin += 1 : '';
+
+                        }
+                        if (events.winnerCode === 2) {
+                          const winerCodeChange = 2
+                          if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                            this.totalWin += 1
+                          }
+                          events["win"] === winerCodeChange ? this.indexWin += 1 : '';
+                        }
+                        if (events.winnerCode === 1) {
+                          const winerCodeChange = 1
+                          if ([events["chanceEvent"], events["h2hDuel"], events["chanceEventVote"]].includes(winerCodeChange)) {
+                            this.totalWin += 1
+                          }
+                          events["win"] === winerCodeChange ? this.indexWin += 1 : '';
+                        }
+                      }
+                      if (this.totalMatch === 0) {
+                        let winALL = 1;
+                        this.winSureAll = Number(((this.totalWin * 100) / winALL).toFixed(0))
+                      } else {
+                        this.winSureAll = Number(((this.totalWin * 100) / this.totalMatch).toFixed(0))
+                      }
+                      if (this.indexWin === 0) {
+                        let win = 1;
+                        this.winSure = Number(((win * 100) / this.totalWinTotal).toFixed(0))
+                      } else {
+                        this.winSure = Number(((this.indexWin * 100) / this.totalWinTotal).toFixed(0))
+                      }
+                      if (this.voteWinAVG, this.indexWin, this.totalWinTotal) {
+                        this.returnCost = (((2 * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * 2 // stawka 2 
+                      }
+                     
+                     
+                          keys.push(events)
+                          this.matchData.push(...keys)
+                          this.setCities(events, turnaments)
+                          this.dataSource.data = this.matchData
+                          this.dataSource.sort = this.sort;
+                      
+                      
+                     
+                      
+                      // this.dataSource.data = this.matchData.filter(x=> x["turnament"].id == "47" || x.id == "8819926" )
+                
+                      
+                        
+                      
+                    }
+                  )
+                }
+              )
+
+            }
+
+
+
+
+            
+          })
+          // this.messageEvent = "brak Danych do pokazania";
           // })
         }
       })
-      console.log("reset")
+   
       this.dataSource = new MatTableDataSource(this.matchData); //RESET Data if 0 EVENT
       this.messageEvent = "brak Danych do pokazania";
     }))
@@ -504,7 +567,14 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
           this.matchFootball = data;
         })
   }
+  ccc(id){
+ 
+    if(typeof id["events"] === 'undefined'){
+  
+    } else {
 
+    }
+  }
   sort_unique(arr) {
     if (arr.length === 0) return arr;
     arr = arr.sort(function (a, b) { return a * 1 - b * 1; });
@@ -558,6 +628,13 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       }
 
 
+    }
+  }
+  existMatchButton(id) {
+    if (this.ligueId.indexOf(id) === -1) {
+      return "green"
+    } else {
+      return "red"
     }
   }
   liveFilter(dataFilter, status) {
@@ -626,15 +703,16 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     // }
   }
   addID(id) {
-
     const index = this.ligueId.indexOf(id);
     if (index > -1) {
       this.ligueId.splice(index, 1);
+      this.getMatches()
     } else {
-      this.ligueId.push(id)
+      this.ligueId.push(id) 
+      this.getMatches()
     }
 
-    this.getMatches()
+    
   }
   onWinhange(price) {
     this.returnCost = (((price * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * price
@@ -829,6 +907,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.chance = this.chance + amount
   }
   addBet(bet) {
+   
     bet.events.forEach(element => {
       if (element.type.includes("3")) {
         element.type = element.type.replace("3", "0")
@@ -841,18 +920,22 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
 
           this.betAllRateResults(element)
+          this.headerService.changeHeaderTitle(this.dateEventsBet, this.betAllRateResult)
         } else {
           if (a.type !== element.type) {
-            a.type = element.type
+            // a.type = element.type
+            console.log(element)
             this.betAllRateResultsMinus(a)
             this.betAllRateResults(element)
             this.dateEventsBet.events = this.dateEventsBet.events.filter(d => d.name !== a.name)
+            this.headerService.changeHeaderTitle(this.dateEventsBet, this.betAllRateResult)
           }
         }
       } else {
         if (element.type.length > 0) {
           this.betAllRateResults(element)
           this.dateEventsBet.events.push(element)
+          this.headerService.changeHeaderTitle(this.dateEventsBet, this.betAllRateResult)
         }
       }
     });
@@ -912,7 +995,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit() {
-    // this.dataSource.sort = this.sort;
+  
   }
 
 }

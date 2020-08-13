@@ -17,16 +17,33 @@
       <span class="navbar-spacer"></span>
   
       <button mat-icon-button [matMenuTriggerFor]="notificationMenu">
-        <mat-icon matBadge="2" matBadgeColor="accent">notifications</mat-icon>
+        <mat-icon matBadge="{{eventNumber}}" matBadgeColor="accent">notifications</mat-icon>
       </button>
       <mat-menu #notificationMenu="matMenu" xPosition="before" yPosition="above" [overlapTrigger]="false">
-
-        <a mat-menu-item>
-          <span>You have new tasks</span>
-        </a>
-        <a mat-menu-item>
-          <span>You have a new message</span>
-        </a>
+        <div *ngIf="dateEventsBet">
+              <div class="slideout-widget widget-facebook">
+               
+            
+                <div class="slideout-widget-content">
+                  <table class="table">
+                    <tr *ngFor="let bet of dateEventsBet.events">
+                      <td> {{bet.name}}</td>
+                      <td> {{bet.type}}</td>
+                      <td> {{betRate(bet.type, bet.vot1, bet.votX, bet.vot2, bet.vot1_d, bet.votX_d, bet.vot2_d)}}</td>
+                    </tr>
+                    <tr>
+                      <td class="right-result-desc" colspan="3"><span>Kurs Całkowity:</span></td>
+                    </tr>
+                    <tr>
+                      <td class="right-result" colspan="3"><span>{{(betAllRateResult/1.14).toFixed(2)}}</span></td>
+                    </tr>
+                  </table>
+            
+            
+                </div>
+              </div>
+            </div>
+       
   
       </mat-menu>
   

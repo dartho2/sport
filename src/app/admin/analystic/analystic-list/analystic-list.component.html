@@ -1,6 +1,6 @@
 
 
-<div *ngIf="dateEventsBet.events.length >0">
+<!-- <div *ngIf="dateEventsBet.events.length >0">
   <div class="slideout-widget widget-facebook">
     <div class="slideout-widget-handler">
       <a class="fb-ic">
@@ -26,7 +26,7 @@
 
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="content-body">
   <div class="photo-list card card-block">
@@ -114,12 +114,7 @@
           </tr>-->
         </table>
        
-       <li *ngFor="let tur of grupCategory">
-          {{tur.name}} 
-          <ol *ngFor="let s of tur.values">
-            {{s.tournament.name}} - {{s.events.length}}
-          </ol>
-        </li>
+     
       </mat-expansion-panel>
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       </mat-expansion-panel>
@@ -135,11 +130,10 @@
           <mat-icon class="icon_more_less" *ngIf="xyzy.expanded">expand_more</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <!-- <app-match-list [matchData]="grupCategory"></app-match-list> -->
      <li *ngFor="let tur of grupCategory">
         {{tur.name}} 
         <ol *ngFor="let s of tur.values">
-          {{s.tournament.name}} - ID: {{s.tournament.id}}  - {{s.events.length}} <button (click)="addID(s.tournament.id)">id</button>
+          {{s.tournament.name}} - ID: {{s.tournament.id}}  - {{s.events.length}} <button  [ngStyle]="{'color':existMatchButton(s.tournament.id)}" (click)="addID(s.tournament.id)">id</button>
         <li *ngFor="let event of s.events"> {{(event.startTimestamp)* 1000 | date:'M/dd/yy'}}</li>
         </ol>
       </li>
@@ -253,9 +247,11 @@
                       </div>
                     </div>
                     <div class="clearfix-content pc-content">
+                      
                       <div class="col-lg-6 pull-left-lg">
                         {{element.standingsLosseHome}} - {{element.standingsDrawHome}} - {{element.standingsWinHome}}
-                        <div class="cell-event-standing" *ngFor="let standingMatch of element.standingsMatchesHome">
+                      <div *ngIf="ccc(element.lastHome)"></div>
+                        <div class="cell-event-standing" *ngFor="let standingMatch of element.lastHome.events">
                           <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                           <div class="separator_right_cell"></div>
                           <div class="home_away_standing">
@@ -266,17 +262,20 @@
                               [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
                               {{standingMatch.awayTeam.name}}</div>
                           </div>
+                          <span class="red-color" *ngIf="standingMatch.status.code === 60">{{standingMatch.status.description}}</span>
+                          
                           <div class="separator_right_cell"></div>
                           <div class="result">
-                            <div class="home_standing">{{standingMatch.homeScore.display}}</div>
-                            <div class="away_standing">{{standingMatch.awayScore.display}}</div>
-                          </div>
+                              <span class="red-color" *ngIf="standingMatch.status.code === 70">{{standingMatch.status.description}}</span>
+                          
+                              <div *ngIf="((standingMatch.status.code !== 70) && (standingMatch.status.code !== 60)) || (standingMatch.homeScore | json) != '{}'" class="home_standing">{{standingMatch.homeScore.display}}</div>
+                            <div *ngIf="((standingMatch.status.code !== 70) && (standingMatch.status.code !== 60)) || (standingMatch.awayScore | json) != '{}'" class="away_standing">{{standingMatch.awayScore.display}}</div>  </div>
                         </div>
                       </div>
                       <div class="col-lg-6 pull-left-lg">
                         {{element.standingsLosseAway}} - {{element.standingsDrawAway}} - {{element.standingsWinAway}}
 
-                        <div class="cell-event-standing" *ngFor="let standingMatch of element.standingsMatchesAway">
+                        <div class="cell-event-standing" *ngFor="let standingMatch of element.lastAway.events">
                           <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                           <div class="separator_right_cell"></div>
                           <div class="home_away_standing">
@@ -287,10 +286,14 @@
                               [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
                               {{standingMatch.awayTeam.name}}</div>
                           </div>
+                          <span class="red-color" *ngIf="standingMatch.status.code === 60">{{standingMatch.status.description}}</span>
+                           
                           <div class="separator_right_cell"></div>
                           <div class="result">
-                            <div class="home_standing">{{standingMatch.homeScore.display}}</div>
-                            <div class="away_standing">{{standingMatch.awayScore.display}}</div>
+                              <span class="red-color" *ngIf="standingMatch.status.code === 70">{{standingMatch.status.description}}</span>
+            
+                              <div *ngIf="((standingMatch.status.code !== 70) && (standingMatch.status.code !== 60)) || (standingMatch.homeScore | json) != '{}'" class="home_standing">{{standingMatch.homeScore.display}}</div>
+                              <div *ngIf="((standingMatch.status.code !== 70) && (standingMatch.status.code !== 60)) || (standingMatch.awayScore | json) != '{}'" class="away_standing">{{standingMatch.awayScore.display}}</div>  
                           </div>
                         </div>
                       </div>
@@ -300,7 +303,7 @@
                     <mat-tab-group class="kom-content">
                       <mat-tab label="{{element.events.event.homeTeam.name}}">
                         <div class="col-lg-6 pull-left-lg">
-                          <div class="cell-event-standing" *ngFor="let standingMatch of element.standingsMatchesHome">
+                          <div class="cell-event-standing" *ngFor="let standingMatch of element.lastHome.events">
                             <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                             <div class="separator_right_cell"></div>
                             <div class="home_away_standing">
@@ -311,17 +314,21 @@
                                 [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
                                 {{standingMatch.awayTeam.name}}</div>
                             </div>
+                            <span class="red-color" *ngIf="standingMatch.status.code === 60">{{standingMatch.status.description}}</span>
+                             
                             <div class="separator_right_cell"></div>
                             <div class="result">
-                              <div class="home_standing">{{standingMatch.homeScore.display}}</div>
-                              <div class="away_standing">{{standingMatch.awayScore.display}}</div>
+                                <span class="red-color" *ngIf="standingMatch.status.code === 70">{{standingMatch.status.description}}</span>
+              
+                                <div *ngIf="((standingMatch.status.code !== 70) && (standingMatch.status.code !== 60)) || (standingMatch.homeScore | json) != '{}'" class="home_standing">{{standingMatch.homeScore.display}}</div>
+                                <div *ngIf="((standingMatch.status.code !== 70) && (standingMatch.status.code !== 60)) || (standingMatch.awayScore | json) != '{}'" class="away_standing">{{standingMatch.awayScore.display}}</div>  
                             </div>
                           </div>
                         </div>
                       </mat-tab>
                       <mat-tab label="{{element.events.event.awayTeam.name}}">
                         <div class="col-lg-6 pull-left-lg">
-                          <div class="cell-event-standing" *ngFor="let standingMatch of element.standingsMatchesAway">
+                          <div class="cell-event-standing" *ngFor="let standingMatch of element.lastAway.events">
                             <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                             <div class="separator_right_cell"></div>
                             <div class="home_away_standing">
@@ -332,10 +339,14 @@
                                 [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
                                 {{standingMatch.awayTeam.name}}</div>
                             </div>
+                            <span class="red-color" *ngIf="standingMatch.status.code === 60">{{standingMatch.status.description}}</span>
+                             
                             <div class="separator_right_cell"></div>
                             <div class="result">
-                              <div class="home_standing">{{standingMatch.homeScore.display}}</div>
-                              <div class="away_standing">{{standingMatch.awayScore.display}}</div>
+                                <span class="red-color" *ngIf="standingMatch.status.code === 70">{{standingMatch.status.description}}</span>
+              
+                                <div *ngIf="((standingMatch.status.code !== 70) && (standingMatch.status.code !== 60)) || (standingMatch.homeScore | json) != '{}'" class="home_standing">{{standingMatch.homeScore.display}}</div>
+                                <div *ngIf="((standingMatch.status.code !== 70) && (standingMatch.status.code !== 60)) || (standingMatch.awayScore | json) != '{}'" class="away_standing">{{standingMatch.awayScore.display}}</div>  
                             </div>
                           </div>
                         </div>

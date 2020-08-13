@@ -2450,3 +2450,6 @@ mat-datepicker-toggle {
   background-color: white !important;
   border: unset;
 }
+.red-color {
+  color: red
+}

@@ -14,6 +14,7 @@ export interface Analystic {
         id: number
     },
     events: [{
+        turnament: any,
         id: number, 
         homeTeam: { 
             name: string, 
@@ -24,6 +25,8 @@ export interface Analystic {
              name: string
             }, 
         formatedStartDate: string,
+        lastHome: any,
+        lastAway: any;
         sport: string,
         startTimestamp: number,
         winnerCode: number,
