@@ -130,13 +130,34 @@
           <mat-icon class="icon_more_less" *ngIf="xyzy.expanded">expand_more</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
-     <li *ngFor="let tur of grupCategory">
+      <mat-tree [dataSource]="dataSourceMatches" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          {{node.tournament.name}}
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+          <!-- <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button> -->
+          
+          <button mat-raised-button matTreeNodeToggle [matBadge]="node.count.length">
+            {{node.name}}
+        </button><button  [ngStyle]="{'color':existMatchButton(node.count[0].tournament.id)}" (click)="addID(node.count[0].tournament.id)">{{node.count[0].tournament.id}}</button>
+        </mat-tree-node>
+      </mat-tree>
+
+     <!-- <li *ngFor="let tur of grupCategory">
         {{tur.name}} 
         <ol *ngFor="let s of tur.values">
           {{s.tournament.name}} - ID: {{s.tournament.id}}  - {{s.events.length}} <button  [ngStyle]="{'color':existMatchButton(s.tournament.id)}" (click)="addID(s.tournament.id)">id</button>
-        <li *ngFor="let event of s.events"> {{(event.startTimestamp)* 1000 | date:'M/dd/yy'}}</li>
-        </ol>
-      </li>
+       </ol>
+      </li> -->
     </mat-expansion-panel>
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
     </mat-expansion-panel>
@@ -262,6 +283,7 @@
                               [ngStyle]="standingMatch.winnerCode === 2 ? {'color':'#94d82d'} : standingMatch.winnerCode === 3 ? {'color':'#eaf53f'} : {'color': 'unset'}">
                               {{standingMatch.awayTeam.name}}</div>
                           </div>
+
                           <span class="red-color" *ngIf="standingMatch.status.code === 60">{{standingMatch.status.description}}</span>
                           
                           <div class="separator_right_cell"></div>
@@ -389,6 +411,18 @@
                 </div>
                 <!-- END FORM -->
                 <!-- Begin DESCRIPTION -->
+                <span [ngClass]="'flags--'+element.turnament.flag" class="flags flags-category"></span>
+                    <div class="inline-flex">
+                  <div class="content-line">{{element.turnament.name}}</div>
+                </div>
+                <div class="inline-flex">
+                  <div class="content-line">{{element.events.event.tournament.uniqueName}}</div>
+                </div>
+                <div class="inline-flex">
+                  <div class="content-line">
+                    <span>{{(element.startTimestamp)* 1000 | date:'HH:mm'}}</span>
+                  </div>
+                </div>
                 <div [ngClass]="'table-color-'+ element.win"><span
                     [ngClass]="'span-' + element.win">{{element.win}}</span></div>
                 <div class="inline-flex">

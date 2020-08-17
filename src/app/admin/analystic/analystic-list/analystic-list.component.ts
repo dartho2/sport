@@ -15,6 +15,8 @@ import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import _ from 'lodash';
 import { from } from 'rxjs';
+import {FlatTreeControl} from '@angular/cdk/tree';
+import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { HeaderService } from 'src/app/layout/sport/layout/layout.service';
 export const MY_FORMATS = {
   parse: {
@@ -36,6 +38,27 @@ export interface PeriodicElement {
   choice: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [];
+interface CategoryMatches {
+  name: string;
+  count: number;
+  tournament?: CategoryMatchesTree[],
+  values?: CategoryMatches[];
+}
+interface CategoryMatchesTree {
+  name: string;
+
+}
+//  TREE BEGIN 
+const TREE_DATA: CategoryMatches[] = [];
+
+/** Flat node with expandable and level information */
+interface CategoryMatchesFlat {
+  expandable: boolean;
+  name: string;
+  count: any;
+  level: number;
+}
+//  TREE END
 @Component({
   selector: 'app-analystic-list',
   templateUrl: './analystic-list.component.html',
@@ -43,7 +66,27 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   providers: []
 })
 export class AnalysticListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['time', 'type'];
+  // BEGIN TREE
+  private _transformer = (node: CategoryMatches, level: number) => {
+    return {
+      expandable: !!node.values && node.values.length > 0,
+      name: node.name,
+      count: node.values,
+      tournament: node.tournament,
+      level: level,
+    };
+  }
+
+  treeControl = new FlatTreeControl<CategoryMatchesFlat>(
+      node => node.level, node => node.expandable);
+
+  treeFlattener = new MatTreeFlattener(
+      this._transformer, node => node.level, node => node.expandable, node => node.values);
+
+  dataSourceMatches = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  // END TREE
+
+  displayedColumns: string[] = ['type'];
   @ViewChild(MatAccordion) accordion: MatAccordion;
   @Input()
   eventID;
@@ -138,7 +181,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   constructor(private analysticService: AnalysticService, private headerService: HeaderService,private ren: Renderer2, private _fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
-
+    this.dataSourceMatches.data = this.grupCategory;
     this.myDate = new Date();
     this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
@@ -154,6 +197,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     // this.getMatches();
     this.formbuilder();
   }
+  hasChild = (_: number, node: CategoryMatchesFlat) => node.expandable;
   checkState(el, type, con) {
     setTimeout(() => {
       if (this.currentCheckedValue && this.currentCheckedValue === el.value) {
@@ -291,6 +335,8 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
           })
         }
       })
+      this.dataSourceMatches.data = this.grupCategory;
+      console.log(this.dataSourceMatches)
       //  END Grupowanie meczy
 
       this.controlEvent = 0
