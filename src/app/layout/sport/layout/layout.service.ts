@@ -11,6 +11,7 @@ export class HeaderService {
   subject1 = new Subject();
 
   changeHeaderTitle(event: any, result:any) {
+    console.log(this.subject, "ssssss")
     this._events = event;
     this._result = result;
     this.subject.next(this._events)

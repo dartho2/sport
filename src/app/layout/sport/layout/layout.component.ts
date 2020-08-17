@@ -66,10 +66,11 @@ export class LayoutComponent implements OnInit {
         this.mobileQuery.removeListener(this._mobileQueryListener);
   
     }
-    deleted(bet){
-      this.dateEventsBet.events.splice(bet, 1)
+    deleted(index, bet){
+      this.dateEventsBet.events.splice(index, 1)
       this.checkPriceTotal()
       this.eventNumber = this.dateEventsBet.events.length
+      this.headerService.subject.next({events: this.dateEventsBet.events, last: bet});
     }
     checkPriceTotal(){
       this.votePrice = 1

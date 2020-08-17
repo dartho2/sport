@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { AnalysticService } from '../analystic-service'
 import { formatDate } from '@angular/common';
 import { Analystic } from '../analystic.model';
@@ -18,6 +18,7 @@ import { from } from 'rxjs';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { HeaderService } from 'src/app/layout/sport/layout/layout.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -179,7 +180,13 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 ;
   // grupCategory: { [x: string]: Pick<any, string | number | symbol>[]; };
 
-  constructor(private analysticService: AnalysticService, private headerService: HeaderService,private ren: Renderer2, private _fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
+  constructor(private analysticService: AnalysticService,
+     private headerService: HeaderService,
+     private ren: Renderer2, private _fb: FormBuilder, 
+     private route: ActivatedRoute, 
+     private router: Router,
+     private changeDetectorRef: ChangeDetectorRef, 
+        private media: MediaMatcher) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.stringData = +new Date()
     this.dataSourceMatches.data = this.grupCategory;
@@ -282,7 +289,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
    
   }
   onSelectionChange(a, b) {
-
+    console.log(a,b)
   }
   clickRadio(event: Event, value: any, i) {
     // event.preventDefault();
@@ -919,7 +926,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       
       this.dateEventsBet = x
     })
-    console.log(bet)
     bet.events.forEach(element => {
       if (element.type.includes("3")) {
         element.type = element.type.replace("3", "0")
@@ -929,15 +935,11 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
         if ((element.type.length > 0) && Number(a.type) !== Number(element.type)) {
         this.betAllRateResultsMinus(a)
           a.type = element.type
-console.log(this.betAllRateResultsMinus(element))
          a.votePrice = this.betAllRateResults(element)
-          
-          console.log("1")
+    
           this.headerService.changeHeaderTitle(this.dateEventsBet, this.betAllRateResult)
         } else {
           if (a.type !== element.type) {
-            // a.type = element.type
-            console.log("2")
             this.betAllRateResultsMinus(a)
             this.betAllRateResults(element)
             this.dateEventsBet.events = this.dateEventsBet.events.filter(d => d.name !== a.name)
@@ -1009,10 +1011,24 @@ console.log(this.betAllRateResultsMinus(element))
     this.dataSource.sort = this.sort;
 
   }
-  ngAfterViewInit() {
-  
-  }
-
+  ngAfterViewInit(): void {
+    this.changeDetectorRef.detectChanges();
+    this.myForm.patchValue({'type':'0'})
+    this.headerService.subject.subscribe((event: any) => {
+console.log(this.myForm.controls.events, event, "eeeeeeeeee")
+if(event.last !== undefined){
+  var lastDeleted = this.eventss.value.findIndex(x=> x.idEvent === event.last.idEvent)
+  // lastDeleted.type= ""
+  console.log(lastDeleted, "dd")
+  event.last = undefined
+  this.eventss.at(lastDeleted).patchValue({ type: "" });
+ 
+}
+    })
+    // this.headerService.subject1.subscribe((result: any) => {
+    //   this.betAllRateResult = 0;
+    // })
+}
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
