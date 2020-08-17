@@ -46,7 +46,7 @@ interface CategoryMatches {
 }
 interface CategoryMatchesTree {
   name: string;
-
+  count: number;
 }
 //  TREE BEGIN 
 const TREE_DATA: CategoryMatches[] = [];
@@ -71,7 +71,8 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     return {
       expandable: !!node.values && node.values.length > 0,
       name: node.name,
-      count: node.values,
+      length: node.values,
+      count: node,
       tournament: node.tournament,
       level: level,
     };
@@ -219,13 +220,13 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.myForm = this._fb.group({
       date: new FormControl(''),
       events: this._fb.array([
-
-      ])
+              ])
 
     })
   }
-
+  // get name() { return this.myForm.get('name'); }
   get eventss() { return this.myForm.get('events') as FormArray }
+
   onCheckChange(event) {
     const formArray: FormArray = this.myForm.get('type') as FormArray;
 
@@ -257,8 +258,9 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     let control = <FormArray>this.myForm.controls.events;
 
     control.push(this._fb.group({
-      name: events.name ? events.name : '',
-      type: '',
+      name: [events.name ? events.name : ''],
+      type: [events.type ? events.type : ''],
+      data: events? events : '',
       typeYT: '',
       typeBT: '',
       typeVI: '',
@@ -277,7 +279,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       votX_d: events.votX_d,
       vot2_d: events.vot2_d
     }))
-
+   
   }
   onSelectionChange(a, b) {
 
@@ -336,7 +338,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
         }
       })
       this.dataSourceMatches.data = this.grupCategory;
-      console.log(this.dataSourceMatches)
       //  END Grupowanie meczy
 
       this.controlEvent = 0
@@ -348,54 +349,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
             events.lastAway = [{}];
             let keys = []
             if (this.checkeventsExists(events.formatedStartDate, this.formattedDate)) {
-              
-              // BEGIN OSTATNIE MECZE
-              // this.analysticService.getMatches(turnaments.tournament.id, turnaments.season.id).subscribe(standing => {
-              //   this.messageEvent = "";
-              //   this.controlEvent += 1;
-              //   // events["standings"] = standing;
-              //   // console.log(standing, "stand")
-              //   // Object.keys(events["standings"].teamEvents).forEach(key => {
-              //   //   if (Number(key) === Number(events.awayTeam.id)) {
-              //   //     events["standingsMatchesAway"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
-              //   //     events["standingsWinAway"] = 0;
-              //   //     events["standingsDrawAway"] = 0;
-              //   //     events["standingsLosseAway"] = 0;
-              //   //     events["standingsMatchesAway"].forEach(win => {
-              //   //       if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
-              //   //         events["standingsWinAway"] = events["standingsWinAway"] + 1
-              //   //       }
-              //   //       if (win.winnerCode === 3) {
-              //   //         events["standingsDrawAway"] = events["standingsDrawAway"] + 1
-              //   //       }
-              //   //       if ((events.awayTeam.name === win.awayTeam.name) && win.winnerCode === 2) {
-              //   //         events["standingsLosseAway"] = events["standingsLosseAway"] + 1
-              //   //       }
-              //   //     })
-              //   //   }
-              //   //   if (Number(key) === Number(events.homeTeam.id)) {
-              //   //     events["standingsMatchesHome"] = this.sortData(events["standings"].teamEvents[key].total, events["standings"].teamEvents[key].away, events["standings"].teamEvents[key].home)
-              //   //     events["standingsWinHome"] = 0;
-              //   //     events["standingsDrawHome"] = 0;
-              //   //     events["standingsLosseHome"] = 0;
-              //   //     events["standingsMatchesHome"].forEach(win => {
-              //   //       if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 1) {
-              //   //         events["standingsWinHome"] = events["standingsWinHome"] + 1
-              //   //       }
-              //   //       if (win.winnerCode === 3) {
-              //   //         events["standingsDrawHome"] = events["standingsDrawHome"] + 1
-              //   //       }
-              //   //       if ((events.homeTeam.name === win.homeTeam.name) && win.winnerCode === 2) {
-              //   //         events["standingsLosseHome"] = events["standingsLosseHome"] + 1
-              //   //       }
-              //   //     })
-              //   //   }
-              //   // })
-              //   // events["standings"].teamEvents.forEach((keys : any, vals :any)=>{
-
-              //   // })
-              // })
-              //  END LAST MECZE
+             
               this.analysticService.getAnalystictEvent(events.id).subscribe(
                 eventsData => {
                   this.eventTournament = eventsData;
@@ -573,14 +527,22 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
                         this.returnCost = (((2 * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * 2 // stawka 2 
                       }
                      
+                      console.log(this.myForm.value, events,this.myForm.value.events.filter(x=> x.idEvent === events.id).length)
+                      if((this.myForm.value.events.filter(x=> x.idEvent === events.id)).length === 0){
+        
                      
                           keys.push(events)
                           this.matchData.push(...keys)
                           this.setCities(events, turnaments)
                           this.dataSource.data = this.matchData
-                          this.dataSource.sort = this.sort;
+                          // this.dataSource.sort = this.sort;
                       
-                      
+                       } else {
+                        keys.push(events)
+                        this.matchData.push(...keys)
+                        this.dataSource.data = this.matchData
+                          // this.dataSource.sort = this.sort;
+                       }
                      
                       
                       // this.dataSource.data = this.matchData.filter(x=> x["turnament"].id == "47" || x.id == "8819926" )
@@ -745,9 +707,13 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     const index = this.ligueId.indexOf(id);
     if (index > -1) {
       this.ligueId.splice(index, 1);
+      // console.log(this.myForm)
+      // this.formbuilder()
+  
       this.getMatches()
     } else {
       this.ligueId.push(id) 
+      // this.formbuilder()
       this.getMatches()
     }
 
@@ -953,6 +919,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
       
       this.dateEventsBet = x
     })
+    console.log(bet)
     bet.events.forEach(element => {
       if (element.type.includes("3")) {
         element.type = element.type.replace("3", "0")

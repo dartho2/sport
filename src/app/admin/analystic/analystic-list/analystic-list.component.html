@@ -135,7 +135,9 @@
         <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
-          {{node.tournament.name}}
+          {{node.count.tournament.name}}
+          <button  [ngStyle]="{'color':existMatchButton(node.count.tournament.id)}" (click)="addID(node.count.tournament.id)">{{node.count.tournament.id}}</button>
+       
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
@@ -146,10 +148,9 @@
             </mat-icon>
           </button> -->
           
-          <button mat-raised-button matTreeNodeToggle [matBadge]="node.count.length">
+          <button mat-raised-button matTreeNodeToggle [matBadge]="node.length.length">
             {{node.name}}
-        </button><button  [ngStyle]="{'color':existMatchButton(node.count[0].tournament.id)}" (click)="addID(node.count[0].tournament.id)">{{node.count[0].tournament.id}}</button>
-        </mat-tree-node>
+        </button> </mat-tree-node>
       </mat-tree>
 
      <!-- <li *ngFor="let tur of grupCategory">
@@ -169,7 +170,7 @@
       <table matTableExporter #exporter="matTableExporter" id="ExampleTable" mat-table [dataSource]="dataSource" matSort
         class="mat-elevation-z8">
         <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> type </th>
+          <th mat-header-cell *matHeaderCellDef > type </th>
           <div formArrayName="events">
             <td mat-cell *matCellDef="let element; let i = index;">
               <div [formGroupName]="i">
@@ -184,63 +185,63 @@
                     <!-- pc Mecze -->
                     <!-- Begin Rzeczywiste Wygrane-->
                     <div class="progress">
-                        <div *ngIf="element.events.winningOdds?.home?.actual" class="progress-bar win1" role="progressbar"
-                          [ngStyle]="{'width': element.events.winningOdds?.home?.actual + '%'}" aria-valuenow="15"
-                          aria-valuemin="0" aria-valuemax="200">{{element.events.winningOdds?.home?.actual}}</div>
-                        <div *ngIf="element.events.winningOdds?.away?.actual && element.events.winningOdds?.home?.actual"
+                        <div *ngIf="myForm.value.events[i].data.events.winningOdds?.home?.actual" class="progress-bar win1" role="progressbar"
+                          [ngStyle]="{'width': myForm.value.events[i].data.events.winningOdds?.home?.actual + '%'}" aria-valuenow="15"
+                          aria-valuemin="0" aria-valuemax="200">{{myForm.value.events[i].data.events.winningOdds?.home?.actual}}</div>
+                        <div *ngIf="myForm.value.events[i].data.events.winningOdds?.away?.actual && myForm.value.events[i].data.events.winningOdds?.home?.actual"
                           class="progress-bar winX" role="progressbar"
-                          [ngStyle]="{'width':  ((element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)-100) > 0? 
-                                  ((element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)-100)+ '%' :
-                                  (100-(element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)) + '%'}" aria-valuenow="20" aria-valuemin="0"
+                          [ngStyle]="{'width':  ((myForm.value.events[i].data.events.winningOdds?.away?.actual + myForm.value.events[i].data.events.winningOdds?.home?.actual)-100) > 0? 
+                                  ((myForm.value.events[i].data.events.winningOdds?.away?.actual + myForm.value.events[i].data.events.winningOdds?.home?.actual)-100)+ '%' :
+                                  (100-(myForm.value.events[i].data.events.winningOdds?.away?.actual + myForm.value.events[i].data.events.winningOdds?.home?.actual)) + '%'}" aria-valuenow="20" aria-valuemin="0"
                           aria-valuemax="100">
-                          {{((element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)-100) > 0? 
-                                  ((element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual)-100):
-                                  (100-(element.events.winningOdds?.away?.actual + element.events.winningOdds?.home?.actual))}}
+                          {{((myForm.value.events[i].data.events.winningOdds?.away?.actual + myForm.value.events[i].data.events.winningOdds?.home?.actual)-100) > 0? 
+                                  ((myForm.value.events[i].data.events.winningOdds?.away?.actual + myForm.value.events[i].data.events.winningOdds?.home?.actual)-100):
+                                  (100-(myForm.value.events[i].data.events.winningOdds?.away?.actual + myForm.value.events[i].data.events.winningOdds?.home?.actual))}}
                         </div>
-                        <div *ngIf="element.events.winningOdds?.away?.actual" class="progress-bar win2" role="progressbar"
-                          [ngStyle]="{'width':  element.events.winningOdds?.away?.actual + '%'}" aria-valuenow="20"
-                          aria-valuemin="0" aria-valuemax="200">{{element.events.winningOdds?.away?.actual}}</div>
+                        <div *ngIf="myForm.value.events[i].data.events.winningOdds?.away?.actual" class="progress-bar win2" role="progressbar"
+                          [ngStyle]="{'width':  myForm.value.events[i].data.events.winningOdds?.away?.actual + '%'}" aria-valuenow="20"
+                          aria-valuemin="0" aria-valuemax="200">{{myForm.value.events[i].data.events.winningOdds?.away?.actual}}</div>
                       </div>
                       <!-- END  Rzeczywiste wygrane przy kursie-->
                 <!-- Begin Typowanie ludzi-->
                 <div class="progress">
                     <div class="progress-bar win1" role="progressbar"
-                      [ngStyle]="{'width': element.events.vote.vote1Percentage + '%'}" aria-valuenow="15"
-                      aria-valuemin="0" aria-valuemax="100">{{element.events.vote.vote1Percentage | slice:0:-3}}</div>
+                      [ngStyle]="{'width': myForm.value.events[i].data.events.vote.vote1Percentage + '%'}" aria-valuenow="15"
+                      aria-valuemin="0" aria-valuemax="100">{{myForm.value.events[i].data.events.vote.vote1Percentage | slice:0:-3}}</div>
                     <div class="progress-bar winX" role="progressbar"
-                      [ngStyle]="{'width': element.events.vote.voteXPercentage + '%'}" aria-valuenow="30"
-                      aria-valuemin="0" aria-valuemax="100">{{element.events.vote.voteXPercentage | slice:0:-3}}</div>
+                      [ngStyle]="{'width': myForm.value.events[i].data.events.vote.voteXPercentage + '%'}" aria-valuenow="30"
+                      aria-valuemin="0" aria-valuemax="100">{{myForm.value.events[i].data.events.vote.voteXPercentage | slice:0:-3}}</div>
                     <div class="progress-bar win2" role="progressbar"
-                      [ngStyle]="{'width': element.events.vote.vote2Percentage + '%'}" aria-valuenow="20"
-                      aria-valuemin="0" aria-valuemax="100">{{element.events.vote.vote2Percentage | slice:0:-3}}</div>
+                      [ngStyle]="{'width': myForm.value.events[i].data.events.vote.vote2Percentage + '%'}" aria-valuenow="20"
+                      aria-valuemin="0" aria-valuemax="100">{{myForm.value.events[i].data.events.vote.vote2Percentage | slice:0:-3}}</div>
                   </div>
                   <!-- END typowanie ludzi-->
                 <!-- Begin Wygrane away/home -->
                     <div class="progress">
                       <div class="progress-bar win1" role="progressbar"
-                        [ngStyle]="{'width': ((element.standingsWinHome + element.standingsLosseAway)*100)/(element.standingsWinHome + element.standingsLosseAway +element.standingsDrawHome + element.standingsDrawAway + element.standingsLosseHome + element.standingsWinAway) +'%'}"
+                        [ngStyle]="{'width': ((myForm.value.events[i].standingsWinHome + myForm.value.events[i].standingsLosseAway)*100)/(myForm.value.events[i].standingsWinHome + myForm.value.events[i].standingsLosseAway +myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway + myForm.value.events[i].standingsLosseHome + myForm.value.events[i].standingsWinAway) +'%'}"
                         aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                        {{element.standingsWinHome +  element.standingsLosseAway   }}</div>
+                        {{myForm.value.events[i].standingsWinHome +  myForm.value.events[i].standingsLosseAway   }}</div>
                       <div class="progress-bar winX" role="progressbar"
-                        [ngStyle]="{'width': ((element.standingsDrawHome + element.standingsDrawAway)*100)/(element.standingsWinHome + element.standingsLosseAway +element.standingsDrawHome + element.standingsDrawAway + element.standingsLosseHome + element.standingsWinAway) +'%'}"
+                        [ngStyle]="{'width': ((myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway)*100)/(myForm.value.events[i].standingsWinHome + myForm.value.events[i].standingsLosseAway +myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway + myForm.value.events[i].standingsLosseHome + myForm.value.events[i].standingsWinAway) +'%'}"
                         aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
-                        {{element.standingsDrawHome + element.standingsDrawAway }}</div>
+                        {{myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway }}</div>
                       <div class="progress-bar win2" role="progressbar"
-                        [ngStyle]="{'width': ((element.standingsLosseHome + element.standingsWinAway)*100)/(element.standingsWinHome + element.standingsLosseAway +element.standingsDrawHome + element.standingsDrawAway + element.standingsLosseHome + element.standingsWinAway) + '%'}"
+                        [ngStyle]="{'width': ((myForm.value.events[i].standingsLosseHome + myForm.value.events[i].standingsWinAway)*100)/(myForm.value.events[i].standingsWinHome + myForm.value.events[i].standingsLosseAway +myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway + myForm.value.events[i].standingsLosseHome + myForm.value.events[i].standingsWinAway) + '%'}"
                         aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                        {{element.standingsWinAway + element.standingsLosseHome  }}</div>
+                        {{myForm.value.events[i].standingsWinAway + myForm.value.events[i].standingsLosseHome  }}</div>
                     </div>
                     <!-- END WIN AWAY/HOME -->
                     <!-- BEGIN AVG RATING -->
                   <div class="inline-flex">
                       <div class="content-line">
-                        <div class="avg-left" *ngIf="element.events?.teamsForm?.homeTeam?.avgRating">
-                          {{element.events.teamsForm.homeTeam.avgRating}}
+                        <div class="avg-left" *ngIf="myForm.value.events[i].events?.teamsForm?.homeTeam?.avgRating">
+                          {{myForm.value.events[i].events.teamsForm.homeTeam.avgRating}}
                         </div>
                       </div>
                       <div class="content-line">
-                        <div class="avg-right" *ngIf="element.events?.teamsForm?.awayTeam?.avgRating">
-                          {{element.events.teamsForm.awayTeam.avgRating}}
+                        <div class="avg-right" *ngIf="myForm.value.events[i].events?.teamsForm?.awayTeam?.avgRating">
+                          {{myForm.value.events[i].events.teamsForm.awayTeam.avgRating}}
                         </div>
                       </div>
                     </div>
@@ -256,13 +257,13 @@
                       <div class="content-line">
                         <mat-radio-group class="radio-toolbar radio-top" aria-label="Select an option">
                           <mat-radio-button value="1" class="">1
-                            <span>{{(element.vot1*100/(element.vot1*1 + element.votX*1 + element.vot2*1)).toFixed(2)}}
+                            <span>{{(myForm.value.events[i].vot1*100/(myForm.value.events[i].vot1*1 + myForm.value.events[i].votX*1 + myForm.value.events[i].vot2*1)).toFixed(2)}}
                             </span></mat-radio-button>
                           <mat-radio-button value="X" class="">X
-                            <span>{{(element.votX*100/(element.vot1*1 + element.votX*1 + element.vot2*1)).toFixed(2)}}</span>
+                            <span>{{(myForm.value.events[i].votX*100/(myForm.value.events[i].vot1*1 + myForm.value.events[i].votX*1 + myForm.value.events[i].vot2*1)).toFixed(2)}}</span>
                           </mat-radio-button>
                           <mat-radio-button value="2" class="">2
-                            <span>{{(element.vot2*100/(element.vot1*1 + element.votX*1 + element.vot2*1)).toFixed(2)}}</span>
+                            <span>{{(myForm.value.events[i].vot2*100/(myForm.value.events[i].vot1*1 + myForm.value.events[i].votX*1 + myForm.value.events[i].vot2*1)).toFixed(2)}}</span>
                           </mat-radio-button>
                         </mat-radio-group>
                       </div>
@@ -270,9 +271,9 @@
                     <div class="clearfix-content pc-content">
                       
                       <div class="col-lg-6 pull-left-lg">
-                        {{element.standingsLosseHome}} - {{element.standingsDrawHome}} - {{element.standingsWinHome}}
+                        {{myForm.value.events[i].data.standingsLosseHome}} - {{myForm.value.events[i].data.standingsDrawHome}} - {{myForm.value.events[i].data.standingsWinHome}}
                   
-                        <div class="cell-event-standing" *ngFor="let standingMatch of element.lastHome.events">
+                        <div class="cell-event-standing" *ngFor="let standingMatch of myForm.value.events[i].data.lastHome.events">
                           <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                           <div class="separator_right_cell"></div>
                           <div class="home_away_standing">
@@ -295,9 +296,9 @@
                         </div>
                       </div>
                       <div class="col-lg-6 pull-left-lg">
-                        {{element.standingsLosseAway}} - {{element.standingsDrawAway}} - {{element.standingsWinAway}}
+                        {{myForm.value.events[i].data.standingsLosseAway}} - {{myForm.value.events[i].data.standingsDrawAway}} - {{myForm.value.events[i].data.standingsWinAway}}
 
-                        <div class="cell-event-standing" *ngFor="let standingMatch of element.lastAway.events">
+                        <div class="cell-event-standing" *ngFor="let standingMatch of myForm.value.events[i].data.lastAway.events">
                           <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                           <div class="separator_right_cell"></div>
                           <div class="home_away_standing">
@@ -323,9 +324,9 @@
                     <!-- END PC MECZE  -->
                     <!-- BEGIN KOM MECZE -->
                     <mat-tab-group class="kom-content">
-                      <mat-tab label="{{element.events.event.homeTeam.name}}">
+                      <mat-tab label="{{myForm.value.events[i].data.events.event.homeTeam.name}}">
                         <div class="col-lg-6 pull-left-lg">
-                          <div class="cell-event-standing" *ngFor="let standingMatch of element.lastHome.events">
+                          <div class="cell-event-standing" *ngFor="let standingMatch of myForm.value.events[i].data.lastHome.events">
                             <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                             <div class="separator_right_cell"></div>
                             <div class="home_away_standing">
@@ -348,9 +349,9 @@
                           </div>
                         </div>
                       </mat-tab>
-                      <mat-tab label="{{element.events.event.awayTeam.name}}">
+                      <mat-tab label="{{myForm.value.events[i].data.events.event.awayTeam.name}}">
                         <div class="col-lg-6 pull-left-lg">
-                          <div class="cell-event-standing" *ngFor="let standingMatch of element.lastAway.events">
+                          <div class="cell-event-standing" *ngFor="let standingMatch of myForm.value.events[i].data.lastAway.events">
                             <div class="time-standings">{{(standingMatch.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                             <div class="separator_right_cell"></div>
                             <div class="home_away_standing">
@@ -384,11 +385,11 @@
                 <!--END  -->
                 <!-- BEGIN DUEL -->
                 <div class="inline-flex">
-                  <div class="content-line">{{element.events.h2hDuel.homewins}}</div>
+                  <div class="content-line">{{myForm.value.events[i].data.events.h2hDuel.homewins}}</div>
                   <div class="content-line slash-font-double"></div>
-                  <div class="content-line">{{element.events.h2hDuel.draws}}</div>
+                  <div class="content-line">{{myForm.value.events[i].data.events.h2hDuel.draws}}</div>
                   <div class="content-line slash-font-double"></div>
-                  <div class="content-line">{{element.events.h2hDuel.awaywins}} </div>
+                  <div class="content-line">{{myForm.value.events[i].data.events.h2hDuel.awaywins}} </div>
                 </div>
                 <!-- END DUEL -->
                 <!-- BEGIN DESC -->
@@ -400,69 +401,70 @@
                     </div> -->
                 <!-- END DESC -->
                 <!-- BEGIN FORM -->
-                <div class="inline-flex" *ngIf="element.events.teamsForm">
-                  <div class="content-line" *ngFor="let form of element.events.teamsForm.homeTeam.form">
+                <div class="inline-flex" *ngIf="myForm.value.events[i].data.events.teamsForm">
+                  <div class="content-line" *ngFor="let form of myForm.value.events[i].data.events.teamsForm.homeTeam.form">
                     <span [ngClass]="'form-event-'+ form">{{form}}</span>
                   </div>
                   <div class="content-line slash-font-double">-</div>
-                  <div class="content-line" *ngFor="let form of element.events.teamsForm.awayTeam.form">
+                  <div class="content-line" *ngFor="let form of myForm.value.events[i].data.events.teamsForm.awayTeam.form">
                     <span [ngClass]="'form-event-'+ form">{{form}}</span>
                   </div>
                 </div>
                 <!-- END FORM -->
                 <!-- Begin DESCRIPTION -->
-                <span [ngClass]="'flags--'+element.turnament.flag" class="flags flags-category"></span>
+                <span [ngClass]="'flags--'+myForm.value.events[i].data.turnament.flag" class="flags flags-category"></span>
                     <div class="inline-flex">
-                  <div class="content-line">{{element.turnament.name}}</div>
+                  <div class="content-line">{{myForm.value.events[i].data.turnament.name}}</div>
                 </div>
                 <div class="inline-flex">
-                  <div class="content-line">{{element.events.event.tournament.uniqueName}}</div>
+                  <div class="content-line">{{myForm.value.events[i].data.events.event.tournament.uniqueName}}</div>
                 </div>
                 <div class="inline-flex">
                   <div class="content-line">
-                    <span>{{(element.startTimestamp)* 1000 | date:'HH:mm'}}</span>
+                    <span>{{(myForm.value.events[i].startTimestamp)* 1000 | date:'HH:mm'}}</span>
                   </div>
                 </div>
-                <div [ngClass]="'table-color-'+ element.win"><span
-                    [ngClass]="'span-' + element.win">{{element.win}}</span></div>
+                <div [ngClass]="'table-color-'+ myForm.value.events[i].win"><span
+                    [ngClass]="'span-' + myForm.value.events[i].win">{{myForm.value.events[i].win}}</span></div>
                 <div class="inline-flex">
                   <div class="content-line">
                     <img
-                      src="https://www.sofascore.com/images/team-logo/football_{{element.events.event.homeTeam.id}}.png"
+                      src="https://www.sofascore.com/images/team-logo/football_{{myForm.value.events[i].data.events.event.homeTeam.id}}.png"
                       class="img-club">
-                    <span class="event-name">{{element.name}}</span>
+                    <span class="event-name">{{myForm.value.events[i].name}}</span>
                     <img
-                      src="https://www.sofascore.com/images/team-logo/football_{{element.events.event.awayTeam.id}}.png"
+                      src="https://www.sofascore.com/images/team-logo/football_{{myForm.value.events[i].data.events.event.awayTeam.id}}.png"
                       class="img-club">
                   </div>
                 </div>
-                <div *ngIf="element.status.code === 100">
+                <div *ngIf="myForm.value.events[i].data.status.code === 100">
                   <div class="WinFT">
-                    {{element.eventsWinFT}}
+                    {{myForm.value.events[i].data.eventsWinFT}}
                   </div>
-                  <div class="WinAP" *ngIf="element.eventsWinAP">
-                    ({{element.eventsWinAP}})
+                  <div class="WinAP" *ngIf="myForm.value.events[i].eventsWinAP">
+                    ({{myForm.value.events[i].eventsWinAP}})
                   </div>
                 </div>
                 <!-- END DESCRIPTION -->
 
                 <!-- BEGIN TYPE1 -->
+               
                 <mat-radio-group class="radio-toolbar" formControlName="type" aria-label="Select an option">
                   <mat-radio-button class="" value="1" (change)="onSelectionChange($event, i)"
-                    (click)="clickRadio($event, 1, i)">1<span>{{element.vot1}} </span></mat-radio-button>
+                    (click)="clickRadio($event, 1, i)">1<span>{{myForm.value.events[i].vot1}} </span></mat-radio-button>
                   <mat-radio-button class="" value="3" (change)="onSelectionChange($event, i)"
-                    (click)="clickRadio($event, 3, i)">X<span>{{element.votX}}</span></mat-radio-button>
+                    (click)="clickRadio($event, 3, i)">X<span>{{myForm.value.events[i].votX}}</span></mat-radio-button>
                   <mat-radio-button class="" value="2" (change)="onSelectionChange($event, i)"
-                    (click)="clickRadio($event, 2, i)">2<span>{{element.vot2}}</span></mat-radio-button>
+                    (click)="clickRadio($event, 2, i)">2<span>{{myForm.value.events[i].vot2}}</span></mat-radio-button>
                 </mat-radio-group>
                 <div class="inline-flex radio-double-type">
                   <mat-radio-group class="radio-toolbar" formControlName="type" aria-label="Select an option">
                     <mat-radio-button class="" value="13" (change)="onSelectionChange($event, i)"
-                      (click)="clickRadio($event, 1, i)">1x<span>{{element.vot1_d}} </span></mat-radio-button>
+                      (click)="clickRadio($event, 1, i)">1x<span>{{myForm.value.events[i].vot1_d}} </span></mat-radio-button>
                     <mat-radio-button class="" value="12" (change)="onSelectionChange($event, i)"
-                      (click)="clickRadio($event, 3, i)">12<span>{{element.votX_d}}</span></mat-radio-button>
+                      (click)="clickRadio($event, 3, i)">12<span>{{myForm.value.events[i].votX_d}}</span></mat-radio-button>
                     <mat-radio-button class="" value="32" (change)="onSelectionChange($event, i)"
-                      (click)="clickRadio($event, 2, i)">x2<span>{{element.vot2_d}}</span></mat-radio-button>
+                      (click)="clickRadio($event, 2, i)">x2<span>{{myForm.value.events[i].vot2_d}}</span></mat-radio-button>
                   </mat-radio-group>
                 </div>
                 <!-- END TYPE1 -->
@@ -518,7 +520,7 @@
         </ng-container>
 
         <!-- BEGIN TIME -->
-        <ng-container matColumnDef="time">
+        <!-- <ng-container matColumnDef="time">
           <div formArrayName="events">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> time </th>
             <td mat-cell *matCellDef="let element;  let i = index;">
@@ -573,14 +575,11 @@
                     ({{element.eventsWinAP}})
                   </div>
                 </div>
-                <!-- <mat-form-field class=" content-line">
-                  <input [style.width]="myInput.value.length*8+'px'" #myInput type="text" id="description"
-                    placeholder="" name="type" formControlName="time" required matInput>
-                </mat-form-field> -->
+               
               </div>
             </td>
           </div>
-        </ng-container>
+        </ng-container> -->
         <!-- END TIME -->
 
         <ng-container matColumnDef="FTM25">
