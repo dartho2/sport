@@ -28,7 +28,7 @@
   </div>
 </div> -->
 
-<div class="content-body">
+<div class="content-body padding-content-body">
   <div class="photo-list card card-block">
 
 
@@ -406,11 +406,11 @@
                 <!-- BEGIN TYPE1 -->
                
                 <mat-radio-group class="radio-toolbar" formControlName="type" aria-label="Select an option">
-                  <mat-radio-button class="" value="1" (change)="onSelectionChange($event, i)"
+                  <mat-radio-button class="" value="1" 
                     (click)="clickRadio($event, 1, i)">1<span>{{myForm.value.events[i].vot1}} </span></mat-radio-button>
-                  <mat-radio-button class="" value="3" (change)="onSelectionChange($event, i)"
+                  <mat-radio-button class="" value="3"
                     (click)="clickRadio($event, 3, i)">X<span>{{myForm.value.events[i].votX}}</span></mat-radio-button>
-                  <mat-radio-button class="" value="2" (change)="onSelectionChange($event, i)"
+                  <mat-radio-button class="" value="2" 
                     (click)="clickRadio($event, 2, i)">2<span>{{myForm.value.events[i].vot2}}</span></mat-radio-button>
                 </mat-radio-group>
                 <div class="inline-flex radio-double-type">

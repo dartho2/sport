@@ -42,12 +42,20 @@
   /*Set sidenav width*/
   
   mat-sidenav {
-    min-width: 180px !important;
+    min-width: 200px !important;
     border-right: 1px solid #eee;
     box-shadow: 6px 0 6px rgba(0, 0, 0, .1);
     /* background-color:rgb(63, 81, 181); */
   }
   
+  .mat-tree-node{
+    max-width: 190px;
+  }
+  .broke-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   /* Set height of wrapper to stop content from moving up & down */
   
   .progress-bar-container {

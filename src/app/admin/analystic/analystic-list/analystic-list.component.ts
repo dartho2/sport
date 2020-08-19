@@ -118,7 +118,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   votePrice;
   VotePrice: number;
   turnamentEvent = [];
-  radioVal;
+  radioVal = 0;
   winSure = 0;
   winSureAll = 0;
   messageEvent = "";
@@ -252,22 +252,34 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     }))
    
   }
-  onSelectionChange(a, b) {
-    console.log(a,b)
+  onSelectionChange(a, b, c) {
+    console.log(a,b, c, "a/b/c")
   }
   clickRadio(event: Event, value: any, i) {
     // event.preventDefault();
-    if (!this.radioVal || this.radioVal !== value) {
-      this.radioVal = value;
-      this.eventss.at(i).patchValue({ type: this.radioVal });
-      return;
-    }
-
-    if (this.radioVal === value) {
+   if(Number(this.myForm.value.events[i].type) !== Number(value)){
+    // event.preventDefault();
+    this.eventss.at(i).patchValue({ type: value.toString() });
+    this.addBet(this.myForm.value)
+   }else {
       event.preventDefault();
-      this.radioVal = 4;
       this.eventss.at(i).patchValue({ type: '' });
-    }
+      this.addBet(this.myForm.value)
+   }
+    // if (!this.radioVal || this.radioVal !== value) {
+    //   this.radioVal = value;
+    //   this.eventss.at(i).patchValue({ type: this.radioVal });
+    //   this.addBet(this.myForm.value)
+    //   return
+    // }
+
+    // if (this.radioVal === value) {
+    //   event.preventDefault();
+    //   this.radioVal = 4;
+    //   this.eventss.at(i).patchValue({ type: '' });
+    //   // this.addBet(this.myForm.value)
+    // }
+   
   }
 
   isRadioSelected(value: any) {
@@ -884,8 +896,8 @@ this.headerService.changeGroup(this.grupCategory)
     //   this.dateEventsBet = x
     // })
     bet.events.forEach(element => {
-      if (element.type.includes("3")) {
-        element.type = element.type.replace("3", "0")
+      if (element.type === "3") {
+        element.type = "0"
       }
       const a = this.dateEventsBet.events.find(x => x.name === element.name)
       if (a) {
@@ -905,7 +917,6 @@ this.headerService.changeGroup(this.grupCategory)
         }
       } else {
         if (element.type.length > 0) {
-          console.log("3")
           this.betAllRateResults(element)
           this.dateEventsBet.events.push(element)
           this.headerService.changeHeaderTitle(this.dateEventsBet, this.betAllRateResult)

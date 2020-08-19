@@ -103,10 +103,11 @@
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
               <!-- use a disabled button to provide padding for tree leaf -->
              
-              <button mat-icon-button disabled></button>
-              {{node.count.tournament.name}}
-              <button  [ngStyle]="{'color':existMatchButton(node.count.tournament.id)}" (click)="addID(node.count.tournament.id)">{{node.count.tournament.id}}</button>
-           
+              
+              <div class="broke-name">
+                  <button  class="button-full-width" mat-raised-button [ngStyle]="{'color':existMatchButton(node.count.tournament.id)}" (click)="addID(node.count.tournament.id)">{{node.count.tournament.name}} </button>
+              </div>
+              
             </mat-tree-node>
             <!-- This is the tree node template for expandable nodes -->
             <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
@@ -123,9 +124,9 @@
                     <span [ngClass]="'flags flags-category flags--sm flags--' + node.length[0].category.flag"></span>
                 <!-- <img [src]="'https://www.sofascore.com/u-tournament/' + node.length[0].tournament.uniqueId +'/logo'" alt="" class="img--x18 u-pH8 u-va-mid" style="max-width: 34px;"> -->
               
-           
+                  {{node.name}} 
+              
                
-                {{node.name}} 
             </button> </mat-tree-node>
           </mat-tree>
           <a mat-list-item routerLink="/dish">
