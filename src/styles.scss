@@ -8741,3 +8741,321 @@ div.alert-box a.close:focus {
   @media only screen and (max-width: 700px) {
     .ticket-shop-link {
       color: #fff; } }
+      @media (min-width:992px){.empty-state-img{display:block;width:264px;margin:12px auto} 
+    } 
+    .details__score-cell:hover .img-team-link__txt{opacity:.6} 
+    .img--player,.img-player--list{width:38px;vertical-align:top} 
+    .img--player{border:1px solid rgba(0,12,36,0.14)} 
+    .lang-icon{position:relative;width:16px;height:16px;vertical-align:top;left:-2px} 
+    .lang-icon--dropdown{left:-6px} 
+    .lang-icon--mobile-menu{left:0;width:18px;height:18px;vertical-align:sub} 
+    .flags{display:inline-block;vertical-align:top} 
+    .flags-sm,.flags--sm{-webkit-transform:scale(.6);-ms-transform:scale(.6);transform:scale(.6);vertical-align:middle} 
+    .flags--xs{vertical-align:top;margin:-8px;-webkit-transform:scale(.5);-ms-transform:scale(.5);transform:scale(.5)} 
+    .flags--{display:none} 
+    .flags-md,.flags--md,.flags--category,.flags-category{width:32px;height:32px;background:url('https://www.sofascore.com/bundles/sofascoreweb/images/sprites/sprite-category.png?v1') top left no-repeat;background-position:-3360px 0} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags-md,.flags--md,.flags--category,.flags-category{background-image:url('https://www.sofascore.com/bundles/sofascoreweb/images/sprites/sprite-category-retina.png?v2');background-size:7712px 32px} 
+    } 
+    .flags--kwt,.flags--kuwait{background-position:0 0} 
+    .flags--afg,.flags--afghanistan{background-position:-32px 0} 
+    .flags--alb,.flags--albania{background-position:-64px 0} 
+    .flags--dza,.flags--algeria{background-position:-96px 0} 
+    .flags--asm,.flags--american-samoa{background-position:-128px 0} 
+    .flags--vir,.flags--american-virgin-island{background-position:-160px 0} 
+    .flags--and,.flags--andorra{background-position:-192px 0} 
+    .flags--ago,.flags--angola{background-position:-224px 0} 
+    .flags--aia,.flags--anguilla{background-position:-256px 0} 
+    .flags--atg,.flags--antigua-and-barbuda,.flags--antigua-barbuda{background-position:-288px 0} 
+    .flags--arabic{background-position:-320px 0} 
+    .flags--arg,.flags--argentina{background-position:-352px 0} 
+    .flags--arm,.flags--armenia{background-position:-384px 0} 
+    .flags--abw,.flags--aruba{background-position:-416px 0} 
+    .flags--aus,.flags--australia{background-position:-448px 0} 
+    .flags--aut,.flags--austria-amateur,.flags--austria{background-position:-480px 0} 
+    .flags--aze,.flags--azerbaijan{background-position:-512px 0} 
+    .flags--bhs,.flags--bahamas{background-position:-544px 0} 
+    .flags--bhr,.flags--bahrain{background-position:-576px 0} 
+    .flags--bgd,.flags--bangladesh{background-position:-608px 0} 
+    .flags--brb,.flags--barbados{background-position:-640px 0} 
+    .flags--basque{background-position:-672px 0} 
+    .flags--blr,.flags--belarus{background-position:-704px 0} 
+    .flags--bel,.flags--belgium{background-position:-736px 0} 
+    .flags--blz,.flags--belize{background-position:-768px 0} 
+    .flags--ben,.flags--benin{background-position:-800px 0} 
+    .flags--bmu,.flags--bermuda{background-position:-832px 0} 
+    .flags--btn,.flags--bhutan{background-position:-864px 0} 
+    .flags--bol,.flags--bolivia{background-position:-896px 0} 
+    .flags--bih,.flags--bosnia-herzegovina{background-position:-928px 0} 
+    .flags--bwa,.flags--botswana{background-position:-960px 0} 
+    .flags--bra,.flags--brazil{background-position:-992px 0} 
+    .flags--vgb,.flags--british-virgin-islands{background-position:-1024px 0} 
+    .flags--brn,.flags--brunei{background-position:-1056px 0} 
+    .flags--bgr,.flags--bulgaria{background-position:-1088px 0} 
+    .flags--bfa,.flags--burkina-faso{background-position:-1120px 0} 
+    .flags--bur,.flags--burma{background-position:-1152px 0} 
+    .flags--bdi,.flags--burundi{background-position:-1184px 0} 
+    .flags--khm,.flags--cambodia{background-position:-1216px 0} 
+    .flags--cmr,.flags--cameroon{background-position:-1248px 0} 
+    .flags--can,.flags--canada{background-position:-1280px 0} 
+    .flags--cape-verde{background-position:-1312px 0} 
+    .flags--catalonia{background-position:-1344px 0} 
+    .flags--cym,.flags--cayman-islands{background-position:-1376px 0} 
+    .flags--caf,.flags--central-african-rep{background-position:-1408px 0} 
+    .flags--tcd,.flags--chad{background-position:-1440px 0} 
+    .flags--chl,.flags--chile{background-position:-1472px 0} 
+    .flags--chn,.flags--china{background-position:-1504px 0} 
+    .flags--cxr,.flags--christmas-island{background-position:-1536px 0} 
+    .flags--col,.flags--colombia{background-position:-1568px 0} 
+    .flags--com,.flags--comoros{background-position:-1600px 0} 
+    .flags--cok,.flags--cook-islands{background-position:-1664px 0} 
+    .flags--cri,.flags--costa-rica{background-position:-1696px 0} 
+    .flags--cro,.flags--hrv,.flags--croatia{background-position:-1728px 0} 
+    .flags--cub,.flags--cuba{background-position:-1760px 0} 
+    .flags--cuw,.flags--curacao{background-position:-1792px 0} 
+    .flags--cyp,.flags--cyprus{background-position:-1824px 0} 
+    .flags--cze,.flags--czech-republic{background-position:-1856px 0} 
+    .flags--dnk,.flags--denmark-amateur,.flags--denmark{background-position:-1888px 0} 
+    .flags--dji,.flags--djibouti{background-position:-1920px 0} 
+    .flags--dma,.flags--dominica{background-position:-1952px 0} 
+    .flags--dom,.flags--dominican-rep{background-position:-1984px 0} 
+    .flags--cod,.flags--dr-congo{background-position:-2016px 0} 
+    .flags--cog,.flags--congo,.flags--congo-republic,.flags--republic-of-congo{background-position:-1632px 0} 
+    .flags--tmp,.flags--east-timor{background-position:-2048px 0} 
+    .flags--ecu,.flags--ecuador{background-position:-2080px 0} 
+    .flags--gnq,.flags--ecuatorial-guinea{background-position:-2112px 0} 
+    .flags--egy,.flags--egypt{background-position:-2144px 0} 
+    .flags--slv,.flags--el-salvador{background-position:-2176px 0} 
+    .flags--eng,.flags--england-amateur,.flags--england{background-position:-2208px 0} 
+    .flags--gnq,.flags--equatorial-guinea{background-position:-2240px 0} 
+    .flags--eri,.flags--eritrea{background-position:-2272px 0} 
+    .flags--est,.flags--estonia{background-position:-2304px 0} 
+    .flags--eth,.flags--ethiopia{background-position:-2336px 0} 
+    .flags--fro,.flags--faroe-islands{background-position:-2368px 0} 
+    .flags--fji,.flags--fiji{background-position:-2400px 0} 
+    .flags--fin,.flags--finland{background-position:-2432px 0} 
+    .flags--flag-country-unknown{background-position:-2464px 0} 
+    .flags--former-east-timor{background-position:-2496px 0} 
+    .flags--fra,.flags--france{background-position:-2528px 0} 
+    .flags--guf,.flags--french-guiana,.flags--french-guyana{background-position:-2560px 0} 
+    .flags--gab,.flags--gabon{background-position:-2592px 0} 
+    .flags--gmb,.flags--gambia{background-position:-2624px 0} 
+    .flags--geo,.flags--georgia{background-position:-2656px 0} 
+    .flags--deu,.flags--germany-amateur,.flags--germany{background-position:-2688px 0} 
+    .flags--gha,.flags--ghana{background-position:-2720px 0} 
+    .flags--gib,.flags--gibraltar{background-position:-2752px 0} 
+    .flags--grd,.flags--granada{background-position:-2784px 0} 
+    .flags--gbr,.flags--great-britain,.flags--united-kingdom,.flags--uk{background-position:-2816px 0} 
+    .flags--grc,.flags--greece{background-position:-2848px 0} 
+    .flags--grl,.flags--greenland{background-position:-2880px 0} 
+    .flags--grd,.flags--grenada{background-position:-2912px 0} 
+    .flags--glp,.flags--guadeloupe{background-position:-2944px 0} 
+    .flags--gum,.flags--guam{background-position:-2976px 0} 
+    .flags--gtm,.flags--guatemala{background-position:-3008px 0} 
+    .flags--gin,.flags--guinea{background-position:-3040px 0} 
+    .flags--gnb,.flags--guinea-bissau{background-position:-3072px 0} 
+    .flags--guy,.flags--guyana{background-position:-3104px 0} 
+    .flags--hti,.flags--haiti{background-position:-3136px 0} 
+    .flags--hnd,.flags--honduras{background-position:-3168px 0} 
+    .flags--hkg,.flags--hong-kong{background-position:-3200px 0} 
+    .flags--hun,.flags--hungary{background-position:-3232px 0} 
+    .flags--isl,.flags--iceland{background-position:-3264px 0} 
+    .flags--ind,.flags--india{background-position:-3296px 0} 
+    .flags--idn,.flags--indonesia{background-position:-3328px 0} 
+    .flags--international{background-position:-3360px 0} 
+    .flags--irn,.flags--iran{background-position:-3392px 0} 
+    .flags--irq,.flags--iraq{background-position:-3424px 0} 
+    .flags--irl,.flags--ireland{background-position:-3456px 0} 
+    .flags--isr,.flags--israel{background-position:-3488px 0} 
+    .flags--ita,.flags--italy{background-position:-3520px 0} 
+    .flags--civ,.flags--ivory-coast{background-position:-3552px 0} 
+    .flags--jam,.flags--jamaica{background-position:-3584px 0} 
+    .flags--jpn,.flags--japan{background-position:-3616px 0} 
+    .flags--jey,.flags--jersey{background-position:-3648px 0} 
+    .flags--jor,.flags--jordan{background-position:-3680px 0} 
+    .flags--kaz,.flags--kazakhstan{background-position:-3712px 0} 
+    .flags--ken,.flags--kenya{background-position:-3744px 0} 
+    .flags--kir,.flags--kiribati{background-position:-3776px 0} 
+    .flags--kos,.flags--kosovo,.flags--xkx{background-position:-3808px 0} 
+    .flags--ala,.flags--aland-islands{background-position:-3840px 0} 
+    .flags--kgz,.flags--kyrgyzstan{background-position:-3872px 0} 
+    .flags--laos{background-position:-3904px 0} 
+    .flags--lva,.flags--latvia{background-position:-3936px 0} 
+    .flags--lbn,.flags--lebanon{background-position:-3968px 0} 
+    .flags--lso,.flags--lesotho{background-position:-4000px 0} 
+    .flags--lbr,.flags--liberia{background-position:-4032px 0} 
+    .flags--lby,.flags--libya{background-position:-4064px 0} 
+    .flags--lie,.flags--liechtenstein{background-position:-4096px 0} 
+    .flags--ltu,.flags--lithuania{background-position:-4128px 0} 
+    .flags--lux,.flags--luxembourg{background-position:-4160px 0} 
+    .flags--mac,.flags--macao{background-position:-4192px 0} 
+    .flags--mkd,.flags--macedonia,.flags--north-macedonia,.flags--n-macedonia{background-position:-4224px 0} 
+    .flags--mdg,.flags--madagascar{background-position:-4256px 0} 
+    .flags--mwi,.flags--malawi{background-position:-4288px 0} 
+    .flags--mys,.flags--malaysia{background-position:-4320px 0} 
+    .flags--mdv,.flags--maldives{background-position:-4352px 0} 
+    .flags--mli,.flags--mali{background-position:-4384px 0} 
+    .flags--mlt,.flags--malta{background-position:-4416px 0} 
+    .flags--mhl,.flags--marshall-islands{background-position:-4448px 0} 
+    .flags--mtq,.flags--martinique{background-position:-4480px 0} 
+    .flags--mrt,.flags--mauritania{background-position:-4512px 0} 
+    .flags--mus,.flags--mauritius{background-position:-4544px 0} 
+    .flags--mex,.flags--mexico{background-position:-4576px 0} 
+    .flags--fsm,.flags--micronesia{background-position:-4608px 0} 
+    .flags--mda,.flags--moldova{background-position:-4640px 0} 
+    .flags--mco,.flags--monaco{background-position:-4672px 0} 
+    .flags--mng,.flags--mongolia{background-position:-4704px 0} 
+    .flags--mne,.flags--montenegro{background-position:-4736px 0} 
+    .flags--msr,.flags--montserrat{background-position:-4768px 0} 
+    .flags--mar,.flags--morocco{background-position:-4800px 0} 
+    .flags--moz,.flags--mozambique{background-position:-4832px 0} 
+    .flags--mmr,.flags--myanmar{background-position:-4864px 0} 
+    .flags--nir,.flags--n-ireland,.flags--northern-ireland{background-position:-4896px 0} 
+    .flags--nam,.flags--namibia{background-position:-4928px 0} 
+    .flags--nru,.flags--nauru{background-position:-4960px 0} 
+    .flags--npl,.flags--nepal{background-position:-4992px 0} 
+    .flags--nld,.flags--netherlands{background-position:-5024px 0} 
+    .flags--ant,.flags--netherlands-antilles{background-position:-5056px 0} 
+    .flags--ncl,.flags--new-caledonia{background-position:-5088px 0} 
+    .flags--nzl,.flags--new-zealand{background-position:-5120px 0} 
+    .flags--nic,.flags--nicaragua{background-position:-5152px 0} 
+    .flags--ner,.flags--niger{background-position:-5184px 0} 
+    .flags--nga,.flags--nigeria{background-position:-5216px 0} 
+    .flags--prk,.flags--north-korea{background-position:-5248px 0} 
+    .flags--mnp,.flags--northern-mariana-islands{background-position:-5280px 0} 
+    .flags--nor,.flags--norway{background-position:-5312px 0} 
+    .flags--omn,.flags--oman{background-position:-5344px 0} 
+    .flags--pak,.flags--pakistan{background-position:-5376px 0} 
+    .flags--plw,.flags--palau{background-position:-5408px 0} 
+    .flags--pse,.flags--palestine{background-position:-5440px 0} 
+    .flags--pan,.flags--panama{background-position:-5472px 0} 
+    .flags--png,.flags--papua-new-guinea{background-position:-5504px 0} 
+    .flags--pry,.flags--paraguay{background-position:-5536px 0} 
+    .flags--per,.flags--peru{background-position:-5568px 0} 
+    .flags--phl,.flags--philippines{background-position:-5600px 0} 
+    .flags--pol,.flags--poland{background-position:-5632px 0} 
+    .flags--prt,.flags--portugal{background-position:-5664px 0} 
+    .flags--pri,.flags--puerto-rico{background-position:-5696px 0} 
+    .flags--qat,.flags--qatar{background-position:-5728px 0} 
+    .flags--rou,.flags--romania{background-position:-5760px 0} 
+    .flags--rus,.flags--russian-federation,.flags--russia{background-position:-5792px 0} 
+    .flags--rwa,.flags--rwanda{background-position:-5824px 0} 
+    .flags--lca,.flags--saint-lucia{background-position:-5856px 0} 
+    .flags--vct,.flags--saint-vincent-and-the-grenadines{background-position:-5888px 0} 
+    .flags--wsm,.flags--samoa{background-position:-5920px 0} 
+    .flags--smr,.flags--san-marino{background-position:-5952px 0} 
+    .flags--stp,.flags--sao-tome-and-principe,.flags--saotomeandprincipe{background-position:-5984px 0} 
+    .flags--sau,.flags--saudiarabia,.flags--saudi-arabia{background-position:-6016px 0} 
+    .flags--sco,.flags--scotland{background-position:-6048px 0} 
+    .flags--sen,.flags--senegal{background-position:-6080px 0} 
+    .flags--srb,.flags--serbia{background-position:-6112px 0} 
+    .flags--syc,.flags--seychelles{background-position:-6144px 0} 
+    .flags--sle,.flags--sierra-leone{background-position:-6176px 0} 
+    .flags--sgp,.flags--singapore{background-position:-6208px 0} 
+    .flags--svk,.flags--slovakia{background-position:-6240px 0} 
+    .flags--svn,.flags--slovenia{background-position:-6272px 0} 
+    .flags--slb,.flags--solomon-islands{background-position:-6304px 0} 
+    .flags--som,.flags--somalia{background-position:-6336px 0} 
+    .flags--zaf,.flags--south-africa{background-position:-6368px 0} 
+    .flags--kor,.flags--south-korea{background-position:-6400px 0} 
+    .flags--ssd,.flags--south-sudan{background-position:-6432px 0} 
+    .flags--esp,.flags--spain,.flags--spain-amateur{background-position:-6464px 0} 
+    .flags--lka,.flags--sri-lanka{background-position:-6496px 0} 
+    .flags--kna,.flags--st-kitts-and-nevis{background-position:-6528px 0} 
+    .flags--sdn,.flags--sudan{background-position:-6560px 0} 
+    .flags--sur,.flags--suriname,.flags--surinam{background-position:-6592px 0} 
+    .flags--swz,.flags--swaziland{background-position:-6624px 0} 
+    .flags--swe,.flags--sweden-amateur,.flags--sweden{background-position:-6656px 0} 
+    .flags--che,.flags--switzerland{background-position:-6688px 0} 
+    .flags--sye,.flags--syria{background-position:-6720px 0} 
+    .flags--tahiti{background-position:-6752px 0} 
+    .flags--twn,.flags--taiwan,.flags--chinese-taipei{background-position:-6784px 0} 
+    .flags--tjk,.flags--tajikistan{background-position:-6816px 0} 
+    .flags--tza,.flags--tanzania{background-position:-6848px 0} 
+    .flags--tha,.flags--thailand{background-position:-6880px 0} 
+    .flags--tls,.flags--timor-leste{background-position:-6912px 0} 
+    .flags--tgo,.flags--togo{background-position:-6944px 0} 
+    .flags--ton,.flags--tonga{background-position:-6976px 0} 
+    .flags--tto,.flags--trinidad-and-tobago{background-position:-7008px 0} 
+    .flags--tun,.flags--tunisia{background-position:-7040px 0} 
+    .flags--tur,.flags--turkey-amateur,.flags--turkey{background-position:-7072px 0} 
+    .flags--tkm,.flags--turkmenistan{background-position:-7104px 0} 
+    .flags--tca,.flags--turks-and-caicos-islands{background-position:-7136px 0} 
+    .flags--tuv,.flags--tuvalu{background-position:-7168px 0} 
+    .flags--are,.flags--uae,.flags--united-arab-emirates{background-position:-7200px 0} 
+    .flags--uga,.flags--uganda{background-position:-7232px 0} 
+    .flags--ukr,.flags--ukraine{background-position:-7264px 0} 
+    .flags--ury,.flags--uruguay{background-position:-7296px 0} 
+    .flags--usa{background-position:-7328px 0} 
+    .flags--uzb,.flags--uzbekistan{background-position:-7360px 0} 
+    .flags--vut,.flags--vanuatu{background-position:-7392px 0} 
+    .flags--ven,.flags--venezuela{background-position:-7424px 0} 
+    .flags--vnm,.flags--vietnam{background-position:-7456px 0} 
+    .flags--virgin-islands{background-position:-7488px 0} 
+    .flags--wal,.flags--wales{background-position:-7520px 0} 
+    .flags--yem,.flags--yemen{background-position:-7552px 0} 
+    .flags--zmb,.flags--zambia{background-position:-7584px 0} 
+    .flags--eaz,.flags--zanzibar{background-position:-7616px 0} 
+    .flags--zwe,.flags--zimbabwe{background-position:-7648px 0} 
+    .flags--esoccer{background-position:-7680px 0} 
+    .flags--africa{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/africa@2x.png') top left / contain no-repeat} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags--africa{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/africa@3x.png') top left / contain no-repeat} 
+    } 
+    .flags--asia,.flags--asian-games{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/asia@2x.png') top left / contain no-repeat} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags--asia,.flags--asian-games{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/asia@3x.png') top left / contain no-repeat} 
+    } 
+    .flags--europe{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/europe@2x.png') top left / contain no-repeat} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags--europe{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/europe@3x.png') top left / contain no-repeat} 
+    } 
+    .flags--north_america,.flags--caribbean,.flags--pan-american-games,.flags--north-america{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/north_america@2x.png') top left / contain no-repeat} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags--north_america,.flags--caribbean,.flags--pan-american-games,.flags--north-america{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/north_america@3x.png') top left / contain no-repeat} 
+    } 
+    .flags--north_central_america,.flags--north-central-america{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/north_central_america@2x.png') top left / contain no-repeat} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags--north_central_america,.flags--north-central-america{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/north_central_america@3x.png') top left / contain no-repeat} 
+    } 
+    .flags--south_america,.flags--south-america{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/south_america@2x.png') top left / contain no-repeat} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags--south_america,.flags--south-america{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/south_america@3x.png') top left / contain no-repeat} 
+    } 
+    .flags--international,.flags--wch-ibaf,.flags--world{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/international@2x.png') top left / contain no-repeat} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags--international,.flags--wch-ibaf,.flags--world{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/international@3x.png') top left / contain no-repeat} 
+    } 
+    .flags--oceania{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/oceania@2x.png') top left / contain no-repeat} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags--oceania{background:url('https://www.sofascore.com/bundles/sofascoreweb/images/regions/oceania@3x.png') top left / contain no-repeat} 
+    } 
+    .flags-tournament-color{background-image:url('https://www.sofascore.com/bundles/sofascoreweb/images/sprites/sprite-tournament-color.png')} 
+    @media (-webkit-min-device-pixel-ratio:1.5), (-o-min-device-pixel-ratio:3/2), (min-resolution:1.5dppx){.flags-tournament-color{background-image:url('https://www.sofascore.com/bundles/sofascoreweb/images/sprites/sprite-tournament-color-retina.png');background-size:420px 28px} 
+    } 
+    .flags-tournament-color.flags--challenger,.flags-tournament-color.flags--atp{width:28px;height:28px;background-position:0 0} 
+    .flags-tournament-color.flags--calendar-color{width:28px;height:28px;background-position:-28px 0} 
+    .flags-tournament-color.flags--ctl{width:28px;height:28px;background-position:-56px 0} 
+    .flags-tournament-color.flags--davis-cup{width:28px;height:28px;background-position:-84px 0} 
+    .flags-tournament-color.flags--euro2016-color{width:28px;height:28px;background-position:-112px 0} 
+    .flags-tournament-color.flags--federation-cup{width:28px;height:28px;background-position:-140px 0} 
+    .flags-tournament-color.flags--fifa{width:28px;height:28px;background-position:-168px 0} 
+    .flags-tournament-color.flags--hopman-cup{width:28px;height:28px;background-position:-196px 0} 
+    .flags-tournament-color.flags--itf-men,.flags-tournament-color.flags--itf-women,.flags-tournament-color.flags--itf{width:28px;height:28px;background-position:-224px 0} 
+    .flags-tournament-color.flags--rugby-league{width:28px;height:28px;background-position:-252px 0} 
+    .flags-tournament-color.flags--rugby-union{width:28px;height:28px;background-position:-280px 0} 
+    .flags-tournament-color.flags--rugby-union-sevens{width:28px;height:28px;background-position:-28px 0} 
+    .flags-tournament-color.flags--rugby-union-tens,.flags-tournament-color.flags--trophy-color{width:28px;height:28px;background-position:-308px 0} 
+    .flags-tournament-color.flags--uefa{width:28px;height:28px;background-position:-336px 0} 
+    .flags-tournament-color.flags--challenger-women,.flags-tournament-color.flags--wta{width:28px;height:28px;background-position:-364px 0} 
+    .event-graph{display:block;margin-bottom:8px} 
+    .event-graph:hover>.event-graph__emblems,.event-graph:focus>.event-graph__emblems{visibility:visible;opacity:1} 
+    .event-graph__container{position:relative;line-height:0} 
+    .event-graph__emblems{position:absolute;visibility:hidden;opacity:0;top:0;left:0;width:32px;height:100%;z-index:1;-webkit-transition:opacity .2s;-o-transition:opacity .2s;transition:opacity .2s} 
+    .event-graph__emblem-wrapper{height:50%;text-align:center} 
+    .event-graph__emblem{width:80%} 
+    .event-graph__canvas{position:relative;display:block;max-width:100% !important;height:auto;margin:0 auto;background-image:-webkit-gradient(linear, left top, left bottom, from(#f1f2f5), color-stop(35%, #f1f2f5), color-stop(35%, #dce0e4), color-stop(65%, #dce0e4), color-stop(65%, #f1f2f5), to(#f1f2f5));background-image:-webkit-linear-gradient(#f1f2f5, #f1f2f5 35%, #dce0e4 35%, #dce0e4 65%, #f1f2f5 65%, #f1f2f5);background-image:-o-linear-gradient(#f1f2f5, #f1f2f5 35%, #dce0e4 35%, #dce0e4 65%, #f1f2f5 65%, #f1f2f5);background-image:linear-gradient(#f1f2f5, #f1f2f5 35%, #dce0e4 35%, #dce0e4 65%, #f1f2f5 65%, #f1f2f5);border-radius:2px;will-change:display} 
+    .event-graph__canvas.live-form-canvas{cursor:pointer} 
+    .event-graph__canvas--football{shape-rendering:crispEdges;background-image:-webkit-linear-gradient(#f1f2f5, #f1f2f5 33.33%, #dce0e4 33.33%, #dce0e4 66.66%, #f1f2f5 66.66%, #f1f2f5);background-image:-webkit-gradient(linear, left top, left bottom, from(#f1f2f5), color-stop(33.33%, #f1f2f5), color-stop(33.33%, #dce0e4), color-stop(66.66%, #dce0e4), color-stop(66.66%, #f1f2f5), to(#f1f2f5));background-image:-o-linear-gradient(#f1f2f5, #f1f2f5 33.33%, #dce0e4 33.33%, #dce0e4 66.66%, #f1f2f5 66.66%, #f1f2f5);background-image:linear-gradient(#f1f2f5, #f1f2f5 33.33%, #dce0e4 33.33%, #dce0e4 66.66%, #f1f2f5 66.66%, #f1f2f5)} 
+    .event-graph__canvas--basketball{shape-rendering:geometricPrecision;background-image:-webkit-linear-gradient(#f1f2f5, #f1f2f5 25%, #dce0e4 25%, #dce0e4 75%, #f1f2f5 75%, #f1f2f5);background-image:-webkit-gradient(linear, left top, left bottom, from(#f1f2f5), color-stop(25%, #f1f2f5), color-stop(25%, #dce0e4), color-stop(75%, #dce0e4), color-stop(75%, #f1f2f5), to(#f1f2f5));background-image:-o-linear-gradient(#f1f2f5, #f1f2f5 25%, #dce0e4 25%, #dce0e4 75%, #f1f2f5 75%, #f1f2f5);background-image:linear-gradient(#f1f2f5, #f1f2f5 25%, #dce0e4 25%, #dce0e4 75%, #f1f2f5 75%, #f1f2f5)} 
+    .event-graph__info{position:absolute;top:12px;right:12px;width:220px;z-index:100;background-color:#f1f2f5;border-radius:4px;line-height:1.4;-webkit-box-shadow:0 2px 12px rgba(0,0,24,0.2);box-shadow:0 2px 12px rgba(0,0,24,0.2)} 
+    .event-graph__img{width:100%} 
+    .event-graph__canvas .bar-rect{-webkit-transition:opacity .1s ease-in,-webkit-transform 1s;transition:opacity .1s ease-in,-webkit-transform 1s;-o-transition:transform 1s,opacity .1s ease-in;transition:transform 1s,opacity .1s ease-in;transition:transform 1s,opacity .1s ease-in,-webkit-transform 1s} 
+    line.graph-period-line{shape-rendering:crispEdges} 
+    .event-graph__canvas>text{opacity:0;-webkit-transition:opacity .2s;-o-transition:opacity .2s;transition:opacity .2s} 
+    .event-graph__canvas:hover>text{opacity:.8;fill:#404040} 
+    .featured-comments:hover .featured-comments__comment-box{opacity:.8} 
+    .featured-comments:active .featured-comments__comment-box{opacity:.6} 
+    .featured-comments__comment-box{position:relative;height:300px;margin:0 24px;padding:12px 24px 4px 24px;background-color:#f1f2f5;border:1px solid #f1f2f5;border-radius:4px;-webkit-transition:opacity .2s ease-in-out;-o-transition:opacity .2s ease-in-out;transition:opacity .2s ease-in-out} 
+    

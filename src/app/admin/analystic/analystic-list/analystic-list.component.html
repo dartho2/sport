@@ -119,54 +119,6 @@
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       </mat-expansion-panel>
     </mat-accordion>
-    <mat-accordion class="fixed-panel">
-    <mat-expansion-panel hideToggle="true" #xyzy>
-      <mat-expansion-panel-header class="panel-fixed">
-        <mat-panel-title>
-          Filter
-        </mat-panel-title>
-        <mat-panel-description>
-          <mat-icon class="icon_more_less" *ngIf="!xyzy.expanded">expand_less</mat-icon>
-          <mat-icon class="icon_more_less" *ngIf="xyzy.expanded">expand_more</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-tree [dataSource]="dataSourceMatches" [treeControl]="treeControl">
-        <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-          <!-- use a disabled button to provide padding for tree leaf -->
-         
-          <button mat-icon-button disabled></button>
-          {{node.count.tournament.name}}
-          <button  [ngStyle]="{'color':existMatchButton(node.count.tournament.id)}" (click)="addID(node.count.tournament.id)">{{node.count.tournament.id}}</button>
-       
-        </mat-tree-node>
-        <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-          <!-- <button mat-icon-button matTreeNodeToggle
-                  [attr.aria-label]="'toggle ' + node.name">
-            <mat-icon class="mat-icon-rtl-mirror">
-              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-            </mat-icon>
-          </button> -->
-          
-          <button mat-raised-button matTreeNodeToggle [matBadge]="node.length.length">
-            <!-- <span [ngClass]="'flags flags-category flags--sm flags--' "></span> -->
-            <img [src]="'https://www.sofascore.com/u-tournament/' + node.length[0].tournament.uniqueId +'/logo'" alt="" class="img--x18 u-pH8 u-va-mid" style="max-width: 34px;">
-            {{node.length[0].tournament.uniqueId}}
-            {{node.name}} 
-        </button> </mat-tree-node>
-      </mat-tree>
-
-     <!-- <li *ngFor="let tur of grupCategory">
-        {{tur.name}} 
-        <ol *ngFor="let s of tur.values">
-          {{s.tournament.name}} - ID: {{s.tournament.id}}  - {{s.events.length}} <button  [ngStyle]="{'color':existMatchButton(s.tournament.id)}" (click)="addID(s.tournament.id)">id</button>
-       </ol>
-      </li> -->
-    </mat-expansion-panel>
-    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-    </mat-expansion-panel>
-  </mat-accordion>
     <div *ngIf="messageEvent.length !== 0" class="alert alert-info" role="alert">
         <strong>Heads up!</strong>      {{messageEvent}}
       </div>

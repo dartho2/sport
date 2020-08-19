@@ -117,10 +117,14 @@
                 </mat-icon>
               </button> -->
               
-              <button mat-raised-button matTreeNodeToggle [matBadge]="node.length.length">
+              <button class="button-full-width" mat-raised-button matTreeNodeToggle [matBadge]="node.length.length">
                 <!-- <span [ngClass]="'flags flags-category flags--sm flags--' "></span> -->
-                <img [src]="'https://www.sofascore.com/u-tournament/' + node.length[0].tournament.uniqueId +'/logo'" alt="" class="img--x18 u-pH8 u-va-mid" style="max-width: 34px;">
-                {{node.length[0].tournament.uniqueId}}
+              
+                    <span [ngClass]="'flags flags-category flags--sm flags--' + node.length[0].category.flag"></span>
+                <!-- <img [src]="'https://www.sofascore.com/u-tournament/' + node.length[0].tournament.uniqueId +'/logo'" alt="" class="img--x18 u-pH8 u-va-mid" style="max-width: 34px;"> -->
+              
+           
+               
                 {{node.name}} 
             </button> </mat-tree-node>
           </mat-tree>

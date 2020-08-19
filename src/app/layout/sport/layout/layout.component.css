@@ -65,3 +65,16 @@
   .mat-toolbar-row, .mat-toolbar-single-row {
     height: 60px !important;
   }
+  .button-full-width{
+    width:100%;
+  }
+  ::ng-deep .mat-raised-button {
+    text-align: left !important;
+    padding: 0px !important;
+  }
+  ::ng-deep .mat-badge-medium.mat-badge-above .mat-badge-content {
+    top: 7px !important;
+}
+::ng-deep .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+  right: 5px !important;
+}

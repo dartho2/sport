@@ -39,26 +39,7 @@ export interface PeriodicElement {
   choice: string;
 }
 const ELEMENT_DATA: PeriodicElement[] = [];
-interface CategoryMatches {
-  name: string;
-  count: number;
-  tournament?: CategoryMatchesTree[],
-  values?: CategoryMatches[];
-}
-interface CategoryMatchesTree {
-  name: string;
-  count: number;
-}
-//  TREE BEGIN 
-const TREE_DATA: CategoryMatches[] = [];
 
-/** Flat node with expandable and level information */
-interface CategoryMatchesFlat {
-  expandable: boolean;
-  name: string;
-  count: any;
-  level: number;
-}
 //  TREE END
 @Component({
   selector: 'app-analystic-list',
@@ -68,24 +49,7 @@ interface CategoryMatchesFlat {
 })
 export class AnalysticListComponent implements OnInit, AfterViewInit {
   // BEGIN TREE
-  private _transformer = (node: CategoryMatches, level: number) => {
-    return {
-      expandable: !!node.values && node.values.length > 0,
-      name: node.name,
-      length: node.values,
-      count: node,
-      tournament: node.tournament,
-      level: level,
-    };
-  }
-
-  treeControl = new FlatTreeControl<CategoryMatchesFlat>(
-      node => node.level, node => node.expandable);
-
-  treeFlattener = new MatTreeFlattener(
-      this._transformer, node => node.level, node => node.expandable, node => node.values);
-
-  dataSourceMatches = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+ 
   // END TREE
 
   displayedColumns: string[] = ['type'];
@@ -188,8 +152,9 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
      private changeDetectorRef: ChangeDetectorRef, 
         private media: MediaMatcher) {
     this.myNewDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.headerService.changeLique(this.ligueId)
     this.stringData = +new Date()
-    this.dataSourceMatches.data = this.grupCategory;
+  
     this.myDate = new Date();
     this.myDate.setDate(this.myDate.getDate());
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
@@ -205,7 +170,6 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     // this.getMatches();
     this.formbuilder();
   }
-  hasChild = (_: number, node: CategoryMatchesFlat) => node.expandable;
   checkState(el, type, con) {
     setTimeout(() => {
       if (this.currentCheckedValue && this.currentCheckedValue === el.value) {
@@ -345,11 +309,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
           })
         }
       })
-      console.log(this.dataSourceMatches.data)
-      this.dataSourceMatches.data = this.grupCategory;
+
       
       // Dodanie do layout filtrowania
-      console.log("zmiana")
+  
       
 this.headerService.changeGroup(this.grupCategory)
 // this.headerService.filter.next()
@@ -544,7 +507,6 @@ this.headerService.changeGroup(this.grupCategory)
                         this.returnCost = (((2 * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * 2 // stawka 2 
                       }
                      
-                      console.log(this.myForm.value, events,this.myForm.value.events.filter(x=> x.idEvent === events.id).length)
                       if((this.myForm.value.events.filter(x=> x.idEvent === events.id)).length === 0){
         
                      
@@ -720,22 +682,7 @@ this.headerService.changeGroup(this.grupCategory)
     //   return this.awayYellow
     // }
   }
-  addID(id) {
-    const index = this.ligueId.indexOf(id);
-    if (index > -1) {
-      this.ligueId.splice(index, 1);
-      // console.log(this.myForm)
-      // this.formbuilder()
-  
-      this.getMatches()
-    } else {
-      this.ligueId.push(id) 
-      // this.formbuilder()
-      this.getMatches()
-    }
 
-    
-  }
   onWinhange(price) {
     this.returnCost = (((price * this.voteWinAVG) * this.indexWin) / 1.14) - (this.totalWinTotal) * price
   }
@@ -1022,9 +969,12 @@ this.headerService.changeGroup(this.grupCategory)
 
   }
   ngAfterViewInit(): void {
-    console.log("ladowanie")
     this.changeDetectorRef.detectChanges();
     this.myForm.patchValue({'type':'0'})
+    this.headerService.lique.subscribe((event: any) => {
+     this.ligueId = event
+     this.getMatches();
+    })
     this.headerService.subject.subscribe((event: any) => {
 if(event.last !== undefined){
   var lastDeleted = this.eventss.value.findIndex(x=> x.idEvent === event.last.idEvent)
