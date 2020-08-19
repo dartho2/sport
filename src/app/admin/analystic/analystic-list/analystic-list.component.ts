@@ -832,6 +832,9 @@ this.headerService.changeGroup(this.grupCategory)
           stawka *= parseFloat(x.votX)
         }
       }
+      if(x.data){
+        x.data = ""
+      }
     })
     this.dateEventsBet.rate = stawka.toFixed(2)
     this.dateEventsBet.date =  this.myNewDate 
