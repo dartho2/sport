@@ -6,15 +6,54 @@ import { SharedService } from '../../../admin/shared/shared.service';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { HeaderService } from './layout.service';
+import {FlatTreeControl} from '@angular/cdk/tree';
+import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+interface CategoryMatches {
+  name: string;
+  count: number;
+  tournament?: CategoryMatchesTree[],
+  values?: CategoryMatches[];
+}
+interface CategoryMatchesTree {
+  name: string;
+  count: number;
+}
+//  TREE BEGIN 
+const TREE_DATA: CategoryMatches[] = [];
 
-
+/** Flat node with expandable and level information */
+interface CategoryMatchesFlat {
+  expandable: boolean;
+  name: string;
+  count: any;
+  level: number;
+}
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
+// BEGIN TREE
+private _transformer = (node: CategoryMatches, level: number) => {
+  return {
+    expandable: !!node.values && node.values.length > 0,
+    name: node.name,
+    length: node.values,
+    count: node,
+    tournament: node.tournament,
+    level: level,
+  };
+}
 
+treeControl = new FlatTreeControl<CategoryMatchesFlat>(
+    node => node.level, node => node.expandable);
+
+treeFlattener = new MatTreeFlattener(
+    this._transformer, node => node.level, node => node.expandable, node => node.values);
+
+dataSourceMatches = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+// END TREE
   private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
     showSpinner: boolean;
@@ -22,18 +61,22 @@ export class LayoutComponent implements OnInit {
     mymodel;
     votePrice = 1;
     eventNumber: number;
+    filterDataGroup: any;
     betAllRateResult: any = null;
     private autoLogoutSubscription: Subscription;
     dateEventsBet: any = null;
 
     constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router,
         private media: MediaMatcher,private headerService: HeaderService) {
-
+        this.dataSourceMatches.data = TREE_DATA;
         this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addListener(this._mobileQueryListener);
+        this.headerService.filter.subscribe((filter :any) => {
+          this.dataSourceMatches.data = filter;
+        })
     }
-
+    hasChild = (_: number, node: CategoryMatchesFlat) => node.expandable;
     ngOnInit(): void {
 
     }
@@ -66,11 +109,16 @@ export class LayoutComponent implements OnInit {
         this.mobileQuery.removeListener(this._mobileQueryListener);
   
     }
+    existMatchButton(bet){
+      
+    }
     deleted(index, bet){
       this.dateEventsBet.events.splice(index, 1)
       this.checkPriceTotal()
       this.eventNumber = this.dateEventsBet.events.length
-      this.headerService.subject.next({events: this.dateEventsBet.events, last: bet});
+      this.headerService.subject.next({status: 70,
+        statusChanged: 2,
+        statusEvent: 2, events: this.dateEventsBet.events, last: bet});
     }
     checkPriceTotal(){
       this.votePrice = 1
@@ -78,7 +126,11 @@ export class LayoutComponent implements OnInit {
     }
     ngAfterViewInit(): void {
         this.changeDetectorRef.detectChanges();
+        this.headerService.filter.subscribe((filter :any) => {
+          this.dataSourceMatches.data = filter;
+        })
         this.headerService.subject.subscribe((event: any) => {
+
           this.dateEventsBet = event;
           this.checkPriceTotal()
          this.eventNumber = this.dateEventsBet.events.length

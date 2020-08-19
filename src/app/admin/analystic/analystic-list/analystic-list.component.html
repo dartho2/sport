@@ -134,6 +134,7 @@
         <!-- This is the tree node template for leaf nodes -->
         <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
           <!-- use a disabled button to provide padding for tree leaf -->
+         
           <button mat-icon-button disabled></button>
           {{node.count.tournament.name}}
           <button  [ngStyle]="{'color':existMatchButton(node.count.tournament.id)}" (click)="addID(node.count.tournament.id)">{{node.count.tournament.id}}</button>
@@ -149,7 +150,10 @@
           </button> -->
           
           <button mat-raised-button matTreeNodeToggle [matBadge]="node.length.length">
-            {{node.name}}
+            <!-- <span [ngClass]="'flags flags-category flags--sm flags--' "></span> -->
+            <img [src]="'https://www.sofascore.com/u-tournament/' + node.length[0].tournament.uniqueId +'/logo'" alt="" class="img--x18 u-pH8 u-va-mid" style="max-width: 34px;">
+            {{node.length[0].tournament.uniqueId}}
+            {{node.name}} 
         </button> </mat-tree-node>
       </mat-tree>
 
@@ -219,17 +223,17 @@
                 <!-- Begin Wygrane away/home -->
                     <div class="progress">
                       <div class="progress-bar win1" role="progressbar"
-                        [ngStyle]="{'width': ((myForm.value.events[i].standingsWinHome + myForm.value.events[i].standingsLosseAway)*100)/(myForm.value.events[i].standingsWinHome + myForm.value.events[i].standingsLosseAway +myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway + myForm.value.events[i].standingsLosseHome + myForm.value.events[i].standingsWinAway) +'%'}"
+                        [ngStyle]="{'width': ((myForm.value.events[i].data.standingsWinHome + myForm.value.events[i].data.standingsLosseAway)*100)/(myForm.value.events[i].data.standingsWinHome + myForm.value.events[i].data.standingsLosseAway +myForm.value.events[i].data.standingsDrawHome + myForm.value.events[i].data.standingsDrawAway + myForm.value.events[i].data.standingsLosseHome + myForm.value.events[i].data.standingsWinAway) +'%'}"
                         aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                        {{myForm.value.events[i].standingsWinHome +  myForm.value.events[i].standingsLosseAway   }}</div>
+                        {{myForm.value.events[i].data.standingsWinHome +  myForm.value.events[i].data.standingsLosseAway   }}</div>
                       <div class="progress-bar winX" role="progressbar"
-                        [ngStyle]="{'width': ((myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway)*100)/(myForm.value.events[i].standingsWinHome + myForm.value.events[i].standingsLosseAway +myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway + myForm.value.events[i].standingsLosseHome + myForm.value.events[i].standingsWinAway) +'%'}"
+                        [ngStyle]="{'width': ((myForm.value.events[i].data.standingsDrawHome + myForm.value.events[i].data.standingsDrawAway)*100)/(myForm.value.events[i].data.standingsWinHome + myForm.value.events[i].data.standingsLosseAway +myForm.value.events[i].data.standingsDrawHome + myForm.value.events[i].data.standingsDrawAway + myForm.value.events[i].data.standingsLosseHome + myForm.value.events[i].data.standingsWinAway) +'%'}"
                         aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
-                        {{myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway }}</div>
+                        {{myForm.value.events[i].data.standingsDrawHome + myForm.value.events[i].data.standingsDrawAway }}</div>
                       <div class="progress-bar win2" role="progressbar"
-                        [ngStyle]="{'width': ((myForm.value.events[i].standingsLosseHome + myForm.value.events[i].standingsWinAway)*100)/(myForm.value.events[i].standingsWinHome + myForm.value.events[i].standingsLosseAway +myForm.value.events[i].standingsDrawHome + myForm.value.events[i].standingsDrawAway + myForm.value.events[i].standingsLosseHome + myForm.value.events[i].standingsWinAway) + '%'}"
+                        [ngStyle]="{'width': ((myForm.value.events[i].data.standingsLosseHome + myForm.value.events[i].data.standingsWinAway)*100)/(myForm.value.events[i].data.standingsWinHome + myForm.value.events[i].data.standingsLosseAway +myForm.value.events[i].data.standingsDrawHome + myForm.value.events[i].data.standingsDrawAway + myForm.value.events[i].data.standingsLosseHome + myForm.value.events[i].data.standingsWinAway) + '%'}"
                         aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                        {{myForm.value.events[i].standingsWinAway + myForm.value.events[i].standingsLosseHome  }}</div>
+                        {{myForm.value.events[i].data.standingsWinAway + myForm.value.events[i].data.standingsLosseHome  }}</div>
                     </div>
                     <!-- END WIN AWAY/HOME -->
                     <!-- BEGIN AVG RATING -->

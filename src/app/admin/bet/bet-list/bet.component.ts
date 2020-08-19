@@ -67,7 +67,8 @@ export class BetComponent implements OnInit {
                   if(ev.statusChanged === 0) {
                     ev.rate = ''
                   }
-                this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
+                  console.log(ev, even)
+                // this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
               }
               // ev.statusWin = this.statusEvent(t.winers)
               // ev.statusWin = this.statusEvent(ev.winers)

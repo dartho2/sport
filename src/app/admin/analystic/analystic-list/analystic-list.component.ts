@@ -323,9 +323,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     var filterTur: any = [];
     this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
       this.turnament = res
-
+      console.log(this.turnament)
       // BEGIN GRUPOWANIE MECZY
       var groups = new Set(this.turnament.map((item: any) => item.category.name))
+      this.grupCategory = []
       groups.forEach(g => {
         filterTur = this.turnament.filter((i: any) => i.category.name === g)
         for (var i = this.turnament.length - 1; i >= 0; --i) {
@@ -344,7 +345,16 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
           })
         }
       })
+      console.log(this.dataSourceMatches.data)
       this.dataSourceMatches.data = this.grupCategory;
+      
+      // Dodanie do layout filtrowania
+      console.log("zmiana")
+      
+this.headerService.changeGroup(this.grupCategory)
+// this.headerService.filter.next()
+// this.headerService.filter.next(this.grupCategory)
+      // END filtrowanie
       //  END Grupowanie meczy
 
       this.controlEvent = 0
@@ -922,10 +932,10 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     this.chance = this.chance + amount
   }
   addBet(bet) {
-    this.headerService.subject.subscribe((x: any)=>{ 
+    // this.headerService.subject.subscribe((x: any)=>{ 
       
-      this.dateEventsBet = x
-    })
+    //   this.dateEventsBet = x
+    // })
     bet.events.forEach(element => {
       if (element.type.includes("3")) {
         element.type = element.type.replace("3", "0")
@@ -1012,14 +1022,13 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit(): void {
+    console.log("ladowanie")
     this.changeDetectorRef.detectChanges();
     this.myForm.patchValue({'type':'0'})
     this.headerService.subject.subscribe((event: any) => {
-console.log(this.myForm.controls.events, event, "eeeeeeeeee")
 if(event.last !== undefined){
   var lastDeleted = this.eventss.value.findIndex(x=> x.idEvent === event.last.idEvent)
   // lastDeleted.type= ""
-  console.log(lastDeleted, "dd")
   event.last = undefined
   this.eventss.at(lastDeleted).patchValue({ type: "" });
  

@@ -1,5 +1,5 @@
-<div class="navbar-container" [class.example-is-mobile]="mobileQuery.matches">
 
+<div class="navbar-container" [class.example-is-mobile]="mobileQuery.matches">
     <!-- Top navbar -->
     <mat-toolbar class="navbar" color="primary">
   
@@ -98,6 +98,32 @@
           <mat-divider></mat-divider>
   
           <h3 mat-subheader>Resources</h3>
+          <mat-tree [dataSource]="dataSourceMatches" [treeControl]="treeControl">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+              <!-- use a disabled button to provide padding for tree leaf -->
+             
+              <button mat-icon-button disabled></button>
+              {{node.count.tournament.name}}
+              <button  [ngStyle]="{'color':existMatchButton(node.count.tournament.id)}" (click)="addID(node.count.tournament.id)">{{node.count.tournament.id}}</button>
+           
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+              <!-- <button mat-icon-button matTreeNodeToggle
+                      [attr.aria-label]="'toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button> -->
+              
+              <button mat-raised-button matTreeNodeToggle [matBadge]="node.length.length">
+                <!-- <span [ngClass]="'flags flags-category flags--sm flags--' "></span> -->
+                <img [src]="'https://www.sofascore.com/u-tournament/' + node.length[0].tournament.uniqueId +'/logo'" alt="" class="img--x18 u-pH8 u-va-mid" style="max-width: 34px;">
+                {{node.length[0].tournament.uniqueId}}
+                {{node.name}} 
+            </button> </mat-tree-node>
+          </mat-tree>
           <a mat-list-item routerLink="/dish">
             <mat-icon mat-list-icon>exit_to_app</mat-icon>
             <p mat-line> Log out </p>
