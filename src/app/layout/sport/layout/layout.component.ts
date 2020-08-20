@@ -116,7 +116,7 @@ export class LayoutComponent implements OnInit {
   }
   existMatchButton(id) {
     if (this.liqueId.indexOf(id) === -1) {
-      return "color: rgba(0,0,0,.87);"
+      return "red"
     } else {
       return "blue"
     }

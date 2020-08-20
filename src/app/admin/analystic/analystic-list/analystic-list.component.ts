@@ -190,11 +190,12 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   formbuilder() {
     this.myForm = this._fb.group({
       date: new FormControl(''),
-      events: this._fb.array([
-              ])
+      events: this._fb.array([])
 
     })
   }
+ 
+
   // get name() { return this.myForm.get('name'); }
   get eventss() { return this.myForm.get('events') as FormArray }
 
@@ -226,8 +227,19 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     exportData.exportToExcel("ExampleTable");
   }
   setCities(events, turnament) {
+    console.log(this.dateEventsBet)
+    var existsOnBet = this.dateEventsBet.events.find(x=>x.name === events.name)
+   if(existsOnBet){
+     if( existsOnBet.type === "0"){
+      events.type = "3"
+     }else{
+events.type = existsOnBet.type
+     }
+     
+   } 
     let control = <FormArray>this.myForm.controls.events;
-
+    console.log(this.myForm)
+    console.log(control)
     control.push(this._fb.group({
       name: [events.name ? events.name : ''],
       type: [events.type ? events.type : ''],
@@ -295,6 +307,15 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
     });
   }
   getMatches() {
+
+// ((this.myForm.get('events') as FormArray).at(0) as FormGroup).patchValue({type: "1"});  
+  // control.push(this.patchValues(x.label, x.value))
+
+    // this.dateEventsBet.events.forEach(eventFind=>{
+    //   console.log(eventFind.name, this.myForm.value, this.eventss[0])
+    //   console.log(this.eventss.value.find(x=> x.name === eventFind.name))
+    // })
+    
     this.matchData = [];
     var filterTur: any = [];
     this.analysticService.getAnalystict(this.formattedDate).pipe(map(res => {
@@ -556,6 +577,7 @@ this.headerService.changeGroup(this.grupCategory)
           // this.messageEvent = "brak Danych do pokazania";
           // })
         }
+        
       })
    
       this.dataSource = new MatTableDataSource(this.matchData); //RESET Data if 0 EVENT
@@ -831,6 +853,15 @@ this.headerService.changeGroup(this.grupCategory)
         if (x.type === "0") {
           stawka *= parseFloat(x.votX)
         }
+        if (x.type === "10") {
+          stawka *= parseFloat(x.vot1_d)
+        }
+        if (x.type === "12") {
+          stawka *= parseFloat(x.votX_d)
+        }
+        if (x.type === "02") {
+          stawka *= parseFloat(x.vot2_d)
+        }
       }
       if(x.data){
         x.data = ""
@@ -865,8 +896,6 @@ this.headerService.changeGroup(this.grupCategory)
   }
   onSearchChange(data) {
     this.mymodel = formatDate(data, this.format, 'en')
-    this.formbuilder()
-    this.myForm.reset();
     this.voteWinAVG = 0;
     this.matchData = [];
     this.voteWinValue = [];
@@ -879,8 +908,10 @@ this.headerService.changeGroup(this.grupCategory)
     data.setDate(data.getDate());
     this.formattedDate = formatDate(data, this.format, 'en');
     this.stringData = this.formattedDate
-
+    this.formbuilder()
+    this.myForm.reset();
     this.getMatches();
+  
   }
   calculateValueChance(value) {
 
@@ -899,8 +930,9 @@ this.headerService.changeGroup(this.grupCategory)
     //   this.dateEventsBet = x
     // })
     bet.events.forEach(element => {
-      if (element.type === "3") {
-        element.type = "0"
+      if (element.type.includes("3")) {
+        element.type = element.type.replace(3,"0");
+        // element.type = "0"
       }
       const a = this.dateEventsBet.events.find(x => x.name === element.name)
       if (a) {
