@@ -127,12 +127,12 @@ export class GraphicsListComponent implements OnInit {
       this.checkGraphicExists()
 
     });
-
     this.myForm = this._fb.group({
       date: new FormControl(''),
       items:
         this._fb.array([this._fb.control([])])
     })
+    this.chosenYearHandler(moment(new Date()))
     this.dataSource = this.rowGraphic
   }
   createListWork(user){

@@ -27,11 +27,11 @@
     </button>
     <mat-menu #userMenu="matMenu" xPosition="before" yPosition="above" [overlapTrigger]="false">
       <a mat-menu-item [routerLink]="['/settings'+'/worker']">
-        <mat-icon>person</mat-icon>
+        <mat-icon>settings</mat-icon>
         <span>Settings</span>
       </a>
       <a mat-menu-item [routerLink]="['/analystic/list']">
-        <mat-icon>person</mat-icon>
+        <mat-icon>analytics</mat-icon>
         <span>Analystic</span>
       </a>
 
@@ -53,54 +53,41 @@
         <h3 mat-subheader>Home</h3>
 
         <a mat-list-item [routerLinkActive]="'is-active'" [routerLink]="['/products']">
-          <mat-icon class="fas fa-apple-alt fa-lg fa-fw sidebar-icon" matListIcon></mat-icon>
-          <p mat-line> Products </p>
+          <mat-icon mat-list-icon>
+            restaurant 
+          </mat-icon>
+          <p mat-line> Produkty </p>
         </a>
 
         <a mat-list-item [routerLinkActive]="'is-active'" [routerLink]="['/dish']">
-          <mat-icon class="fas fa-apple-alt fa-lg fa-fw sidebar-icon" matListIcon></mat-icon>
-          <p mat-line> Dish </p>
+          <mat-icon mat-list-icon>
+            food_bank 
+          </mat-icon> <p mat-line> Dania </p>
         </a>
 
         <a mat-list-item [routerLinkActive]="'is-active'" [routerLink]="['/recipe/list']">
-          <mat-icon class="fas fa-apple-alt fa-lg fa-fw sidebar-icon" matListIcon></mat-icon>
-          <p mat-line> Recipe </p>
+          <mat-icon mat-list-icon>
+            receipt 
+          </mat-icon> <p mat-line> Receptury </p>
         </a>
 
         <a mat-list-item [routerLinkActive]="'is-active'" [routerLink]="['/semiproduct/list']">
-          <mat-icon class="fas fa-apple-alt fa-lg fa-fw sidebar-icon" matListIcon></mat-icon>
-          <p mat-line> PółProdukty </p>
+          <mat-icon mat-list-icon>
+            fastfood 
+          </mat-icon>
+          <p mat-line> Półprodukty </p>
         </a>
 
         <a mat-list-item [routerLinkActive]="'is-active'" [routerLink]="['/graphics/list']">
-          <mat-icon class="far fa-calendar-check fa-lg fa-fw sidebar-icon" matListIcon></mat-icon>
-          <p mat-line> Grafik </p>
-          <svg aria-hidden="true" data-prefix="fac" data-icon="pro" role="img" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 640 512" class="absolute center-a z-3 svg-inline--fa fa-pro fa-w-20 fa-lg">
-            <defs class="">
-              <clipPath id="clip-s6I8nfZNryTB" class="">
-                <path fill="currentColor"
-                  d="M640,80v352c0,26.5-21.5,48-48,48H48c-26.5,0-48-21.5-48-48V80c0-26.5,21.5-48,48-48h544C618.5,32,640,53.5,640,80z"
-                  class=""></path>
-              </clipPath>
-              <mask x="0" y="0" width="100%" height="100%" id="mask-MDXSanoHCKmb" maskUnits="userSpaceOnUse"
-                maskContentUnits="userSpaceOnUse" class="">
-                <rect x="0" y="0" width="100%" height="100%" fill="white" class=""></rect>
-                <g transform="translate(320 256)" class="">
-                  <g transform="translate(0, 0)  scale(0.6875, 0.6875)  rotate(0 0 0)" class="">
-                    <path fill="black"
-                      d="M101.8,140H21.3C7.4,140,0,147.1,0,161v190c0,13.6,7.4,21,21.3,21h25.9c13.9,0,21-7.4,21-21v-43.9h33.6 c46.5,0,77.2-35.9,77.2-84C179,175.2,148.3,140,101.8,140z M87.2,248.9H68.2v-50.7h20.4c14.9,0,21.3,10.7,21.3,24.9 C109.9,237.3,103.4,248.9,87.2,248.9z M383.6,346.8l-29.1-51.7c-5.2-9-10.3-14.9-10.3-14.9v-0.6c22.6-13.9,32.3-41.4,32.3-65 c0-34.3-19.4-61.1-45.6-69.8c-10.3-3.6-24.9-4.8-46.2-4.8h-63c-13.9,0-21.3,7.1-21.3,21v190c0,13.6,7.4,21,21.3,21h25.9 c13.9,0,21-7.4,21-21v-50.4h16.2l29.4,56.5c5.8,11,14.9,14.9,24.9,14.9H369C384.5,372,392.6,363,383.6,346.8z M283.1,242.4h-14.5 v-44.3h10.3c7.4,0,12.9,0.3,18.1,2.6c9.4,3.9,10.3,11,10.3,17.1C307.3,235.3,299.2,242.4,283.1,242.4z M522.1,140 c-71.2,0-118.4,50.3-118.4,114.6c0,65.9,47.2,117.4,118.4,117.4c71.2,0,118.7-51.5,118.7-117.4C640.8,190.3,593.3,140,522.1,140z M522.1,312.1c-29.7,0-50.3-24.7-50.3-57.5c0-31.2,20.6-54.7,50.3-54.7c30,0,50.6,23.4,50.6,54.7 C572.7,287.4,552.1,312.1,522.1,312.1z"
-                      transform="translate(-320 -256)" class=""></path>
-                  </g>
-                </g>
-              </mask>
-            </defs>
-            <rect fill="currentColor" clip-path="url(#clip-s6I8nfZNryTB)" mask="url(#mask-MDXSanoHCKmb)" x="0" y="0"
-              width="100%" height="100%" class=""></rect>
-          </svg>
+          <mat-icon mat-list-icon>
+            event 
+          </mat-icon>
+           <p mat-line> Grafik </p>
         </a>
         <a mat-list-item [routerLinkActive]="'is-active'" [routerLink]="['/calendar']">
-          <mat-icon class="fas fa-concierge-bell fa-lg fa-fw sidebar-icon" matListIcon></mat-icon>
+         <mat-icon mat-list-icon>
+          calendar_today
+         </mat-icon>
           <p mat-line> calendar </p>
         </a>
 
@@ -110,14 +97,14 @@
 
         <a mat-list-item [routerLinkActive]="'is-active'" [routerLink]="['/bet']" routerLinkActive="active">
           <mat-icon mat-list-icon>
-            dashboard
+            monetization_on
           </mat-icon>
           <p mat-line> Bet </p>
         </a>
 
 
         <a mat-list-item [routerLinkActive]="'is-active'" [routerLink]="['/analystic/list']">
-          <mat-icon mat-list-icon>person</mat-icon>
+          <mat-icon mat-list-icon>analytics</mat-icon>
           <p mat-line> Analystic </p>
         </a>
         <a mat-list-item routerLink="/dish">
