@@ -1026,6 +1026,7 @@ if(event.last !== undefined){
   var lastDeleted = this.eventss.value.findIndex(x=> x.idEvent === event.last.idEvent)
   // lastDeleted.type= ""
   event.last = undefined
+  console.log(this.eventss , lastDeleted, event.last)
   this.eventss.at(lastDeleted).patchValue({ type: "" });
  
 }

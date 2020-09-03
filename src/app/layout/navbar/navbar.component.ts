@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, OnDestroy, AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import {
   BreakpointObserver,
   Breakpoints,
@@ -8,8 +8,12 @@ import { Observable, Subscription } from 'rxjs';
 import { map, first } from 'rxjs/operators';
 import { AuthenticationService, UserService } from 'src/app/_services';
 import { User, Role } from '../../_models';
-import { Router, ActivatedRoute , ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 @Component({
   selector: 'app-navbar',
@@ -17,54 +21,80 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  // BEGIN TREE
+
   @ViewChild('drawer') drawer: any;
+  private _mobileQueryListener: () => void;
+  mobileQuery: MediaQueryList;
+  showSpinner: boolean;
+  format = 'yyyy-MM-dd';
+  mymodel;
+  votePrice = 1;
+  eventNumber: number;
+  filterDataGroup: any;
+  betAllRateResult: any = null;
+  private autoLogoutSubscription: Subscription;
+  dateEventsBet: any = null;
+  liqueId = [];
   status: boolean = false;
   loading = false;
   currentUser: User;
-  mymodel;
   userFromApi: User;
   activated: boolean;
-  format = 'yyyy-MM-dd';
   public selectedItem: string = '';
   userSubscription: Subscription;
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(map((result: BreakpointState) => result.matches));
 
-  constructor(private breakpointObserver: BreakpointObserver, private route: ActivatedRoute , private router: Router,private userService: UserService,
-    private authenticationService: AuthenticationService) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private router: Router,
+    private media: MediaMatcher, private userService: UserService, private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-  //   this.route.paramMap.subscribe((paramMap: ParamMap) => {
-  // })
-}
+    this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+
+  }
   get isAdmin() {
     return this.currentUser && this.currentUser.role === Role.Admin;
   }
-  closeSideNav() {
-    if (this.drawer._mode == 'over') {
-      this.drawer.close();
-    }
-  }
-  onSearchChangeParam(data) {
-    this.router.navigate(['analystic/list/', formatDate(data, this.format, 'en')])
-  }
-  toogleNav() {
-    this.status = !this.status;
-  }
-  ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('data'))
+  ngOnInit(): void {
     this.loading = true;
     this.userService.getById(this.currentUser.id).pipe(first()).subscribe(user => {
       this.loading = false;
       this.userFromApi = user;
     });
   }
-  ngAfterViewInit() {
-    console.log("aaax")
+
+  onSearchChangeParam(data) {
+    this.router.navigate(['analystic/list/', formatDate(data, this.format, 'en')])
+  }
+  ngOnDestroy(): void {
+    // tslint:disable-next-line: deprecation
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+
+  }
+  existMatchButton(id) {
+    if (this.liqueId.indexOf(id) === -1) {
+      return "red"
+    } else {
+      return "blue"
+    }
+  }
+
+
+  checkPriceTotal() {
+    this.votePrice = 1
+    this.dateEventsBet.events.forEach(x => { this.votePrice *= x.votePrice })
+  }
+  ngAfterViewInit(): void {
+    this.changeDetectorRef.detectChanges();
+
   }
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
-}
+  }
+
 }
 
