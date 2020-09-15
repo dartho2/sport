@@ -14,7 +14,7 @@ export class AnalysticService {
     constructor(private _http: HttpClient, private router: Router) { }
 
     getAnalystict(data): Observable<Analystic[]> {
-        return this._http.get<Analystic[]>("https://karmazdrowia.pl:8080/api/analystic/" + data);
+        return this._http.get<Analystic[]>("https://www.sofascore.com/football//" +data+ "/json?");
       }
       getMatches(turnament, season){
         return this._http.get<any>('https://karmazdrowia.pl:8080/api/standings/' + turnament +'/'+ season)

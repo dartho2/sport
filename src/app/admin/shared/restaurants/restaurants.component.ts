@@ -64,6 +64,11 @@ export class RestaurantsComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.bodyForm)
+    this.restaurantService.createRestaurant(this.bodyForm.value.itemsres).subscribe(res=>{
+      this.notification.success("Success. Create")
+      console.log("add")
+    })
     this.notification.error("Brak zaimplementowanej logiki do obsługi zapisu");
   }
 }
