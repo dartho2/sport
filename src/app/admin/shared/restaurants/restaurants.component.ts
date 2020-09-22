@@ -59,13 +59,14 @@ export class RestaurantsComponent implements OnInit {
     return this.bodyForm = this._fb.group({
       itemsres: this._fb.array(
         this.getUsers(user.itemsres)
-      )
+      ),
+      id: user._id
     })
   }
 
   onSubmit() {
     console.log(this.bodyForm)
-    this.restaurantService.createRestaurant(this.bodyForm.value.itemsres).subscribe(res=>{
+    this.restaurantService.createRestaurant(this.bodyForm.value, this.bodyForm.value.id ).subscribe(res=>{
       this.notification.success("Success. Create")
       console.log("add")
     })
