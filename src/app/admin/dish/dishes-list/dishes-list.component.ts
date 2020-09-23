@@ -5,6 +5,7 @@ import { Dish } from '../../dish/dish.model';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import * as _ from 'lodash';
 import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
+import { RestaurantService } from '../../shared/restaurants/restaurants.service';
 export interface DialogData {
 }
 
@@ -19,14 +20,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   buttonTable: any;
   checked= true;
   dishData;
-  valueRe: any[] = [
-    {value: 'Yapito', name: 'Yapito'},
-    {value: 'Sushi 1', name: 'Sushi 1'},
-    {value: 'Sushi 2', name: 'Sushi 2'},
-    {value: 'Sushi point', name: 'Sushi point'},
-    {value: 'Brak', name: 'Brak'},
-    {value: 'All', name: 'All'}
-  ];
+  valueRe;
   filDish ="Hosomaki";
   dataSource = new MatTableDataSource(this.dishData);
   displayedColumns: string[] = [
@@ -47,7 +41,11 @@ export class DishesListComponent implements AfterViewInit, OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute, private dishService: DishServices, private notification: NotificationService) { 
+  constructor(public dialog: MatDialog,private restaurantService: RestaurantService, private route: ActivatedRoute, private dishService: DishServices, private notification: NotificationService) { 
+    this.restaurantService.getRestaurant().subscribe(response=>{
+      this.valueRe  = response
+      
+  })
     this.dishService.getDish().subscribe(response => {
       this.dish = response
       this.dishData = this.dish;
@@ -75,8 +73,8 @@ export class DishesListComponent implements AfterViewInit, OnInit {
       this.buttonTable = a
     }
   ngOnInit() {
+  
   }
-
   dishDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.dishService.deleteDish(id).subscribe(() => {

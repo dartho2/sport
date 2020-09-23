@@ -7,6 +7,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
+import { RestaurantService } from '../../shared/restaurants/restaurants.service';
 export interface DialogData {
   foodCost: '';
 }
@@ -37,13 +38,7 @@ export class DishesCreateComponent implements OnInit {
   productMargin;
   controlButton = 0;
   mode;
-  valueRe: any[] = [
-    {value: 'Yapito', name: 'Yapito'},
-    {value: 'Sushi 1', name: 'Sushi 1'},
-    {value: 'Sushi 2', name: 'Sushi 2'},
-    {value: 'Sushi point', name: 'Sushi point'}, 
-    {value: 'Brak', name: 'Brak'}
-  ];
+  valueRe;
   data = {
     products: [
       {
@@ -63,7 +58,11 @@ export class DishesCreateComponent implements OnInit {
   coating: any;
   dishId: string;
 
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private notification: NotificationService, private dishService: DishServices, public dialog: MatDialog) {
+  constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, private route: ActivatedRoute, private router: Router, private productService: ProductService, private notification: NotificationService, private dishService: DishServices, public dialog: MatDialog) {
+    this.restaurantService.getRestaurant().subscribe(response=>{
+      this.valueRe  = response
+      
+  })
     this.productService.getProduct().subscribe(response => {
       this.product = response
       this.options = this.product

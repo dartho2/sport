@@ -64,8 +64,10 @@
     </mat-form-field>
      <mat-form-field class="example-full-width">
         <mat-select placeholder="restauracja" (selectionChange)="onChange($event.value)">
-         <mat-option *ngFor="let restaurant of valueRe" [value]="restaurant.value">{{restaurant.name}}</mat-option>
-       </mat-select>
+          <!-- Do poprawy -->
+         <mat-option *ngFor="let restaurant of valueRe[0].itemsres" [value]="restaurant.value">{{restaurant.name}}</mat-option>
+ <!-- Do poprawy up -->
+        </mat-select>
      </mat-form-field>
 
     <table id="ExampleTable" mat-table [dataSource]="dataSource" matSort class="table-responsive table mat-elevation-z8">

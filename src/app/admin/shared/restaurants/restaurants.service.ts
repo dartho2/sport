@@ -15,7 +15,10 @@ export class RestaurantService {
         return this._http.get<Restaurant[]>("https://karmazdrowia.pl:8080/api/restaurants");
      }
       createRestaurant(bodyRestaurant, id) {
-        return this._http.post<Restaurant[]>("https://karmazdrowia.pl:8080/api/restaurants/" + id, bodyRestaurant);
+        return this._http.post<Restaurant[]>("https://karmazdrowia.pl:8080/api/restaurants", bodyRestaurant);
+      }
+      updateRestaurantId(bodyRestaurant, id) {
+        return this._http.post<Restaurant[]>("https://karmazdrowia.pl:8080/api/restaurants/" +id, bodyRestaurant);
       }
       getRestaurantID(id: string) {
         return this._http.get<Restaurant>("https://karmazdrowia.pl:8080/api/restaurants/" + id);
