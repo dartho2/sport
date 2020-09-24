@@ -209,7 +209,7 @@ export class GraphicsListComponent implements OnInit {
       let month = (new Date(val._d).getMonth() + 1)
       this.checkGraphicExists()
       this.setDateGraphic(year, month)
-      this.setDatetoTable()
+      // this.setDatetoTable()
       this.myForm.patchValue({ date: month + '.' + year })
 
     });

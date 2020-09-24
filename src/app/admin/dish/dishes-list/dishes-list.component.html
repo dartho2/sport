@@ -62,11 +62,14 @@
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" class="mat-form-field-wrapper" placeholder="Search">
     </mat-form-field>
-     <mat-form-field class="example-full-width">
+     <mat-form-field class="example-full-width" >
         <mat-select placeholder="restauracja" (selectionChange)="onChange($event.value)">
           <!-- Do poprawy -->
-         <mat-option *ngFor="let restaurant of valueRe[0].itemsres" [value]="restaurant.value">{{restaurant.name}}</mat-option>
- <!-- Do poprawy up -->
+          <div  *ngFor="let rest of valueRe">
+             <mat-option *ngFor="let restaurant of rest.itemsres" [value]="restaurant.value">{{restaurant.name}}</mat-option>
+
+          </div>
+         <!-- Do poprawy up -->
         </mat-select>
      </mat-form-field>
 

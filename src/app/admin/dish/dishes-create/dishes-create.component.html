@@ -31,8 +31,11 @@
                       </mat-form-field>
                       <mat-form-field class="f-control-n">
                         <mat-select matNativeControl required placeholder="restauracja" formControlName="categoryRes">
-                          <mat-option *ngFor="let restaurant of valueRe[0].itemsres" [value]="restaurant.value">{{restaurant.name}}</mat-option>
-                        </mat-select>
+                         <div  *ngFor="let rest of valueRe">
+                            <mat-option *ngFor="let restaurant of rest.itemsres" [value]="restaurant.value">{{restaurant.name}}</mat-option>
+                      
+                         </div>
+                           </mat-select>
                       </mat-form-field>
                       <mat-form-field class="f-control-n">
                         <input type="text" id="category" placeholder="Category" name="category"
