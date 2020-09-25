@@ -17,6 +17,8 @@ import { Role } from '../_models/role';
 import { CalendarComponent } from './calendar/calendar.component';
 import { NavbarSportComponent } from '../layout/sport/navbar-sport/navbar-sport.component';
 import { LayoutComponent } from '../layout/sport/layout/layout.component';
+import { HomeComponent } from './home/home.component';
+import { PRestaurantComponent } from './p-restaurant/p-restaurant.component';
 
 const adminRoutes: Routes = [
 
@@ -24,6 +26,21 @@ const adminRoutes: Routes = [
     path: '',
     component: AdminComponent,
     children: [
+      {
+        path: '',
+        component: HomeComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
+        path: 'restaurant/:idRestaurant',
+        component: PRestaurantComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
+        path: 'restaurant/:idRestaurant/storage/:idStorage',
+        component: PRestaurantComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
       {
         path: 'settings',
         loadChildren: './settings/settings.module#SettingsModule',

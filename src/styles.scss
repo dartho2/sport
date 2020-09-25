@@ -9062,4 +9062,8 @@ div.alert-box a.close:focus {
     .featured-comments:hover .featured-comments__comment-box{opacity:.8} 
     .featured-comments:active .featured-comments__comment-box{opacity:.6} 
     .featured-comments__comment-box{position:relative;height:300px;margin:0 24px;padding:12px 24px 4px 24px;background-color:#f1f2f5;border:1px solid #f1f2f5;border-radius:4px;-webkit-transition:opacity .2s ease-in-out;-o-transition:opacity .2s ease-in-out;transition:opacity .2s ease-in-out} 
-    
+    .top-toolbar{
+    border-top: white;
+    border-style: solid;
+    border-width: 1px;
+}

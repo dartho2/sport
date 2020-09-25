@@ -13,7 +13,10 @@ export class WorkerService {
 
     getWorker(): Observable<Worker[]> {
         return this._http.get<Worker[]>("https://karmazdrowia.pl:8080/api/workers");
-     }
+    }
+    updateProduct(id, worker) {
+        return this._http.post("https://karmazdrowia.pl:8080/api/workers/" + id, worker);
+    }
     //   createProduct(bodyProduct) {
     //     return this._http.post<Product[]>("https://karmazdrowia.pl:8080/api/products", bodyProduct);
     //   }

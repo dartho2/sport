@@ -70,13 +70,16 @@ import { LOCALE_ID } from '@angular/core';
 import { NavbarSportComponent } from '../layout/sport/navbar-sport/navbar-sport.component';
 import { LayoutComponent } from '../layout/sport/layout/layout.component';
 import { MatchListComponent } from './analystic/match-list/match-list.component';
-
+import { HomeComponent } from './home/home.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { PRestaurantComponent } from './p-restaurant/p-restaurant.component';
 registerLocaleData(localePl, 'pl-PL');
 
 
 @NgModule({
   imports: [
     MatTableExporterModule,
+    FlexLayoutModule,
     NotificationModule,
     HttpClientModule,
     ChartsModule,
@@ -139,7 +142,7 @@ registerLocaleData(localePl, 'pl-PL');
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent, HomeComponent, PRestaurantComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

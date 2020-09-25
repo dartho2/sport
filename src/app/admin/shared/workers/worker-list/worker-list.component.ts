@@ -55,6 +55,7 @@ export class WorkerListComponent implements OnInit {
   }
   buildFormforWorker(user): FormGroup {
     return this.bodyForm = this._fb.group({
+      _id: user._id,
       users: this._fb.array(
         this.getUsers(user.users)
       )
@@ -62,6 +63,10 @@ export class WorkerListComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.bodyForm)
+    this.workerService.updateProduct(this.bodyForm.value._id,this.bodyForm.value ).subscribe(x=>{
+      console.log("update")
+    })
     this.notification.error("Brak zaimplementowanej logiki do obsługi zapisu");
   }
 
