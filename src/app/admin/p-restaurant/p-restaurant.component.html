@@ -1,12 +1,13 @@
-  <mat-toolbar *ngIf="storageOpen">
+  <mat-toolbar *ngIf="storageOpen || employeeOpen">
       <a [routerLink]="['/restaurant/' , restaurant._id]">Cofnij</a>
   </mat-toolbar>
-  <mat-toolbar *ngIf="!storageOpen">
+  <mat-toolbar *ngIf="!storageOpen && !employeeOpen">
       <a [routerLink]="['/']">Cofnij</a>
   </mat-toolbar>
 
 
-  <div *ngIf="!storageOpen" class="content" fxLayout="row wrap" fxLayoutGap="16px grid">
+
+    <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" *ngIf="!storageOpen && !employeeOpen">
   <a [routerLink]="['storage/' , restaurantData._id]" [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let restaurantData of restaurant.storages">
     <mat-card class="mat-elevation-z4" >
       <mat-card-header>
@@ -17,7 +18,9 @@
       </mat-card-content>
     </mat-card>
   </a>
-  <a [routerLink]="" [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let employeeData of restaurant.employees">
+  </div>
+  <div  class="content" fxLayout="row wrap" fxLayoutGap="16px grid" *ngIf="!employeeOpen && !storageOpen">
+  <a [routerLink]="['employee/' , employeeData._id]" [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let employeeData of restaurant.employees">
     <mat-card class="mat-elevation-z4" >
       <mat-card-header>
         <mat-card-title>{{employeeData.label}}</mat-card-title>
@@ -28,6 +31,9 @@
     </mat-card>
   </a>
  
+</div>
+<div *ngIf="employeeOpen">
+<app-p-worker></app-p-worker>
 </div>
 <div *ngIf="storageOpen">
   <app-products-list></app-products-list>

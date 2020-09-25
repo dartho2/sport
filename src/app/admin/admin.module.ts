@@ -73,6 +73,7 @@ import { MatchListComponent } from './analystic/match-list/match-list.component'
 import { HomeComponent } from './home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PRestaurantComponent } from './p-restaurant/p-restaurant.component';
+import { PWorkerComponent } from './p-worker/p-worker.component';
 registerLocaleData(localePl, 'pl-PL');
 
 
@@ -142,7 +143,7 @@ registerLocaleData(localePl, 'pl-PL');
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent, HomeComponent, PRestaurantComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent, HomeComponent, PRestaurantComponent, PWorkerComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

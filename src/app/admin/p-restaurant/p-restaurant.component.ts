@@ -10,6 +10,7 @@ import { RestaurantService } from '../shared/restaurants/restaurants.service';
 export class PRestaurantComponent implements OnInit {
   restaurant: any = [];
   storageOpen: Boolean = false;
+  employeeOpen: Boolean = false;
   constructor(private route: ActivatedRoute, private restaurantService: RestaurantService) { }
 
   ngOnInit() {
@@ -24,6 +25,11 @@ export class PRestaurantComponent implements OnInit {
         const id = paramMap.get("idStorage");
         this.storageOpen = true;
 
+      }
+      if (paramMap.has("idEmployee")) {
+        const id = paramMap.get("idEmployee");
+        this.employeeOpen = true;
+       
       }
     })
   }

@@ -17,17 +17,10 @@ export class WorkerService {
     updateProduct(id, worker) {
         return this._http.post("https://karmazdrowia.pl:8080/api/workers/" + id, worker);
     }
-    //   createProduct(bodyProduct) {
-    //     return this._http.post<Product[]>("https://karmazdrowia.pl:8080/api/products", bodyProduct);
-    //   }
-    //   getProductID(id: string) {
-    //     return this._http.get<Product>("https://karmazdrowia.pl:8080/api/products/" + id);
-    //   }
-    //   updateProduct(product) {
-    //     return this._http.post("https://karmazdrowia.pl:8080/api/products/" + product._id, product);
-    //   }
-    //   deleteProduct(id) {
-    //     return this._http.delete<Product[]>("https://karmazdrowia.pl:8080/api/products/" + id)
-    // }
+    //POS
+    getPosWorker(id): Observable<Worker[]> {
+        return this._http.get<Worker[]>("https://karmazdrowia.pl:8080/api/pos/employee/" +id);
+    }
+    //POS
 
 }

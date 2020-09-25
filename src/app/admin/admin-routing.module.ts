@@ -42,6 +42,11 @@ const adminRoutes: Routes = [
         data: { roles: [Role.Admin, Role.User] }
       },
       {
+        path: 'restaurant/:idRestaurant/employee/:idEmployee',
+        component: PRestaurantComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
         path: 'settings',
         loadChildren: './settings/settings.module#SettingsModule',
         canActivate: [AuthGuard],
