@@ -121,7 +121,7 @@ export class GraphicsListComponent implements OnInit {
     this.workerService.getWorker().subscribe(response => {
       this.userG = response
       this.userG.map(x=>{
-        this.userG = x.users
+       [x]
       })
       this.createListWork(this.userG);
       this.checkGraphicExists()
@@ -177,7 +177,8 @@ export class GraphicsListComponent implements OnInit {
     }
     let setId = this.graphics[0] ? this.graphics[0]._id : null;
     this.rowN._id = setId
-    let user = Object.keys(this.userG).map(key => ([this.userG[key].name]));
+    console.log(this.userG, Object.keys(this.userG), "object key")
+    let user = Object.keys(this.userG).map(key => ([this.userG[key].fname]));
     this.rowN.items.push(...user)
     this.rowN.date.length === 0 ? this.rowN.date = this.month + '.' + this.year : this.rowN.date;
     this.rowN.items.map(x => {

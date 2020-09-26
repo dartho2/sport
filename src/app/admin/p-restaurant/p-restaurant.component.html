@@ -1,40 +1,55 @@
-  <mat-toolbar *ngIf="storageOpen || employeeOpen">
-      <a [routerLink]="['/restaurant/' , restaurant._id]">Cofnij</a>
+  <mat-toolbar *ngIf="storageOpen || employeeOpen || graphicsOpen">
+    <a [routerLink]="['/restaurant/' , restaurant._id]">Cofnij</a>
   </mat-toolbar>
-  <mat-toolbar *ngIf="!storageOpen && !employeeOpen">
-      <a [routerLink]="['/']">Cofnij</a>
+  <mat-toolbar *ngIf="!storageOpen && !employeeOpen && !graphicsOpen">
+    <a [routerLink]="['/']">Cofnij</a>
   </mat-toolbar>
 
 
 
-    <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" *ngIf="!storageOpen && !employeeOpen">
-  <a [routerLink]="['storage/' , restaurantData._id]" [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let restaurantData of restaurant.storages">
-    <mat-card class="mat-elevation-z4" >
-      <mat-card-header>
-        <mat-card-title>{{restaurantData.label}}</mat-card-title>
-      </mat-card-header>
-      <img mat-card-image src="">
-      <mat-card-content>       
-      </mat-card-content>
-    </mat-card>
-  </a>
+  <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" *ngIf="!storageOpen && !employeeOpen && !graphicsOpen">
+    <a [routerLink]="['storage/' , restaurantData._id]" [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"
+      *ngFor="let restaurantData of restaurant.storages">
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>{{restaurantData.label}}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="">
+        <mat-card-content>
+        </mat-card-content>
+      </mat-card>
+    </a>
   </div>
-  <div  class="content" fxLayout="row wrap" fxLayoutGap="16px grid" *ngIf="!employeeOpen && !storageOpen">
-  <a [routerLink]="['employee/' , employeeData._id]" [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let employeeData of restaurant.employees">
-    <mat-card class="mat-elevation-z4" >
-      <mat-card-header>
-        <mat-card-title>{{employeeData.label}}</mat-card-title>
-      </mat-card-header>
-      <img mat-card-image src="">
-      <mat-card-content>       
-      </mat-card-content>
-    </mat-card>
-  </a>
- 
-</div>
-<div *ngIf="employeeOpen">
-<app-p-worker></app-p-worker>
-</div>
-<div *ngIf="storageOpen">
-  <app-products-list></app-products-list>
+  <div class="content" fxLayout="row wrap" fxLayoutGap="16px grid" *ngIf="!employeeOpen && !storageOpen && !graphicsOpen">
+    <a [routerLink]="['employee/' , employeeData._id]" [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"
+      *ngFor="let employeeData of restaurant.employees">
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>{{employeeData.label}}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="">
+        <mat-card-content>
+        </mat-card-content>
+      </mat-card>
+    </a>
+    <a [routerLink]="['grafik/' + 'grafik']" [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%">
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>Grafik</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="">
+        <mat-card-content>
+        </mat-card-content>
+      </mat-card>
+    </a>
+
+  </div>
+  <div *ngIf="employeeOpen">
+    <app-p-worker></app-p-worker>
+  </div>
+  <div *ngIf="graphicsOpen">
+      <app-graphics-list></app-graphics-list>
+    </div>
+  <div *ngIf="storageOpen">
+    <app-products-list></app-products-list>
   </div>

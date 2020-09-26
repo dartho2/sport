@@ -37,6 +37,11 @@ const adminRoutes: Routes = [
         data: { roles: [Role.Admin, Role.User] }
       },
       {
+        path: 'restaurant/:idRestaurant/grafik/:idEWorker',
+        component: PRestaurantComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
         path: 'restaurant/:idRestaurant/storage/:idStorage',
         component: PRestaurantComponent,
         data: { roles: [Role.Admin, Role.User] }
