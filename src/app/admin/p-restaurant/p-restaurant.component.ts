@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { BreadcrumbService } from 'angular-crumbs';
+import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 import { RestaurantService } from '../shared/restaurants/restaurants.service';
 
 @Component({
@@ -12,7 +14,7 @@ export class PRestaurantComponent implements OnInit {
   storageOpen: Boolean = false;
   employeeOpen: Boolean = false;
   graphicsOpen: Boolean = false;
-  constructor(private route: ActivatedRoute, private restaurantService: RestaurantService) {
+  constructor(private route: ActivatedRoute, private restaurantService: RestaurantService,private breadcrumbService: BreadcrumbService) {
   }
 
   ngOnInit() {
@@ -22,7 +24,8 @@ export class PRestaurantComponent implements OnInit {
         const id = paramMap.get("idRestaurant");
         this.restaurantService.getPosRestaurantId(id).subscribe(response => {
           this.restaurant = response
-          
+          console.log(this.route.snapshot)
+          this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.restaurant.name);
           if (paramMap.has("idPersonel")) {
             const id = paramMap.get("idPersonel");
             this.employeeOpen = true;

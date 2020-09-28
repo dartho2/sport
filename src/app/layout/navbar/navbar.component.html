@@ -152,13 +152,20 @@
         <mat-progress-bar color="accent" mode="indeterminate" *ngIf="spinnerService.visibility | async">
         </mat-progress-bar>
       </div> -->
-      <!-- <xng-breadcrumb>
-        <ng-container *xngBreadcrumbItem="let breadcrumb; let info = info; let first = first">
-          <mat-icon *ngIf="info">{{ info }}</mat-icon>
-          <ng-container *ngIf="!first">{{ breadcrumb }}</ng-container>
-        </ng-container>
-      </xng-breadcrumb> -->
-      <app-ng-dynamic-breadcrumb></app-ng-dynamic-breadcrumb>
+      <breadcrumb #parent>
+        <!-- <span class="breadcrumb" *ngFor="let route of parent.breadcrumbs">
+            <a mat-button *ngIf="!route.terminal" href="" [routerLink]="[route.url]">{{ route.displayName }}</a>
+            <a mat-button *ngIf="route.terminal">{{ route.displayName }}</a>
+        </span> -->
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item" *ngFor="let route of parent.breadcrumbs">
+              <a *ngIf="!route.terminal" [routerLink]="[route.url]">{{ route.displayName }}</a>
+              <a *ngIf="route.terminal">{{ route.displayName }}</a>
+            </li>
+          </ol>
+        </nav>
+    </breadcrumb>
       <router-outlet></router-outlet>
 
     </mat-sidenav-content>

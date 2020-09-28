@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { RestaurantService } from '../shared/restaurants/restaurants.service';
 
 @Component({
@@ -11,14 +12,18 @@ export class HomeComponent implements OnInit {
   gridColumns = 4;
 
  
-  constructor(private restaurantService: RestaurantService) {
-   
-   }
+  constructor(private restaurantService: RestaurantService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      console.log(paramMap)
+      if (paramMap.has("idRestaurant")) {
+      }
+    })
     this.restaurantService.getPosRestaurant().subscribe(response =>{
       this.restaurant = response
     })
   }
+ 
 
 }

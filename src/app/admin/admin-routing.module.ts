@@ -30,40 +30,44 @@ const adminRoutes: Routes = [
     component: AdminComponent,
     children: [
       {
-        path: '',
-        component: HomeComponent,
-        data: { roles: [Role.Admin, Role.User] ,breadcrumb: 'About' }
-      },
-      {
-        path: 'restaurant/:idRestaurant',
-        data: { roles: [Role.Admin, Role.User] , title: 'page1',
-        breadcrumb: [
-          {
-            label: 'Page1',
-            url: ''
-          }
-        ]},
-        children: [
-          {path: '',
-          component: PRestaurantComponent,
-          data: { roles: [Role.Admin, Role.User] }
+        path: 'restaurant',
+        data: { roles: [Role.Admin, Role.User] ,  
+           breadcrumb: 'home'
         },
+        children:[
           {
-            path: 'personel/:idPersonel',
-            component: PersonelListComponent,
-            data: { roles: [Role.Admin, Role.User] ,breadcrumb: 'sdasdad'}
+            path: '',
+            component: HomeComponent,
+            data: { roles: [Role.Admin, Role.User], breadcrumb: 'restauracja'
+          }},
+          {
+            path: ':idRestaurant',
+            data: { roles: [Role.Admin, Role.User], breadcrumb: 'restauracja'
           },
-          {
-            path: 'storage',
-            component: StorageListComponent,
-            data: { roles: [Role.Admin, Role.User],breadcrumb: 'sadasd' }
+            children: [
+              {path: '',
+              component: PRestaurantComponent,
+              data: { roles: [Role.Admin, Role.User], breadcrumb: 'GitHub2'}
+            },
+            {
+              path: 'personel/:idPersonel',
+              component: PersonelListComponent,
+              data: { roles: [Role.Admin, Role.User] ,breadcrumb: 'Personel'}
+            },
+              {
+                path: 'storage',
+                component: StorageListComponent,
+                data: { roles: [Role.Admin, Role.User],breadcrumb: 'magazyn' }
+              },
+              {
+                path: 'graphic',
+                component: GraphicListComponent,
+                data: { roles: [Role.Admin, Role.User] }
+              }]
           },
-          {
-            path: 'graphic',
-            component: GraphicListComponent,
-            data: { roles: [Role.Admin, Role.User] }
-          }]
+        ]
       },
+     
       {
         path: 'restaurant/:idRestaurant/grafik/:idEWorker',
         component: PRestaurantComponent,
@@ -194,4 +198,5 @@ const adminRoutes: Routes = [
     RouterModule
   ]
 })
+
 export class AdminRoutingModule { }
