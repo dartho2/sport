@@ -56,6 +56,7 @@ export class RecipeListComponent implements AfterViewInit, OnInit {
     ).subscribe(products => {
      this.products = products
      this.dataSource = this.products
+     console.log("recipe", this.dataSource)
     });
   }
   productDelete(id){

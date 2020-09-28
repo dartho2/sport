@@ -7,7 +7,7 @@ import { NotificationService } from '../../toastr-notification/toastr-notificati
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-export interface UserData {
+export interface ProductData {
   id: string;
   name: string;
     nettoPrice: string;
@@ -25,7 +25,7 @@ export interface UserData {
 export class ProductsListComponent implements AfterViewInit, OnInit {
   productData;
   product;
-  dataSource: MatTableDataSource<UserData>;
+  dataSource = new MatTableDataSource<ProductData>();
   displayedColumns: string[] = [
     'image',
     'name',

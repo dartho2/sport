@@ -6,7 +6,7 @@ import {MatDialog,MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-export interface UserData {
+export interface DishData {
   id: string;
   name: string;
     nettoPrice: string;
@@ -35,7 +35,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   dishData;
   valueRe;
   filDish ="Hosomaki";
-  dataSource: MatTableDataSource<DialogData>;
+  dataSource= new MatTableDataSource<DishData>();
   displayedColumns: string[] = [
     'image',
     'name',

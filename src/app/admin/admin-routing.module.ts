@@ -36,16 +36,17 @@ const adminRoutes: Routes = [
       },
       {
         path: 'restaurant/:idRestaurant',
-        data: { roles: [Role.Admin, Role.User] },
+        data: { roles: [Role.Admin, Role.User] , title: 'page1',
+        breadcrumb: [
+          {
+            label: 'Page1',
+            url: ''
+          }
+        ]},
         children: [
           {path: '',
           component: PRestaurantComponent,
-          data: { roles: [Role.Admin, Role.User] , title: 'New', breadcrumb: [
-            {
-              label: 'Page1',
-              url: ''
-            }
-          ]}
+          data: { roles: [Role.Admin, Role.User] }
         },
           {
             path: 'personel/:idPersonel',
