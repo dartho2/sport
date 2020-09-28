@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Subject, Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { Bet } from "./bet.model";
-import 'rxjs/add/operator/do';
+
 @Injectable({ providedIn: 'root' })
 export class BetServiceComponent {
     bet: Bet[] = [];

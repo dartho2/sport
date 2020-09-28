@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { Analystic } from "./analystic.model";
 import { Event } from "./event.model";
 import { Markets } from "./markets.model";
-import 'rxjs/add/operator/do';
+
 @Injectable({ providedIn: 'root' })
 export class AnalysticService {
     analystic: Analystic[] = [];

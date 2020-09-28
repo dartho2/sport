@@ -1,4 +1,4 @@
-export interface Product {
+export interface Products {
     _id: string;
     name: string;
     bruttoPrice: string;

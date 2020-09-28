@@ -1,11 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../products/product.service'
 import { Subscription } from 'rxjs';
-import { Product } from '../../products/product.model';
+import { Products } from '../../products/product.model';
 import { map } from 'rxjs/operators';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
 import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
+export interface UserData {
+  id: string;
+  name: string;
+    nettoPrice: string;
+    vat: string;
+    bruttoPrice: string;
+    weight: string;
+    unit: string;
+    details: string;
+}
 @Component({
   selector: 'app-semiprodukt-list',
   templateUrl: './semiprodukt-list.component.html',
@@ -16,7 +28,7 @@ export class SemiproduktListComponent implements OnInit {
   semiProducts;
   productData;
   products;
-  dataSource = new MatTableDataSource(this.products);
+  dataSource: MatTableDataSource<UserData>;;
   displayedColumns: string[] = [
     'name',
     "nettoPrice",

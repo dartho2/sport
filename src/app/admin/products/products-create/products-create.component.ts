@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Product } from '../product.model'
+import { Products } from '../product.model';
 import { ProductService } from '../product.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';

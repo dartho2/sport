@@ -19,6 +19,9 @@ import { NavbarSportComponent } from '../layout/sport/navbar-sport/navbar-sport.
 import { LayoutComponent } from '../layout/sport/layout/layout.component';
 import { HomeComponent } from './home/home.component';
 import { PRestaurantComponent } from './p-restaurant/p-restaurant.component';
+import { PersonelListComponent } from './p-restaurant/p-personel/personel-list/personel-list.component';
+import { GraphicListComponent } from './p-restaurant/p-graphics/graphic-list/graphic-list.component';
+import { StorageListComponent } from './p-restaurant/p-storage/storage-list/storage-list.component';
 
 const adminRoutes: Routes = [
 
@@ -29,12 +32,36 @@ const adminRoutes: Routes = [
       {
         path: '',
         component: HomeComponent,
-        data: { roles: [Role.Admin, Role.User] }
+        data: { roles: [Role.Admin, Role.User] ,breadcrumb: 'About' }
       },
       {
         path: 'restaurant/:idRestaurant',
-        component: PRestaurantComponent,
-        data: { roles: [Role.Admin, Role.User] }
+        data: { roles: [Role.Admin, Role.User] },
+        children: [
+          {path: '',
+          component: PRestaurantComponent,
+          data: { roles: [Role.Admin, Role.User] , title: 'New', breadcrumb: [
+            {
+              label: 'Page1',
+              url: ''
+            }
+          ]}
+        },
+          {
+            path: 'personel/:idPersonel',
+            component: PersonelListComponent,
+            data: { roles: [Role.Admin, Role.User] ,breadcrumb: 'sdasdad'}
+          },
+          {
+            path: 'storage',
+            component: StorageListComponent,
+            data: { roles: [Role.Admin, Role.User],breadcrumb: 'sadasd' }
+          },
+          {
+            path: 'graphic',
+            component: GraphicListComponent,
+            data: { roles: [Role.Admin, Role.User] }
+          }]
       },
       {
         path: 'restaurant/:idRestaurant/grafik/:idEWorker',
@@ -156,7 +183,7 @@ const adminRoutes: Routes = [
     ]
   }
 ]
-
+// breadcrumbService.set('mentor', 'Enabler');
 
 @NgModule({
   imports: [

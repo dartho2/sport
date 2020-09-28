@@ -12,29 +12,25 @@ export class PRestaurantComponent implements OnInit {
   storageOpen: Boolean = false;
   employeeOpen: Boolean = false;
   graphicsOpen: Boolean = false;
-  constructor(private route: ActivatedRoute, private restaurantService: RestaurantService) { }
+  constructor(private route: ActivatedRoute, private restaurantService: RestaurantService) {
+  }
 
   ngOnInit() {
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idRestaurant")) {
         const id = paramMap.get("idRestaurant");
-        if(paramMap.has("idEWorker")) {
-          this.graphicsOpen = true;
-        }
         this.restaurantService.getPosRestaurantId(id).subscribe(response => {
           this.restaurant = response
+          
+          if (paramMap.has("idPersonel")) {
+            const id = paramMap.get("idPersonel");
+            this.employeeOpen = true;
+
+          }
         })
       }
-      if (paramMap.has("idStorage")) {
-        const id = paramMap.get("idStorage");
-        this.storageOpen = true;
 
-      }
-      if (paramMap.has("idEmployee")) {
-        const id = paramMap.get("idEmployee");
-        this.employeeOpen = true;
-       
-      }
     })
   }
 

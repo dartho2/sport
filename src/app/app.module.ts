@@ -9,7 +9,6 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { NgxEditorModule } from 'ngx-editor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 @NgModule({
   declarations: [
     AppComponent,

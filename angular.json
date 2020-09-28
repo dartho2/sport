@@ -37,10 +37,12 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -129,5 +131,8 @@
       }
     }
   },
-  "defaultProject": "BackendAng"
+  "defaultProject": "BackendAng",
+  "cli": {
+    "analytics": "e31d138c-c668-4814-a8e4-5434682fe4b2"
+  }
 }

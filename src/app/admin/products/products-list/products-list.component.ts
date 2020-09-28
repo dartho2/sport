@@ -1,11 +1,22 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
-import { MatPaginator, MatSort } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../product.service';
 import { map } from 'rxjs/operators';
 import { exportData } from "../export/exportData";
 import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+export interface UserData {
+  id: string;
+  name: string;
+    nettoPrice: string;
+    vat: string;
+    bruttoPrice: string;
+    weight: string;
+    unit: string;
+    details: string;
+}
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
@@ -14,7 +25,7 @@ import { NotificationService } from '../../toastr-notification/toastr-notificati
 export class ProductsListComponent implements AfterViewInit, OnInit {
   productData;
   product;
-  dataSource = new MatTableDataSource(this.productData);
+  dataSource: MatTableDataSource<UserData>;
   displayedColumns: string[] = [
     'image',
     'name',

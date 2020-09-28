@@ -74,11 +74,16 @@ import { HomeComponent } from './home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PRestaurantComponent } from './p-restaurant/p-restaurant.component';
 import { PWorkerComponent } from './p-worker/p-worker.component';
+import { PersonelListComponent } from './p-restaurant/p-personel/personel-list/personel-list.component';
+import { GraphicListComponent } from './p-restaurant/p-graphics/graphic-list/graphic-list.component';
+import { StorageListComponent } from './p-restaurant/p-storage/storage-list/storage-list.component';
 registerLocaleData(localePl, 'pl-PL');
+import {NgDynamicBreadcrumbModule} from "ng-dynamic-breadcrumb";
 
 
 @NgModule({
   imports: [
+    NgDynamicBreadcrumbModule,
     MatTableExporterModule,
     FlexLayoutModule,
     NotificationModule,
@@ -143,7 +148,7 @@ registerLocaleData(localePl, 'pl-PL');
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent, HomeComponent, PRestaurantComponent, PWorkerComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent, HomeComponent, PRestaurantComponent, PWorkerComponent, PersonelListComponent, GraphicListComponent, StorageListComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

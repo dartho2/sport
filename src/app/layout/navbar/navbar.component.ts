@@ -11,7 +11,6 @@ import { User, Role } from '../../_models';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
@@ -64,6 +63,7 @@ export class NavbarComponent implements OnInit {
       this.loading = false;
       this.userFromApi = user;
     });
+    
   }
 
   onSearchChangeParam(data) {

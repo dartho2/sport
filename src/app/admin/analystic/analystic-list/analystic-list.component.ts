@@ -8,7 +8,8 @@ import html2canvas from 'html2canvas';
 import * as jspdf from 'jspdf';
 import 'jspdf-autotable';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { a, e } from '@angular/core/src/render3';
 import { MatAccordion } from '@angular/material/expansion';
@@ -298,13 +299,13 @@ events.type = existsOnBet.type
     return (this.radioVal === value);
   }
   captureScreen(formattedDate) {
-    var data = document.getElementById('ExampleTable');
-    html2canvas(data).then(canvas => {
-      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-      pdf.autoTable({ html: '#ExampleTable', headStyles: { textColor: [76, 76, 76] }, styles: { halign: 'center', fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
-      pdf.autoTable({ html: '#ExampleTable1', headStyles: { textColor: [76, 76, 76] }, styles: { halign: 'center', fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
-      pdf.save('Mecze' + formattedDate + '.pdf'); // Generated PDF   
-    });
+    // var data = document.getElementById('ExampleTable');
+    // html2canvas(data).then(canvas => {
+    //   let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+    //   pdf.autoTable({ html: '#ExampleTable', headStyles: { textColor: [76, 76, 76] }, styles: { halign: 'center', fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
+    //   pdf.autoTable({ html: '#ExampleTable1', headStyles: { textColor: [76, 76, 76] }, styles: { halign: 'center', fillColor: [236, 236, 236], lineColor: "black", lineWidth: 0.1, fontSize: 6, overflow: 'visible', cellWidth: 'auto' }, });
+    //   pdf.save('Mecze' + formattedDate + '.pdf'); // Generated PDF   
+    // });
   }
   getMatches() {
 

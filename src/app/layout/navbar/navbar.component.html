@@ -152,8 +152,13 @@
         <mat-progress-bar color="accent" mode="indeterminate" *ngIf="spinnerService.visibility | async">
         </mat-progress-bar>
       </div> -->
-
-
+      <!-- <xng-breadcrumb>
+        <ng-container *xngBreadcrumbItem="let breadcrumb; let info = info; let first = first">
+          <mat-icon *ngIf="info">{{ info }}</mat-icon>
+          <ng-container *ngIf="!first">{{ breadcrumb }}</ng-container>
+        </ng-container>
+      </xng-breadcrumb> -->
+      <app-ng-dynamic-breadcrumb></app-ng-dynamic-breadcrumb>
       <router-outlet></router-outlet>
 
     </mat-sidenav-content>

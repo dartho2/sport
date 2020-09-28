@@ -1,10 +1,21 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ProductService } from '../../products/product.service'
 import { Subscription } from 'rxjs';
-import { Product } from '../../products/product.model';
+import { Products } from '../../products/product.model';
 import { map } from 'rxjs/operators';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+export interface UserData {
+  id: string;
+  name: string;
+    nettoPrice: string;
+    vat: string;
+    bruttoPrice: string;
+    weight: string;
+    unit: string;
+    details: string;
+}
 @Component({
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
@@ -14,7 +25,7 @@ export class RecipeListComponent implements AfterViewInit, OnInit {
   recipeProducts;
   productData;
   products;
-  dataSource = new MatTableDataSource(this.products);
+  dataSource: MatTableDataSource<UserData>;
   displayedColumns: string[] =[
     'name',
     "nettoPrice",

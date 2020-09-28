@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { ProductService } from '../product.service';
-import { Product } from '../product.model';
+import { Products } from '../product.model';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./product-show.component.css']
 })
 export class ProductShowComponent implements OnInit {
-  product: Product;
+  product: Products;
   productId;
   dupa: any[];
   isDataAvailable = false;

@@ -2,7 +2,20 @@ import { Component, OnInit, ViewChild, Inject, ViewEncapsulation, AfterViewInit 
 import { DishServices } from '../../dish/dish-services';
 import { ActivatedRoute } from '@angular/router';
 import { Dish } from '../../dish/dish.model';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import {MatDialog,MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+export interface UserData {
+  id: string;
+  name: string;
+    nettoPrice: string;
+    vat: string;
+    bruttoPrice: string;
+    weight: string;
+    unit: string;
+    details: string;
+}
 import * as _ from 'lodash';
 import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 import { RestaurantService } from '../../shared/restaurants/restaurants.service';
@@ -22,7 +35,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   dishData;
   valueRe;
   filDish ="Hosomaki";
-  dataSource = new MatTableDataSource(this.dishData);
+  dataSource: MatTableDataSource<DialogData>;
   displayedColumns: string[] = [
     'image',
     'name',
