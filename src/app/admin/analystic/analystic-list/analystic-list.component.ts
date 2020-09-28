@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 // import { a, e } from '@angular/core/src/render3';
 import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { from } from 'rxjs';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
@@ -54,7 +54,7 @@ export class AnalysticListComponent implements OnInit, AfterViewInit {
   // END TREE
 
   displayedColumns: string[] = ['type'];
-  @ViewChild(MatAccordion) accordion: MatAccordion;
+  @ViewChild(MatAccordion, {static: false}) accordion: MatAccordion;
   @Input()
   eventID;
   panelOpenState;
@@ -990,7 +990,7 @@ this.headerService.changeGroup(this.grupCategory)
  
   }
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
   ngOnInit() {
     this.dataSource.sort = this.sort;
     this.dataSource = new MatTableDataSource(this.matchData);

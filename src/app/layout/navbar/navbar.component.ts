@@ -22,7 +22,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 export class NavbarComponent implements OnInit {
   // BEGIN TREE
 
-  @ViewChild('drawer') drawer: any;
+  @ViewChild('drawer', {static: false}) drawer: any;
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
   showSpinner: boolean;

@@ -6,7 +6,7 @@ import { appRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginComponent } from './login';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { NgxEditorModule } from 'ngx-editor';
+// import { NgxEditorModule } from 'ngx-editor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxEditorModule,
+    // NgxEditorModule,
     BrowserAnimationsModule 
   ],
   providers: [

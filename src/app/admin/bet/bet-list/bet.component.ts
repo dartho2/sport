@@ -262,6 +262,6 @@ export class BetComponent implements OnInit {
   ngOnInit() { }
 
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
 }

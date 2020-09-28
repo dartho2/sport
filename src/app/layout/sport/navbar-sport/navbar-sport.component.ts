@@ -17,8 +17,8 @@ import { AnalysticListComponent } from "../../../admin/analystic/analystic-list/
   styleUrls: ['./navbar-sport.component.css']
 })
 export class NavbarSportComponent implements OnInit, AfterViewInit {
-  @ViewChild(AnalysticListComponent) childRef;
-  @ViewChild('drawer') drawer: any;
+  @ViewChild(AnalysticListComponent, {static: false}) childRef;
+  @ViewChild('drawer', {static: false}) drawer: any;
   exampleParent: string;
   status: boolean = false;
   loading = false;
