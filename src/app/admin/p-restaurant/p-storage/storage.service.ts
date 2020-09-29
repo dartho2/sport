@@ -7,7 +7,7 @@ import { Storage } from "./storage.model";
 
 @Injectable({ providedIn: 'root' })
 export class StorageService {
-    private products: Storage[] = [];
+    private products;
     private productsUpdated = new Subject<Storage[]>();
     constructor(private _http: HttpClient, private router: Router) { }
 
@@ -18,9 +18,22 @@ export class StorageService {
     getPosStorageProduct(id): Observable<Storage[]> {
         return this._http.get<Storage[]>("https://karmazdrowia.pl:8080/api/pos/products" +id);
     }
-    createStorageProduct(bodyProduct) {
-        return this._http.post<Storage[]>("https://karmazdrowia.pl:8080/api/pos/products", bodyProduct);
+
+
+
+
+
+
+
+    createStorageProduct(product: Storage) {
+        return this._http.post("https://karmazdrowia.pl:8080/api/pos/products", product);
       }
+
+
+
+
+
+
       updateStorageProduct(product) {
         return this._http.post("https://karmazdrowia.pl:8080/api/pos/products/" + product._id, product);
       }

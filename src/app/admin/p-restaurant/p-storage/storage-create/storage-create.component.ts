@@ -258,25 +258,29 @@ export class StorageCreateComponent implements OnInit {
         this.router.navigate(["../../"], { relativeTo: this.route });
       })
     } else {
-      delete this.bodyForm.value._id
+      
       if (this.bodyForm.value.losses) {
         const lossesPriceNetto = (this.bodyForm.value.nettoPrice * (1 + this.bodyForm.value.losses / 100)).toFixed(2)
         this.bodyForm.controls['lossesPriceNetto'].setValue(lossesPriceNetto)
       }
       this.bodyForm.value.bruttoPrice = this.calculateTotalPrice(this.bodyForm.value)
-console.log("add")
-      this.storageService.createStorageProduct(this.bodyForm.value).pipe(map((res: any) => {
-        this.productDataId = res
-        console.log(this.productDataId, "productData")
-        this.storageService.getPosStorage(this.storageId).subscribe(storage => {
+      delete this.bodyForm.value._id
+      this.storageService.createStorageProduct(this.bodyForm.value).pipe(
+        map((res: Response) => {
+        this.productDataId = res // id productu
+        this.storageService.getPosStorage(this.storageId).subscribe(storage => { //dostaje storage gdzie product ma isc
           var jsonStorage;
-          jsonStorage = storage
-          jsonStorage.products.push(this.productDataId._id)
-          this.storageService.createStorage(this.productDataId._id, jsonStorage).subscribe(() => {
+          jsonStorage = storage;
+          jsonStorage.products = jsonStorage.products || [];
+          jsonStorage.products.push({"_id": this.productDataId._id})
+          
+          this.storageService.createStorage(this.storageId, jsonStorage).subscribe(() => {
             this.router.navigate(["../"], { relativeTo: this.route });
+            console.log(jsonStorage, "json") // tworzy z dodanym productem
           })
         })
-      }))
+      })).subscribe(response => {
+      })
 
 
       // this.storageService.createStorageProduct(this.bodyForm.value).pipe(
