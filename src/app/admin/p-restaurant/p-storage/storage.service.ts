@@ -24,6 +24,9 @@ export class StorageService {
       updateStorageProduct(product) {
         return this._http.post("https://karmazdrowia.pl:8080/api/pos/products/" + product._id, product);
       }
+      createStorage(id, data) {
+        return this._http.post("https://karmazdrowia.pl:8080/api/pos/storage/" + id, data);
+      }
       deleteStorageProduct(id) {
         return this._http.delete<Storage[]>("https://karmazdrowia.pl:8080/api/pos/products/" + id)
     }

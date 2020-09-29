@@ -163,7 +163,8 @@ import { StorageCreateComponent } from './p-restaurant/p-storage/storage-create/
     PersonelListComponent, 
     GraphicListComponent, 
     StorageListComponent, 
-    BreadcrumbComponent, StorageCreateComponent
+    BreadcrumbComponent, 
+    StorageCreateComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

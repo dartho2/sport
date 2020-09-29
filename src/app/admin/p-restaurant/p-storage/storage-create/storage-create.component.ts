@@ -6,7 +6,7 @@ import { StorageService } from '../storage.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
-import { NotificationService } from '../../../toastr-notification/toastr-notification.service'; 
+import { NotificationService } from '../../../toastr-notification/toastr-notification.service';
 export interface Product {
   name: string;
 }
@@ -17,7 +17,7 @@ export interface Product {
 })
 export class StorageCreateComponent implements OnInit {
 
-  
+
   @Input() foodCost: any;
   @Input() ProductDish;
   productSelected;
@@ -55,12 +55,14 @@ export class StorageCreateComponent implements OnInit {
   product: Product;
   pr_data;
   message;
+  storageId: string;
+  productDataId: any;
 
   constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private storageService: StorageService, private notification: NotificationService) {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idStorage")) {
-        const storageId = paramMap.get("idStorage");
-        this.storageService.getPosStorage(storageId).subscribe((response: any) => {
+        this.storageId = paramMap.get("idStorage");
+        this.storageService.getPosStorage(this.storageId).subscribe((response: any) => {
           this.options = response.products
           if (paramMap.has("idProduct")) {
             this.mode = "edit";
@@ -69,7 +71,7 @@ export class StorageCreateComponent implements OnInit {
               this.buildForm(productData);
               this.bodyForm.value.supplier === 'Re' ? this.selectedValue = "Re" : '';
               console.log(this.myControl)
-    
+
             })
           } else {
             this.mode = "create";
@@ -87,7 +89,7 @@ export class StorageCreateComponent implements OnInit {
     console.log(date)
   }
   ngOnInit() {
-    
+
     if (this.foodCost) {
       this.buildFormforProducts(this.foodCost)
       this.bodyForm.value.supplier === 'Pp' ? this.selectedValue = "Pp" : '';
@@ -252,8 +254,8 @@ export class StorageCreateComponent implements OnInit {
       this.bodyForm.controls['bruttoPrice'].patchValue(this.calculateTotalPrice(this.bodyForm.value))
       this.bodyForm.controls['productDate'].patchValue(this.pr_data);
       this.storageService.updateStorageProduct(this.bodyForm.value).subscribe(response => {
-        this.notification.success("Success. Update"); 
-          this.router.navigate(["../../"], { relativeTo: this.route });
+        this.notification.success("Success. Update");
+        this.router.navigate(["../../"], { relativeTo: this.route });
       })
     } else {
       delete this.bodyForm.value._id
@@ -262,11 +264,44 @@ export class StorageCreateComponent implements OnInit {
         this.bodyForm.controls['lossesPriceNetto'].setValue(lossesPriceNetto)
       }
       this.bodyForm.value.bruttoPrice = this.calculateTotalPrice(this.bodyForm.value)
-      this.storageService.createStorageProduct(this.bodyForm.value).subscribe(() => {
-        // this.foodCost ? this.message = "Został utworzony" :
-        this.ProductDish ? this.notification.success("Success. Create for Półprodukt") : this.notification.success("Success. Create")
-        this.ProductDish ? '' : this.router.navigate(["../"], { relativeTo: this.route })
-      })
+console.log("add")
+      this.storageService.createStorageProduct(this.bodyForm.value).pipe(map((res: any) => {
+        this.productDataId = res
+        console.log(this.productDataId, "productData")
+        this.storageService.getPosStorage(this.storageId).subscribe(storage => {
+          var jsonStorage;
+          jsonStorage = storage
+          jsonStorage.products.push(this.productDataId._id)
+          this.storageService.createStorage(this.productDataId._id, jsonStorage).subscribe(() => {
+            this.router.navigate(["../"], { relativeTo: this.route });
+          })
+        })
+      }))
+
+
+      // this.storageService.createStorageProduct(this.bodyForm.value).pipe(
+      //   map((res: Response) => {
+      //     this.productId = res
+      //     this.storageService.getPosStorage(this.storageId).subscribe(storage => {
+      //         var jsonSection = storage
+      //         jsonSection.products.push(productId._id)
+      //         this.storageService.createStorage(productId, jsonSection).subscribe(()=>{
+
+      //         })
+      //     })
+      //   })
+      //   )
+
+
+
+
+
+      // this.storageService.createStorageProduct(this.bodyForm.value).subscribe(() => {
+
+      //   // this.foodCost ? this.message = "Został utworzony" :
+      //   this.ProductDish ? this.notification.success("Success. Create for Półprodukt") : this.notification.success("Success. Create")
+      //   this.ProductDish ? '' : this.router.navigate(["../"], { relativeTo: this.route })
+      // })
     };
   }
   calculate(i) {
