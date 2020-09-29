@@ -48,14 +48,16 @@ mat-sidenav {
   /* background-color:rgb(63, 81, 181); */
 }
 
-.mat-tree-node{
+.mat-tree-node {
   max-width: 190px;
 }
+
 .broke-name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 /* Set height of wrapper to stop content from moving up & down */
 
 .progress-bar-container {
@@ -70,19 +72,32 @@ a.mat-list-item.active {
   position: absolute;
   bottom: 0;
 }
-.mat-toolbar-row, .mat-toolbar-single-row {
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
   height: 60px !important;
 }
-.button-full-width{
-  width:100%;
+
+.button-full-width {
+  width: 100%;
 }
+
 ::ng-deep .mat-raised-button {
   text-align: left !important;
   padding: 0px !important;
 }
+
 ::ng-deep .mat-badge-medium.mat-badge-above .mat-badge-content {
   top: 7px !important;
 }
+
 ::ng-deep .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
-right: 5px !important;
+  right: 5px !important;
+}
+
+.img-svg-absolute {
+  position: absolute;
+  width: 30px;
+  right: 0px;
+  top: 0px
 }

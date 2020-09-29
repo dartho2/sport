@@ -11,7 +11,6 @@ import { DishesCreateComponent } from './dish/dishes-create/dishes-create.compon
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
-import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.component';
 import { AuthGuard } from '../_helpers/auth.guard';
 import { Role } from '../_models/role';
 import { CalendarComponent } from './calendar/calendar.component';
@@ -60,7 +59,7 @@ const adminRoutes: Routes = [
                 data: { roles: [Role.Admin, Role.User],breadcrumb: 'magazyn' }
               },
               {
-                path: 'graphic',
+                path: 'graphic/:idPersonel',
                 component: GraphicListComponent,
                 data: { roles: [Role.Admin, Role.User] }
               }]
@@ -118,11 +117,11 @@ const adminRoutes: Routes = [
               data: { roles: [Role.Admin, Role.User] }
       
             },
-            {
-              path: 'graphics/list',
-              component: GraphicsListComponent,
-              data: { roles: [Role.Admin, Role.User] }
-            },
+            // {
+            //   path: 'graphics/list',
+            //   component: GraphicsListComponent,
+            //   data: { roles: [Role.Admin, Role.User] }
+            // },
             {
               path: 'semiproduct/list',
               component: SemiproduktListComponent,

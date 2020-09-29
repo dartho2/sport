@@ -22,5 +22,6 @@ export class WorkerService {
         return this._http.get<Worker[]>("https://karmazdrowia.pl:8080/api/pos/employee/" +id);
     }
     //POS
+    
 
 }

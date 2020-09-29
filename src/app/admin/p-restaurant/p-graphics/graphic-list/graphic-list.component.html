@@ -1,3 +1,77 @@
-<p>
-  graphic-list works!
-</p>
+<mat-form-field>
+  <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+    (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+  </mat-datepicker>
+</mat-form-field>
+
+<form class="table-responsive table table-bordered" (ngSubmit)="onSubmit()" [formGroup]="myForm">
+
+  <table id="ExampleTable" class="table">
+    <thead>
+      <tr>
+        <th [attr.colspan]="rowHeder+2" class="center-table">{{dateChange(month,year)}}</th>
+      </tr>
+      <tr>
+        <th scope="col" [ngStyle]="{'background-color':getColor(a)}" *ngFor="let a of numberOfDays; index as ind">
+          {{getWeek(a)}}</th>
+        <th scope="col">Dni</th>
+      </tr>
+    </thead>
+
+    <tbody formArrayName="items" *ngFor="let items of items.controls; let i=index;">
+      <tr>
+        <td [formArrayName]="i" *ngFor="let data of items.controls; async as users; let c=index;">
+          <div class="d-none" [ngSwitch]="data.value">
+            <p *ngSwitchCase="false"></p>
+            <p *ngSwitchCase="true">X</p>
+            <p *ngSwitchDefault>{{data.value}}</p>
+          </div>
+          <input *ngIf="c === 0" style="width: 63px;" type="text" class="form-control" [name]="data.value"
+            [formControlName]="c">
+          <label *ngIf="c>0" class="containers">
+            <input [id]="i+''+c" type="checkbox" name="acceptRules" [value]="data.value" class="inline checkbox"
+              id="checkbox1" [formControlName]="c">
+            <span class="checkmark"></span>
+          </label>
+        </td>
+        <td class="bold-center"> {{ getTotal(items.controls) }}</td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+<table id="ExampleTable1" class="table table-bordered">
+  <thead>
+    <tr>
+      <th rowspan="2" scope="col">No.</th>
+      <th colspan="3" scope="col" *ngFor="let user of userG;">
+        {{user.fname}}
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let a of tableWork.items">{{a.col1}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let day of numberOfDays |slice:1">
+      <th scope="row">{{day}}</th>
+      <td *ngFor="let items of tableWork.items"></td>
+    </tr>
+
+  </tbody>
+</table>
+
+  <div class='data-panel'>
+    <div class='panel-sub'>
+      <a mat-raised-button color="primary" (click)="exportTable()">Export to excel</a>
+      <a mat-raised-button color="primary" type="button" (click)="captureScreen(month,year)">Export to PDF/Print</a>
+          <button *ngIf="!rowN._id" type="submit" class="btn btn-outline-success btn-rounded waves-effect">Save</button>
+          <button *ngIf="rowN._id" type="submit"
+            class="btn btn-outline-success btn-rounded waves-effect">Update</button>
+    </div>
+  </div>
+</form>
+

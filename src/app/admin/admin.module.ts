@@ -55,11 +55,10 @@ import { DishesCreateComponent, DialogDataExampleDialog } from './dish/dishes-cr
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { ProductShowComponent } from './products/products-show/product-show.component';
-import { GraphicsListComponent } from './graphics/graphics-list/graphics-list.component';
 import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import {NotificationModule } from './toastr-notification/toaster.module';
+import { NotificationModule } from './toastr-notification/toaster.module';
 import { ColdListComponent } from './haccp/cold-list/cold-list.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { BetComponent } from './bet/bet-list/bet.component';
@@ -79,7 +78,7 @@ import { GraphicListComponent } from './p-restaurant/p-graphics/graphic-list/gra
 import { StorageListComponent } from './p-restaurant/p-storage/storage-list/storage-list.component';
 // import {NgDynamicBreadcrumbModule} from "ng-dynamic-breadcrumb";
 registerLocaleData(localePl, 'pl-PL');
-import {BreadcrumbModule} from 'angular-crumbs';
+import { BreadcrumbModule } from 'angular-crumbs';
 import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 
 @NgModule({
@@ -149,10 +148,24 @@ import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent, HomeComponent, PRestaurantComponent, PWorkerComponent, PersonelListComponent, GraphicListComponent, StorageListComponent, BreadcrumbComponent
+    DishesCreateComponent, 
+    DialogDataExampleDialog, 
+    RecipeListComponent, 
+    SemiproduktListComponent, 
+    ProductShowComponent, 
+    ColdListComponent, 
+    BetComponent, 
+    MatchListComponent, 
+    HomeComponent, 
+    PRestaurantComponent, 
+    PWorkerComponent, 
+    PersonelListComponent, 
+    GraphicListComponent, 
+    StorageListComponent, 
+    BreadcrumbComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],
-  providers: [ DatePipe,{ provide: LOCALE_ID, useValue: "pl-PL" }]
+  providers: [DatePipe, { provide: LOCALE_ID, useValue: "pl-PL" }]
 })
 export class AdminModule { }
