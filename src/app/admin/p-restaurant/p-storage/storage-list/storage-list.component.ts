@@ -57,11 +57,11 @@ export class StorageListComponent implements OnInit {
     return parseFloat(a).toFixed(2)
   }
   productDelete(id){
-    // if(confirm("Are you sure to delete "+id)) {
-    //   this.productService.deleteProduct(id).subscribe(() => {
-    //     this.notification.info("Success. Deleted")        
-    // })
-    // }
+    if(confirm("Produkt id: " +id+" zostanie na stałe usunięty wraz z historia, jesteś pewien ?")) {
+      this.storageService.deleteStorageProduct(id).subscribe(() => {
+        this.notification.info("Success. Deleted")        
+    })
+    }
   }
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
