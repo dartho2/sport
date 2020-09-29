@@ -50,6 +50,7 @@ export class GraphicListComponent implements OnInit , OnDestroy{
   rowN = {
     "_id": "",
     "date": "",
+    "restaurant": "",
     "items": []
   }
   userG;
@@ -59,6 +60,7 @@ export class GraphicListComponent implements OnInit , OnDestroy{
   tableWork= { items: []}
   userGraphic: any[] = [];
   rowHeder: number;
+  restaurantId: string;
   constructor(private grapicService: GraphicService, private notification: NotificationService, private workerService: WorkerService, private _fb: FormBuilder,private route: ActivatedRoute) {
     this.myForm = this._fb.group({
       date: new FormControl(''),
@@ -124,7 +126,8 @@ export class GraphicListComponent implements OnInit , OnDestroy{
     this.setDateGraphic(new Date(this.date.value._d).getFullYear(), (new Date(this.date.value._d).getMonth() + 1))
     this.onChanges();
     this.route.paramMap.subscribe((paramMap: ParamMap) =>{
-      console.log("params")
+      if (paramMap.has("idRestaurant")) {
+        this.restaurantId = paramMap.get("idRestaurant")
       if (paramMap.has("idPersonel")) {
         const id = paramMap.get("idPersonel");
         this.workerService.getPosWorker(id).subscribe((response: any) => {
@@ -135,7 +138,7 @@ export class GraphicListComponent implements OnInit , OnDestroy{
           this.dataSource = this.rowGraphic
         });
 
-      }
+      }}
     })
   
   }
@@ -147,15 +150,18 @@ export class GraphicListComponent implements OnInit , OnDestroy{
   checkGraphicExists() {
     this.grapicService.getGraphic().subscribe(data => {
       this.graphics = data
-      this.graphics = this.graphics.filter(x => x['date'] === this.month + '.' + this.year)
+      this.graphics = this.graphics.filter((x => x['date'] === this.month + '.' + this.year) )
+      this.graphics = this.graphics.filter((x => x.restaurant === this.restaurantId) )
       this.graphics[0] ? this.buildFormGraphic(this.graphics[0]) : this.buildFormGraphic(this.rowN);
       this.setDatetoTable();
     })
   }
   buildFormGraphic(data: any): FormGroup {
+    console.log(data, "data")
     return this.myForm = this._fb.group({
       _id: data._id ? data._id : '',
       date: data.date ? data.date : '',
+      restaurant: data.restaurant ? data.restaurant : '',
       items:
         this._fb.array(
           data.items.map(result => {
@@ -177,13 +183,16 @@ export class GraphicListComponent implements OnInit , OnDestroy{
     this.rowN = {
       "_id": "",
       "date": "",
+      "restaurant": "",
       "items": []
     }
     let setId = this.graphics[0] ? this.graphics[0]._id : null;
     this.rowN._id = setId
+    console.log(this.userG, "pracownicy2")
     let user = Object.keys(this.userG).map(key => ([this.userG[key].fname]));
     this.rowN.items.push(...user)
     this.rowN.date.length === 0 ? this.rowN.date = this.month + '.' + this.year : this.rowN.date;
+    this.rowN.restaurant = this.restaurantId;
     this.rowN.items.map(x => {
       if (Array.isArray(x)) {
         x.push(...this.userGraphic)
