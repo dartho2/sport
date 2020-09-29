@@ -80,6 +80,7 @@ import { StorageListComponent } from './p-restaurant/p-storage/storage-list/stor
 // import {NgDynamicBreadcrumbModule} from "ng-dynamic-breadcrumb";
 registerLocaleData(localePl, 'pl-PL');
 import {BreadcrumbModule} from 'angular-crumbs';
+import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 
 @NgModule({
   imports: [
@@ -148,7 +149,7 @@ import {BreadcrumbModule} from 'angular-crumbs';
     SearchPipe,
     EventListComponent,
     CalculateListComponent,
-    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent, HomeComponent, PRestaurantComponent, PWorkerComponent, PersonelListComponent, GraphicListComponent, StorageListComponent
+    DishesCreateComponent, DialogDataExampleDialog, RecipeListComponent, SemiproduktListComponent, ProductShowComponent, GraphicsListComponent, ColdListComponent, BetComponent, MatchListComponent, HomeComponent, PRestaurantComponent, PWorkerComponent, PersonelListComponent, GraphicListComponent, StorageListComponent, BreadcrumbComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],
