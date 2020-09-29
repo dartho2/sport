@@ -24,13 +24,7 @@ export class PRestaurantComponent implements OnInit {
         const id = paramMap.get("idRestaurant");
         this.restaurantService.getPosRestaurantId(id).subscribe(response => {
           this.restaurant = response
-          console.log(this.route.snapshot)
           this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.restaurant.name);
-          if (paramMap.has("idPersonel")) {
-            const id = paramMap.get("idPersonel");
-            this.employeeOpen = true;
-
-          }
         })
       }
 

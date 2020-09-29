@@ -80,6 +80,7 @@ import { StorageListComponent } from './p-restaurant/p-storage/storage-list/stor
 registerLocaleData(localePl, 'pl-PL');
 import { BreadcrumbModule } from 'angular-crumbs';
 import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
+import { StorageCreateComponent } from './p-restaurant/p-storage/storage-create/storage-create.component';
 
 @NgModule({
   imports: [
@@ -162,7 +163,7 @@ import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
     PersonelListComponent, 
     GraphicListComponent, 
     StorageListComponent, 
-    BreadcrumbComponent
+    BreadcrumbComponent, StorageCreateComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

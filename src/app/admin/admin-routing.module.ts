@@ -21,6 +21,7 @@ import { PRestaurantComponent } from './p-restaurant/p-restaurant.component';
 import { PersonelListComponent } from './p-restaurant/p-personel/personel-list/personel-list.component';
 import { GraphicListComponent } from './p-restaurant/p-graphics/graphic-list/graphic-list.component';
 import { StorageListComponent } from './p-restaurant/p-storage/storage-list/storage-list.component';
+import { StorageCreateComponent } from './p-restaurant/p-storage/storage-create/storage-create.component';
 
 const adminRoutes: Routes = [
 
@@ -54,10 +55,26 @@ const adminRoutes: Routes = [
               data: { roles: [Role.Admin, Role.User] ,breadcrumb: 'Personel'}
             },
               {
-                path: 'storage',
+                path: 'storage/:idStorage',
+                data: { roles: [Role.Admin, Role.User],breadcrumb: 'magazyn' },children:[
+                  {
+                    path: '',
                 component: StorageListComponent,
-                data: { roles: [Role.Admin, Role.User],breadcrumb: 'magazyn' }
+                    data: { roles: [Role.Admin, Role.User],breadcrumb: 'magazyn' }
+                  },
+                  {
+                    path: 'new',
+                    component: StorageCreateComponent,
+                    data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
+                  },
+                  {
+                    path: 'edit/:idProduct',
+                    component: StorageCreateComponent,
+                    data: { roles: [Role.Admin, Role.User],breadcrumb: 'edit' }
+                  }
+                ]
               },
+              
               {
                 path: 'graphic/:idPersonel',
                 component: GraphicListComponent,

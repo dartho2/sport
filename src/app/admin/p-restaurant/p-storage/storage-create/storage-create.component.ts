@@ -1,26 +1,27 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Products } from '../product.model';
-import { ProductService } from '../product.service';
+import { Storage } from '../storage.model';
+import { StorageService } from '../storage.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
-import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
+import { NotificationService } from '../../../toastr-notification/toastr-notification.service'; 
 export interface Product {
   name: string;
-} 
+}
 @Component({
-  selector: 'app-products-create',
-  templateUrl: './products-create.component.html',
-  styleUrls: ['./products-create.component.css'],
+  selector: 'app-storage-create',
+  templateUrl: './storage-create.component.html',
+  styleUrls: ['./storage-create.component.css']
 })
-export class ProductsCreateComponent implements OnInit {
+export class StorageCreateComponent implements OnInit {
 
+  
   @Input() foodCost: any;
   @Input() ProductDish;
   productSelected;
-  filteredOptions: Observable<Product[]>;
+  filteredOptions: Observable<Storage[]>;
   myControl = new FormControl();
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
@@ -31,7 +32,7 @@ export class ProductsCreateComponent implements OnInit {
   valueSupplier: ['KŚ', 'WoA', 'W', 'Pp', 'Sk', 'In', 'Re'];
   mode;
   customeImg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6hC4zK0RMvnALdCE7WM3dmdD99-5OGybTgZ6ZP2HsCjCnD_P49g&s";
-  options: Product[] = [];
+  options: Storage[] = [];
   totalPrice;
   data = {
     recipe: [
@@ -55,24 +56,25 @@ export class ProductsCreateComponent implements OnInit {
   pr_data;
   message;
 
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private notification: NotificationService) {
-    this.productService.getProduct().subscribe(response => {
-      this.options = response
-      console.log(this.options)
-      // this.options = this.productRecipe
-    });
+  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private storageService: StorageService, private notification: NotificationService) {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("idProduct")) {
-        this.mode = "edit";
-        this.productId = paramMap.get("idProduct");
-        this.productService.getProductID(this.productId).subscribe(productData => {
-          this.buildForm(productData);
-          this.bodyForm.value.supplier === 'Re' ? this.selectedValue = "Re" : '';
-          console.log(this.myControl)
-
-        })
-      } else {
-        this.mode = "create";
+      if (paramMap.has("idStorage")) {
+        const storageId = paramMap.get("idStorage");
+        this.storageService.getPosStorage(storageId).subscribe((response: any) => {
+          this.options = response.products
+          if (paramMap.has("idProduct")) {
+            this.mode = "edit";
+            this.productId = paramMap.get("idProduct");
+            this.storageService.getPosStorageProduct(this.productId).subscribe(productData => {
+              this.buildForm(productData);
+              this.bodyForm.value.supplier === 'Re' ? this.selectedValue = "Re" : '';
+              console.log(this.myControl)
+    
+            })
+          } else {
+            this.mode = "create";
+          }
+        });
       }
     });
 
@@ -249,7 +251,7 @@ export class ProductsCreateComponent implements OnInit {
       this.setDateHistory();
       this.bodyForm.controls['bruttoPrice'].patchValue(this.calculateTotalPrice(this.bodyForm.value))
       this.bodyForm.controls['productDate'].patchValue(this.pr_data);
-      this.productService.updateProduct(this.bodyForm.value).subscribe(response => {
+      this.storageService.updateStorageProduct(this.bodyForm.value).subscribe(response => {
         this.notification.success("Success. Update"); 
           this.router.navigate(["../../"], { relativeTo: this.route });
       })
@@ -260,7 +262,7 @@ export class ProductsCreateComponent implements OnInit {
         this.bodyForm.controls['lossesPriceNetto'].setValue(lossesPriceNetto)
       }
       this.bodyForm.value.bruttoPrice = this.calculateTotalPrice(this.bodyForm.value)
-      this.productService.createProduct(this.bodyForm.value).subscribe(() => {
+      this.storageService.createStorageProduct(this.bodyForm.value).subscribe(() => {
         // this.foodCost ? this.message = "Został utworzony" :
         this.ProductDish ? this.notification.success("Success. Create for Półprodukt") : this.notification.success("Success. Create")
         this.ProductDish ? '' : this.router.navigate(["../"], { relativeTo: this.route })
@@ -354,3 +356,4 @@ export class ProductsCreateComponent implements OnInit {
     this.myControl.patchValue('')
   }
 }
+
