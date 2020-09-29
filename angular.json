@@ -131,8 +131,5 @@
       }
     }
   },
-  "defaultProject": "BackendAng",
-  "cli": {
-    "analytics": "e31d138c-c668-4814-a8e4-5434682fe4b2"
-  }
+  "defaultProject": "BackendAng"
 }

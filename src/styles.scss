@@ -276,9 +276,7 @@ button:focus {
 .content-page {
   padding: 5px 0px 0px 0px !important;
 }
-.mat-toolbar-row, .mat-toolbar-single-row {
-  // height: 10px !important;
-}
+
 }
 .mat-cell {
 color:black
@@ -288,9 +286,7 @@ color:black
   .row {
 display:  block !important;
   }
-  .mat-sidenav-fixed {
-    // top: -30px !important;
-}
+ 
   .content {
 padding-top:0px;
 background: #f8f9fc;
@@ -302,10 +298,7 @@ padding: 0px 0px 80px 0px !important;
 .fas {
   color: #525252;
 }
-.mat-sidenav-fixed {
 
-  // background-color: #303030;
-}
 .mat-list-item-content {
   padding: 0 10px !important;
 }
@@ -6379,8 +6372,6 @@ td.suche-vereinswappen {
   height: 50px;
   background-color: #314f77; }
 
-textarea #eingabe {
-  font-familiy: inherit; }
 
 .maaufs {
   font-family: "Source Sans Pro", sans-serif;
@@ -6763,9 +6754,7 @@ span.trenner {
   fill: none;
   animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
 
-.checkmark {
-  // display: none;
- }
+
 
 .checkmark.action {
   position: relative;
