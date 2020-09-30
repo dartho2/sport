@@ -1,0 +1,11 @@
+.icon-center {
+text-align: center;
+}
+.icon-size {
+ font-size: 60px;
+ width: 60px;
+ height: 60px;
+}
+::ng-deep .mat-card-header-text {
+    margin: 0 auto !important;
+}
