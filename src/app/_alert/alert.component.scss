@@ -1,0 +1,85 @@
+
+$alertStyles: (
+  error: (
+    theme: #fff5f5,
+    icon: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/error.svg',
+    darkTheme: #f78b8b
+  ),
+  success: (
+    theme: #f0f9ef,
+    icon: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/success.svg',
+    darkTheme: #7ebb7a
+  ),
+  warning: (
+    theme: #fff9f0,
+    icon: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/warning.svg',
+    darkTheme: #ffc848
+  )
+);
+
+body {
+  max-width: 600px;
+  align-items: center;
+  margin: 40px auto;
+}
+
+.alert {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  max-width: 600px;
+  border-radius: 4px;
+  background: #ccc;
+  border: 1px solid #777;
+  display: flex;
+  margin-bottom: 20px;
+  
+  &:before {
+    content: '';
+    width: 80px;
+    position: relative;
+    z-index: 999;
+    background-color: #777;
+    background-repeat: no-repeat;
+    background-position: center 16px;
+    background-size: 30px;
+  }
+}
+
+.alert-content {
+  padding: 20px;
+}
+
+.alert-title {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 18px;
+  padding: 0;
+}
+
+.alert-body {
+  p {
+    margin: 0;
+    font-size: 16px;
+  }
+}
+
+
+
+// Loop for styling
+
+@each $state, $property in $alertStyles {
+  $theme: map-get($property, theme);
+  $darkTheme: map-get($property, darkTheme);
+  $icon: map-get($property, icon);
+  
+  .alert-#{$state} {
+    background-color: $theme;
+    border-color: $darkTheme;  
+    &:before {
+      background-color: $darkTheme;
+      background-image: url($icon);
+    }
+    .alert-title {
+      color: $darkTheme;
+    }
+  }
+}

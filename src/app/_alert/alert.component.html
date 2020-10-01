@@ -1,0 +1,15 @@
+<div *ngFor="let alert of alerts" class="{{cssClass(alert)}}">
+    <a class="close" (click)="removeAlert(alert)">&times;</a>
+    <span [innerHTML]="alert.message"></span>
+</div>
+
+  <div *ngFor="let alert of alerts" class="alert alert-{{cssClass(alert)}}">
+  <div class="alert-content">
+    <h2 class="alert-title">
+      It look like there was a problem.
+    </h2>
+    <div class="alert-body">
+      <p>Please make sure to double check that the form below has all the correct information.</p>
+    </div>
+  </div>
+</div>

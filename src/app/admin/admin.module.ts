@@ -81,9 +81,10 @@ registerLocaleData(localePl, 'pl-PL');
 import { BreadcrumbModule } from 'angular-crumbs';
 import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 import { StorageCreateComponent } from './p-restaurant/p-storage/storage-create/storage-create.component';
-
+import { AlertModule } from '../_alert/alert.module';
 @NgModule({
   imports: [
+    AlertModule,
     BreadcrumbModule,
     MatTableExporterModule,
     FlexLayoutModule,
