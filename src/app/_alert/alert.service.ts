@@ -16,24 +16,21 @@ export class AlertService {
 
     // convenience methods
     success(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Success, message }));
+        this.alert(new Alert({type: AlertType.Success, message: options }));
         setTimeout(() => {
             this.clear()
-           }, 3000);
+           }, 30000);
          
     }
 
     error(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Error, message }));
-    }
+        this.alert(new Alert({type: AlertType.Success, message: options }));  }
 
     info(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Info, message }));
-    }
+        this.alert(new Alert({type: AlertType.Success, message: options })); }
 
     warn(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Warning, message }));
-    }
+        this.alert(new Alert({type: AlertType.Success, message: options })); }
 
     // main alert method    
     alert(alert: Alert) {

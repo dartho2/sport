@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
 import { NotificationService } from '../../../toastr-notification/toastr-notification.service';
+import { AlertService } from 'src/app/_alert/alert.service';
 export interface Product {
   name: string;
 }
@@ -58,7 +59,7 @@ export class StorageCreateComponent implements OnInit {
   storageId: string;
   productDataId: any;
 
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private storageService: StorageService, private notification: NotificationService) {
+  constructor(private _fb: FormBuilder,private alertService: AlertService,private route: ActivatedRoute, private router: Router, private storageService: StorageService, private notification: NotificationService) {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idStorage")) {
         this.storageId = paramMap.get("idStorage");
@@ -276,7 +277,7 @@ export class StorageCreateComponent implements OnInit {
           
           this.storageService.createStorage(this.storageId, jsonStorage).subscribe(() => {
             this.router.navigate(["../"], { relativeTo: this.route });
-            console.log(jsonStorage, "json") // tworzy z dodanym productem
+            this.alertService.success('Success!!', res)
           })
         })
       })).subscribe(response => {

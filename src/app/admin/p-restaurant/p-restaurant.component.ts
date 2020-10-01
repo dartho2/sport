@@ -21,7 +21,7 @@ export class PRestaurantComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.alertService.success('Success!!', "autoClose ")
+    this.alertService.success('Success!!', "tresc")
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idRestaurant")) {
         const id = paramMap.get("idRestaurant");
