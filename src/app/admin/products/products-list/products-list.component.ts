@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../product.service';
 import { map } from 'rxjs/operators';
 import { exportData } from "../export/exportData";
-import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { AlertService } from 'src/app/_alert/alert.service';
 export interface ProductData {
   id: string;
   name: string;
@@ -44,7 +44,7 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private notification: NotificationService) {
+  constructor(private route: ActivatedRoute, private alertService: AlertService,private productService: ProductService) {
     this.productService.getProduct()
       .pipe(
         map(product => {
@@ -66,7 +66,7 @@ export class ProductsListComponent implements AfterViewInit, OnInit {
   productDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.productService.deleteProduct(id).subscribe(() => {
-        this.notification.info("Success. Deleted")        
+        this.alertService.info("Success", "Deleted")        
     })
     }
   }

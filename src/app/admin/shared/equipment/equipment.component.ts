@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { AlertService } from 'src/app/_alert/alert.service';
 import { EquipmentService } from '../equipment/equipment.service'
-import { NotificationService } from '../../toastr-notification/toastr-notification.service'
+
 @Component({
   selector: 'app-equipment',
   templateUrl: './equipment.component.html',
@@ -11,7 +12,8 @@ export class EquipmentComponent implements OnInit {
   bodyForm: FormGroup;
   equipment;
   selectedValue: ['Zamrażalka', 'Lodówka'];
-  constructor(private equipmentService: EquipmentService, private _fb: FormBuilder,private notification: NotificationService) { }
+  constructor(private equipmentService: EquipmentService, private _fb: FormBuilder,
+    private alertService: AlertService) { }
 
 
   get items() {
@@ -64,6 +66,6 @@ export class EquipmentComponent implements OnInit {
   }
 
   onSubmit() {
-    this.notification.error("Brak zaimplementowanej logiki do obsługi zapisu");
+    this.alertService.error("Info", "Brak zaimplementowanej logiki do obsługi zapisu");
   }
 }

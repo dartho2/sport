@@ -58,7 +58,6 @@ import { ProductShowComponent } from './products/products-show/product-show.comp
 import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NotificationModule } from './toastr-notification/toaster.module';
 import { ColdListComponent } from './haccp/cold-list/cold-list.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { BetComponent } from './bet/bet-list/bet.component';
@@ -88,7 +87,6 @@ import { AlertModule } from '../_alert/alert.module';
     BreadcrumbModule,
     MatTableExporterModule,
     FlexLayoutModule,
-    NotificationModule,
     HttpClientModule,
     ChartsModule,
     ScrollingModule,

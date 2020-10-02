@@ -3,7 +3,6 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { map } from 'rxjs/operators';
 import { exportData } from "../../../products/export/exportData";
-import { NotificationService } from '../../../toastr-notification/toastr-notification.service'; 
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -19,6 +18,7 @@ export interface ProductData {
 }
 import { StorageService } from '../storage.service';
 import { Storage } from '../storage.model'
+import { AlertService } from 'src/app/_alert/alert.service';
 
 @Component({
   selector: 'app-storage-list',
@@ -47,7 +47,8 @@ export class StorageListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(private route: ActivatedRoute, private storageService: StorageService, private notification: NotificationService) {
+  constructor(private route: ActivatedRoute, private storageService: StorageService,
+    private alertService: AlertService) {
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -59,7 +60,7 @@ export class StorageListComponent implements OnInit {
   productDelete(id){
     if(confirm("Produkt id: " +id+" zostanie na stałe usunięty wraz z historia, jesteś pewien ?")) {
       this.storageService.deleteStorageProduct(id).subscribe(() => {
-        this.notification.info("Success. Deleted")        
+        this.alertService.info("Success","Deleted")        
     })
     }
   }

@@ -3,7 +3,7 @@
 // @import '~bootstrap/scss/bootstrap-grid';
 // @import "~bootstrap/dist/css/bootstrap.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
+@import '~ngx-toastr/toastr.css';  
 .mat-expansion-panel-body/* BOTTOM NAVIGATE */
 .mat-tab-label, .mat-tab-link, .mat-tab-group, .mat-list-item, .mat-table {
 font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"

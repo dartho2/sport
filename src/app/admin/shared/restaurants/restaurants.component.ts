@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestaurantService } from './restaurants.service';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
-import { NotificationService } from '../../toastr-notification/toastr-notification.service'
-
+import { AlertService } from 'src/app/_alert/alert.service';
 
 @Component({
   selector: 'app-restaurants',
@@ -12,7 +11,8 @@ import { NotificationService } from '../../toastr-notification/toastr-notificati
 export class RestaurantsComponent implements OnInit {
   restaurants;
   bodyForm: FormGroup;
-  constructor(private restaurantService: RestaurantService, private _fb: FormBuilder,private notification: NotificationService) { }
+  constructor(private restaurantService: RestaurantService, private _fb: FormBuilder,
+    private alertService: AlertService) { }
 
   get itemsres() {
     return <FormArray>this.bodyForm.get('itemsres');
@@ -67,16 +67,16 @@ export class RestaurantsComponent implements OnInit {
   onSubmit() {
     if(this.bodyForm.value.id){
       this.restaurantService.updateRestaurantId(this.bodyForm.value, this.bodyForm.value.id ).subscribe(res=>{
-        this.notification.success("Success. Create")
+        this.alertService.success("Success","Create")
         console.log("add")
       })
     }else{
       this.restaurantService.createRestaurant(this.bodyForm.value, this.bodyForm.value.id ).subscribe(res=>{
-        this.notification.success("Success. Create")
+        this.alertService.success("Success","Create")
         console.log("add")
       })
     }
    
-    this.notification.error("Brak zaimplementowanej logiki do obsługi zapisu");
+    this.alertService.error("Info", "Brak zaimplementowanej logiki do obsługi zapisu");
   }
 }

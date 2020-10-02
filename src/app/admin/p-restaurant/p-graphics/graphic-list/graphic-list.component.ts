@@ -11,10 +11,11 @@ import { default as _rollupMoment, Moment } from 'moment';
 import * as jspdf from 'jspdf';
 import 'jspdf-autotable';
 import html2canvas from 'html2canvas';
-import { NotificationService } from '../../../toastr-notification/toastr-notification.service';
+
 import { map } from 'rxjs/operators';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { param } from 'jquery';
+import { AlertService } from 'src/app/_alert/alert.service';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
   parse: {
@@ -61,7 +62,8 @@ export class GraphicListComponent implements OnInit , OnDestroy{
   userGraphic: any[] = [];
   rowHeder: number;
   restaurantId: string;
-  constructor(private grapicService: GraphicService, private notification: NotificationService, private workerService: WorkerService, private _fb: FormBuilder,private route: ActivatedRoute) {
+  constructor(private grapicService: GraphicService, private alertService: AlertService,
+     private workerService: WorkerService, private _fb: FormBuilder,private route: ActivatedRoute,private router: Router) {
     this.myForm = this._fb.group({
       date: new FormControl(''),
       items:
@@ -157,7 +159,6 @@ export class GraphicListComponent implements OnInit , OnDestroy{
     })
   }
   buildFormGraphic(data: any): FormGroup {
-    console.log(data, "data")
     return this.myForm = this._fb.group({
       _id: data._id ? data._id : '',
       date: data.date ? data.date : '',
@@ -188,11 +189,9 @@ export class GraphicListComponent implements OnInit , OnDestroy{
     }
     let setId = this.graphics[0] ? this.graphics[0]._id : null;
     this.rowN._id = setId
-    console.log(this.userG, "pracownicy2")
-    let user = Object.keys(this.userG).map(key => ([this.userG[key].fname]));
+   let user = Object.keys(this.userG).map(key => ([this.userG[key].fname]));
     this.rowN.items.push(...user)
     this.rowN.date.length === 0 ? this.rowN.date = this.month + '.' + this.year : this.rowN.date;
-    this.rowN.restaurant = this.restaurantId;
     this.rowN.items.map(x => {
       if (Array.isArray(x)) {
         x.push(...this.userGraphic)
@@ -200,14 +199,18 @@ export class GraphicListComponent implements OnInit , OnDestroy{
     })
   }
   onSubmit() {
+    this.myForm.value.restaurant = this.restaurantId;
     if (this.rowN._id) {
+      
       this.grapicService.updateGraphics(this.myForm.value).subscribe(() => {
-        this.notification.success("Success. Update Grafik" + this.rowN._id)
+        this.alertService.success("Success" , this.rowN._id)
       })
     } else {
       this.myForm.value._id =null
+
       this.grapicService.createGraphic(this.myForm.value).subscribe(() => {
-        this.notification.success("Success. Create Grafik")
+        this.router.navigate(['../../'], { relativeTo: this.route }); 
+        this.alertService.success("Success","Create Grafik")
       })
     }
 

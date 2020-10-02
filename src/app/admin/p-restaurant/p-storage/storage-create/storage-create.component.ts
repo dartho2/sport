@@ -6,7 +6,6 @@ import { StorageService } from '../storage.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
-import { NotificationService } from '../../../toastr-notification/toastr-notification.service';
 import { AlertService } from 'src/app/_alert/alert.service';
 export interface Product {
   name: string;
@@ -59,7 +58,7 @@ export class StorageCreateComponent implements OnInit {
   storageId: string;
   productDataId: any;
 
-  constructor(private _fb: FormBuilder,private alertService: AlertService,private route: ActivatedRoute, private router: Router, private storageService: StorageService, private notification: NotificationService) {
+  constructor(private _fb: FormBuilder,private alertService: AlertService,private route: ActivatedRoute, private router: Router, private storageService: StorageService) {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idStorage")) {
         this.storageId = paramMap.get("idStorage");
@@ -71,8 +70,6 @@ export class StorageCreateComponent implements OnInit {
             this.storageService.getPosStorageProduct(this.productId).subscribe(productData => {
               this.buildForm(productData);
               this.bodyForm.value.supplier === 'Re' ? this.selectedValue = "Re" : '';
-              console.log(this.myControl)
-
             })
           } else {
             this.mode = "create";
@@ -255,8 +252,8 @@ export class StorageCreateComponent implements OnInit {
       this.bodyForm.controls['bruttoPrice'].patchValue(this.calculateTotalPrice(this.bodyForm.value))
       this.bodyForm.controls['productDate'].patchValue(this.pr_data);
       this.storageService.updateStorageProduct(this.bodyForm.value).subscribe(response => {
-        this.notification.success("Success. Update");
         this.router.navigate(["../../"], { relativeTo: this.route });
+        this.alertService.success("Success", response);
       })
     } else {
       

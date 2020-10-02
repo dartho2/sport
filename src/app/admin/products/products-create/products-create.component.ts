@@ -5,8 +5,7 @@ import { Products } from '../product.model';
 import { ProductService } from '../product.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-
-import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
+import { AlertService } from 'src/app/_alert/alert.service';
 export interface Product {
   name: string;
 } 
@@ -55,7 +54,7 @@ export class ProductsCreateComponent implements OnInit {
   pr_data;
   message;
 
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private notification: NotificationService) {
+  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private alertService: AlertService) {
     this.productService.getProduct().subscribe(response => {
       this.options = response
       console.log(this.options)
@@ -250,8 +249,9 @@ export class ProductsCreateComponent implements OnInit {
       this.bodyForm.controls['bruttoPrice'].patchValue(this.calculateTotalPrice(this.bodyForm.value))
       this.bodyForm.controls['productDate'].patchValue(this.pr_data);
       this.productService.updateProduct(this.bodyForm.value).subscribe(response => {
-        this.notification.success("Success. Update"); 
-          this.router.navigate(["../../"], { relativeTo: this.route });
+       
+          this.router.navigate(["../../"], { relativeTo: this.route }); 
+          this.alertService.success("Success", "Update"); 
       })
     } else {
       delete this.bodyForm.value._id
@@ -262,7 +262,7 @@ export class ProductsCreateComponent implements OnInit {
       this.bodyForm.value.bruttoPrice = this.calculateTotalPrice(this.bodyForm.value)
       this.productService.createProduct(this.bodyForm.value).subscribe(() => {
         // this.foodCost ? this.message = "Został utworzony" :
-        this.ProductDish ? this.notification.success("Success. Create for Półprodukt") : this.notification.success("Success. Create")
+        this.ProductDish ? this.alertService.success("Success","Create for Półprodukt") : this.alertService.success("Success","Create")
         this.ProductDish ? '' : this.router.navigate(["../"], { relativeTo: this.route })
       })
     };

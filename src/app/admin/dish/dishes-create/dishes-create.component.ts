@@ -6,8 +6,8 @@ import { DishServices } from '../dish-services';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 import { RestaurantService } from '../../shared/restaurants/restaurants.service';
+import { AlertService } from 'src/app/_alert/alert.service';
 export interface DialogData {
   foodCost: '';
 }
@@ -58,7 +58,9 @@ export class DishesCreateComponent implements OnInit {
   coating: any;
   dishId: string;
 
-  constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, private route: ActivatedRoute, private router: Router, private productService: ProductService, private notification: NotificationService, private dishService: DishServices, public dialog: MatDialog) {
+  constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
+    private route: ActivatedRoute, private router: Router, 
+    private productService: ProductService, private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
     this.restaurantService.getRestaurant().subscribe(response=>{
       this.valueRe  = response
       
@@ -112,14 +114,16 @@ export class DishesCreateComponent implements OnInit {
   onSubmit(f) {
     if (this.mode === "edit") {
       this.dishService.updateDish(this.myForm.value).subscribe(response => {
-        this.notification.success("Success. Update")
+        
         this.router.navigate(["../../"], { relativeTo: this.route });
+        this.alertService.success("Success","Update")
       })
     } else {
       delete this.myForm.value._id
       this.dishService.createDish(this.myForm.value).subscribe(() => {
-        this.notification.success("Success. Create")
+        
         this.router.navigate(["../"], { relativeTo: this.route });
+        this.alertService.success("Success","Create")
       })
     };
   }
@@ -147,9 +151,9 @@ export class DishesCreateComponent implements OnInit {
         productMarginFC: this.productMarginFC.toFixed(0),
         fC: this.fC.toFixed(0)
       });
-      this.notification.success("Success. Poprawnie Przeliczono!")
+      this.alertService.success("Success","Poprawnie Przeliczono!")
     } else {
-      this.notification.warn("Uzupełnij Wszystkie Dane");
+      this.alertService.warn("Info","Uzupełnij Wszystkie Dane");
     }
   }
 

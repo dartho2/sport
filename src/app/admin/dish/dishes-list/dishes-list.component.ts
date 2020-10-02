@@ -17,8 +17,8 @@ export interface DishData {
     details: string;
 }
 import * as _ from 'lodash';
-import { NotificationService } from '../../toastr-notification/toastr-notification.service'; 
 import { RestaurantService } from '../../shared/restaurants/restaurants.service';
+import { AlertService } from 'src/app/_alert/alert.service';
 export interface DialogData {
 }
 
@@ -54,7 +54,8 @@ export class DishesListComponent implements AfterViewInit, OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-  constructor(public dialog: MatDialog,private restaurantService: RestaurantService, private route: ActivatedRoute, private dishService: DishServices, private notification: NotificationService) { 
+  constructor(public dialog: MatDialog,private restaurantService: RestaurantService, 
+    private route: ActivatedRoute, private dishService: DishServices,private alertService: AlertService) { 
     this.restaurantService.getRestaurant().subscribe(response=>{
       this.valueRe  = response
       
@@ -91,7 +92,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   dishDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.dishService.deleteDish(id).subscribe(() => {
-        this.notification.info("Success. Deleted")
+        this.alertService.info("Success","Deleted")
         this.dishService.getDish().subscribe(response => {
           this.dish = response
           this.dishData = this.dish;
