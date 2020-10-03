@@ -29,14 +29,7 @@
                           #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                         <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
                       </mat-form-field>
-                      <mat-form-field class="f-control-n">
-                        <mat-select matNativeControl required placeholder="restauracja" formControlName="categoryRes">
-                         <div  *ngFor="let rest of valueRe">
-                            <mat-option *ngFor="let restaurant of rest.itemsres" [value]="restaurant.value">{{restaurant.name}}</mat-option>
-                      
-                         </div>
-                           </mat-select>
-                      </mat-form-field>
+                   
                       <mat-form-field class="f-control-n">
                         <input type="text" id="category" placeholder="Category" name="category"
                           formControlName="category" required matInput>

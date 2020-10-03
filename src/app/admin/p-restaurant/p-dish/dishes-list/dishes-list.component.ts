@@ -1,11 +1,17 @@
 import { Component, OnInit, ViewChild, Inject, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { DishServices } from '../../dish/dish-services';
-import { ActivatedRoute } from '@angular/router';
-import { Dish } from '../../dish/dish.model';
+import { DishServices } from '../dish-services';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Dish } from '../dish.model';
 import {MatDialog,MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import * as _ from 'lodash';
+import { RestaurantService } from '../../../shared/restaurants/restaurants.service';
+import { AlertService } from 'src/app/_alert/alert.service';
+import { StorageService } from '../../p-storage/storage.service';
+export interface DialogData {
+}
 export interface DishData {
   id: string;
   name: string;
@@ -15,11 +21,6 @@ export interface DishData {
     weight: string;
     unit: string;
     details: string;
-}
-import * as _ from 'lodash';
-import { RestaurantService } from '../../shared/restaurants/restaurants.service';
-import { AlertService } from 'src/app/_alert/alert.service';
-export interface DialogData {
 }
 
 @Component({
@@ -49,22 +50,25 @@ export class DishesListComponent implements AfterViewInit, OnInit {
     ];
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
+  storage: any;
+  dishesData: any;
   
     applyFilter(filterValue: string) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
   constructor(public dialog: MatDialog,private restaurantService: RestaurantService, 
-    private route: ActivatedRoute, private dishService: DishServices,private alertService: AlertService) { 
+    private route: ActivatedRoute, private dishService: DishServices,private alertService: AlertService,
+    private storageService: StorageService) { 
     this.restaurantService.getRestaurant().subscribe(response=>{
       this.valueRe  = response
       
   })
-    this.dishService.getDish().subscribe(response => {
-      this.dish = response
-      this.dishData = this.dish;
-     this.dataSource.data = _.sortBy(this.dishData, 'category')   
-    });
+    // this.dishService.getDish().subscribe(response => {
+    //   this.dish = response
+    //   this.dishData = this.dish;
+    //  this.dataSource.data = _.sortBy(this.dishData, 'category')   
+    // });
     }
     onChange(name){
       if(name !== 'All'){
@@ -87,19 +91,25 @@ export class DishesListComponent implements AfterViewInit, OnInit {
       this.buttonTable = a
     }
   ngOnInit() {
-  
+    console.log("dish")
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("idStorage")) {
+        const id = paramMap.get("idStorage");
+        this.storageService.getPosStorage(id).subscribe(response => {
+          this.storage = response
+          this.dishesData = this.storage.dishes;
+          console.log(this.dishesData, "data")
+          this.dataSource.data = this.dishesData;
+          this.dataSource.data = _.sortBy(this.dishesData, 'category')   
+        })
+      }
+
+    })
   }
   dishDelete(id){
     if(confirm("Are you sure to delete "+id)) {
       this.dishService.deleteDish(id).subscribe(() => {
         this.alertService.info("Success","Deleted")
-        this.dishService.getDish().subscribe(response => {
-          this.dish = response
-          this.dishData = this.dish;
-         this.dataSource.data = this.dishData;  
-         console.log("usuniete", id)
-        });
-        
     })
     }
   }

@@ -1,13 +1,14 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormsModule, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { ProductService } from '../../products/product.service';
+import { ProductService } from '../../../products/product.service';
 import { DishServices } from '../dish-services';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RestaurantService } from '../../shared/restaurants/restaurants.service';
+import { RestaurantService } from '../../../shared/restaurants/restaurants.service';
 import { AlertService } from 'src/app/_alert/alert.service';
+import { StorageService } from '../../p-storage/storage.service';
 export interface DialogData {
   foodCost: '';
 }
@@ -57,10 +58,13 @@ export class DishesCreateComponent implements OnInit {
   }
   coating: any;
   dishId: string;
+  dishDataId: any;
+  storageId: string;
+  idDishe: string;
 
   constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
-    private productService: ProductService, private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
+    private productService: ProductService, private storageService: StorageService, private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
     this.restaurantService.getRestaurant().subscribe(response=>{
       this.valueRe  = response
       
@@ -72,7 +76,6 @@ export class DishesCreateComponent implements OnInit {
     this.myForm = this._fb.group({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
       description: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      categoryRes: new FormControl('', [Validators.required]),
       category: new FormControl('', [Validators.required, Validators.minLength(4)]),
       image: new FormControl(this.customeImg),
       foodCost: new FormControl('', Validators.required),
@@ -84,16 +87,33 @@ export class DishesCreateComponent implements OnInit {
       coating: new FormControl('', Validators.required),
       products: this._fb.array([])
     })
+    // this.route.paramMap.subscribe((paramMap: ParamMap) => {
+    //   console.log(paramMap.has("id"))
+    //   if (paramMap.has("id")) {
+    //     this.mode = "edit";
+    //     this.dishId = paramMap.get("id");
+    //     this.dishService.getDishID(this.dishId).subscribe(productData => {
+    //       this.buildFormDish(productData);
+    //     })
+    //   } else {
+    //     this.mode = "create";
+    //   }
+    // });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      console.log(paramMap.has("id"))
-      if (paramMap.has("id")) {
-        this.mode = "edit";
-        this.dishId = paramMap.get("id");
-        this.dishService.getDishID(this.dishId).subscribe(productData => {
-          this.buildFormDish(productData);
-        })
-      } else {
-        this.mode = "create";
+      if (paramMap.has("idStorage")) {
+        this.storageId = paramMap.get("idStorage");
+        this.storageService.getPosStorage(this.storageId).subscribe((response: any) => {
+          this.options = response.products
+          if (paramMap.has("idDishe")) {
+            this.mode = "edit";
+            this.idDishe = paramMap.get("idDishe");
+            this.storageService.getPosStorageProduct(this.idDishe).subscribe(dishData => {
+              this.buildFormDish(dishData);
+            })
+          } else {
+            this.mode = "create";
+          }
+        });
       }
     });
     this.setCities();
@@ -119,11 +139,28 @@ export class DishesCreateComponent implements OnInit {
         this.alertService.success("Success","Update")
       })
     } else {
-      delete this.myForm.value._id
-      this.dishService.createDish(this.myForm.value).subscribe(() => {
+      // delete this.myForm.value._id
+      // this.dishService.createDish(this.myForm.value).subscribe(() => {
         
-        this.router.navigate(["../"], { relativeTo: this.route });
-        this.alertService.success("Success","Create")
+      //   this.router.navigate(["../"], { relativeTo: this.route });
+      //   this.alertService.success("Success","Create")
+      // })
+      delete this.myForm.value._id
+      this.dishService.createDish(this.myForm.value).pipe(
+        map((res: Response) => {
+        this.dishDataId = res // id productu
+        this.storageService.getPosStorage(this.storageId).subscribe(storage => { //dostaje storage gdzie product ma isc
+          var jsonStorage;
+          jsonStorage = storage;
+          jsonStorage.dishes = jsonStorage.dishes || [];
+          jsonStorage.dishes.push({"_id": this.dishDataId._id})
+          
+          this.storageService.createStorage(this.storageId, jsonStorage).subscribe(() => {
+            this.router.navigate(["../"], { relativeTo: this.route });
+            this.alertService.success('Success!!', res)
+          })
+        })
+      })).subscribe(response => {
       })
     };
   }
@@ -255,7 +292,6 @@ export class DishesCreateComponent implements OnInit {
       name: [data ? data.name : '',],
       description: [data ? data.description : '',],
       image: [data ? data.image : this.customeImg],
-      categoryRes: [data ? data.categoryRes : null],
       category: [data ? data.category : null],
       vat: [data ? data.vat : '',],
       fC: [data ? data.fC : '',],

@@ -6,8 +6,8 @@ import { BetComponent } from '../admin/bet/bet-list/bet.component'
 import { ProductShowComponent } from './products/products-show/product-show.component';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
-import { DishesListComponent } from './dish/dishes-list/dishes-list.component';
-import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
+import { DishesListComponent } from './p-restaurant/p-dish/dishes-list/dishes-list.component';
+import { DishesCreateComponent } from './p-restaurant/p-dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
@@ -22,6 +22,8 @@ import { PersonelListComponent } from './p-restaurant/p-personel/personel-list/p
 import { GraphicListComponent } from './p-restaurant/p-graphics/graphic-list/graphic-list.component';
 import { StorageListComponent } from './p-restaurant/p-storage/storage-list/storage-list.component';
 import { StorageCreateComponent } from './p-restaurant/p-storage/storage-create/storage-create.component';
+import { PProductsListComponent } from './p-restaurant/p-storage/p-products-list/p-products-list.component';
+import { PProductsCreateComponent } from './p-restaurant/p-storage/p-products-create/p-products-create.component';
 
 const adminRoutes: Routes = [
 
@@ -31,50 +33,98 @@ const adminRoutes: Routes = [
     children: [
       {
         path: 'restaurant',
-        data: { roles: [Role.Admin, Role.User] ,  
-           breadcrumb: 'home'
+        data: {
+          roles: [Role.Admin, Role.User],
+          breadcrumb: 'home'
         },
-        children:[
+        children: [
           {
             path: '',
             component: HomeComponent,
-            data: { roles: [Role.Admin, Role.User], breadcrumb: 'restauracja'
-          }},
+            data: {
+              roles: [Role.Admin, Role.User], breadcrumb: 'restauracja'
+            }
+          },
           {
             path: ':idRestaurant',
-            data: { roles: [Role.Admin, Role.User], breadcrumb: 'restauracja'
-          },
+            data: {
+              roles: [Role.Admin, Role.User], breadcrumb: 'restauracja'
+            },
             children: [
-              {path: '',
-              component: PRestaurantComponent,
-              data: { roles: [Role.Admin, Role.User], breadcrumb: 'GitHub2'}
-            },
-            {
-              path: 'personel/:idPersonel',
-              component: PersonelListComponent,
-              data: { roles: [Role.Admin, Role.User] ,breadcrumb: 'Personel'}
-            },
+              {
+                path: '',
+                component: PRestaurantComponent,
+                data: { roles: [Role.Admin, Role.User], breadcrumb: 'GitHub2' }
+              },
+              {
+                path: 'personel/:idPersonel',
+                component: PersonelListComponent,
+                data: { roles: [Role.Admin, Role.User], breadcrumb: 'Personel' }
+              },
               {
                 path: 'storage/:idStorage',
-                data: { roles: [Role.Admin, Role.User],breadcrumb: 'magazyn' },children:[
+                data: { roles: [Role.Admin, Role.User], breadcrumb: 'magazyn' }, children: [
+                  
                   {
-                    path: '',
-                component: StorageListComponent,
-                    data: { roles: [Role.Admin, Role.User],breadcrumb: 'magazyn' }
-                  },
-                  {
-                    path: 'new',
-                    component: StorageCreateComponent,
-                    data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
-                  },
-                  {
+                      path: '',
+                      component: StorageListComponent,
+                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
+                    },
+                    {
+                      path: 'dish',
+                      component: DishesListComponent,
+                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'new'}
+                    },
+                    {
+                      path: 'dish/new',
+                      component: DishesCreateComponent,
+                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'new'}
+                    },
+                    {
+                      path: 'edit/:idDishe',
+                      component: DishesCreateComponent,
+                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'edit'}
+                    },
+                    {
+                      path: 'products',
+                      component: PProductsListComponent,
+                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'product',}
+                    },
+                    {
+                      path: 'products/new',
+                      component: PProductsCreateComponent,
+                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
+                    },
+                    {
                     path: 'edit/:idProduct',
-                    component: StorageCreateComponent,
+                    component: PProductsCreateComponent,
                     data: { roles: [Role.Admin, Role.User],breadcrumb: 'edit' }
-                  }
+                    }
+                  // {
+                  //   path: 'new',
+                  //   component: StorageCreateComponent,
+                  //   data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
+                  // },
+                  // {
+                  //   path: 'edit/:idProduct',
+                  //   component: StorageCreateComponent,
+                  //   data: { roles: [Role.Admin, Role.User],breadcrumb: 'edit' }
+                  // }
                 ]
               },
-              
+
+              {
+                path: 'dish/create',
+                component: DishesCreateComponent,
+                data: { roles: [Role.Admin, Role.User] }
+              },
+              {
+                path: 'dish/edit/:id',
+                component: DishesCreateComponent,
+                canActivate: [AuthGuard],
+                data: { roles: [Role.Admin] }
+              },
+
               {
                 path: 'graphic/:idPersonel',
                 component: GraphicListComponent,
@@ -83,7 +133,7 @@ const adminRoutes: Routes = [
           },
         ]
       },
-     
+
       {
         path: 'restaurant/:idRestaurant/grafik/:idEWorker',
         component: PRestaurantComponent,
@@ -128,44 +178,28 @@ const adminRoutes: Routes = [
         data: { roles: [Role.Admin] }
       },
       {
-              path: 'recipe/list',
-              component: RecipeListComponent,
-              canActivate: [AuthGuard],
-              data: { roles: [Role.Admin, Role.User] }
-      
-            },
-            // {
-            //   path: 'graphics/list',
-            //   component: GraphicsListComponent,
-            //   data: { roles: [Role.Admin, Role.User] }
-            // },
-            {
-              path: 'semiproduct/list',
-              component: SemiproduktListComponent,
-              data: { roles: [Role.Admin, Role.User] }
-            },
-            {
-              path: 'products/edit/:idProduct',
-              component: ProductsCreateComponent,
-              canActivate: [AuthGuard],
-              data: { roles: [Role.Admin] }
-            },
-            {
-              path: 'dish',
-              component: DishesListComponent,
-              data: { roles: [Role.Admin, Role.User] }
-            },
-            {
-              path: 'dish/create',
-              component: DishesCreateComponent,
-              data: { roles: [Role.Admin, Role.User] }
-            },
-            {
-              path: 'dish/edit/:id',
-              component: DishesCreateComponent,
-              canActivate: [AuthGuard],
-              data: { roles: [Role.Admin] }
-            },
+        path: 'recipe/list',
+        component: RecipeListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin, Role.User] }
+
+      },
+      // {
+      //   path: 'graphics/list',
+      //   component: GraphicsListComponent,
+      //   data: { roles: [Role.Admin, Role.User] }
+      // },
+      {
+        path: 'semiproduct/list',
+        component: SemiproduktListComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
+        path: 'products/edit/:idProduct',
+        component: ProductsCreateComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin] }
+      }
     ]
   },
   {
@@ -200,7 +234,7 @@ const adminRoutes: Routes = [
         component: BetComponent,
         data: { roles: [Role.Admin, Role.User] }
       }
-      
+
     ]
   }
 ]
