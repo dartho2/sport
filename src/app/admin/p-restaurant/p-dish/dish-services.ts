@@ -14,8 +14,7 @@ export class DishServices {
         return this._http.get<Dish[]>("https://karmazdrowia.pl:8080/api/dish");
       }
       createDish(bodyDish) {
-        console.log(bodyDish)
-        return this._http.post<Dish[]>("https://karmazdrowia.pl:8080/api/dish", bodyDish);
+        return this._http.post("https://karmazdrowia.pl:8080/api/dish", bodyDish);
       }
       getDishID(id: string)  {
         return this._http.get<Dish>("https://karmazdrowia.pl:8080/api/dish/" + id);

@@ -41,44 +41,43 @@ export class PProductsListComponent implements OnInit {
     "update",
     "delete"];
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  constructor(private route: ActivatedRoute, private storageService: StorageService,
-    private alertService: AlertService) {
-  }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-  getmember(a) {
-    return parseFloat(a).toFixed(2)
-  }
-  productDelete(id){
-    if(confirm("Produkt id: " +id+" zostanie na stałe usunięty wraz z historia, jesteś pewien ?")) {
-      this.storageService.deleteStorageProduct(id).subscribe(() => {
-        this.alertService.info("Success","Deleted")        
-    })
+    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+    @ViewChild(MatSort, {static: false}) sort: MatSort;
+    applyFilter(filterValue: string) {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+  
+    constructor(private route: ActivatedRoute, private storageService: StorageService,
+      private alertService: AlertService) {
+    }
+    ngAfterViewInit() {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+    getmember(a) {
+      return parseFloat(a).toFixed(2)
+    }
+    productDelete(id){
+      if(confirm("Produkt id: " +id+" zostanie na stałe usunięty wraz z historia, jesteś pewien ?")) {
+        this.storageService.deleteStorageProduct(id).subscribe(() => {
+          this.alertService.info("Success","Deleted")        
+      })
+      }
+    }
+    ngOnInit() {
+      this.route.paramMap.subscribe((paramMap: ParamMap) => {
+        if (paramMap.has("idStorage")) {
+          const id = paramMap.get("idStorage");
+          this.storageService.getPosStorage(id).subscribe(response => {
+            this.product = response
+            this.productData = this.product.products;
+            this.dataSource.data = this.productData;
+          })
+        }
+  
+      })
+    }
+    exportTable() {
+      exportData.exportToExcel("ExampleTable");
     }
   }
-  ngOnInit() {
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("idStorage")) {
-        const id = paramMap.get("idStorage");
-        this.storageService.getPosStorage(id).subscribe(response => {
-          this.product = response
-          this.productData = this.product.products;
-          this.dataSource.data = this.productData;
-        })
-      }
-
-    })
-  }
-  exportTable() {
-    exportData.exportToExcel("ExampleTable");
-  }
-}
-

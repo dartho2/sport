@@ -9058,3 +9058,14 @@ div.alert-box a.close:focus {
     border-style: solid;
     border-width: 1px;
 }
+.icon-center {
+  text-align: center;
+  }
+  .icon-size {
+   font-size: 60px;
+   width: 60px;
+   height: 60px;
+  }
+  ::ng-deep .mat-card-header-text {
+      margin: 0 auto !important;
+  }
