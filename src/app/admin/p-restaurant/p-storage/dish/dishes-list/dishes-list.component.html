@@ -21,7 +21,7 @@
 
         <div fxLayout="row wrap" fxLayoutGap="16px grid">
 
-          <div [fxFlex]="(100/4) + '%'" fxFlex.xs="99%" fxFlex.sm="33%"
+          <div [fxFlex]="(100/4) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"
             *ngFor="let dish of this.dataSource.filteredData">
             <mat-card class="mat-elevation-z4">
               <!-- <img mat-card-image src=""> -->
@@ -36,7 +36,7 @@
                     <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
                   </div> -->
                 </mat-card-header>
-                <img mat-card-image src="{{dish.image}}">
+                <!-- <img mat-card-image src="{{dish.image}}"> -->
                 <mat-list>
                   <p>
                     Cenna Brutto [sprzedaż]
@@ -87,21 +87,11 @@
 </div>
 
 <div class="content-body" *ngIf="!buttonTable">
-  <div class="photo-list card card-block">
+  <div class=" mat-elevation-z photo-list card card-block">
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" class="mat-form-field-wrapper" placeholder="Search">
     </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <mat-select placeholder="restauracja" (selectionChange)="onChange($event.value)">
-        <!-- Do poprawy -->
-        <div *ngFor="let rest of valueRe">
-          <mat-option *ngFor="let restaurant of rest.itemsres" [value]="restaurant.value">{{restaurant.name}}
-          </mat-option>
-
-        </div>
-        <!-- Do poprawy up -->
-      </mat-select>
-    </mat-form-field>
+  
 
     <table id="ExampleTable" mat-table [dataSource]="dataSource" matSort
       class="table-responsive table mat-elevation-z8">

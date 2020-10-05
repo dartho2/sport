@@ -9,3 +9,6 @@ text-align: center;
 ::ng-deep .mat-card-header-text {
     margin: 0 auto !important;
 }
+.box-href {
+    padding:10px !important;
+}
