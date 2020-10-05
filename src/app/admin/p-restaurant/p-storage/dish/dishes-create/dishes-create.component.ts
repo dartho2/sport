@@ -1,14 +1,14 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormsModule, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { ProductService } from '../../../products/product.service';
+import { ProductService } from '../../products/product.service';
 import { DishServices } from '../dish-services';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RestaurantService } from '../../../../../shared/restaurants/restaurants.service';
+import { RestaurantService } from '../../../../shared/restaurants/restaurants.service';
 import { AlertService } from 'src/app/_alert/alert.service';
-import { StorageService } from '../../../storage.service';
+import { StorageService } from '../../storage.service';
 export interface DialogData {
   foodCost: '';
 }

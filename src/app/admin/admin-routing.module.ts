@@ -6,8 +6,8 @@ import { BetComponent } from '../admin/bet/bet-list/bet.component'
 import { ProductShowComponent } from './products/products-show/product-show.component';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
-import { DishesListComponent } from './p-restaurant/p-storage/dish/p-dish/dishes-list/dishes-list.component';
-import { DishesCreateComponent } from './p-restaurant/p-storage/dish/p-dish/dishes-create/dishes-create.component';
+import { DishesListComponent } from './p-restaurant/p-storage/dish/dishes-list/dishes-list.component';
+import { DishesCreateComponent } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
@@ -25,6 +25,7 @@ import { StorageCreateComponent } from './p-restaurant/p-storage/storage-create/
 import { PProductsListComponent } from './p-restaurant/p-storage/products/p-products-list/p-products-list.component';
 import { PProductsCreateComponent } from './p-restaurant/p-storage/products/p-products-create/p-products-create.component';
 import { PProductsShowComponent } from './p-restaurant/p-storage/products/p-products-show/p-products-show.component';
+import { DishShowComponent } from './p-restaurant/p-storage/dish/dish-show/dish-show.component';
 
 const adminRoutes: Routes = [
 
@@ -89,6 +90,11 @@ const adminRoutes: Routes = [
                         path: 'edit/:idDishe',
                         component: DishesCreateComponent,
                         data: { roles: [Role.Admin, Role.User], breadcrumb: 'edit' }
+                      },
+                      {
+                        path: 'show/:idDishe',
+                        component: DishShowComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'show' }
                       }
                     ]
                   },

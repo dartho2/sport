@@ -9,7 +9,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SearchPipe } from './admin/_pipe/search/search.pipe';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
-import { DishesListComponent, DialogDataListDialog } from './p-restaurant/p-storage/dish/p-dish/dishes-list/dishes-list.component';
+import { DishesListComponent, DialogDataListDialog } from './p-restaurant/p-storage/dish/dishes-list/dishes-list.component';
 // import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
@@ -51,7 +51,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
-import { DishesCreateComponent, DialogDataExampleDialog } from './p-restaurant/p-storage/dish/p-dish/dishes-create/dishes-create.component';
+import { DishesCreateComponent, DialogDataExampleDialog } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { ProductShowComponent } from './products/products-show/product-show.component';
@@ -84,6 +84,7 @@ import { AlertModule } from '../_alert/alert.module';
 import { PProductsListComponent } from './p-restaurant/p-storage/products/p-products-list/p-products-list.component';
 import { PProductsCreateComponent } from './p-restaurant/p-storage/products/p-products-create/p-products-create.component';
 import { PProductsShowComponent } from './p-restaurant/p-storage/products/p-products-show/p-products-show.component';
+import { DishShowComponent } from './p-restaurant/p-storage/dish/dish-show/dish-show.component';
 // import { BreadCrumbParamService } from './shared/breadcrumb/breadcrumb.service';
 @NgModule({
   imports: [
@@ -167,7 +168,7 @@ import { PProductsShowComponent } from './p-restaurant/p-storage/products/p-prod
     GraphicListComponent, 
     StorageListComponent, 
     BreadcrumbComponent, 
-    StorageCreateComponent, PProductsListComponent, PProductsCreateComponent, PProductsShowComponent
+    StorageCreateComponent, PProductsListComponent, PProductsCreateComponent, PProductsShowComponent, DishShowComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],
