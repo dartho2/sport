@@ -6,8 +6,8 @@ import { BetComponent } from '../admin/bet/bet-list/bet.component'
 import { ProductShowComponent } from './products/products-show/product-show.component';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
-import { DishesListComponent } from './p-restaurant/p-dish/dishes-list/dishes-list.component';
-import { DishesCreateComponent } from './p-restaurant/p-dish/dishes-create/dishes-create.component';
+import { DishesListComponent } from './p-restaurant/p-storage/dish/p-dish/dishes-list/dishes-list.component';
+import { DishesCreateComponent } from './p-restaurant/p-storage/dish/p-dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
@@ -22,8 +22,9 @@ import { PersonelListComponent } from './p-restaurant/p-personel/personel-list/p
 import { GraphicListComponent } from './p-restaurant/p-graphics/graphic-list/graphic-list.component';
 import { StorageListComponent } from './p-restaurant/p-storage/storage-list/storage-list.component';
 import { StorageCreateComponent } from './p-restaurant/p-storage/storage-create/storage-create.component';
-import { PProductsListComponent } from './p-restaurant/p-storage/p-products-list/p-products-list.component';
-import { PProductsCreateComponent } from './p-restaurant/p-storage/p-products-create/p-products-create.component';
+import { PProductsListComponent } from './p-restaurant/p-storage/products/p-products-list/p-products-list.component';
+import { PProductsCreateComponent } from './p-restaurant/p-storage/products/p-products-create/p-products-create.component';
+import { PProductsShowComponent } from './p-restaurant/p-storage/products/p-products-show/p-products-show.component';
 
 const adminRoutes: Routes = [
 
@@ -64,42 +65,65 @@ const adminRoutes: Routes = [
               {
                 path: 'storage/:idStorage',
                 data: { roles: [Role.Admin, Role.User], breadcrumb: 'magazyn' }, children: [
-                  
+
                   {
-                      path: '',
-                      component: StorageListComponent,
-                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
-                    },
-                    {
-                      path: 'dish',
-                      component: DishesListComponent,
-                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'new'}
-                    },
-                    {
-                      path: 'dish/new',
-                      component: DishesCreateComponent,
-                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'new'}
-                    },
-                    {
-                      path: 'edit/:idDishe',
-                      component: DishesCreateComponent,
-                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'edit'}
-                    },
-                    {
-                      path: 'products',
-                      component: PProductsListComponent,
-                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'product',}
-                    },
-                    {
-                      path: 'products/new',
-                      component: PProductsCreateComponent,
-                      data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
-                    },
-                    {
-                    path: 'edit/:idProduct',
-                    component: PProductsCreateComponent,
-                    data: { roles: [Role.Admin, Role.User],breadcrumb: 'edit' }
-                    }
+                    path: '',
+                    component: StorageListComponent,
+                    data: { roles: [Role.Admin, Role.User], breadcrumb: 'new' }
+                  },
+                  {
+                    path: 'dish',
+                    data: { roles: [Role.Admin, Role.User], breadcrumb: 'dish' },
+                    children: [
+                      {
+                        path: '',
+                        component: DishesListComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'new' }
+                      },
+                      {
+                        path: 'new',
+                        component: DishesCreateComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'new' }
+                      },
+                      {
+                        path: 'edit/:idDishe',
+                        component: DishesCreateComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'edit' }
+                      }
+                    ]
+                  },
+                  {
+                    path: 'products',
+                    data: { roles: [Role.Admin, Role.User], breadcrumb: 'products' },
+                    children: [
+                      {
+                        path: '',
+                        component: PProductsListComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'products' }
+                      },
+                      {
+                        path: 'new',
+                        component: PProductsCreateComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'new' }
+                      },
+                      {
+                        path: 'edit/:idProduct',
+                        component: PProductsCreateComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'edit' }
+                      },
+                      {
+                        path: 'show/:idProduct',
+                        component: PProductsShowComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'show' }
+                      }
+                    ]
+                  },
+                  // {
+                  //   path: 'products/new',
+                  //   component: PProductsCreateComponent,
+                  //   data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
+                  // },
+
                   // {
                   //   path: 'new',
                   //   component: StorageCreateComponent,

@@ -6,9 +6,9 @@ import { DishServices } from '../dish-services';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RestaurantService } from '../../../shared/restaurants/restaurants.service';
+import { RestaurantService } from '../../../../../shared/restaurants/restaurants.service';
 import { AlertService } from 'src/app/_alert/alert.service';
-import { StorageService } from '../../p-storage/storage.service';
+import { StorageService } from '../../../storage.service';
 export interface DialogData {
   foodCost: '';
 }

@@ -7,9 +7,9 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import * as _ from 'lodash';
-import { RestaurantService } from '../../../shared/restaurants/restaurants.service';
+import { RestaurantService } from '../../../../../shared/restaurants/restaurants.service';
 import { AlertService } from 'src/app/_alert/alert.service';
-import { StorageService } from '../../p-storage/storage.service';
+import { StorageService } from '../../../storage.service';
 export interface DialogData {
 }
 export interface DishData {

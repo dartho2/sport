@@ -7,43 +7,32 @@ import { Storage } from "./storage.model";
 
 @Injectable({ providedIn: 'root' })
 export class StorageService {
-    private products;
-    private productsUpdated = new Subject<Storage[]>();
-    constructor(private _http: HttpClient, private router: Router) { }
+  private products;
+  private productsUpdated = new Subject<Storage[]>();
+  constructor(private _http: HttpClient, private router: Router) { }
 
-    //POS
-    getPosStorage(id): Observable<Storage[]> {
-        return this._http.get<Storage[]>("https://karmazdrowia.pl:8080/api/pos/storage/" +id);
-    }
-    getPosStorageProduct(id): Observable<Storage[]> {
-        return this._http.get<Storage[]>("https://karmazdrowia.pl:8080/api/pos/products/" +id);
-    }
+  //POS
+  getPosStorage(id): Observable<Storage[]> {
+    return this._http.get<Storage[]>("https://karmazdrowia.pl:8080/api/pos/storage/" + id);
+  }
+  getPosStorageProduct(id): Observable<Storage[]> {
+    return this._http.get<Storage[]>("https://karmazdrowia.pl:8080/api/pos/products/" + id);
+  }
 
+  createStorageProduct(product: Storage) {
+    return this._http.post("https://karmazdrowia.pl:8080/api/pos/products", product);
+  }
 
+  updateStorageProduct(product) {
+    return this._http.post("https://karmazdrowia.pl:8080/api/pos/products/" + product._id, product);
+  }
+  createStorage(id, data) {
+    return this._http.post("https://karmazdrowia.pl:8080/api/pos/storage/" + id, data);
+  }
+  deleteStorageProduct(id) {
+    return this._http.delete<Storage[]>("https://karmazdrowia.pl:8080/api/pos/products/" + id)
+  }
+  //POS
 
-
-
-
-
-    createStorageProduct(product: Storage) {
-        return this._http.post("https://karmazdrowia.pl:8080/api/pos/products", product);
-      }
-
-
-
-
-
-
-      updateStorageProduct(product) {
-        return this._http.post("https://karmazdrowia.pl:8080/api/pos/products/" + product._id, product);
-      }
-      createStorage(id, data) {
-        return this._http.post("https://karmazdrowia.pl:8080/api/pos/storage/" + id, data);
-      }
-      deleteStorageProduct(id) {
-        return this._http.delete<Storage[]>("https://karmazdrowia.pl:8080/api/pos/products/" + id)
-    }
-    //POS
-    
 
 }

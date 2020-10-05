@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { map } from 'rxjs/operators';
-import { exportData } from "../../../products/export/exportData";
+import { exportData } from "../../../../products/export/exportData";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -16,8 +16,8 @@ export interface ProductData {
     unit: string;
     details: string;
 }
-import { StorageService } from '../storage.service';
-import { Storage } from '../storage.model'
+import { StorageService } from '../../storage.service';
+import { Storage } from '../../storage.model'
 import { AlertService } from 'src/app/_alert/alert.service';
 
 @Component({

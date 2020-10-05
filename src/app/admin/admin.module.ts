@@ -9,7 +9,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SearchPipe } from './admin/_pipe/search/search.pipe';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
-import { DishesListComponent, DialogDataListDialog } from './p-restaurant/p-dish/dishes-list/dishes-list.component';
+import { DishesListComponent, DialogDataListDialog } from './p-restaurant/p-storage/dish/p-dish/dishes-list/dishes-list.component';
 // import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
@@ -51,7 +51,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
-import { DishesCreateComponent, DialogDataExampleDialog } from './p-restaurant/p-dish/dishes-create/dishes-create.component';
+import { DishesCreateComponent, DialogDataExampleDialog } from './p-restaurant/p-storage/dish/p-dish/dishes-create/dishes-create.component';
 import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { ProductShowComponent } from './products/products-show/product-show.component';
@@ -77,12 +77,14 @@ import { GraphicListComponent } from './p-restaurant/p-graphics/graphic-list/gra
 import { StorageListComponent } from './p-restaurant/p-storage/storage-list/storage-list.component';
 // import {NgDynamicBreadcrumbModule} from "ng-dynamic-breadcrumb";
 registerLocaleData(localePl, 'pl-PL');
-import { BreadcrumbModule } from 'angular-crumbs';
+import { BreadcrumbModule, BreadcrumbService } from 'angular-crumbs';
 import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 import { StorageCreateComponent } from './p-restaurant/p-storage/storage-create/storage-create.component';
 import { AlertModule } from '../_alert/alert.module';
-import { PProductsListComponent } from './p-restaurant/p-storage/p-products-list/p-products-list.component';
-import { PProductsCreateComponent } from './p-restaurant/p-storage/p-products-create/p-products-create.component';
+import { PProductsListComponent } from './p-restaurant/p-storage/products/p-products-list/p-products-list.component';
+import { PProductsCreateComponent } from './p-restaurant/p-storage/products/p-products-create/p-products-create.component';
+import { PProductsShowComponent } from './p-restaurant/p-storage/products/p-products-show/p-products-show.component';
+// import { BreadCrumbParamService } from './shared/breadcrumb/breadcrumb.service';
 @NgModule({
   imports: [
     AlertModule,
@@ -165,7 +167,7 @@ import { PProductsCreateComponent } from './p-restaurant/p-storage/p-products-cr
     GraphicListComponent, 
     StorageListComponent, 
     BreadcrumbComponent, 
-    StorageCreateComponent, PProductsListComponent, PProductsCreateComponent
+    StorageCreateComponent, PProductsListComponent, PProductsCreateComponent, PProductsShowComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

@@ -19,6 +19,7 @@ export interface ProductData {
 import { StorageService } from '../storage.service';
 import { Storage } from '../storage.model'
 import { AlertService } from 'src/app/_alert/alert.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-storage-list',
@@ -27,6 +28,7 @@ import { AlertService } from 'src/app/_alert/alert.service';
 })
 export class StorageListComponent implements OnInit {
   productData;
+  repos: Observable<any>;
   product = null;
   dataSource = new MatTableDataSource<ProductData>();
   displayedColumns: string[] = [
@@ -43,6 +45,7 @@ export class StorageListComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  restaurant: any;
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -76,6 +79,7 @@ export class StorageListComponent implements OnInit {
       }
 
     })
+  
   }
   exportTable() {
     exportData.exportToExcel("ExampleTable");

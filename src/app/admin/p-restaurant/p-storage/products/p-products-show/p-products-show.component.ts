@@ -5,14 +5,15 @@ import { Products } from '../product.model';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
-import { BreadcrumbService } from 'angular-crumbs/breadcrumb.service';
+import { BreadcrumbService } from 'angular-crumbs';
+
 
 @Component({
-  selector: 'app-product-show',
-  templateUrl: './product-show.component.html',
-  styleUrls: ['./product-show.component.css']
+  selector: 'app-p-products-show',
+  templateUrl: './p-products-show.component.html',
+  styleUrls: ['./p-products-show.component.css']
 })
-export class ProductShowComponent implements OnInit {
+export class PProductsShowComponent implements OnInit {
   product: Products;
   productId;
   dupa: any[];
@@ -47,11 +48,11 @@ export class ProductShowComponent implements OnInit {
         this.productId = paramMap.get("idProduct");
         this.productService.getProductID(this.productId).subscribe(response => {
           this.product = response
-          this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.product.name);
           this.dupa = this.product.history.map(x => x.nettoPrice);
           this.lineChartData =  [{data: this.dupa, label: 'Cena Netto'}];
           this.lineChartLabels = this.product.history.map(x => (this.datePipe.transform(new Date(x.productDate))))
           this.isDataAvailable =true;
+          this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.product.name);
         })
       } 
     })
