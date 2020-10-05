@@ -2797,11 +2797,11 @@ table.korrektur textarea:focus,
 table.korrektur select:focus {
   border: 1px solid #00aded !important; }
 
-input:focus {
-  outline: #00aded auto 1px !important;
-  outline-color: #00aded !important;
-  outline-style: auto !important;
-  outline-width: 1px !important; }
+// input:focus {
+//   outline: #00aded auto 1px !important;
+//   outline-color: #00aded !important;
+//   outline-style: auto !important;
+//   outline-width: 1px !important; }
 
 table.korrektur .icheckbox_square-blue {
   margin: 0; }

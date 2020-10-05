@@ -1,30 +1,4 @@
-.example-card {
-  max-width: 400px;
-}
 
-.example-header-image {
-  background-size: cover;
-}
-
-.mat-card:not([class*=mat-elevation-z]) {
-  box-shadow: unset !important;
-}
-
-.mat-card {
-  background: #f8f9fc;
-  padding: 0px;
-}
-
-.mat-card-header {
-  background: white;
-  padding: 10px;
-  box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
-  border-bottom: 1px #e6e6e6 solid;
-}
-
-.mat-card-content {
-  padding: 0px 35px 50px 35px;
-}
 
 .border-left-primary {
   border-left: 0.25rem solid #4e73df !important;
@@ -333,4 +307,22 @@ h2 {
 .icon-size.delete {
   font-size: 30px;
   color:#dc3545;
+}
+.absolute-desc {
+  font-size: 18px;
+  font-weight: 600;
+  /* float: right; */
+  /* right: 0px; */
+  position: absolute;
+  text-align: revert;
+  right: 13px;
+}
+.container p {
+  padding-bottom: 11px;
+}
+.example-full-width {
+  width:100%
+}
+.mat-card {
+  background: unset; 
 }

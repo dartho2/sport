@@ -31,7 +31,7 @@ export interface DishData {
 })
 export class DishesListComponent implements AfterViewInit, OnInit {
   dish; 
-  buttonTable: any;
+  buttonTable: Boolean = true;
   checked= true;
   dishData;
   valueRe;
@@ -88,7 +88,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
       this.dataSource.sort = this.sort;
     }
      onValChange(a){
-      this.buttonTable = a
+      this.buttonTable = !this.buttonTable
     }
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {

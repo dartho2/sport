@@ -75,6 +75,7 @@ export class StorageListComponent implements OnInit {
           this.product = response
           this.productData = this.product.products;
           this.dataSource.data = this.productData;
+          console.log(this.product, "this.product")
         })
       }
 
