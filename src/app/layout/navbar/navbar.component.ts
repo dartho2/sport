@@ -13,11 +13,12 @@ import { formatDate } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-
+import { fadeAnimation } from "../../admin/shared/animations/faderoute";
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  animations: [fadeAnimation]
 })
 export class NavbarComponent implements OnInit {
   // BEGIN TREE
