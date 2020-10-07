@@ -15,6 +15,14 @@ import { Subscription } from 'rxjs';
 export interface DialogData {
   name: string
   description: string
+  bruttoPrice: string
+  vat: number
+  foodCost: string
+  fC:string
+  productMarginFC: string
+  productMargin: string
+  products: []
+  recipeData: []
 }
 export interface DishData {
   id: string;
