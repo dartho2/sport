@@ -403,3 +403,36 @@ padding: 0;
 overflow: hidden;
 background-color:rgba(0,0,0,.7);
 }
+.open {
+  animation: fade-in 0.5s forwards;
+
+  .dialog {
+      animation: slide-in 0.5s forwards;
+  }
+}
+
+.close {
+  animation: fade-out 0.5s forwards;
+
+  .dialog {
+      animation: slide-out 0.5s forwards;
+  }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fade-out {
+  100% { opacity: 0; }
+}
+
+@keyframes slide-in {
+  100% { transform: translateY(100px); }
+}
+
+@keyframes slide-out {
+  0% { transform: translateY(100px); }
+  100% { transform: translateY(200%); }
+}

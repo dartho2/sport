@@ -27,7 +27,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./storage-list.component.css']
 })
 export class StorageListComponent implements OnInit {
-  productData;
+  productData:any[] = [];
+  recipesData:any[] = [];
   repos: Observable<any>;
   product = null;
   dataSource = new MatTableDataSource<ProductData>();
@@ -46,6 +47,7 @@ export class StorageListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   restaurant: any;
+  dishesData:any[] = [];
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -73,9 +75,10 @@ export class StorageListComponent implements OnInit {
         const id = paramMap.get("idStorage");
         this.storageService.getPosStorage(id).subscribe(response => {
           this.product = response
+          this.dishesData = this.product.dishes;
           this.productData = this.product.products;
+          this.recipesData = this.product.recipes;
           this.dataSource.data = this.productData;
-          console.log(this.product, "this.product")
         })
       }
 

@@ -9,7 +9,7 @@ import { ProductsCreateComponent } from './products/products-create/products-cre
 import { DishesListComponent } from './p-restaurant/p-storage/dish/dishes-list/dishes-list.component';
 import { DishesCreateComponent } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
-import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
+import { RecipeListComponent } from './p-restaurant/p-storage//recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { AuthGuard } from '../_helpers/auth.guard';
 import { Role } from '../_models/role';
@@ -124,35 +124,20 @@ const adminRoutes: Routes = [
                       }
                     ]
                   },
-                  // {
-                  //   path: 'products/new',
-                  //   component: PProductsCreateComponent,
-                  //   data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
-                  // },
-
-                  // {
-                  //   path: 'new',
-                  //   component: StorageCreateComponent,
-                  //   data: { roles: [Role.Admin, Role.User],breadcrumb: 'new' }
-                  // },
-                  // {
-                  //   path: 'edit/:idProduct',
-                  //   component: StorageCreateComponent,
-                  //   data: { roles: [Role.Admin, Role.User],breadcrumb: 'edit' }
-                  // }
+                  {
+                    path: 'recipe/list',
+                    component: RecipeListComponent,
+                    canActivate: [AuthGuard],
+                    data: { roles: [Role.Admin, Role.User] , breadcrumb: 'recipe' }
+            
+                  },
+                  {
+                    path: 'semiproduct/list',
+                    component: SemiproduktListComponent,
+                    data: { roles: [Role.Admin, Role.User] }
+                  },
+                 
                 ]
-              },
-
-              {
-                path: 'dish/create',
-                component: DishesCreateComponent,
-                data: { roles: [Role.Admin, Role.User] }
-              },
-              {
-                path: 'dish/edit/:id',
-                component: DishesCreateComponent,
-                canActivate: [AuthGuard],
-                data: { roles: [Role.Admin] }
               },
 
               {
@@ -207,23 +192,12 @@ const adminRoutes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: [Role.Admin] }
       },
-      {
-        path: 'recipe/list',
-        component: RecipeListComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin, Role.User] }
-
-      },
       // {
       //   path: 'graphics/list',
       //   component: GraphicsListComponent,
       //   data: { roles: [Role.Admin, Role.User] }
       // },
-      {
-        path: 'semiproduct/list',
-        component: SemiproduktListComponent,
-        data: { roles: [Role.Admin, Role.User] }
-      },
+      
       {
         path: 'products/edit/:idProduct',
         component: ProductsCreateComponent,

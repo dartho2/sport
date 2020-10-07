@@ -9082,3 +9082,8 @@ div.alert-box a.close:focus {
     top: 13px;
     right: 54px;
 }
+router-outlet ~ * {
+  position: absolute;
+   height: 100%;
+   width: 100%; 
+ }

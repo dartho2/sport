@@ -13,6 +13,8 @@ import { StorageService } from '../../storage.service';
 import { ChipsService } from '../../../../shared/widgets/services/chips.service'
 import { Subscription } from 'rxjs';
 export interface DialogData {
+  name: string
+  description: string
 }
 export interface DishData {
   id: string;

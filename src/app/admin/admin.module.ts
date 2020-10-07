@@ -52,7 +52,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
 import { DishesCreateComponent, DialogDataExampleDialog } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
-import { RecipeListComponent } from './recipe/recipe-list/recipe-list.component';
+import { RecipeListComponent } from './p-restaurant/p-storage/recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { ProductShowComponent } from './products/products-show/product-show.component';
 import { ChartsModule } from 'ng2-charts';
