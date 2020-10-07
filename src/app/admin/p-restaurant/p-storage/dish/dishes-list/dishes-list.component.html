@@ -33,7 +33,7 @@
           fxFlex.lt-sm="100%"
             *ngFor="let dish of this.dataSource.filteredData">
             <mat-card  class="mat-elevation-z4">
-              <!-- <img mat-card-image src=""> -->
+              <!-- <img mat-card-image src="{{dish.image}}"> -->
               <mat-card-content class="icon-center">
                 <mat-card-header>
                   <mat-card-title>{{dish.name}}</mat-card-title>
@@ -61,17 +61,14 @@
                       value="{{100 - dish.productMargin}}"></mat-progress-bar>
                     <span class="absolute-desc"> {{dish.productMarginFC}} %</span>
                   </p>
-                  <!-- <p  matBadge="{{dish.bruttoPrice}} zł" matBadgePosition="after"
-                  matBadgeColor="accent"> {{dish.bruttoPrice}} zł </p>
-                  <p matBadge="{{dish.bruttoPrice}} zł" matBadgePosition="after"
-                  matBadgeColor="accent">  {{dish.foodCost}} zł </p>
-                  <p>  <mat-progress-bar mode="determinate" [class.low]="dish.productMargin < 80"
-                    [class.verylow]="dish.productMargin < 60" [class.god]="dish.productMargin >= 80"
-                    value="{{100 - dish.productMargin}}"></mat-progress-bar>{{dish.productMarginFC}} %</p>
-                 -->
+                
                 </mat-list>
               </mat-card-content>
               <mat-card-actions>
+            
+                <button mat-icon-button color="accent" (click)="openDialog(dish)">
+                  <mat-icon class="icon-size edit">zoom_in</mat-icon>
+                </button>
                 <button mat-icon-button color="accent" [routerLink]="['edit/', dish._id]">
                   <mat-icon class="icon-size edit">edit_outline</mat-icon>
                 </button>

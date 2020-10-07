@@ -125,7 +125,9 @@
     <app-breadcrumb></app-breadcrumb>
  <alert></alert>
  
-      <router-outlet></router-outlet>
+ <div [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
+     <router-outlet #o="outlet"></router-outlet>
+</div>
 
     </mat-sidenav-content>
   </mat-sidenav-container>

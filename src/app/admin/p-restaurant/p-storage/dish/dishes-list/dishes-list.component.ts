@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Inject, ViewEncapsulation, AfterViewInit 
 import { DishServices } from '../dish-services';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Dish } from '../dish.model';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA , MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -94,7 +94,10 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   }
  
   openDialog(dish) {
-    this.dialog.open(DialogDataListDialog, {
+
+    const dialogRef = this.dialog.open(DialogDataListDialog, {
+      disableClose: false,
+      panelClass: "my-full-screen-dialog",
       data: dish
     });
   }
@@ -157,7 +160,11 @@ function compare(a: number | string, b: number | string, isAsc: boolean) {
 
 })
 export class DialogDataListDialog {
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
-
+ 
+  constructor( 
+    public dialogRef: MatDialogRef<DialogDataListDialog>, 
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

@@ -68,7 +68,7 @@ main {
 }
 
 .card {
-  margin-bottom: 1.875em;
+  // margin-bottom: 1.875em;
     border-radius: 5px;
     padding: 0;
     background: unset;
@@ -9074,3 +9074,11 @@ div.alert-box a.close:focus {
   ::ng-deep .mat-card-header-text {
       margin: 0 auto !important;
   }
+  .close-dialog:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    position: fixed;
+    z-index: 999999;
+    background: red;
+    top: 13px;
+    right: 54px;
+}
