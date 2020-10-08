@@ -125,10 +125,31 @@ const adminRoutes: Routes = [
                     ]
                   },
                   {
-                    path: 'recipe/list',
-                    component: RecipeListComponent,
+                    path: 'recipe',
                     canActivate: [AuthGuard],
-                    data: { roles: [Role.Admin, Role.User] , breadcrumb: 'recipe' }
+                    data: { roles: [Role.Admin, Role.User] , breadcrumb: 'recipe' },
+                    children: [
+                      {
+                        path: '',
+                        component: RecipeListComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'products' }
+                      },
+                      {
+                        path: 'new',
+                        component: RecipeListComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'new' }
+                      },
+                      {
+                        path: 'edit/:idProduct',
+                        component: RecipeListComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'edit' }
+                      },
+                      {
+                        path: 'show/:idProduct',
+                        component: RecipeListComponent,
+                        data: { roles: [Role.Admin, Role.User], breadcrumb: 'show' }
+                      }
+                    ]
             
                   },
                   {

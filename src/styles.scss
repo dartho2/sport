@@ -9087,3 +9087,34 @@ router-outlet ~ * {
    height: 100%;
    width: 100%; 
  }
+ 
+// MATerial
+.icon-size {
+  font-size: 25px;
+}
+
+.icon-size.info {
+  font-size: 25px;
+  color: #17a2b8;
+}
+
+.icon-size.edit {
+  font-size: 25px;
+  color: #6c757d;
+}
+.icon-size.delete {
+  font-size: 25px;
+  color:#dc3545;
+}
+.absolute-desc {
+  // font-size: 18px;
+  font-weight: 600;
+  /* float: right; */
+  /* right: 0px; */
+  position: absolute;
+  text-align: revert;
+  right: 13px;
+}
+.card-width{
+  min-width: 200px;
+}

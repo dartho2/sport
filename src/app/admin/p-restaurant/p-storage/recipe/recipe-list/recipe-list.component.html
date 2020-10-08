@@ -1,68 +1,164 @@
-<div class="content-body">
-  <div class="photo-list card card-block">
+<div class="data-panel">
+  <div class="panel-sub">
+    <button type="button" class="btn btn-outline-info btn-rounded waves-effect" routerLink="/dish/create"
+      data-toggle="modal" data-target="#exampleModalLong">Utwórz Danie</button>
+
+
+  </div>
+</div>
+
+
+<div *ngIf="buttonTable">
+  <mat-card class="mat-elevation-z">
+    
+      <!-- <mat-form-field class="example-full-width">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Szukaj">
+      </mat-form-field> -->
+ 
+
+    <mat-card-content class="container mt-4">
+
+      <div class="row">
+
+        <div  fxLayout="row wrap" 
+        fxLayout.lt-sm="column" 
+        fxLayoutGap="32px" 
+        fxLayoutAlign="flex-start">
+
+          <div class="card-width" fxFlex="0 1 calc(33.3% - 32px)"
+          fxFlex.lt-md="0 1 calc(50% - 32px)"
+          fxFlex.lt-sm="100%"
+            *ngFor="let recipes of recipesData">
+            <mat-card  class="mat-elevation-z4">
+              <!-- <img mat-card-image src="{{dish.image}}"> -->
+              <mat-card-content class="icon-center">
+                <mat-card-header>
+                  <mat-card-title>{{recipes.name}}</mat-card-title>
+                </mat-card-header>
+              
+                <mat-list>
+
+                  <p>
+                    Netto
+                    <span class="absolute-desc"> {{recipes.nettoPrice}} zł </span>
+                  </p>
+                  <p>
+                    Vat
+                    <span class="absolute-desc"> {{recipes.vat}} % </span>
+                  </p>
+                  <p>
+                    Brutto
+                    <span class="absolute-desc"> {{recipes.bruttoPrice}} zł </span>
+                  </p> 
+                  <p>
+                    Weight
+                    <span class="absolute-desc"> {{recipes.weight}}  {{recipes.unit}} </span>
+                  </p>
+                 
+                </mat-list>
+              </mat-card-content>
+              <mat-card-actions>
+            
+                <button mat-icon-button color="accent" (click)="openDialog(recipes)">
+                  <mat-icon class="icon-size edit">zoom_in</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" [routerLink]="['edit/', recipes._id]">
+                  <mat-icon class="icon-size edit">edit_outline</mat-icon>
+                </button>
+
+                <button mat-icon-button [routerLink]="['show/', recipes._id]" color="accent">
+                  <mat-icon class="icon-size info">info_outline</mat-icon>
+                </button>
+
+                <button mat-icon-button (click)="dishDelete(recipes._id)" color="accent">
+                  <mat-icon class="icon-size delete">delete_outline</mat-icon>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+
+        </div>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+
+</div>
+
+<div class="content-body" *ngIf="!buttonTable">
+  <div class=" mat-elevation-z photo-list card card-block">
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" class="mat-form-field-wrapper" placeholder="Search">
     </mat-form-field>
-    <table id="ExampleTables" mat-table [dataSource]="dataSource" matSort class="table-responsive mat-elevation-z8">
-      <ng-container matColumnDef="name">
+  
 
+    <table id="ExampleTable" mat-table [dataSource]="dataSource" matSort
+      class="table-responsive table mat-elevation-z8">
+      <ng-container matColumnDef="name">
+  
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+        <td mat-cell *matCellDef="let recipes"> {{recipes.name}} </td>
       </ng-container>
       <ng-container matColumnDef="nettoPrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Netto </th>
-        <td mat-cell *matCellDef="let product"> {{product.nettoPrice}} </td>
+        <td mat-cell *matCellDef="let recipes"> {{recipes.nettoPrice}} </td>
       </ng-container>
       <ng-container matColumnDef="vat">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> vat </th>
-        <td mat-cell *matCellDef="let product"> {{product.vat}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Vat </th>
+        <td mat-cell *matCellDef="let recipes"> {{recipes.vat}} </td>
       </ng-container>
       <ng-container matColumnDef="bruttoPrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Brutto </th>
-        <td mat-cell *matCellDef="let product"> {{product.bruttoPrice}} </td>
+        <td mat-cell *matCellDef="let recipes"> {{recipes.bruttoPrice}} </td>
       </ng-container>
       <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> weight </th>
-        <td mat-cell *matCellDef="let product"> {{product.weight}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Weight </th>
+        <td mat-cell *matCellDef="let recipes"> {{recipes.weight}} </td>
       </ng-container>
       <ng-container matColumnDef="unit">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> unit </th>
-        <td mat-cell *matCellDef="let product"> {{product.unit}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+        <td mat-cell *matCellDef="let recipes"> {{recipes.unit}} </td>
       </ng-container>
       <ng-container matColumnDef="update">
-          <th mat-header-cell *matHeaderCellDef>Update</th>
-          <td mat-cell *matCellDef="let product">
-            <button mat-icon-button color="accent" [routerLink]="['/products/edit/', product._id]">
-              <mat-icon class="fas fa-edit" aria-hidden="false" aria-label="Example android icon"></mat-icon>
-            </button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="details">
-          <th mat-header-cell *matHeaderCellDef>Details </th>
-          <td mat-cell *matCellDef="let product">
-            <button mat-icon-button [routerLink]="['/products/show/', product._id]" color="accent">
-                <mat-icon class="fas fa-info" aria-hidden="false" aria-label="Example android icon"></mat-icon>
-            </button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="delete">
-          <th mat-header-cell *matHeaderCellDef>Delete </th>
-          <td mat-cell *matCellDef="let product">
-            <button mat-icon-button (click)="productDelete(product._id)" color="accent">
-                <mat-icon class="fas fa-trash" aria-hidden="false" aria-label="Example android icon"></mat-icon>
-            </button>
-          </td>
-        </ng-container>
+        <th mat-header-cell *matHeaderCellDef>Update</th>
+        <td mat-cell *matCellDef="let recipes">
+          <button mat-icon-button color="accent" [routerLink]="['edit/', recipes._id]">
+            <mat-icon class="icon-size edit">edit_outline</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>Details </th>
+        <td mat-cell *matCellDef="let recipes">
+         
+          <button mat-icon-button [routerLink]="['show/', recipes._id]" color="accent">
+            <mat-icon class="icon-size info">info_outline</mat-icon>
+          </button>
+        </td>
+
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Delete </th>
+        <td mat-cell *matCellDef="let recipes">
+          <button mat-icon-button (click)="dishDelete(recipes._id)" color="accent">
+            <mat-icon class="icon-size delete">delete_outline</mat-icon>
+          </button>
+        </td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
   </div>
 </div>
+
 <div class="data-panel">
-    <div class="panel-sub">
-      <button type="button" class="btn btn-outline-info btn-rounded waves-effect" routerLink="/products/create"
-        data-toggle="modal" data-target="#exampleModalLong">Create</button>
-  
-    </div>
+  <div class="panel-sub">
+    <button type="button" class="btn btn-outline-info btn-rounded waves-effect" routerLink="new" data-toggle="modal"
+      data-target="#exampleModalLong">Create</button>
+
+    <mat-checkbox class="example-margin" style="color:white; padding-left: 10px;" (change)="onValChange(checked)"
+      [(ngModel)]="checked">tabela/box</mat-checkbox>
+
   </div>
+</div>

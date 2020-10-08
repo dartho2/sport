@@ -12,8 +12,8 @@ export class ProductService {
   private productsUpdated = new Subject<Products[]>();
   constructor(private _http: HttpClient, private router: Router) { }
 
-  getProduct(): Observable<Products[]> {
-    return this._http.get<Products[]>("https://karmazdrowia.pl:8080/api/products");
+  getRecipe(): Observable<Products[]> {
+    return this._http.get<Products[]>("https://karmazdrowia.pl:8080/api/recipes");
   }
   createProduct(bodyProduct) {
     return this._http.post<Products[]>("https://karmazdrowia.pl:8080/api/products", bodyProduct);
@@ -27,5 +27,7 @@ export class ProductService {
   deleteProduct(id) {
     return this._http.delete<Products[]>("https://karmazdrowia.pl:8080/api/products/" + id)
 }
-
+getProduct(): Observable<Products[]> {
+  return this._http.get<Products[]>("https://karmazdrowia.pl:8080/api/products");
+}
 }
