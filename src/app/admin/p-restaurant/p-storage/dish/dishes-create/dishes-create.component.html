@@ -96,7 +96,7 @@
                                 type="button" class="btn" (click)="deleteCity(i)">
                                 <i class="fa fa-minus" aria-hidden="true"></i></button>
                               <span class="h6">
-                                <mat-form-field class="example-full-width h5">
+                                <!-- <mat-form-field class="example-full-width h5">
                                   <mat-label>Wybierz produkt </mat-label>
                                   <input type="text" class="input-absolute" aria-label="Assignee" matInput
                                     [formControl]="myControl" [matAutocomplete]="auto">
@@ -111,6 +111,17 @@
                                       </mat-option>
                                     </mat-autocomplete>
                                   </mat-select>
+                                </mat-form-field> -->
+
+                                <mat-form-field class="example-full-width h5">
+                                  <mat-label style="color:#3b9aff">Wyszukaj/wpisz produkt </mat-label>
+                                  <input type="text" placeholder="Posts From User" aria-label="Number" matInput
+                                  formControlName="name" [formControl]="myControl" [matAutocomplete]="auto2">
+                                  <mat-autocomplete (optionSelected)="onChange($event.option.value, i)" #auto2="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                      {{option.name}} 
+                                    </mat-option>
+                                  </mat-autocomplete>
                                 </mat-form-field>
                               </span>
                             </h4>

@@ -18,6 +18,7 @@ export interface UserData {
     unit: string;
     details: string;
 }
+const ELEMENT_DATA: UserData[] = []
 @Component({
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
@@ -30,7 +31,7 @@ export class RecipeListComponent implements AfterViewInit, OnInit {
   checked = true;
   storage: any;
   buttonTable: Boolean = true;
-  dataSource: MatTableDataSource<UserData>;
+  dataSource= new MatTableDataSource(ELEMENT_DATA);
   displayedColumns: string[] =[
     'name',
     "nettoPrice",

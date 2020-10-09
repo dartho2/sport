@@ -27,6 +27,7 @@ import { AlertService } from 'src/app/_alert/alert.service';
 })
 export class PProductsListComponent implements OnInit {
   productData;
+  buttonTable: Boolean = true;
   product = null;
   dataSource = new MatTableDataSource<ProductData>();
   displayedColumns: string[] = [
@@ -44,7 +45,9 @@ export class PProductsListComponent implements OnInit {
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
     applyFilter(filterValue: string) {
+      console.log(filterValue, "filterValue")
       this.dataSource.filter = filterValue.trim().toLowerCase();
+      console.log(this.dataSource,"filter")
     }
   
     constructor(private route: ActivatedRoute, private storageService: StorageService,
@@ -64,6 +67,7 @@ export class PProductsListComponent implements OnInit {
       })
       }
     }
+    
     ngOnInit() {
       this.route.paramMap.subscribe((paramMap: ParamMap) => {
         if (paramMap.has("idStorage")) {
@@ -76,6 +80,10 @@ export class PProductsListComponent implements OnInit {
         }
   
       })
+    }
+    
+    onValChange(a) {
+      this.buttonTable = !this.buttonTable
     }
     exportTable() {
       exportData.exportToExcel("ExampleTable");

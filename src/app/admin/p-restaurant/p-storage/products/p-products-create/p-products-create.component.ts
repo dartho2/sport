@@ -67,7 +67,7 @@ export class PProductsCreateComponent implements OnInit {
           if (paramMap.has("idProduct")) {
             this.mode = "edit";
             this.productId = paramMap.get("idProduct");
-            this.storageService.getPosStorageProduct(this.productId).subscribe(productData => {
+            this.storageService.getProductID(this.productId).subscribe(productData => {
               this.buildForm(productData);
               this.bodyForm.value.supplier === 'Re' ? this.selectedValue = "Re" : '';
             })

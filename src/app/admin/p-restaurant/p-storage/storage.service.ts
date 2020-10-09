@@ -18,7 +18,9 @@ export class StorageService {
   getPosStorageProduct(id): Observable<Storage[]> {
     return this._http.get<Storage[]>("https://karmazdrowia.pl:8080/api/pos/dishes/" + id);
   }
-
+  getProductID(id) {
+    return this._http.get("https://karmazdrowia.pl:8080/api/pos/products/" +id);
+  }
   createStorageProduct(product: Storage) {
     return this._http.post("https://karmazdrowia.pl:8080/api/pos/products", product);
   }
