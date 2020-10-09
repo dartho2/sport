@@ -115,7 +115,7 @@ export class RecipeCreateComponent implements OnInit {
         '';
   }
 
-  onSubmit(f) {
+  onSubmit() {
     if (this.mode === "edit") {
       // this.recipeService.updateDish(this.myForm.value).subscribe(response => {
         
@@ -128,7 +128,7 @@ export class RecipeCreateComponent implements OnInit {
         totalPriceNetto += parseFloat(element.valueProduct)
       });
       this.myForm.value.nettoPrice = totalPriceNetto
-      this.myForm.value.bruttoPrice = totalPriceNetto*(toInteger(this.myForm.value.vat)/100)
+      this.myForm.value.bruttoPrice = (totalPriceNetto*(toInteger(this.myForm.value.vat)/100)).toFixed(2)
       this.recipeService.createRecipe(this.myForm.value).pipe(
         map((res: Response) => {
           this.recipeDataId = res // id productu
