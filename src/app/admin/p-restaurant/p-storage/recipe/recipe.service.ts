@@ -16,7 +16,7 @@ export class RecipeService {
     return this._http.get<Recipe[]>("https://karmazdrowia.pl:8080/api/pos/recipe");
   }
   createRecipe(bodyProduct) {
-    return this._http.post<Recipe[]>("https://karmazdrowia.pl:8080/api/pos/recipe", bodyProduct);
+    return this._http.post("https://karmazdrowia.pl:8080/api/pos/recipe", bodyProduct);
   }
 //   getProductID(id: string) {
 //     return this._http.get<Products>("https://karmazdrowia.pl:8080/api/products/" + id);

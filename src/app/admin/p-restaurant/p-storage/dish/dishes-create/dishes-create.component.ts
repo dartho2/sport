@@ -122,7 +122,6 @@ export class DishesCreateComponent implements OnInit {
   onSubmit(f) {
     if (this.mode === "edit") {
       this.dishService.updateDish(this.myForm.value).subscribe(response => {
-        
         this.router.navigate(["../../"], { relativeTo: this.route });
         this.alertService.success("Success","Update")
       })
@@ -286,7 +285,7 @@ export class DishesCreateComponent implements OnInit {
         this.getProducts(data ? data.products : null)
       )
     })
-  }
+  } 
   getProducts(data: any): FormGroup[] {
     return data ? data.map(recipeBody => {
       return this._fb.group({

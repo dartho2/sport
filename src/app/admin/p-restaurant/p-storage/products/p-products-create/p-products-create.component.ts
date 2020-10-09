@@ -280,30 +280,6 @@ export class PProductsCreateComponent implements OnInit {
       })).subscribe(response => {
       })
 
-
-      // this.storageService.createStorageProduct(this.bodyForm.value).pipe(
-      //   map((res: Response) => {
-      //     this.productId = res
-      //     this.storageService.getPosStorage(this.storageId).subscribe(storage => {
-      //         var jsonSection = storage
-      //         jsonSection.products.push(productId._id)
-      //         this.storageService.createStorage(productId, jsonSection).subscribe(()=>{
-
-      //         })
-      //     })
-      //   })
-      //   )
-
-
-
-
-
-      // this.storageService.createStorageProduct(this.bodyForm.value).subscribe(() => {
-
-      //   // this.foodCost ? this.message = "Został utworzony" :
-      //   this.ProductDish ? this.notification.success("Success. Create for Półprodukt") : this.notification.success("Success. Create")
-      //   this.ProductDish ? '' : this.router.navigate(["../"], { relativeTo: this.route })
-      // })
     };
   }
   calculate(i) {

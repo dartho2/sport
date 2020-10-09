@@ -16,18 +16,18 @@ export class ProductService {
     return this._http.get<Products[]>("https://karmazdrowia.pl:8080/api/recipes");
   }
   createProduct(bodyProduct) {
-    return this._http.post<Products[]>("https://karmazdrowia.pl:8080/api/products", bodyProduct);
+    return this._http.post<Products[]>("https://karmazdrowia.pl:8080/api/pos/products", bodyProduct);
   }
   getProductID(id: string) {
-    return this._http.get<Products>("https://karmazdrowia.pl:8080/api/products/" + id);
+    return this._http.get<Products>("https://karmazdrowia.pl:8080/api/pos/products/" + id);
   }
   updateProduct(product) {
-    return this._http.post("https://karmazdrowia.pl:8080/api/products/" + product._id, product);
+    return this._http.post("https://karmazdrowia.pl:8080/api/pos/products/" + product._id, product);
   }
   deleteProduct(id) {
-    return this._http.delete<Products[]>("https://karmazdrowia.pl:8080/api/products/" + id)
+    return this._http.delete<Products[]>("https://karmazdrowia.pl:8080/api/pos/products/" + id)
 }
 getProduct(): Observable<Products[]> {
-  return this._http.get<Products[]>("https://karmazdrowia.pl:8080/api/products");
+  return this._http.get<Products[]>("https://karmazdrowia.pl:8080/api/pos/products");
 }
 }

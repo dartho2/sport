@@ -9,6 +9,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RestaurantService } from '../../../../shared/restaurants/restaurants.service';
 import { AlertService } from 'src/app/_alert/alert.service';
 import { StorageService } from '../../storage.service';
+import { toInteger } from 'lodash';
 export interface DialogData {
   foodCost: '';
 }
@@ -60,6 +61,7 @@ export class RecipeCreateComponent implements OnInit {
   dishDataId: any;
   storageId: string;
   idDishe: string;
+  recipeDataId: Response;
 
   constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
@@ -75,8 +77,8 @@ export class RecipeCreateComponent implements OnInit {
       image: new FormControl(this.customeImg),
       weight: new FormControl('', Validators.required),
       unit: new FormControl('', Validators.required),
-      nettoPrice: new FormControl('', Validators.required),
-      bruttoPrice: new FormControl('', Validators.required),
+      nettoPrice: new FormControl(''),
+      bruttoPrice: new FormControl(''),
       vat: new FormControl('', Validators.required),
       products: this._fb.array([])
     })
@@ -121,16 +123,34 @@ export class RecipeCreateComponent implements OnInit {
       //   this.alertService.success("Success","Update")
       // })
     } else {
-      var a = 0;
+      var totalPriceNetto = 0;
       this.myForm.value.products.forEach(element => {
-        a += parseFloat(element.valueProduct)
-        
+        totalPriceNetto += parseFloat(element.valueProduct)
       });
-      this.myForm.value.nettoPrice = a
-      this.recipeService.createRecipe(this.myForm.value).subscribe(response => {
-        this.router.navigate(["../../"], { relativeTo: this.route });
-        this.alertService.success("Success", response);
+      this.myForm.value.nettoPrice = totalPriceNetto
+      this.myForm.value.bruttoPrice = totalPriceNetto*(toInteger(this.myForm.value.vat)/100)
+      this.recipeService.createRecipe(this.myForm.value).pipe(
+        map((res: Response) => {
+          this.recipeDataId = res // id productu
+          this.storageService.getPosStorage(this.storageId).subscribe(storage => { //dostaje storage gdzie product ma isc
+            var jsonStorage;
+            jsonStorage = storage;
+            jsonStorage.recipes = jsonStorage.recipes || [];
+            jsonStorage.recipes.push(this.recipeDataId)
+            this.storageService.createStorage(this.storageId, jsonStorage).subscribe(() => {
+              this.router.navigate(["../"], { relativeTo: this.route });
+              this.alertService.success('Success!!', res)
+            })
+          })
+        
+
+        })
+      ).subscribe(response => {
+        console.log(response)
       })
+        // this.router.navigate(["../../"], { relativeTo: this.route });
+        // this.alertService.success("Success", response);
+   
     //   delete this.myForm.value._id
     //   this.recipeService.createDish(this.myForm.value).pipe(
     //     map((res: Response) => {

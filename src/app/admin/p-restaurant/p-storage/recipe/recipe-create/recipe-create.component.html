@@ -153,8 +153,8 @@
           </div>
         </mat-tab>
       </mat-tab-group>
-       <div [ngClass]="[ProductDish? 'data-panel-cost' : 'data-panel']">
-        <div [ngClass]="[ProductDish? 'panel-sub-cost' : 'panel-sub']">
+       <div class='data-panel'>
+        <div class='panel-sub'>
           <button *ngIf="!ProductDish" type="button" class="btn btn-outline-info waves-effect"
             (click)="gotoBack()">Back</button>
           <button type="submit" class="btn btn-outline-success btn-rounded waves-effect">Save</button>
