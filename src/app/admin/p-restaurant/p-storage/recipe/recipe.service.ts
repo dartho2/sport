@@ -18,6 +18,18 @@ export class RecipeService {
   createRecipe(bodyProduct) {
     return this._http.post("https://karmazdrowia.pl:8080/api/pos/recipe", bodyProduct);
   }
+  getPosRecipe(id){
+    return this._http.get<Recipe[]>("https://karmazdrowia.pl:8080/api/pos/recipe/" + id);
+  }
+  createRecipeItems(bodyProduct){
+    return this._http.post("https://karmazdrowia.pl:8080/api/pos/recipeitems", bodyProduct);
+  }
+  getRecipeitemsID(id){
+    return this._http.get("https://karmazdrowia.pl:8080/api/pos/recipeitems/"+ id);
+  }
+  createRecipeItemsforRecipe(id, data) {
+    return this._http.post("https://karmazdrowia.pl:8080/api/pos/recipe/" + id, data);
+  }
 //   getProductID(id: string) {
 //     return this._http.get<Products>("https://karmazdrowia.pl:8080/api/products/" + id);
 //   }

@@ -25,7 +25,7 @@ export interface UserData {
 })
 export class RecipeListComponent implements AfterViewInit, OnInit {
   recipeProducts;
-  recipesData;
+  recipesData: any;
   recipes;
   checked = true;
   storage: any;
@@ -47,7 +47,8 @@ export class RecipeListComponent implements AfterViewInit, OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
   private productsSub: Subscription;
-  constructor(public storageService: StorageService, private route: ActivatedRoute) { }
+  constructor(public storageService: StorageService, private route: ActivatedRoute, 
+    private recipeService: RecipeService) { }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -56,19 +57,13 @@ export class RecipeListComponent implements AfterViewInit, OnInit {
     this.buttonTable = !this.buttonTable
   }
   ngOnInit() {
-    // this.recipeService.getRecipe().subscribe(products => {
-    //  this.recipes = products
-    //  this.dataSource = this.recipes
-    // });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("idStorage")) {
-        const id = paramMap.get("idStorage");
-        this.storageService.getPosStorage(id).subscribe(response => {
+      if (paramMap.has("idRecipe")) {
+        const id = paramMap.get("idRecipe");
+        this.recipeService.getPosRecipe(id).subscribe(response => {
           this.storage = response
-          this.recipesData = this.storage.recipes;
-          // this.addComp(this.dishesData)
-          this.dataSource.data = this.recipesData;
-          
+          this.recipesData = this.storage.recipeitems;
+          this.dataSource.data = this.recipesData; 
         })
       }
 
@@ -76,17 +71,6 @@ export class RecipeListComponent implements AfterViewInit, OnInit {
 
   }
   productDelete(id){
-    // if(confirm("Are you sure to delete "+id)) {
-    //   this.productService.deleteProduct(id).subscribe(() => {
-    //     this.productService.getRecipe().subscribe(response => {
-    //       this.products = response
-    //       this.productData = this.products;
-    //       this.dataSource = this.productData;
-    //      console.log("usuniete", id)
-    //     });
-        
-    // })
-    // }
   }
 
 }

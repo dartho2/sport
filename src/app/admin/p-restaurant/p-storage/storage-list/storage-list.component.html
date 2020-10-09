@@ -24,11 +24,11 @@
       </mat-card-content>
     </mat-card>
   </a>
-  <a *ngIf="recipesData.length > 0" [routerLink]="['recipe']" class="box-href" [fxFlex]="(100/4) + '%'" fxFlex.xs="50%" fxFlex.sm="33%">
+  <a *ngFor="let recipe of recipesData" [routerLink]="['recipe/' + recipe._id]" class="box-href" [fxFlex]="(100/4) + '%'" fxFlex.xs="50%" fxFlex.sm="33%">
     <mat-card class="mat-elevation-z4">
       <!-- <img mat-card-image src=""> -->
       <mat-card-content class="icon-center">
-        <mat-icon class="icon-size" [matBadge]="recipesData.length" matBadgePosition="after"
+        <mat-icon class="icon-size" [matBadge]="recipe.recipeitems.length" matBadgePosition="after"
           matBadgeColor="accent"> food_bank </mat-icon>
         <mat-card-header>
           <mat-card-title>Recipes</mat-card-title>

@@ -9,7 +9,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RestaurantService } from '../../../../shared/restaurants/restaurants.service';
 import { AlertService } from 'src/app/_alert/alert.service';
 import { StorageService } from '../../storage.service';
-import { toInteger } from 'lodash';
+import { toInteger, toString } from 'lodash';
 export interface DialogData {
   foodCost: '';
 }
@@ -61,7 +61,9 @@ export class RecipeCreateComponent implements OnInit {
   dishDataId: any;
   storageId: string;
   idDishe: string;
-  recipeDataId: Response;
+  recipeDataId: any;
+  idRecipe: string;
+  idRecipeitems: string;
 
   constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
@@ -80,24 +82,23 @@ export class RecipeCreateComponent implements OnInit {
       nettoPrice: new FormControl(''),
       bruttoPrice: new FormControl(''),
       vat: new FormControl('', Validators.required),
+      history: this._fb.array([]),
       products: this._fb.array([])
     })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("idStorage")) {
-        this.storageId = paramMap.get("idStorage");
-        this.storageService.getPosStorage(this.storageId).subscribe((response: any) => {
-          console.log(response, "pobieranie danych ")
-          this.options = response.products
-          if (paramMap.has("idRecipe")) {
-            // this.mode = "edit";
-            // this.idDishe = paramMap.get("idRecipe");
-            // this.storageService.getPosStorageProduct(this.idDishe).subscribe(dishData => {
-            //   this.buildFormDish(dishData);
-            // })
+      if (paramMap.has("idRecipe")) {
+        this.idRecipe = paramMap.get("idRecipe");
+      
+          if (paramMap.has("idRecipeitems")) {
+            this.mode = "edit";
+            this.idRecipeitems = paramMap.get("idRecipeitems");
+            this.recipeService.getRecipeitemsID(this.idRecipeitems).subscribe(recipeitemData => {
+              this.buildFormDish(recipeitemData);
+            })
           } else {
             this.mode = "create";
           }
-        });
+        
       }
     });
     this.setCities();
@@ -127,17 +128,17 @@ export class RecipeCreateComponent implements OnInit {
       this.myForm.value.products.forEach(element => {
         totalPriceNetto += parseFloat(element.valueProduct)
       });
-      this.myForm.value.nettoPrice = totalPriceNetto
-      this.myForm.value.bruttoPrice = (totalPriceNetto*(toInteger(this.myForm.value.vat)/100)).toFixed(2)
-      this.recipeService.createRecipe(this.myForm.value).pipe(
+      this.myForm.value.nettoPrice = toString(totalPriceNetto)
+      this.myForm.value.bruttoPrice = toString((totalPriceNetto*(toInteger(this.myForm.value.vat)/100)).toFixed(2))
+      this.recipeService.createRecipeItems(this.myForm.value).pipe(
         map((res: Response) => {
           this.recipeDataId = res // id productu
-          this.storageService.getPosStorage(this.storageId).subscribe(storage => { //dostaje storage gdzie product ma isc
+          this.recipeService.getPosRecipe(this.idRecipe).subscribe(storage => { //dostaje storage gdzie product ma isc
             var jsonStorage;
             jsonStorage = storage;
-            jsonStorage.recipes = jsonStorage.recipes || [];
-            jsonStorage.recipes.push(this.recipeDataId)
-            this.storageService.createStorage(this.storageId, jsonStorage).subscribe(() => {
+            jsonStorage.recipeitems = jsonStorage.recipeitems || [];
+            jsonStorage.recipeitems.push({"_id": this.recipeDataId._id})
+            this.recipeService.createRecipeItemsforRecipe(this.idRecipe, jsonStorage).subscribe(() => {
               this.router.navigate(["../"], { relativeTo: this.route });
               this.alertService.success('Success!!', res)
             })
@@ -301,11 +302,13 @@ export class RecipeCreateComponent implements OnInit {
       category: [data ? data.category : null],
       vat: [data ? data.vat : '',],
       fC: [data ? data.fC : '',],
+      weight: [data ? data.weight : '',],
       productMargin: [data ? data.productMargin : null],
       productMarginFC: [data ? data.productMarginFC : '',],
       coating: [data ? data.coating : '',],
       bruttoPrice: [data ? data.bruttoPrice : '',],
       foodCost:  [data ? data.bruttoPrice : '',],
+      unit: [data ? data.unit : '',],
       products: this._fb.array(
         this.getProducts(data ? data.products : null)
       )
