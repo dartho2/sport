@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormsModule, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { ProductService } from '../../products/product.service';
-import { DishServices } from '../dish-services';
+import { RecipeService } from '../recipe.service';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,12 +16,11 @@ export interface Product {
   name: string;
 }
 @Component({
-  selector: 'app-dishes-create',
-  templateUrl: './dishes-create.component.html',
-  styleUrls: ['./dishes-create.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-recipe-create',
+  templateUrl: './recipe-create.component.html',
+  styleUrls: ['./recipe-create.component.css']
 })
-export class DishesCreateComponent implements OnInit {
+export class RecipeCreateComponent implements OnInit {
   myControl = new FormControl();
   options: Product[] = [];
   filteredOptions: Observable<Product[]>;
@@ -64,11 +63,8 @@ export class DishesCreateComponent implements OnInit {
 
   constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
-    private productService: ProductService, private storageService: StorageService, private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
-    this.restaurantService.getRestaurant().subscribe(response=>{
-      this.valueRe  = response
-      
-  })
+    private productService: ProductService, private storageService: StorageService, private alertService: AlertService, private recipeService: RecipeService, public dialog: MatDialog) {
+   
     this.productService.getProduct().subscribe(response => {
       this.product = response
       this.options = this.product
@@ -76,28 +72,26 @@ export class DishesCreateComponent implements OnInit {
     this.myForm = this._fb.group({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
       description: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      category: new FormControl('', [Validators.required, Validators.minLength(4)]),
       image: new FormControl(this.customeImg),
-      foodCost: new FormControl('', Validators.required),
+      weight: new FormControl('', Validators.required),
+      unit: new FormControl('', Validators.required),
+      nettoPrice: new FormControl('', Validators.required),
       bruttoPrice: new FormControl('', Validators.required),
       vat: new FormControl('', Validators.required),
-      fC: new FormControl('', Validators.required),
-      productMarginFC: new FormControl('', Validators.required),
-      productMargin: new FormControl('', Validators.required),
-      coating: new FormControl('', Validators.required),
       products: this._fb.array([])
     })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idStorage")) {
         this.storageId = paramMap.get("idStorage");
         this.storageService.getPosStorage(this.storageId).subscribe((response: any) => {
+          console.log(response, "pobieranie danych ")
           this.options = response.products
-          if (paramMap.has("idDishe")) {
-            this.mode = "edit";
-            this.idDishe = paramMap.get("idDishe");
-            this.storageService.getPosStorageProduct(this.idDishe).subscribe(dishData => {
-              this.buildFormDish(dishData);
-            })
+          if (paramMap.has("idRecipe")) {
+            // this.mode = "edit";
+            // this.idDishe = paramMap.get("idRecipe");
+            // this.storageService.getPosStorageProduct(this.idDishe).subscribe(dishData => {
+            //   this.buildFormDish(dishData);
+            // })
           } else {
             this.mode = "create";
           }
@@ -121,29 +115,39 @@ export class DishesCreateComponent implements OnInit {
 
   onSubmit(f) {
     if (this.mode === "edit") {
-      this.dishService.updateDish(this.myForm.value).subscribe(response => {
+      // this.recipeService.updateDish(this.myForm.value).subscribe(response => {
         
-        this.router.navigate(["../../"], { relativeTo: this.route });
-        this.alertService.success("Success","Update")
-      })
+      //   this.router.navigate(["../../"], { relativeTo: this.route });
+      //   this.alertService.success("Success","Update")
+      // })
     } else {
-      delete this.myForm.value._id
-      this.dishService.createDish(this.myForm.value).pipe(
-        map((res: Response) => {
-        this.dishDataId = res // id productu
-        this.storageService.getPosStorage(this.storageId).subscribe(storage => { //dostaje storage gdzie product ma isc
-          var jsonStorage;
-          jsonStorage = storage;
-          jsonStorage.dishes = jsonStorage.dishes || [];
-          jsonStorage.dishes.push({"_id": this.dishDataId._id})
-          
-          this.storageService.createStorage(this.storageId, jsonStorage).subscribe(() => {
-            this.router.navigate(["../"], { relativeTo: this.route });
-            this.alertService.success('Success!!', res)
-          })
-        })
-      })).subscribe(response => {
+      var a = 0;
+      this.myForm.value.products.forEach(element => {
+        a += parseFloat(element.valueProduct)
+        
+      });
+      this.myForm.value.nettoPrice = a
+      this.recipeService.createRecipe(this.myForm.value).subscribe(response => {
+        this.router.navigate(["../../"], { relativeTo: this.route });
+        this.alertService.success("Success", response);
       })
+    //   delete this.myForm.value._id
+    //   this.recipeService.createDish(this.myForm.value).pipe(
+    //     map((res: Response) => {
+    //     this.dishDataId = res // id productu
+    //     this.storageService.getPosStorage(this.storageId).subscribe(storage => { //dostaje storage gdzie product ma isc
+    //       var jsonStorage;
+    //       jsonStorage = storage;
+    //       jsonStorage.dishes = jsonStorage.dishes || [];
+    //       jsonStorage.dishes.push({"_id": this.dishDataId._id})
+          
+    //       this.storageService.createStorage(this.storageId, jsonStorage).subscribe(() => {
+    //         this.router.navigate(["../"], { relativeTo: this.route });
+    //         this.alertService.success('Success!!', res)
+    //       })
+    //     })
+    //   })).subscribe(response => {
+    //   })
     };
   }
 
@@ -286,7 +290,7 @@ export class DishesCreateComponent implements OnInit {
         this.getProducts(data ? data.products : null)
       )
     })
-  }
+  } 
   getProducts(data: any): FormGroup[] {
     return data ? data.map(recipeBody => {
       return this._fb.group({
@@ -307,24 +311,11 @@ export class DishesCreateComponent implements OnInit {
     const filterValue = name.toLowerCase();
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
-  openDialog() {
-    this.dialog.open(DialogDataExampleDialog, {
-      data: this.myForm.value,
-    });
-  }
+
 
 }
 
-@Component({
-  selector: 'dialog-data-example-dialog',
-  templateUrl: 'dialog-data-example-dialog.html',
-})
 
-export class DialogDataExampleDialog {
-  ProductDish = true;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
-  }
-}
 
 
 

@@ -86,6 +86,8 @@ import { PProductsCreateComponent } from './p-restaurant/p-storage/products/p-pr
 import { PProductsShowComponent } from './p-restaurant/p-storage/products/p-products-show/p-products-show.component';
 import { DishShowComponent } from './p-restaurant/p-storage/dish/dish-show/dish-show.component';
 import { ChipsComponent } from './shared/widgets/chips/chips.component';
+import { RecipeCreateComponent } from './p-restaurant/p-storage/recipe/recipe-create/recipe-create.component';
+import { RecipeShowComponent } from './p-restaurant/p-storage/recipe/recipe-show/recipe-show.component';
 // import { BreadCrumbParamService } from './shared/breadcrumb/breadcrumb.service';
 @NgModule({
   imports: [
@@ -169,7 +171,7 @@ import { ChipsComponent } from './shared/widgets/chips/chips.component';
     GraphicListComponent, 
     StorageListComponent, 
     BreadcrumbComponent, 
-    StorageCreateComponent, PProductsListComponent, PProductsCreateComponent, PProductsShowComponent, DishShowComponent, ChipsComponent
+    StorageCreateComponent, PProductsListComponent, PProductsCreateComponent, PProductsShowComponent, DishShowComponent, ChipsComponent, RecipeCreateComponent, RecipeShowComponent
   ],
   entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
   bootstrap: [DishesCreateComponent],

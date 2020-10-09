@@ -15,9 +15,9 @@ export class RecipeService {
   getRecipe(): Observable<Recipe[]> {
     return this._http.get<Recipe[]>("https://karmazdrowia.pl:8080/api/pos/recipe");
   }
-//   createProduct(bodyProduct) {
-//     return this._http.post<Products[]>("https://karmazdrowia.pl:8080/api/products", bodyProduct);
-//   }
+  createRecipe(bodyProduct) {
+    return this._http.post<Recipe[]>("https://karmazdrowia.pl:8080/api/pos/recipe", bodyProduct);
+  }
 //   getProductID(id: string) {
 //     return this._http.get<Products>("https://karmazdrowia.pl:8080/api/products/" + id);
 //   }
