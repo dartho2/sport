@@ -19,6 +19,8 @@ export interface ProductData {
 import { StorageService } from '../../storage.service';
 import { Storage } from '../../storage.model'
 import { AlertService } from 'src/app/_alert/alert.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/admin/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-p-products-list',
@@ -29,6 +31,7 @@ export class PProductsListComponent implements OnInit {
   productData;
   buttonTable: Boolean = true;
   product = null;
+  checked = true;
   dataSource = new MatTableDataSource<ProductData>();
   displayedColumns: string[] = [
     'image',
@@ -50,7 +53,7 @@ export class PProductsListComponent implements OnInit {
       console.log(this.dataSource,"filter")
     }
   
-    constructor(private route: ActivatedRoute, private storageService: StorageService,
+    constructor(public dialog: MatDialog, private route: ActivatedRoute, private storageService: StorageService,
       private alertService: AlertService) {
     }
     ngAfterViewInit() {
@@ -87,5 +90,14 @@ export class PProductsListComponent implements OnInit {
     }
     exportTable() {
       exportData.exportToExcel("ExampleTable");
+    }
+    openDialog(product) {
+      const dialogRef = this.dialog.open(DialogComponent,{
+          disableClose: false,
+        panelClass: "my-full-screen-dialog",
+        data: {
+          message: product,
+          type: "product"
+  }    });
     }
   }

@@ -306,24 +306,10 @@ export class DishesCreateComponent implements OnInit {
     const filterValue = name.toLowerCase();
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
-  openDialog() {
-    this.dialog.open(DialogDataExampleDialog, {
-      data: this.myForm.value,
-    });
-  }
+
 
 }
 
-@Component({
-  selector: 'dialog-data-example-dialog',
-  templateUrl: 'dialog-data-example-dialog.html',
-})
-
-export class DialogDataExampleDialog {
-  ProductDish = true;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
-  }
-}
 
 
 

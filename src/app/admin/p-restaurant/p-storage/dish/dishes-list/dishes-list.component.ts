@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Inject, ViewEncapsulation, AfterViewInit 
 import { DishServices } from '../dish-services';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Dish } from '../dish.model';
-import { MatDialog, MAT_DIALOG_DATA , MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +12,7 @@ import { AlertService } from 'src/app/_alert/alert.service';
 import { StorageService } from '../../storage.service';
 import { ChipsService } from '../../../../shared/widgets/services/chips.service'
 import { Subscription } from 'rxjs';
+import {DialogComponent} from '../../../../shared/dialog/dialog.component'
 export interface DialogData {
   name: string
   description: string
@@ -103,15 +104,16 @@ export class DishesListComponent implements AfterViewInit, OnInit {
     }
   }
  
+
   openDialog(dish) {
-
-    const dialogRef = this.dialog.open(DialogDataListDialog, {
-      disableClose: false,
+    const dialogRef = this.dialog.open(DialogComponent,{
+        disableClose: false,
       panelClass: "my-full-screen-dialog",
-      data: dish
-    });
+      data: {
+        message: dish,
+        type: "dish"
+}    });
   }
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -161,20 +163,4 @@ export class DishesListComponent implements AfterViewInit, OnInit {
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}
-
-@Component({
-  selector: 'dialog-data-example-dialog',
-  templateUrl: 'dialog-data-example-dialog.html',
-  styleUrls: ['./dialog-data-example-dialog.css'],
-
-})
-export class DialogDataListDialog {
- 
-  constructor( 
-    public dialogRef: MatDialogRef<DialogDataListDialog>, 
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
 }

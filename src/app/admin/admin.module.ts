@@ -9,7 +9,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SearchPipe } from './admin/_pipe/search/search.pipe';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
-import { DishesListComponent, DialogDataListDialog } from './p-restaurant/p-storage/dish/dishes-list/dishes-list.component';
+import { DishesListComponent } from './p-restaurant/p-storage/dish/dishes-list/dishes-list.component';
 // import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
@@ -51,7 +51,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
-import { DishesCreateComponent, DialogDataExampleDialog } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
+import { DishesCreateComponent } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
 import { RecipeListComponent } from './p-restaurant/p-storage/recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { ProductShowComponent } from './products/products-show/product-show.component';
@@ -88,6 +88,8 @@ import { DishShowComponent } from './p-restaurant/p-storage/dish/dish-show/dish-
 import { ChipsComponent } from './shared/widgets/chips/chips.component';
 import { RecipeCreateComponent } from './p-restaurant/p-storage/recipe/recipe-create/recipe-create.component';
 import { RecipeShowComponent } from './p-restaurant/p-storage/recipe/recipe-show/recipe-show.component';
+import { DialogComponent } from './shared/dialog/dialog.component';
+
 // import { BreadCrumbParamService } from './shared/breadcrumb/breadcrumb.service';
 @NgModule({
   imports: [
@@ -143,6 +145,7 @@ import { RecipeShowComponent } from './p-restaurant/p-storage/recipe/recipe-show
     ScrollingModule
   ],
   declarations: [
+    DialogComponent,
     LayoutComponent,
     AdminComponent,
     CalendarComponent,
@@ -150,14 +153,12 @@ import { RecipeShowComponent } from './p-restaurant/p-storage/recipe/recipe-show
     NavbarComponent, NavbarSportComponent,
     ProductsListComponent,
     ProductsCreateComponent,
-    DishesListComponent, DialogDataListDialog,
+    DishesListComponent,
     DishesCreateComponent,
     AnalysticListComponent,
     SearchPipe,
     EventListComponent,
-    CalculateListComponent,
-    DishesCreateComponent, 
-    DialogDataExampleDialog, 
+    CalculateListComponent,  
     RecipeListComponent, 
     SemiproduktListComponent, 
     ProductShowComponent, 
@@ -173,8 +174,8 @@ import { RecipeShowComponent } from './p-restaurant/p-storage/recipe/recipe-show
     BreadcrumbComponent, 
     StorageCreateComponent, PProductsListComponent, PProductsCreateComponent, PProductsShowComponent, DishShowComponent, ChipsComponent, RecipeCreateComponent, RecipeShowComponent
   ],
-  entryComponents: [DishesCreateComponent, DialogDataExampleDialog, DialogDataListDialog, DishesListComponent],
-  bootstrap: [DishesCreateComponent],
+  entryComponents: [DialogComponent],
+  bootstrap: [],
   providers: [DatePipe, { provide: LOCALE_ID, useValue: "pl-PL" }]
 })
 export class AdminModule { }
