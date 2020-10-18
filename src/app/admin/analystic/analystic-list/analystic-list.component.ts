@@ -37,7 +37,7 @@ export class AnalysticListComponent implements OnInit {
     private headerService: HeaderService,
     private route: ActivatedRoute,
     private _fb: FormBuilder
-  ) { 
+  ) {
     this.formbuilder();
   }
 
@@ -47,8 +47,16 @@ export class AnalysticListComponent implements OnInit {
       events: this._fb.array([])
     })
   }
-    get eventss() { return this.myForm.get('events') as FormArray }
+  get events() { return this.myForm.get('events') as FormArray }
   ngAfterViewInit() {
+    this.headerService.subject.subscribe((event: any) => {
+      if (event.last !== undefined) {
+        var lastDeleted = this.events.value.findIndex(c => c.idEvent === event.last.idEvent)
+        event.last = undefined
+        this.events.at(lastDeleted).patchValue({ type: "" });
+      }
+
+    })
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -97,6 +105,8 @@ export class AnalysticListComponent implements OnInit {
       })
     })
   }
+  onSubmitForm(f) { }
+
   calculateBet(value) {
     let result = eval(value)
     return (parseFloat(result) + 1).toFixed(2)
@@ -138,57 +148,57 @@ export class AnalysticListComponent implements OnInit {
     }
   }
   setCities(events) {
-    var existsOnBet = this.dateEventsBet.events.find(x=>x.idEvent === events.id)
-   if(existsOnBet){  
-    events.type = existsOnBet.type
-    let control = <FormArray>this.myForm.controls.events;
-    control.push(this._fb.group({
-      name: [events.name ? events.name : ''],
-      type: existsOnBet.type,
-      data: events? events : '',
-      typeYT: '',
-      typeBT: '',
-      typeVI: '',
-      time: events.startTime,
-      home: events.homeTeam.name,
-      away: events.awayTeam.name,
-      date: events.formatedStartDate ? events.formatedStartDate : '',
-      dateControl: "",
-      league: events.tournament.name,
-      idEvent: events.id,
-      win: "",
-      vot1: events.choicesFL[0].fractionalValue,
-      votX: events.choicesFL[1].fractionalValue,
-      vot2: events.choicesFL[2].fractionalValue,
-      vot1_d: events.choicesDP[0].fractionalValue,
-      votX_d: events.choicesDP[1].fractionalValue,
-      vot2_d: events.choicesDP[2].fractionalValue
-    }))
-   } else{
-    let control = <FormArray>this.myForm.controls.events;
-    control.push(this._fb.group({
-      name: [events.name ? events.name : ''],
-      type: [''],
-      data: '',
-      typeYT: '',
-      typeBT: '',
-      typeVI: '',
-      time: events.startTime,
-      home: events.homeTeam.name,
-      away: events.awayTeam.name,
-      date: events.formatedStartDate ? events.formatedStartDate : '',
-      dateControl: "",
-      league: events.tournament.name,
-      idEvent: events.id,
-      win: "",
-      vot1: events.choicesFL[0].fractionalValue,
-      votX: events.choicesFL[1].fractionalValue,
-      vot2: events.choicesFL[2].fractionalValue,
-      vot1_d: events.choicesDP[0].fractionalValue,
-      votX_d: events.choicesDP[1].fractionalValue,
-      vot2_d: events.choicesDP[2].fractionalValue
-    }))
-   }
+    var existsOnBet = this.dateEventsBet.events.find(x => x.idEvent === events.id)
+    if (existsOnBet) {
+      events.type = existsOnBet.type
+      let control = <FormArray>this.myForm.controls.events;
+      control.push(this._fb.group({
+        name: [events.name ? events.name : ''],
+        type: existsOnBet.type,
+        data: events ? events : '',
+        typeYT: '',
+        typeBT: '',
+        typeVI: '',
+        time: events.startTime,
+        home: events.homeTeam.name,
+        away: events.awayTeam.name,
+        date: events.formatedStartDate ? events.formatedStartDate : '',
+        dateControl: "",
+        league: events.tournament.name,
+        idEvent: events.id,
+        win: "",
+        vot1: events.choicesFL[0].fractionalValue,
+        votX: events.choicesFL[1].fractionalValue,
+        vot2: events.choicesFL[2].fractionalValue,
+        vot1_d: events.choicesDP[0].fractionalValue,
+        votX_d: events.choicesDP[1].fractionalValue,
+        vot2_d: events.choicesDP[2].fractionalValue
+      }))
+    } else {
+      let control = <FormArray>this.myForm.controls.events;
+      control.push(this._fb.group({
+        name: [events.name ? events.name : ''],
+        type: [''],
+        data: '',
+        typeYT: '',
+        typeBT: '',
+        typeVI: '',
+        time: events.startTime,
+        home: events.homeTeam.name,
+        away: events.awayTeam.name,
+        date: events.formatedStartDate ? events.formatedStartDate : '',
+        dateControl: "",
+        league: events.tournament.name,
+        idEvent: events.id,
+        win: "",
+        vot1: events.choicesFL[0].fractionalValue,
+        votX: events.choicesFL[1].fractionalValue,
+        vot2: events.choicesFL[2].fractionalValue,
+        vot1_d: events.choicesDP[0].fractionalValue,
+        votX_d: events.choicesDP[1].fractionalValue,
+        vot2_d: events.choicesDP[2].fractionalValue
+      }))
+    }
   }
   //   away: "AC Ajaccio"
   // data: ""
