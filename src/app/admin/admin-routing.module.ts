@@ -27,6 +27,7 @@ import { PProductsCreateComponent } from './p-restaurant/p-storage/products/p-pr
 import { PProductsShowComponent } from './p-restaurant/p-storage/products/p-products-show/p-products-show.component';
 import { DishShowComponent } from './p-restaurant/p-storage/dish/dish-show/dish-show.component';
 import { RecipeCreateComponent } from './p-restaurant/p-storage/recipe/recipe-create/recipe-create.component';
+import { RecipeShowComponent } from './p-restaurant/p-storage/recipe/recipe-show/recipe-show.component';
 
 const adminRoutes: Routes = [
 
@@ -147,7 +148,7 @@ const adminRoutes: Routes = [
                       },
                       {
                         path: 'show/:idRecipeitems',
-                        component: RecipeListComponent,
+                        component: RecipeShowComponent,
                         data: { roles: [Role.Admin, Role.User], breadcrumb: 'show' }
                       }
                     ]

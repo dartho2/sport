@@ -8,6 +8,7 @@ import { formatDate } from '@angular/common';
 import { HeaderService } from './layout.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { AnalysticService } from 'src/app/admin/analystic/analystic-service';
 interface CategoryMatches {
   name: string;
   count: number;
@@ -66,8 +67,10 @@ export class LayoutComponent implements OnInit {
   private autoLogoutSubscription: Subscription;
   dateEventsBet: any = null;
   liqueId = [];
+  myDate: Date;
+  formattedDate: string;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router,
+  constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router, private analysticService: AnalysticService,
     private media: MediaMatcher, private headerService: HeaderService) {
     this.dataSourceMatches.data = TREE_DATA;
     this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
@@ -83,14 +86,15 @@ export class LayoutComponent implements OnInit {
   }
   hasChild = (_: number, node: CategoryMatchesFlat) => node.expandable;
   ngOnInit(): void {
-
+    this.myDate = new Date();
+    this.formattedDate = formatDate(this.myDate, this.format, 'en');
   }
   betAllRateResultsMinus(x) {
     let a = 1;
     if (x.type.length <= 1) {
-      x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === '0' ? this.betAllRateResult /= x.votX : '';
+      x.type === '1' ? this.betAllRateResult /= x.vot1 : x.type === '2' ? this.betAllRateResult /= x.vot2 : x.type === 'X' ? this.betAllRateResult /= x.votX : '';
     } else {
-      x.type === '10' ? this.betAllRateResult /= x.vot1_d : x.type === '02' ? this.betAllRateResult /= x.vot2_d : x.type === '12' ? this.betAllRateResult /= x.votX_d : '';
+      x.type === '1X' ? this.betAllRateResult /= x.vot1_d : x.type === 'X2' ? this.betAllRateResult /= x.vot2_d : x.type === '12' ? this.betAllRateResult /= x.votX_d : '';
     }
     return (a / 1.14).toFixed(2)
   }
@@ -99,9 +103,9 @@ export class LayoutComponent implements OnInit {
     switch (type) {
       case '1': return v1
       case '2': return v2
-      case '0': return vx
-      case '10': return v1_d
-      case '02': return v2_d
+      case 'X': return vx
+      case '1X': return v1_d
+      case 'X2': return v2_d
       case '12': return vx_d
     }
 
@@ -130,6 +134,12 @@ export class LayoutComponent implements OnInit {
       statusChanged: 2,
       statusEvent: 2, events: this.dateEventsBet.events, last: bet
     });
+  }
+  saveBet(){
+    console.log(this.dateEventsBet, "save /bet")
+    this.dateEventsBet.date =this.formattedDate
+    this.analysticService.addEvents(this.dateEventsBet).subscribe(xresum => {
+    })
   }
   addID(id:number){
     const index = this.liqueId.indexOf(id);

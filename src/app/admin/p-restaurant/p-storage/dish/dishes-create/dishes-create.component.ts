@@ -109,7 +109,6 @@ export class DishesCreateComponent implements OnInit {
   get name() { return this.myForm.get('name'); }
   get products() { return this.myForm.get('products') as FormArray }
   get bruttoPrice() { return this.myForm.get('bruttoPrice'); }
-
   get formData() {
     return <FormArray>this.myForm.get('products');
   }

@@ -33,19 +33,10 @@
           fxFlex.lt-sm="100%" 
             *ngFor="let dish of this.dataSource.filteredData">
             <mat-card  class="mat-elevation-z4">
-              <!-- <img mat-card-image src="{{dish.image}}"> -->
               <mat-card-content class="icon-center">
                 <mat-card-header>
                   <mat-card-title>{{dish.name}}</mat-card-title>
-                  <!-- <div class="card__author">
-                    <button id="share" class=" share-icon-edit fas fa-trash" style="color:red"
-                      (click)="dishDelete(dish._id)"></button>
-                    <button id="share" class=" share-icon-edit fas fa-edit"
-                      [routerLink]="['/dish/edit/', dish._id]"></button>
-                    <button id="share" class="share-toggle share-icon" (click)="openDialog(dish)"></button>
-                  </div> -->
                 </mat-card-header>
-                <!-- <img mat-card-image src="{{dish.image}}"> -->
                 <mat-list>
                   <p>
                     Cenna Brutto [sprzedaż]

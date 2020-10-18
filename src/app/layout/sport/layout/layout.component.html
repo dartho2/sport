@@ -28,7 +28,7 @@
                   <table class="table">
                     <tr *ngFor="let bet of dateEventsBet.events; index as i">
                       <td>  <mat-icon (click)="deleted(i,bet)" style="cursor: pointer" mat-list-icon>close</mat-icon></td>
-                      <td> {{bet.name}}</td>
+                      <td> {{bet.home}} - {{bet.away}}</td>
                       <td> {{bet.type}}</td>
                       <td> {{betRate(bet.type, bet.vot1, bet.votX, bet.vot2, bet.vot1_d, bet.votX_d, bet.vot2_d)}}</td>
                     </tr>
@@ -40,7 +40,8 @@
                     </tr>
                   </table>
             
-            
+                  <button type="button" (click)="saveBet()" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
+                  type="submit">Zapisz</button>
                 </div>
               </div>
             </div>
