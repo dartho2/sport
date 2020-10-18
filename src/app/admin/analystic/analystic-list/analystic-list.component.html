@@ -1,10 +1,11 @@
-  <mat-card class="mat-elevation-z">
+<form [formGroup]="myForm" (ngSubmit)="onSubmitForm(f)" #f="ngForm">
+ <mat-card class="mat-elevation-z">
     <mat-card-content class="container mt-4">
-      <div class="row">
+      <div class="row" formArrayName="events">
         <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start">
           <div class="card-width" fxFlex="0 1 calc(33.3% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)"
-            fxFlex.lt-sm="100%" *ngFor="let match of this.dataSource.filteredData">
-            <mat-card class="mat-elevation-z4">
+            fxFlex.lt-sm="100%" *ngFor="let match of this.dataSource.filteredData; let i = index">
+            <mat-card class="mat-elevation-z4" [formGroupName]="i">
               <mat-card-content class="icon-center">
                 <mat-card-header>
                   <mat-card-title>
@@ -24,8 +25,7 @@
                   <div class="time-standings">{{(match.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
                   <p> {{match.tournament.name}}</p>
                   <p> {{match.tournament.category.name}}</p>
-
-                  <mat-radio-group class="radio-toolbar"  aria-label="Select an option">
+                  <mat-radio-group class="radio-toolbar" formControlName="type" aria-label="Select an option">
                     <mat-radio-button *ngFor="let choice of match.choicesFL" class="" [value]="choice.name"
                       (click)="clickRadio($event, choice.name, match )">{{choice.name}}<span>{{calculateBet(choice.fractionalValue)}}</span>
                     </mat-radio-button>
@@ -37,16 +37,10 @@
                   </mat-radio-group>
                 </mat-list>
               </mat-card-content>
-
             </mat-card>
-            <div class="data-panel">
-              <div class="panel-sub">
-                <button type="button" class="btn btn-outline-success btn-rounded waves-effect" color="warn"
-                  type="submit">Zapisz</button>
-                  </div>
-                  </div>
           </div>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
+</form> 

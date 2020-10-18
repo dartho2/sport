@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { HeaderService } from 'src/app/layout/sport/layout/layout.service';
 import { formatDate } from '@angular/common';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export interface MatchData {
 
 }
@@ -22,6 +23,7 @@ export class AnalysticListComponent implements OnInit {
   eventID;
   eventsTurnamet: any = [];
   actualformat = "dd.MM.yyyy"
+  myForm: FormGroup;
   dataSource = new MatTableDataSource<MatchData>();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -33,10 +35,19 @@ export class AnalysticListComponent implements OnInit {
   constructor(
     private analysticService: AnalysticService,
     private headerService: HeaderService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private _fb: FormBuilder
+  ) { 
+    this.formbuilder();
+  }
 
-
+  formbuilder() {
+    this.myForm = this._fb.group({
+      date: new FormControl(''),
+      events: this._fb.array([])
+    })
+  }
+    get eventss() { return this.myForm.get('events') as FormArray }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -50,6 +61,8 @@ export class AnalysticListComponent implements OnInit {
     })
   }
   getMatched(data) {
+    this.dataSource.data = []
+    this.formbuilder()
     this.analysticService.getAnalystict(data).subscribe(events => {
       this.eventsTurnamet = events
       this.eventsTurnamet.events.map(eventMatch => {
@@ -69,9 +82,8 @@ export class AnalysticListComponent implements OnInit {
                       eventMatch["choicesDP"] = markets.markets[1].choices
                       eventMatch["formatDate"] = formatDate(data, this.actualformat, 'en')
                       this.dataSource.data.push(eventMatch)
-                      console.log(this.dataSource.data)
+                      this.setCities(eventMatch)
                     })
-
                   })
               } else {
                 eventMatch.status = "tak"
@@ -124,6 +136,59 @@ export class AnalysticListComponent implements OnInit {
       case 'X2': return this.calculateBet(eventTurn.choicesDP[1].fractionalValue)
       case '12': return this.calculateBet(eventTurn.choicesDP[2].fractionalValue)
     }
+  }
+  setCities(events) {
+    var existsOnBet = this.dateEventsBet.events.find(x=>x.idEvent === events.id)
+   if(existsOnBet){  
+    events.type = existsOnBet.type
+    let control = <FormArray>this.myForm.controls.events;
+    control.push(this._fb.group({
+      name: [events.name ? events.name : ''],
+      type: existsOnBet.type,
+      data: events? events : '',
+      typeYT: '',
+      typeBT: '',
+      typeVI: '',
+      time: events.startTime,
+      home: events.homeTeam.name,
+      away: events.awayTeam.name,
+      date: events.formatedStartDate ? events.formatedStartDate : '',
+      dateControl: "",
+      league: events.tournament.name,
+      idEvent: events.id,
+      win: "",
+      vot1: events.choicesFL[0].fractionalValue,
+      votX: events.choicesFL[1].fractionalValue,
+      vot2: events.choicesFL[2].fractionalValue,
+      vot1_d: events.choicesDP[0].fractionalValue,
+      votX_d: events.choicesDP[1].fractionalValue,
+      vot2_d: events.choicesDP[2].fractionalValue
+    }))
+   } else{
+    let control = <FormArray>this.myForm.controls.events;
+    control.push(this._fb.group({
+      name: [events.name ? events.name : ''],
+      type: [''],
+      data: '',
+      typeYT: '',
+      typeBT: '',
+      typeVI: '',
+      time: events.startTime,
+      home: events.homeTeam.name,
+      away: events.awayTeam.name,
+      date: events.formatedStartDate ? events.formatedStartDate : '',
+      dateControl: "",
+      league: events.tournament.name,
+      idEvent: events.id,
+      win: "",
+      vot1: events.choicesFL[0].fractionalValue,
+      votX: events.choicesFL[1].fractionalValue,
+      vot2: events.choicesFL[2].fractionalValue,
+      vot1_d: events.choicesDP[0].fractionalValue,
+      votX_d: events.choicesDP[1].fractionalValue,
+      vot2_d: events.choicesDP[2].fractionalValue
+    }))
+   }
   }
   //   away: "AC Ajaccio"
   // data: ""
