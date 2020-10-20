@@ -7,7 +7,7 @@
 <div class="content-body">
 
 
-  <form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm" *ngIf="isReady">
     <mat-tab-group>
       <mat-tab label="Danie">
         <div class="row">
@@ -92,7 +92,9 @@
                       <div class="col mr-2" [formGroupName]="i">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                           <legend>
-                            <h4><span class="title-label">Produkt {{i+1}}:</span> <button style="margin-left:35px;"
+                            <h4><span class="title-label">Produkt {{i+1}}: <span class="text-product">
+                              {{name.value.name}} {{name.value.productWeight}} {{name.value.unit}}
+                            </span></span> <button style="margin-left:35px;"
                                 type="button" class="btn" (click)="deleteCity(i)">
                                 <i class="fa fa-minus" aria-hidden="true"></i></button>
                               <span class="h6">
@@ -114,11 +116,11 @@
                                 </mat-form-field> -->
 
                                 <mat-form-field class="example-full-width h5">
-                                  <mat-label style="color:#3b9aff">Wyszukaj/wpisz produkt </mat-label>
+                                  
                                   <input type="text" placeholder="Wyszukaj produkt" aria-label="Number" matInput
-                                  formControlName="name"  [formControl]="myControl" [matAutocomplete]="auto2">
-                                  <mat-autocomplete (optionSelected)="onChange($event.option.value, i)" #auto2="matAutocomplete">
-                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                  formControlName="name"  [matAutocomplete]="auto2">
+                                  <mat-autocomplete [displayWith]="displayFn" (optionSelected)="onChange($event.option, i)" #auto2="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.name">
                                       {{option.name}} 
                                     </mat-option>
                                   </mat-autocomplete>
@@ -131,15 +133,15 @@
                           <div class="form-row">
                             <mat-form-field class="form-group col-md-3">
                               <mat-label>Waga Produktu</mat-label>
-                              <input matInput class="form-control" formControlName="productWeight"
+                              <input matInput class="form-control input-text-right" formControlName="productWeight"
                                 (change)="calculate(i)" type="number" name="productweight" required>
-                                <span matSuffix>.00</span>
+                                <span matSuffix>{{name.value.unit}}</span>
                               <mat-icon matSuffix class="fas fa-info-circle"
                                 matTooltip="Wpisz wagę produktu jednostka jest ustalona w 'Jednostka' 10g = 0.01kg, 10ml = 0.01l"
                                 #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                               <mat-error *ngIf="name.hasError('required', 'productWeight')">Required</mat-error>
                             </mat-form-field>
-                            <mat-form-field class="form-group col-md-1">
+                            <mat-form-field class="form-group col-md-1 d-none">
                               <mat-label>Jednostka</mat-label>
                               <input matInput class="form-control" formControlName="unit" type="text" name="unit"
                                 disabled readonly required>

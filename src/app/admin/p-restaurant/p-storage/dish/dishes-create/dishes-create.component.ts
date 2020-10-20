@@ -9,6 +9,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RestaurantService } from '../../../../shared/restaurants/restaurants.service';
 import { AlertService } from 'src/app/_alert/alert.service';
 import { StorageService } from '../../storage.service';
+import { RecipeService } from '../../recipe/recipe.service';
 export interface DialogData {
   foodCost: '';
 }
@@ -24,7 +25,7 @@ export interface Product {
 export class DishesCreateComponent implements OnInit {
   myControl = new FormControl();
   options: Product[] = [];
-  filteredOptions: Observable<Product[]>;
+  filteredOptions: Observable<Product[]>[]=[];
   productSelected;
   myForm: FormGroup;
   selectItems: any;
@@ -61,17 +62,15 @@ export class DishesCreateComponent implements OnInit {
   dishDataId: any;
   storageId: string;
   idDishe: string;
-
+  isReady:boolean = false;
   constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
-    private productService: ProductService, private storageService: StorageService, private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
+    private productService: ProductService, private storageService: StorageService, private recipeService: RecipeService ,
+     private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
     this.restaurantService.getRestaurant().subscribe(response=>{
       this.valueRe  = response    
   })
-    this.productService.getProduct().subscribe(response => {
-      this.product = response
-      this.options = this.product
-    });
+  
     this.myForm = this._fb.group({
       name: new FormControl('', [Validators.required, Validators.minLength(4)]),
       description: new FormControl('', [Validators.required, Validators.minLength(4)]),
@@ -84,27 +83,47 @@ export class DishesCreateComponent implements OnInit {
       productMarginFC: new FormControl('', Validators.required),
       productMargin: new FormControl('', Validators.required),
       coating: new FormControl('', Validators.required),
-      products: this._fb.array([])
+      products: this._fb.array([]
+    )
+    
     })
+   
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idStorage")) {
         this.storageId = paramMap.get("idStorage");
         this.storageService.getPosStorage(this.storageId).subscribe((response: any) => {
-          this.options = response.products
+        //  this.options = response.products
+          this.recipeService.getPosRecipe(response.recipes[0]._id).subscribe((recipe: any) => {
+          this.options = [...recipe.recipeitems,...response.products]
+          this.product = [...recipe.recipeitems,...response.products]
+          console.log(this.options , "ooo")
+         })
+         
+          console.log(this.options)
           if (paramMap.has("idDishe")) {
             this.mode = "edit";
             this.idDishe = paramMap.get("idDishe");
             this.storageService.getPosStorageProduct(this.idDishe).subscribe(dishData => {
-              this.buildFormDish(dishData);
+             var w:any
+               w =dishData
+              this.buildFormDish(dishData)
+              for (let i = 0; i < w.products.length; i++) {
+                this.addAutocomplite(i)
+              }
+              
+              this.isReady = true
+              console.log(this.myControl, "control")
             })
           } else {
             this.mode = "create";
+            this.isReady = true
           }
         });
       }
     });
-    this.setCities();
+   // this.setCities();
   }
+  get unit() { return this.myForm.get('unit'); }
   get name() { return this.myForm.get('name'); }
   get products() { return this.myForm.get('products') as FormArray }
   get bruttoPrice() { return this.myForm.get('bruttoPrice'); }
@@ -148,6 +167,7 @@ export class DishesCreateComponent implements OnInit {
     this.foodCost = 0;
     this.fC = 0;
     this.controlButton = 1;
+    console.log(this.myForm, "form")
     if (this.myForm.controls.products.status === 'VALID' && this.myForm.value.bruttoPrice) {
       let control = (<FormArray>this.myForm.controls.products);
       control.value.forEach(x => {
@@ -188,9 +208,22 @@ export class DishesCreateComponent implements OnInit {
         valueProduct: ''
       })
     )
+    this.addAutocomplite(control.length -1)
+    console.log(this.myForm ,"ddddd")
     // this.myControl.patchValue('')
   }
-
+addAutocomplite(index:number){
+  var arrayControl = this.myForm.get('products') as FormArray;
+  var start = arrayControl.at(index).get('name')
+  this.filteredOptions[index] = arrayControl.at(index).get('name')
+  // this.filteredOptions = this.myControl
+  .valueChanges
+  .pipe(
+    startWith(start.value ? start.value : ''),
+    map(value => typeof value === 'string' ? value : value.name),
+    map(name => name ? this._filter(name) : this.options.slice())
+  );
+}
   deleteCity(index) {
     let control = <FormArray>this.myForm.controls.products;
     control.removeAt(index)
@@ -238,7 +271,8 @@ export class DishesCreateComponent implements OnInit {
 
   }
   onChange(selectedValue, y) {
-    this.productSelected = this.product.filter(item => item.name === selectedValue.name);
+    console.log(selectedValue, "wchodzi")
+    this.productSelected = this.product.filter(item => item.name === selectedValue.value);
     let control = (<FormArray>this.myForm.controls.products).at(y);
     this.productSelected.forEach(x => {
       control.setValue({
@@ -256,16 +290,12 @@ export class DishesCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-  
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.options.slice())
-      );
-  }
-  displayFn(product?: Product): string | undefined {
-    return product ? product.name : undefined;
+
+}
+
+  displayFn(product?: any): string | undefined {
+    console.log(product, "ppppp")
+    return product ? product : undefined;
   }
   buildFormDish(data: any): FormGroup {
     return this.myForm = this._fb.group({
@@ -287,7 +317,9 @@ export class DishesCreateComponent implements OnInit {
     })
   } 
   getProducts(data: any): FormGroup[] {
+    
     return data ? data.map(recipeBody => {
+      // this.myControl.push(recipeBody.name)
       return this._fb.group({
         name: [recipeBody.name],
         nettoPrice: [recipeBody.nettoPrice],
@@ -306,8 +338,6 @@ export class DishesCreateComponent implements OnInit {
     const filterValue = name.toLowerCase();
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
-
-
 }
 
 
