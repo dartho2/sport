@@ -66,8 +66,7 @@ export class DishesCreateComponent implements OnInit {
     private route: ActivatedRoute, private router: Router, 
     private productService: ProductService, private storageService: StorageService, private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
     this.restaurantService.getRestaurant().subscribe(response=>{
-      this.valueRe  = response
-      
+      this.valueRe  = response    
   })
     this.productService.getProduct().subscribe(response => {
       this.product = response
@@ -189,7 +188,7 @@ export class DishesCreateComponent implements OnInit {
         valueProduct: ''
       })
     )
-    this.myControl.patchValue('')
+    // this.myControl.patchValue('')
   }
 
   deleteCity(index) {
@@ -199,6 +198,7 @@ export class DishesCreateComponent implements OnInit {
 
   setCities() {
     let control = <FormArray>this.myForm.controls.products;
+    console.log(control)
     this.data.products.forEach(x => {
       control.push(this._fb.group({
         id: x.id,
@@ -256,6 +256,7 @@ export class DishesCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+  
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),

@@ -115,8 +115,8 @@
 
                                 <mat-form-field class="example-full-width h5">
                                   <mat-label style="color:#3b9aff">Wyszukaj/wpisz produkt </mat-label>
-                                  <input type="text" placeholder="Posts From User" aria-label="Number" matInput
-                                  formControlName="name"  [matAutocomplete]="auto2">
+                                  <input type="text" placeholder="Wyszukaj produkt" aria-label="Number" matInput
+                                  formControlName="name"  [formControl]="myControl" [matAutocomplete]="auto2">
                                   <mat-autocomplete (optionSelected)="onChange($event.option.value, i)" #auto2="matAutocomplete">
                                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                                       {{option.name}} 
