@@ -17,7 +17,7 @@ import { fadeAnimation } from "../../admin/shared/animations/faderoute";
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  styleUrls: ['./navbar.component.scss'],
   animations: [fadeAnimation]
 })
 export class NavbarComponent implements OnInit {
@@ -95,6 +95,10 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
+  }
+  logoutApi() {
+    this.authenticationService.logoutApi();
+    this.router.navigate(['/settings/rest_api']);
   }
 
 }

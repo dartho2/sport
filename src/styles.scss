@@ -11,6 +11,30 @@ font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue"
 .sizes, .price{
   margin-bottom: 7px !important;
 }
+.button-corner {
+  position: absolute;
+  top: 0px;
+  right:0px;
+  margin-right:-15px;
+  margin-top:-15px;
+}
+.icon-card-size-small {
+  background: white;
+  border-radius: 50px;
+  font-size: 40px;
+  color: #444;
+  // border: 1px solid #CCC;
+  // box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.icon-card-size-small:hover {
+  color:#444;
+    border:1px solid #CCC;
+    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+    cursor:pointer;
+    vertical-align:middle;
+    text-align: center;
+}
 .data-panel {
   position: fixed;
   z-index: 1051;
@@ -18,6 +42,22 @@ font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue"
   width: 100%;
   bottom: 0px;
   margin: 0 auto;
+}
+.button-card {
+    cursor:pointer; 
+}
+.button-card:hover {
+  color:#444;
+    border:1px solid #CCC;
+    background:#DDD;
+    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+    cursor:pointer;
+    vertical-align:middle;
+    text-align: center;
+}
+.mat-icon {
+  height: unset !important;
+  width: unset !important;
 }
 .panel-sub {
  position: absolute;
@@ -9087,7 +9127,9 @@ router-outlet ~ * {
    height: 100%;
    width: 100%; 
  }
- 
+ app-settings , app-apiintegration{
+  position: unset !important;
+}
 // MATerial
 .icon-size {
   font-size: 25px;
@@ -9120,4 +9162,15 @@ router-outlet ~ * {
 }
 .example-full-width {
   width:100%
+}
+.add-button {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.icon-card-size{
+  font-size: 100px;
 }

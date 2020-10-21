@@ -22,45 +22,45 @@
                     <!-- <div class="h6 mb-0 font-weight-bold text-gray-800"> -->
                     <div class="example-container">
                       <mat-form-field class="example-full-width">
-                        <input type="text" matInput  id="name"  placeholder="Name" name="name"
-                          formControlName="name" required matInput>
+                        <input type="text" matInput id="name" placeholder="Nazwa Dania" name="name" formControlName="name"
+                          required matInput>
                         <mat-icon matSuffix class="fas fa-info-circle"
                           matTooltip="*Wymagane do zapisania i kalkulacji potrawy: wprowadz nazwę Dania"
                           #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                         <mat-error *ngIf="name.invalid">{{getErrorMessage('name')}}</mat-error>
                       </mat-form-field>
-                   
-                      <mat-form-field class="f-control-n">
-                        <input type="text" id="category" placeholder="Category" name="category"
+
+                      <mat-form-field class="example-full-width">
+                        <input type="text" id="category" placeholder="Kategoria, (np. Zestaw, Hosomak, Promocja)" name="category"
                           formControlName="category" required matInput>
                         <mat-icon matSuffix class="fas fa-info-circle"
                           matTooltip="*Wymagane do zapisania i kalkulacji potrawy: wprowadz kategorie Dania np. ('hosomaki')"
                           #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                       </mat-form-field>
-                      <mat-form-field class="f-control-n">
-                        <input type="text" id="description"  placeholder="Description"
-                          name="description" formControlName="description" required matInput>
+                      <mat-form-field class="example-full-width">
+                        <input type="text" id="description" placeholder="Opis (np. nazwa Dania)" name="description"
+                          formControlName="description" required matInput>
                         <mat-icon matSuffix class="fas fa-info-circle"
                           matTooltip="*Wymagane: Opis, w przyszłosci wymagane do składania zamówienia jako nazwa('nazwa skrócona')"
                           #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                       </mat-form-field>
-                      <mat-form-field class="f-control-n">
-                        <input type="text" id="image"  placeholder="image URL" name="image"
-                          formControlName="image" required matInput>
+                      <mat-form-field class="example-full-width">
+                        <input type="text" id="image" placeholder="zdjecie produktu lub nic" name="image" formControlName="image"
+                          required matInput>
                         <mat-icon matSuffix class="fas fa-info-circle"
                           matTooltip="*Wymagane do zapisania i kalkulacji potrawy: link do zdjęcia ew. ('brak')"
                           #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                       </mat-form-field>
-                      <mat-form-field class="f-control-n">
-                        <input type="text" id="vat"  placeholder="Vat" name="vat"
-                          formControlName="vat" type="number" required matInput>
+                      <mat-form-field class="example-full-width">
+                        <input type="text" id="vat" placeholder="Vat (danie 8)" name="vat" formControlName="vat" type="number"
+                          required matInput>
                         <mat-icon matSuffix class="fas fa-info-circle"
                           matTooltip="*Wymagane do zapisania i kalkulacji potrawy: Vat Narzut potrawy przy sprzedaży"
                           #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                       </mat-form-field>
-                      <mat-form-field class="f-control-n">
-                        <input type="text" id="price_p" placeholder="Cena Dania [zł]"
-                          name="price_p" type="number" formControlName="bruttoPrice" required matInput>
+                      <mat-form-field class="example-full-width">
+                        <input type="text" id="price_p" placeholder="Cena Dania w zł" name="price_p" type="number"
+                          formControlName="bruttoPrice" required matInput>
                         <mat-icon matSuffix class="fas fa-info-circle"
                           matTooltip="*Wymagane do zapisania i kalkulacji potrawy: Cena Dania Brutto"
                           #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
@@ -75,15 +75,106 @@
         </div>
       </mat-tab>
       <mat-tab label="Produkty">
-        <div class="row">
-          <div class="col-md-12">
-            <button style="margin:5px;" type="button" class="btn btn-primary btn-sm" (click)="addNewCity()">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj Składową dania
-            </button>
-          </div>
-        </div>
         <div formArrayName="products">
-          <div class="row">
+          <div>
+            <mat-card class="mat-elevation-z">
+              <mat-card-content class="container mt-4">
+                <div class="row">
+                  <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+                    <div class="card-width" fxFlex="0 1 calc(33.3% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)"
+                      fxFlex.lt-sm="100%" *ngFor="let name of formData.controls; let i=index">
+                      <mat-card class="mat-elevation-z4" [formGroupName]="i">
+                        <mat-card-content class="icon-center">
+                          <mat-card-header>
+                            <mat-card-title><span class="title-label">
+                                <span class="text-product">
+                                  {{name.value.name}}
+                                </span>
+                              </span>
+                              <span class="title-label">
+                                <span class="text-product">
+                                  {{name.value.productWeight}} {{name.value.unit}}
+                                </span>
+                              </span>
+                              <!-- <button style="margin-left:35px;"
+                                type="button" class="btn" (click)="deleteCity(i)">
+                                <i class="fa fa-minus" aria-hidden="true"></i></button> -->
+                              <div class="button-corner" (click)="deleteCity(i)">
+                                <mat-icon class="icon-card-size-small">remove_circle_outline</mat-icon>
+                              </div>
+                            </mat-card-title>
+                          </mat-card-header>
+                          <mat-list>
+                            <mat-form-field class="example-full-width h5">
+                              <input type="text" placeholder="Wyszukaj produkt" aria-label="Number" matInput
+                                formControlName="name" [matAutocomplete]="auto2">
+                              <mat-autocomplete [displayWith]="displayFn" (optionSelected)="onChange($event.option, i)"
+                                #auto2="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.name">
+                                  {{option.name}}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                            <mat-form-field class="example-full-width h5" *ngIf="apiBid">
+                              <input matInput formControlName="name" (keyup)="searchEBID($event.target.value)"
+                                [matAutocomplete]="ebid" placeholder="Szukaj na ebid">
+                              <mat-autocomplete [displayWith]="displayFn" #ebid="matAutocomplete"
+                                (optionSelected)="onChangeEbid($event.option, i)">
+                                <mat-option *ngFor="let option of productEbid" [value]="option.name">
+                                  <li>
+                                    <div class="flex flex-center">
+                                      <div class="flex-image"><img class="img-autocomplete" src="{{option.image_url}}">
+                                      </div>
+                                      <div class="flex">
+                                        <p class="desc-autocomplete">{{option.name}}</p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                            <mat-form-field class="example-full-width h5">
+                              <mat-label>Waga Produktu</mat-label>
+                              <input matInput class="form-control input-text-right" formControlName="productWeight"
+                                (change)="calculate(i)" type="number" name="productweight" required>
+                              <span matSuffix>{{name.value.unit}}</span>
+                              <mat-icon matSuffix class="fas fa-info-circle"
+                                matTooltip="Wpisz wagę produktu jednostka jest ustalona w 'Jednostka' 10g = 0.01kg, 10ml = 0.01l"
+                                #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
+                              <mat-error *ngIf="name.hasError('required', 'productWeight')">Required</mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="form-group col-md-1 d-none">
+                              <mat-label>Jednostka</mat-label>
+                              <input matInput class="form-control" formControlName="unit" type="text" name="unit"
+                                disabled readonly required>
+                            </mat-form-field>
+                          </mat-list>
+                        </mat-card-content>
+                        <mat-card-actions>
+
+
+                        </mat-card-actions>
+                      </mat-card>
+                    </div>
+                    <div class="card-width button-card" (click)="addNewCity()" fxFlex="0 1 calc(33.3% - 32px)"
+                      fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%">
+
+                      <mat-card class="mat-elevation-z4">
+
+                        <div class="add-button">
+                          <mat-icon class="icon-card-size">add</mat-icon>
+                        </div>
+
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+
+            </mat-card>
+
+          </div>
+          <!-- <div class="row">
             <div class="col-md-12">
               <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of formData.controls; let i=index">
                 <div class="card border-left-primary shadow h-100 py-2">
@@ -98,30 +189,25 @@
                                 type="button" class="btn" (click)="deleteCity(i)">
                                 <i class="fa fa-minus" aria-hidden="true"></i></button>
                               <span class="h6">
-                                <!-- <mat-form-field class="example-full-width h5">
-                                  <mat-label>Wybierz produkt </mat-label>
-                                  <input type="text" class="input-absolute" aria-label="Assignee" matInput
-                                    [formControl]="myControl" [matAutocomplete]="auto">
-                                  <mat-icon matSuffix class="fas fa-info-circle"
-                                    matTooltip="Wybierz Produkt z bazy danych" #tooltip="matTooltip"
-                                    (click)="tooltip.toggle()"></mat-icon>
-
-                                  <mat-select formControlName="name" (selectionChange)="onChange($event.value, i)">
-                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                        {{option.name}}
-                                      </mat-option>
-                                    </mat-autocomplete>
-                                  </mat-select>
-                                </mat-form-field> -->
-
                                 <mat-form-field class="example-full-width h5">
-                                  
                                   <input type="text" placeholder="Wyszukaj produkt" aria-label="Number" matInput
                                   formControlName="name"  [matAutocomplete]="auto2">
                                   <mat-autocomplete [displayWith]="displayFn" (optionSelected)="onChange($event.option, i)" #auto2="matAutocomplete">
                                     <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.name">
                                       {{option.name}} 
+                                    </mat-option>
+                                  </mat-autocomplete>
+                                </mat-form-field>
+                                <mat-form-field class="example-full-width h5" *ngIf="apiBid">
+                                  <input matInput  formControlName="name" (keyup)="searchEBID($event.target.value)" [matAutocomplete]="ebid"  placeholder="Szukaj na ebid">
+                                  <mat-autocomplete [displayWith]="displayFn" #ebid="matAutocomplete" (optionSelected)="onChangeEbid($event.option, i)">
+                                    <mat-option *ngFor="let option of productEbid" [value]="option.name">
+                                      <li>
+                                        <div class="flex flex-center">
+                                          <div class="flex-image"><img class="img-autocomplete" src="{{option.image_url}}" > </div>
+                                        <div class="flex"><p class="desc-autocomplete" >{{option.name}}</p> </div>  
+                                        </div>
+                                      </li>
                                     </mat-option>
                                   </mat-autocomplete>
                                 </mat-form-field>
@@ -156,7 +242,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </mat-tab>
       <mat-tab label="Kalkulacja">

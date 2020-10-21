@@ -21,6 +21,7 @@ import { Storage } from '../../storage.model'
 import { AlertService } from 'src/app/_alert/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/admin/shared/dialog/dialog.component';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-p-products-list',
@@ -53,7 +54,8 @@ export class PProductsListComponent implements OnInit {
       console.log(this.dataSource,"filter")
     }
   
-    constructor(public dialog: MatDialog, private route: ActivatedRoute, private storageService: StorageService,
+    
+    constructor(public dialog: MatDialog, private route: ActivatedRoute, private storageService: StorageService, private productEbid: ProductService,
       private alertService: AlertService) {
     }
     ngAfterViewInit() {

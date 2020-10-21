@@ -4,17 +4,29 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { AuthenticationService } from '../_services';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(private authenticationService: AuthenticationService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const isApiUrl = request.url.startsWith(environment.apiUrl);
+        const isApiUrlApi = request.url.startsWith("https://api.e-bidfood.pl/");
         return next.handle(request).pipe(catchError(err => {
             if ([401, 403].indexOf(err.status) !== -1) {
                 // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-                this.authenticationService.logout();
-                location.reload(true);
+                // this.authenticationService.logout();
+                // location.reload(true);
+                // if (isApiUrlApi) {
+                //     this.authenticationService.logoutApi();
+                //     location.reload(true);
+                // }
+                if (isApiUrl) {
+                    this.authenticationService.logout();
+                    location.reload(true);
+                }
+
             }
 
             const error = err.error.message || err.statusText;

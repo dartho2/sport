@@ -7,6 +7,7 @@ import { SettingsRoutingModule } from '../settings/settings-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EquipmentComponent } from '../shared/equipment/equipment.component';
 import { RestaurantsComponent } from '../shared/restaurants/restaurants.component';
+import { ApiintegrationComponent } from './apiintegration/apiintegration.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -17,9 +18,11 @@ import { RestaurantsComponent } from '../shared/restaurants/restaurants.componen
   ],
   declarations: [
     SettingsComponent,
+    ApiintegrationComponent,
     WorkerListComponent,
     EquipmentComponent,
-    RestaurantsComponent
+    RestaurantsComponent,
+    ApiintegrationComponent
   ],
   entryComponents: [],
   bootstrap: [],

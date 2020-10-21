@@ -187,12 +187,18 @@ const adminRoutes: Routes = [
         component: PRestaurantComponent,
         data: { roles: [Role.Admin, Role.User] }
       },
+      // {
+      //   path: 'settings',
+      //   loadChildren: './settings/settings.module#SettingsModule',
+      //   canActivate: [AuthGuard],
+      //   data: { roles: [Role.Admin, Role.User] }
+      // },
       {
         path: 'settings',
-        loadChildren: './settings/settings.module#SettingsModule',
+        loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin, Role.User] }
-      },
+        data: { roles: [Role.Admin , Role.User] }
+    },
       {
         path: 'products',
         component: ProductsListComponent,

@@ -6,6 +6,7 @@ import { SettingsComponent } from '../settings/settings.component'
 import { AuthGuard } from '../../_helpers/auth.guard'
 import { Role } from '../../_models/role';
 import { RestaurantsComponent } from '../shared/restaurants/restaurants.component';
+import { ApiintegrationComponent } from './apiintegration/apiintegration.component';
 
 const settingsRoutes: Routes = [
   {
@@ -18,6 +19,11 @@ const settingsRoutes: Routes = [
         data: { roles: [Role.Admin, Role.User] }
       },
       {
+        path: 'rest_api',
+        component: ApiintegrationComponent,
+        data: { roles: [Role.Admin, Role.User] }
+      },
+      {
         path: 'restaurants',
         component: RestaurantsComponent,
         data: { roles: [Role.Admin, Role.User] }
@@ -27,6 +33,11 @@ const settingsRoutes: Routes = [
       component: EquipmentComponent,
         data: { roles: [Role.Admin, Role.User] }
       },
+      {
+        path: 'api',
+        component: EquipmentComponent,
+          data: { roles: [Role.Admin, Role.User] }
+        },
     ]
   }
 ]

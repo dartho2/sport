@@ -30,4 +30,5 @@ export class ProductService {
 getProduct(): Observable<Products[]> {
   return this._http.get<Products[]>("https://karmazdrowia.pl:8080/api/pos/products");
 }
+
 }

@@ -10,6 +10,8 @@ import { RestaurantService } from '../../../../shared/restaurants/restaurants.se
 import { AlertService } from 'src/app/_alert/alert.service';
 import { StorageService } from '../../storage.service';
 import { RecipeService } from '../../recipe/recipe.service';
+import { ApiEbidService } from 'src/app/admin/shared/api/e-bid/apiebid.service';
+import { AuthenticationService } from 'src/app/_services';
 export interface DialogData {
   foodCost: '';
 }
@@ -63,10 +65,13 @@ export class DishesCreateComponent implements OnInit {
   storageId: string;
   idDishe: string;
   isReady:boolean = false;
+  productEbid: any[];
+  apiBid: import("d:/xampp/htdocs/ANGULAR2/_y/Backend-Test-master/src/app/_models/api").Api;
   constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
-    private productService: ProductService, private storageService: StorageService, private recipeService: RecipeService ,
+    private productService: ProductService, private storageService: StorageService, private recipeService: RecipeService , private authenticationService: AuthenticationService, private apiEbidService: ApiEbidService,
      private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
+      this.authenticationService.currentUserApi.subscribe(x => this.apiBid = x);
     this.restaurantService.getRestaurant().subscribe(response=>{
       this.valueRe  = response    
   })
@@ -270,6 +275,13 @@ addAutocomplite(index:number){
     }
 
   }
+  searchEBID(filterValue: string, index){
+    if(filterValue.length > 1){
+      this.apiEbidService.getEBID(filterValue).subscribe((x: any) =>{
+        this.productEbid = x.products
+      })
+    }
+  }
   onChange(selectedValue, y) {
     console.log(selectedValue, "wchodzi")
     this.productSelected = this.product.filter(item => item.name === selectedValue.value);
@@ -282,6 +294,25 @@ addAutocomplite(index:number){
         bruttoPrice: x.bruttoPrice,
         weight: x.weight,
         unit: x.unit,
+        lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
+        productWeight: x.productWeight ? x.productWeight.replace(',', '.') : '',
+        valueProduct: x.valueProduct ? x.valueProduct : ''
+      })
+    });
+    console.log(this.productSelected, "productSelected")
+  }
+  onChangeEbid(selectedValue, y) {
+    console.log(selectedValue, "wchodzi")
+    this.productSelected = this.productEbid.filter(item => item.name === selectedValue.value);
+    let control = (<FormArray>this.myForm.controls.products).at(y);
+    this.productSelected.forEach(x => {
+      control.setValue({
+        id: x.id,
+        name: x.name,
+        nettoPrice: x.units_of_measure[0].price_net/100,
+        bruttoPrice: x.units_of_measure[0].price_gross/100,
+        weight: x.units_of_measure[0].quantity,
+        unit: x.base_unit_of_measure,
         lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
         productWeight: x.productWeight ? x.productWeight.replace(',', '.') : '',
         valueProduct: x.valueProduct ? x.valueProduct : ''
