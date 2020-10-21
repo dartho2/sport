@@ -66,7 +66,7 @@ export class DishesCreateComponent implements OnInit {
   idDishe: string;
   isReady:boolean = false;
   productEbid: any[];
-  apiBid: import("d:/xampp/htdocs/ANGULAR2/_y/Backend-Test-master/src/app/_models/api").Api;
+  apiBid: any;
   constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
     private productService: ProductService, private storageService: StorageService, private recipeService: RecipeService , private authenticationService: AuthenticationService, private apiEbidService: ApiEbidService,
