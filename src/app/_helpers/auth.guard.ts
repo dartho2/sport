@@ -24,6 +24,7 @@ export class AuthGuard implements CanActivate {
             // authorised so return true
             return true;
         }
+        // console.log(currentUser, "ddd")
         if (!currentUser) {
             console.log("a")
         // not logged in so redirect to login page with the return url
@@ -31,7 +32,7 @@ export class AuthGuard implements CanActivate {
         return false;
         }
         if (!currentUserApi) {
-            console.log("currentUserApi")
+            // console.log("currentUserApi")
         // not logged in so redirect to login page with the return url
         this.router.navigate(['/settings/rest_api'], { queryParams: { returnUrl: state.url } });
         return false;

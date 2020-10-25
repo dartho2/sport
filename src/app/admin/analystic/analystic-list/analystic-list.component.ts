@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ɵConsole } from '@angular/core';
+import { Component, Input, OnInit, Renderer2, ViewChild, ɵConsole } from '@angular/core';
 import { AnalysticService } from '../analystic-service'
 // import { a, e } from '@angular/core/src/render3';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
@@ -24,11 +24,18 @@ export class AnalysticListComponent implements OnInit {
   eventsTurnamet: any = [];
   actualformat = "dd.MM.yyyy"
   myForm: FormGroup;
+  MatchesEvent = [];
+  grupCategory = [];
   dataSource = new MatTableDataSource<MatchData>();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  uniqueLigue = [1, 4, 8, 13, 17, 19, 36, 39, 42, 47, 33, 39, 52, 53, 62, 38, 679, 202, 7918, 1465, 33563];
+  uniqueLigue = [1, 4, 8, 13, 19, 36, 39, 42, 47, 33, 39, 52, 53, 62, 38, 679, 202, 7918, 1465, 33563]
   dateEventsBet = { date: '', status: 70, rate: "0", statusEvent: 2, statusChanged: 2, events: [] };
+  dataEvent: string;
+  eventsTurnamett: any;
+  currentCheckedValue = null;
+  matchData: any;
+  favoriteSeason: string;
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -36,8 +43,10 @@ export class AnalysticListComponent implements OnInit {
     private analysticService: AnalysticService,
     private headerService: HeaderService,
     private route: ActivatedRoute,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private ren: Renderer2
   ) {
+    this.headerService.changeLique(this.uniqueLigue)
     this.formbuilder();
   }
 
@@ -49,36 +58,87 @@ export class AnalysticListComponent implements OnInit {
   }
   get events() { return this.myForm.get('events') as FormArray }
   ngAfterViewInit() {
+    this.headerService.lique.subscribe((event: any) => {
+      this.uniqueLigue = event
+      this.MatchesEvent = [];
+      this.getMatched(this.dataEvent)
+      // this.getMatched(this.dataEvent)
+    })
     this.headerService.subject.subscribe((event: any) => {
       if (event.last !== undefined) {
         var lastDeleted = this.events.value.findIndex(c => c.idEvent === event.last.idEvent)
         event.last = undefined
         this.events.at(lastDeleted).patchValue({ type: "" });
       }
-
     })
+  
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("data")) {
-        const dataEvent = paramMap.get("data");
-        this.getMatched(dataEvent)
+        this.dataEvent = paramMap.get("data");
+        this.getMatched(this.dataEvent)
+      }
+    })
+  }
+  checkState(el) {
+    console.log(el, "el")
+    setTimeout(() => {
+      if (this.currentCheckedValue && this.currentCheckedValue === el.value) {
+        el.checked = false;
+        this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-focused');
+        this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-focused');
+        this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-program-focused');
+        this.currentCheckedValue = null;
+        this.favoriteSeason = null;
+      } else {
+        el.checked = true;
+        this.currentCheckedValue = el.value
+
       }
     })
   }
   getMatched(data) {
+    this.matchData= [];
     this.dataSource.data = []
-    this.formbuilder()
+    var filterTur: any = [];
+    this.grupCategory = []
     this.analysticService.getAnalystict(data).subscribe(events => {
+          // ST filtrowanie
+      //  ST Grupowanie meczy
       this.eventsTurnamet = events
+      this.eventsTurnamet.events = this.eventsTurnamet.events.filter(x => formatDate(new Date(x.startTimestamp * 1000), 'yyyy-MM-dd', 'en') === data )
+      var groups:any = []
+    groups = [...new Set(this.eventsTurnamet.events.map((item: any) => item.tournament.category.name))]
+   groups.forEach(g =>{
+    filterTur = this.eventsTurnamet.events.filter((i: any) => i.tournament.category.name === g)
+    var subgrup = [...new Set(filterTur.map((item: any) => 
+     {return{ "name": item.tournament.name, "flag":item.tournament.category.flag, "id":item.tournament.id}}
+    ))]
+  this.grupCategory.push({
+          name: g,
+          values:  uniqueIdLigue(subgrup, it => it.id)
+         })
+   })
+
+  
+      
+   this.headerService.changeGroup(this.grupCategory)
+
+   
+      // END filtrowanie
+      //  END Grupowanie meczy
+      
       this.eventsTurnamet.events.map(eventMatch => {
         if (formatDate(eventMatch.startTimestamp * 1000, this.actualformat, 'en') === formatDate(data, this.actualformat, 'en')) {
           //  CHECK DATA TODAY
-          if (eventMatch.tournament.uniqueTournament !== undefined) {
-            if (this.uniqueLigue.includes(eventMatch.tournament.uniqueTournament.id)) {
+    
+            // console.log(this.uniqueLigue, "new uniq", eventMatch.tournament.uniqueTournament.id)
+            if (this.uniqueLigue.indexOf(eventMatch.tournament.id) !== -1) {
               // CHECK LIGUE
+              // console.log(eventMatch.tournament.uniqueTournament.id, eventMatch.awayTeam.name, "X" )
               if (eventMatch.status.code === 0) {
                 eventMatch.status = "nie"
                 this.analysticService.getAnalystictEvent(eventMatch.id).subscribe(
@@ -91,6 +151,7 @@ export class AnalysticListComponent implements OnInit {
                       eventMatch["formatDate"] = formatDate(data, this.actualformat, 'en')
                       this.dataSource.data.push(eventMatch)
                       this.setCities(eventMatch)
+                      // console.log(this.dataSource.data, this.myForm, "data =")
                     })
                   })
               } else {
@@ -100,7 +161,7 @@ export class AnalysticListComponent implements OnInit {
               }
 
             }
-          }
+          
         }
       })
     })
@@ -112,7 +173,10 @@ export class AnalysticListComponent implements OnInit {
     return (parseFloat(result) + 1).toFixed(2)
   }
   clickRadio(event: Event, value: any, eventTurn) {
-    const checkEventExistBet = this.dateEventsBet.events.find(x => x.idEvent === eventTurn.id)
+    // this.myForm..patchValue("2")
+    console.log(this.myForm, "form")
+    this.myForm.value.events[0].type = ""
+        const checkEventExistBet = this.dateEventsBet.events.find(x => x.idEvent === eventTurn.id)
     if (checkEventExistBet) {
       checkEventExistBet.type = value
       checkEventExistBet.votePrice = this.betRate(value, eventTurn)
@@ -221,4 +285,11 @@ export class AnalysticListComponent implements OnInit {
   // votX_d: "1.53"
   // votePrice: "2.90"
   // win: 0
+}
+function uniqueIdLigue(data,key){
+  return [
+    ...new Map(
+      data.map(x=> [key(x),x ])
+    ).values()
+  ]
 }

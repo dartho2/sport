@@ -6,8 +6,8 @@ import { SharedService } from '../../../admin/shared/shared.service';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { HeaderService } from './layout.service';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource } from '@angular/material/tree';
 import { AnalysticService } from 'src/app/admin/analystic/analystic-service';
 interface CategoryMatches {
   name: string;
@@ -26,8 +26,16 @@ const TREE_DATA: CategoryMatches[] = [];
 interface CategoryMatchesFlat {
   expandable: boolean;
   name: string;
+  flag: string;
+  values?: Match[];
   count: any;
   level: number;
+}
+interface Match{
+  name: string;
+  values?: Match[]
+  id: number;
+  flag: string;
 }
 @Component({
   selector: 'app-layout',
@@ -36,24 +44,11 @@ interface CategoryMatchesFlat {
 })
 export class LayoutComponent implements OnInit {
   // BEGIN TREE
-  private _transformer = (node: CategoryMatches, level: number) => {
-    return {
-      expandable: !!node.values && node.values.length > 0,
-      name: node.name,
-      length: node.values,
-      count: node,
-      tournament: node.tournament,
-      level: level,
-    };
-  }
 
-  treeControl = new FlatTreeControl<CategoryMatchesFlat>(
-    node => node.level, node => node.expandable);
 
-  treeFlattener = new MatTreeFlattener(
-    this._transformer, node => node.level, node => node.expandable, node => node.values);
+  treeControl = new NestedTreeControl<Match>(node => node.values);
 
-  dataSourceMatches = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  dataSourceMatches = new MatTreeNestedDataSource<CategoryMatchesFlat>();
   // END TREE
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
@@ -72,7 +67,7 @@ export class LayoutComponent implements OnInit {
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router, private analysticService: AnalysticService,
     private media: MediaMatcher, private headerService: HeaderService) {
-    this.dataSourceMatches.data = TREE_DATA;
+   
     this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -84,7 +79,9 @@ export class LayoutComponent implements OnInit {
     })
 
   }
-  hasChild = (_: number, node: CategoryMatchesFlat) => node.expandable;
+
+  hasChild = (_: number, node: CategoryMatchesFlat) => !!node.values && node.values.length > 0;
+
   ngOnInit(): void {
     this.myDate = new Date();
     this.formattedDate = formatDate(this.myDate, this.format, 'en');
@@ -164,7 +161,7 @@ export class LayoutComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
     this.headerService.filter.subscribe((filter: any) => {
       this.dataSourceMatches.data = filter;
-
+      console.log(this.dataSourceMatches, "dataSourceMatches")
     })
     // this.headerService.lique.subscribe((lique :any)=>{
     //   this.liqueId = lique

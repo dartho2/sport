@@ -93,47 +93,48 @@
             <mat-icon mat-list-icon>analytics</mat-icon>
             <p mat-line> Analystic </p>
           </a>
-  
+          <a mat-list-item routerLink="/dish">
+            <mat-icon mat-list-icon>exit_to_app</mat-icon>
+            <p mat-line> Log out </p>
+          </a>
          
   
           <mat-divider></mat-divider>
   
           <h3 mat-subheader>Resources</h3>
+         
           <mat-tree [dataSource]="dataSourceMatches" [treeControl]="treeControl">
             <!-- This is the tree node template for leaf nodes -->
-            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-              <!-- use a disabled button to provide padding for tree leaf -->
-             
-              
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
               <div class="broke-name">
-                  <button  class="button-full-width" mat-raised-button [ngStyle]="{'color':existMatchButton(node.count.tournament.id)}" (click)="addID(node.count.tournament.id)">{{node.count.tournament.name}} </button>
+                 
+                  <button  class="button-full-width" mat-raised-button [ngStyle]="{'color':existMatchButton(node.id)}" (click)="addID(node.id)">
+                   {{node.name}} {{node.id}}
+              </button>
               </div>
-              
             </mat-tree-node>
             <!-- This is the tree node template for expandable nodes -->
-            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-              <!-- <button mat-icon-button matTreeNodeToggle
-                      [attr.aria-label]="'toggle ' + node.name">
-                <mat-icon class="mat-icon-rtl-mirror">
-                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                </mat-icon>
-              </button> -->
-              
-              <button class="button-full-width" mat-raised-button matTreeNodeToggle [matBadge]="node.length.length">
-                <!-- <span [ngClass]="'flags flags-category flags--sm flags--' "></span> -->
-              
-                    <span [ngClass]="'flags flags-category flags--sm flags--' + node.length[0].category.flag"></span>
-                <!-- <img [src]="'https://www.sofascore.com/u-tournament/' + node.length[0].tournament.uniqueId +'/logo'" alt="" class="img--x18 u-pH8 u-va-mid" style="max-width: 34px;"> -->
-              
-                  {{node.name}} 
-              
+            <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+              <button class="button-full-width" mat-raised-button  matTreeNodeToggle
+              [attr.aria-label]="'Toggle ' + node.name" [matBadge]="node.values.length">
+              <span [ngClass]="'flags flags-category flags--sm flags--' + node.values[0].flag"></span>
                
-            </button> </mat-tree-node>
+               
+                 
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+        
+                  {{node.name}}
+                </button>
+                <div [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                  <ng-container matTreeNodeOutlet></ng-container>
+                </div>
+             
+            
+            </mat-nested-tree-node>
           </mat-tree>
-          <a mat-list-item routerLink="/dish">
-            <mat-icon mat-list-icon>exit_to_app</mat-icon>
-            <p mat-line> Log out </p>
-          </a>
+        
           <!-- <a mat-list-item [routerLink]="['/icons']" routerLinkActive="active">
             <mat-icon mat-list-icon>
               toll

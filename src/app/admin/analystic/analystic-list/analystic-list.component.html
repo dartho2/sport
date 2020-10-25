@@ -26,12 +26,12 @@
                   <p> {{match.tournament.name}}</p>
                   <p> {{match.tournament.category.name}}</p>
                   <mat-radio-group class="radio-toolbar" formControlName="type" aria-label="Select an option">
-                    <mat-radio-button *ngFor="let choice of match.choicesFL" class="" [value]="choice.name"
-                      (click)="clickRadio($event, choice.name, match )">{{choice.name}}<span>{{calculateBet(choice.fractionalValue)}}</span>
+                    <mat-radio-button #button *ngFor="let choice of match.choicesFL" class="" [value]="choice.name"
+                      (click)="checkState(button)" (click)="clickRadio($event, choice.name, match )">{{choice.name}}<span>{{calculateBet(choice.fractionalValue)}}</span>
                     </mat-radio-button>
                     <div class="inline-flex radio-double-type">
                     <mat-radio-button *ngFor="let choice of match.choicesDP" class="" [value]="choice.name"
-                      (click)="clickRadio($event, choice.name, match )">{{choice.name}}<span>{{calculateBet(choice.fractionalValue)}}</span>
+                    (click)="checkState(button)" (click)="clickRadio($event, choice.name, match )">{{choice.name}}<span>{{calculateBet(choice.fractionalValue)}}</span>
                     </mat-radio-button>
                  </div>
                   </mat-radio-group>

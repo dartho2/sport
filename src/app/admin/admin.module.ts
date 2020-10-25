@@ -57,7 +57,7 @@ import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semipro
 import { ProductShowComponent } from './products/products-show/product-show.component';
 import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ColdListComponent } from './haccp/cold-list/cold-list.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { BetComponent } from './bet/bet-list/bet.component';
@@ -89,6 +89,7 @@ import { ChipsComponent } from './shared/widgets/chips/chips.component';
 import { RecipeCreateComponent } from './p-restaurant/p-storage/recipe/recipe-create/recipe-create.component';
 import { RecipeShowComponent } from './p-restaurant/p-storage/recipe/recipe-show/recipe-show.component';
 import { DialogComponent } from './shared/dialog/dialog.component';
+import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
 
 // import { BreadCrumbParamService } from './shared/breadcrumb/breadcrumb.service';
 @NgModule({
@@ -176,6 +177,12 @@ import { DialogComponent } from './shared/dialog/dialog.component';
   ],
   entryComponents: [DialogComponent],
   bootstrap: [],
-  providers: [DatePipe, { provide: LOCALE_ID, useValue: "pl-PL" }]
+  providers: [DatePipe, { provide: LOCALE_ID, useValue: "pl-PL" },
+
+
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  
+]
 })
 export class AdminModule { }
