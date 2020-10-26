@@ -66,6 +66,7 @@
                <td>wynik</td>
             </thead>
             <tr *ngFor="let events of element.events">
+              {{events|json}}
               <td>
                 <span *ngIf="(events.winCode === events.type) && events.type !== '0'" [ngClass]="'flags--11'"
                 class="flags flags-category"></span>
@@ -80,9 +81,12 @@
               <td>{{events.typeYT}}</td>
               <td>{{events.typeVI}}</td>
               <td><div [ngSwitch]="events.type">
-                <div *ngSwitchCase="2">{{events.vot2}}</div>
-                <div *ngSwitchCase="3">{{events.votX}}</div>
-                <div *ngSwitchCase="1">{{events.vot1}}</div>
+                <div *ngSwitchCase="'2'">{{events.vot2}}</div>
+                <div *ngSwitchCase="'X'">{{events.votX}}</div>
+                <div *ngSwitchCase="'1'">{{events.vot1}}</div>
+                <div *ngSwitchCase="'1X'">{{events.vot1_d}}</div>
+                <div *ngSwitchCase="'X2'">{{events.vot2_d}}</div>
+                <div *ngSwitchCase="'12'">{{events.votX_d}}</div>
               </div>
             </td>
               <td>{{events.eventsWinFT}}</td>

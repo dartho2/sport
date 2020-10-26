@@ -36,12 +36,14 @@ export class BetComponent implements OnInit {
 
     this.betService.getBetAll().subscribe(res => {
       this.bets = res
+      console.log(this.bets, "bets")
       this.bets.map(ev => {
         let wins = []
         if(ev.statusChanged === 2){
         ev.events.map(t => {
           
           this.analysticService.getAnalystictEvent(t.idEvent).subscribe(even => {
+            console.log(even, "even")
             if (t.type === "0") { t["type"] = "3"}
             t.win = even.event.winnerCode
             if(t.win !== 0) {

@@ -61,7 +61,8 @@
   }
   
   .mat-tree-node{
-    max-width: 190px;
+    /* max-width: 190px; */
+    width: 100%;
   }
   .broke-name {
     white-space: nowrap;
@@ -97,4 +98,19 @@
 }
 ::ng-deep .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
   right: 5px !important;
+}
+::ng-deep .button-full-width .mat-badge-content {
+  color: black !important;
+  background: unset!important;
+  font-size: 12px
+}
+
+::ng-deep span.mat-button-wrapper {
+  white-space: pre-wrap;
+  font-size: 13.4px;
+    line-height: 1.4;
+    font-weight: 600;
+}
+.broke-name{
+  width:100%
 }

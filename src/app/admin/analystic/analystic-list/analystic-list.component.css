@@ -2395,15 +2395,59 @@ span.event-name {
   ;
 }
 
-::ng-deep .mat-form-field-autofill-control {
-  /* color: white; */
+.mat-button-toggle-group{
+  display: unset;
 }
-
 ::ng-deep .mat-form-field-label {
   /*change color of label*/
   color: white;
 }
+.mat-button-toggle-group-appearance-standard, .mat-button-toggle-standalone.mat-button-toggle-appearance-standard {
+  border: unset !important
+}
+::ng-deep .mat-button-toggle-checked {
+  background-color: #3f51b5 !important;
+  color: rgb(255 255 255 / 100%) !important;
+}
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: unset !important; 
+ padding: unset !important;
+}
+.label-type-value{
+  position: absolute;
+    margin-top: 12px;
+    margin-left: -8px;
+    display: block;
+}
+.label-type{
+  display: block;
+}
+span.label-type-value.label-type-value-hover{
+  color:#3f51b5 !important;
+}
 
+::ng-deep .mat-button-toggle-button {
+height: 100%;
+}
+.mat-radio-button-n{
+  border: none;
+  /* text-shadow: none; */
+  height: 30px;
+  /* background: rgba(46, 62, 87, 0.7); */
+  /* font-weight: 400; */
+  /* border-radius: 3px; */
+  /* background-clip: padding-box; */
+  /* transition: background-color 0.3s ease-in-out; */
+  margin: 0 auto;
+  width: 100%;
+  display: inline-block;
+  background-color: #ddd;
+  padding: 0 20px;
+  /* font-family: sans-serif, Arial; */
+  /* font-size: 16px; */
+  /* border: 2px solid #444; */
+  border-radius: 4px;
+}
 
 mat-datepicker-toggle {
   color: white;

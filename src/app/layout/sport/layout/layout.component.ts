@@ -31,10 +31,11 @@ interface CategoryMatchesFlat {
   count: any;
   level: number;
 }
-interface Match{
+interface Match {
   name: string;
   values?: Match[]
   id: number;
+  countEvent: number;
   flag: string;
 }
 @Component({
@@ -64,10 +65,10 @@ export class LayoutComponent implements OnInit {
   liqueId = [];
   myDate: Date;
   formattedDate: string;
-
+  resultBet = 1;
   constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router, private analysticService: AnalysticService,
     private media: MediaMatcher, private headerService: HeaderService) {
-   
+
     this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -117,7 +118,7 @@ export class LayoutComponent implements OnInit {
   }
   existMatchButton(id) {
     if (this.liqueId.indexOf(id) === -1) {
-      return "red"
+      return "black"
     } else {
       return "blue"
     }
@@ -132,26 +133,42 @@ export class LayoutComponent implements OnInit {
       statusEvent: 2, events: this.dateEventsBet.events, last: bet
     });
   }
-  saveBet(){
-    console.log(this.dateEventsBet, "save /bet")
-    this.dateEventsBet.date =this.formattedDate
-    this.analysticService.addEvents(this.dateEventsBet).subscribe(xresum => {
+  saveBet() {
+    this.dateEventsBet.events.forEach(x => {
+      this.resultBet = this.resultBet * x.votePrice
     })
+
+    this.dateEventsBet.rate = (this.resultBet / 1.14).toFixed(2)
+    this.dateEventsBet.date = this.formattedDate
+
+    this.analysticService.addEvents(this.dateEventsBet).subscribe(xresum => {
+      this.dateEventsBet.events.forEach(x => {
+        this.headerService.subject.next({
+          status: 70,
+          statusChanged: 2,
+          statusEvent: 2, events: null, last: x
+        });
+      })
+      this.eventNumber = 0;
+      this.checkPriceTotal()
+
+    })
+    // console.log(this.dateEventsBet, "save /bet")
   }
-  addID(id:number){
+  addID(id: number) {
     const index = this.liqueId.indexOf(id);
     if (index > -1) {
       this.liqueId.splice(index, 1);
       // console.log(this.myForm)
       // this.formbuilder()
-  
+
       this.headerService.lique.next(this.liqueId)
     } else {
-      this.liqueId.push(id) 
+      this.liqueId.push(id)
       // this.formbuilder()
       this.headerService.lique.next(this.liqueId)
     }
-    
+
   }
   checkPriceTotal() {
     this.votePrice = 1
@@ -161,7 +178,6 @@ export class LayoutComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
     this.headerService.filter.subscribe((filter: any) => {
       this.dataSourceMatches.data = filter;
-      console.log(this.dataSourceMatches, "dataSourceMatches")
     })
     // this.headerService.lique.subscribe((lique :any)=>{
     //   this.liqueId = lique

@@ -16,7 +16,7 @@
   
       <span class="navbar-spacer"></span>
   
-      <button mat-icon-button [matMenuTriggerFor]="notificationMenu">
+      <button mat-icon-button  *ngIf="dateEventsBet" [matMenuTriggerFor]="notificationMenu">
         <mat-icon matBadge="{{eventNumber}}" matBadgeColor="accent">notifications</mat-icon>
       </button>
       <mat-menu #notificationMenu="matMenu" xPosition="before" yPosition="above" [overlapTrigger]="false">
@@ -108,8 +108,8 @@
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
               <div class="broke-name">
                  
-                  <button  class="button-full-width" mat-raised-button [ngStyle]="{'color':existMatchButton(node.id)}" (click)="addID(node.id)">
-                   {{node.name}} {{node.id}}
+                  <button  class="button-full-width" mat-raised-button [ngStyle]="{'color':existMatchButton(node.id)}" (click)="addID(node.id)" [matBadge]="node.countEvent">
+                   {{node.name}}
               </button>
               </div>
             </mat-tree-node>

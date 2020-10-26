@@ -60,12 +60,14 @@ export class AnalysticListComponent implements OnInit {
   ngAfterViewInit() {
     this.headerService.lique.subscribe((event: any) => {
       this.uniqueLigue = event
-      this.MatchesEvent = [];
+      this.dataSource.data = [];
+      this.formbuilder();
       this.getMatched(this.dataEvent)
       // this.getMatched(this.dataEvent)
     })
     this.headerService.subject.subscribe((event: any) => {
       if (event.last !== undefined) {
+        console.log(event)
         var lastDeleted = this.events.value.findIndex(c => c.idEvent === event.last.idEvent)
         event.last = undefined
         this.events.at(lastDeleted).patchValue({ type: "" });
@@ -76,15 +78,22 @@ export class AnalysticListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
+   
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("data")) {
-        this.dataEvent = paramMap.get("data");
-        this.getMatched(this.dataEvent)
+      if (paramMap.has("data")) { 
+        if(!this.dataEvent){
+         this.dataEvent = paramMap.get("data");
+        this.getMatched(this.dataEvent) 
+        } else {
+          this.dataEvent = paramMap.get("data");
+          this.formbuilder();
+          this.getMatched(this.dataEvent)
+        }
+        
       }
     })
   }
   checkState(el) {
-    console.log(el, "el")
     setTimeout(() => {
       if (this.currentCheckedValue && this.currentCheckedValue === el.value) {
         el.checked = false;
@@ -101,7 +110,7 @@ export class AnalysticListComponent implements OnInit {
     })
   }
   getMatched(data) {
-    this.matchData= [];
+    // this.matchData= [];
     this.dataSource.data = []
     var filterTur: any = [];
     this.grupCategory = []
@@ -113,9 +122,11 @@ export class AnalysticListComponent implements OnInit {
       var groups:any = []
     groups = [...new Set(this.eventsTurnamet.events.map((item: any) => item.tournament.category.name))]
    groups.forEach(g =>{
+    //  var matchAll = this.eventsTurnamet.events.filter((i: any) => i.tournament.category.name === g).length
+     
     filterTur = this.eventsTurnamet.events.filter((i: any) => i.tournament.category.name === g)
     var subgrup = [...new Set(filterTur.map((item: any) => 
-     {return{ "name": item.tournament.name, "flag":item.tournament.category.flag, "id":item.tournament.id}}
+     {return{ "name": item.tournament.name, "flag":item.tournament.category.flag, "id":item.tournament.id, "countEvent": this.eventsTurnamet.events.filter((i: any) => i.tournament.name === item.tournament.name).length}}
     ))]
   this.grupCategory.push({
           name: g,
@@ -146,9 +157,16 @@ export class AnalysticListComponent implements OnInit {
                     this.analysticService.getVotePrice(eventMatch.id).subscribe(markets => {
                       eventMatch["eventsData"] = eventsData.event
                       eventMatch["marketsData"] = markets.markets
-                      eventMatch["choicesFL"] = markets.markets[0].choices
-                      eventMatch["choicesDP"] = markets.markets[1].choices
+                      if(markets.markets[0]){
+                        eventMatch["choicesFL"] = markets.markets[0].choices
+                      }
+                     
+                      if(markets.markets[1]){
+                          eventMatch["choicesDP"] = markets.markets[1].choices
+                      }
+                    
                       eventMatch["formatDate"] = formatDate(data, this.actualformat, 'en')
+                      console.log(eventMatch)
                       this.dataSource.data.push(eventMatch)
                       this.setCities(eventMatch)
                       // console.log(this.dataSource.data, this.myForm, "data =")
@@ -157,7 +175,6 @@ export class AnalysticListComponent implements OnInit {
               } else {
                 eventMatch.status = "tak"
                 // this.dataSource.data.push(eventMatch)
-                console.log("zakonczony")
               }
 
             }
@@ -172,43 +189,57 @@ export class AnalysticListComponent implements OnInit {
     let result = eval(value)
     return (parseFloat(result) + 1).toFixed(2)
   }
-  clickRadio(event: Event, value: any, eventTurn) {
-    // this.myForm..patchValue("2")
-    console.log(this.myForm, "form")
-    this.myForm.value.events[0].type = ""
-        const checkEventExistBet = this.dateEventsBet.events.find(x => x.idEvent === eventTurn.id)
-    if (checkEventExistBet) {
-      checkEventExistBet.type = value
-      checkEventExistBet.votePrice = this.betRate(value, eventTurn)
-      this.headerService.changeHeaderTitle(this.dateEventsBet, 1)
-    } else {
-      this.dateEventsBet.events.push({
-        type: value,
-        away: eventTurn.awayTeam.name,
-        home: eventTurn.homeTeam.name,
-        name: (eventTurn.homeTeam.name + " " + eventTurn.awayTeam.name),
-        idEvent: eventTurn.id,
-        dateControl: eventTurn.formatDate,
-        vot1: this.calculateBet(eventTurn.choicesFL[0].fractionalValue),
-        votX: this.calculateBet(eventTurn.choicesFL[1].fractionalValue),
-        vot2: this.calculateBet(eventTurn.choicesFL[2].fractionalValue),
-        vot1_d: this.calculateBet(eventTurn.choicesDP[0].fractionalValue),
-        vot2_d: this.calculateBet(eventTurn.choicesDP[1].fractionalValue),
-        votX_d: this.calculateBet(eventTurn.choicesDP[2].fractionalValue),
-        votePrice: this.betRate(value, eventTurn),
-      })
-      this.headerService.changeHeaderTitle(this.dateEventsBet, 1)
+  clickRadio(event, value: any, eventTurn) {
+    let toggle = event.source;
+    if (toggle) {
+      let group = toggle.buttonToggleGroup;
+      if (event.value.some(item => item == toggle.value)) {
+        group.value = [toggle.value];
+        const checkEventExistBet = this.dateEventsBet.events.find(x => x.idEvent === eventTurn.value.idEvent)
+        if (checkEventExistBet) {
+          checkEventExistBet.type = group.value[0]
+          checkEventExistBet.votePrice = this.betRate(group.value[0], eventTurn)
+          this.headerService.changeHeaderTitle(this.dateEventsBet, 1)
+        } else {
+          this.dateEventsBet.events.push({
+            type: group.value[0],
+            away: eventTurn.value.away,
+            home: eventTurn.value.home,
+            name: (eventTurn.value.home + " " + eventTurn.value.away),
+            idEvent: eventTurn.value.idEvent,
+            homeTeamId: eventTurn.value.homeTeamId,
+            awayTeamId: eventTurn.value.awayTeamId,
+            dateControl: eventTurn.value.formatDate,
+            vot1: this.calculateBet(eventTurn.value.vot1),
+            votX: this.calculateBet(eventTurn.value.votX),
+            vot2: this.calculateBet(eventTurn.value.vot2),
+            vot1_d: this.calculateBet(eventTurn.value.vot1_d),
+            vot2_d: this.calculateBet(eventTurn.value.vot2_d),
+            votX_d: this.calculateBet(eventTurn.value.votX_d),
+            votePrice: this.betRate(group.value[0], eventTurn),
+          })
+          this.headerService.changeHeaderTitle(this.dateEventsBet, 1)
+        }  
+
+
+
+      }
+    }else{
+      this.dateEventsBet.events= this.dateEventsBet.events.filter(x => x.idEvent !== eventTurn.value.idEvent)
+     
+        this.headerService.changeHeaderTitle(this.dateEventsBet, 1)
+      
     }
   }
 
   betRate(type, eventTurn) {
     switch (type) {
-      case '1': return this.calculateBet(eventTurn.choicesFL[0].fractionalValue)
-      case '2': return this.calculateBet(eventTurn.choicesFL[2].fractionalValue)
-      case 'X': return this.calculateBet(eventTurn.choicesFL[1].fractionalValue)
-      case '1X': return this.calculateBet(eventTurn.choicesDP[0].fractionalValue)
-      case 'X2': return this.calculateBet(eventTurn.choicesDP[1].fractionalValue)
-      case '12': return this.calculateBet(eventTurn.choicesDP[2].fractionalValue)
+      case '1': return this.calculateBet(eventTurn.value.vot1)
+      case '2': return this.calculateBet(eventTurn.value.vot2)
+      case 'X': return this.calculateBet(eventTurn.value.votX)
+      case '1X': return this.calculateBet(eventTurn.value.vot1_d)
+      case 'X2': return this.calculateBet(eventTurn.value.vot2_d)
+      case '12': return this.calculateBet(eventTurn.value.votX_d)
     }
   }
   setCities(events) {
@@ -223,7 +254,12 @@ export class AnalysticListComponent implements OnInit {
         typeYT: '',
         typeBT: '',
         typeVI: '',
+        tournament: events.tournament.name,
+        category: events.tournament.category.name,
         time: events.startTime,
+        startTimestamp: events.startTimestamp*1000,
+        homeTeamId: events.homeTeam.id,
+        awayTeamId: events.awayTeam.id,
         home: events.homeTeam.name,
         away: events.awayTeam.name,
         date: events.formatedStartDate ? events.formatedStartDate : '',
@@ -231,6 +267,8 @@ export class AnalysticListComponent implements OnInit {
         league: events.tournament.name,
         idEvent: events.id,
         win: "",
+        choicesFL: [events.choicesFL],
+        choicesDP: [events.choicesDP],
         vot1: events.choicesFL[0].fractionalValue,
         votX: events.choicesFL[1].fractionalValue,
         vot2: events.choicesFL[2].fractionalValue,
@@ -242,25 +280,32 @@ export class AnalysticListComponent implements OnInit {
       let control = <FormArray>this.myForm.controls.events;
       control.push(this._fb.group({
         name: [events.name ? events.name : ''],
-        type: [''],
+        type: '',
         data: '',
         typeYT: '',
         typeBT: '',
         typeVI: '',
+        tournament: events.tournament.name,
+        category: events.tournament.category.name,
+        startTimestamp: events.startTimestamp*1000,
         time: events.startTime,
         home: events.homeTeam.name,
         away: events.awayTeam.name,
+        homeTeamId: events.homeTeam.id,
+        awayTeamId: events.awayTeam.id,
         date: events.formatedStartDate ? events.formatedStartDate : '',
         dateControl: "",
         league: events.tournament.name,
         idEvent: events.id,
         win: "",
-        vot1: events.choicesFL[0].fractionalValue,
-        votX: events.choicesFL[1].fractionalValue,
-        vot2: events.choicesFL[2].fractionalValue,
-        vot1_d: events.choicesDP[0].fractionalValue,
-        votX_d: events.choicesDP[1].fractionalValue,
-        vot2_d: events.choicesDP[2].fractionalValue
+        choicesFL:  [events.choicesFL],
+        choicesDP: [events.choicesDP],
+        vot1: events.choicesFL[0]? events.choicesFL[0].fractionalValue: 0,
+        votX: events.choicesFL[1]? events.choicesFL[1].fractionalValue: 0,
+        vot2: events.choicesFL[2]? events.choicesFL[2].fractionalValue: 0,
+        vot1_d: events.choicesDP[0]? events.choicesDP[0].fractionalValue: 0,
+        votX_d: events.choicesDP[1]? events.choicesDP[1].fractionalValue: 0,
+        vot2_d: events.choicesDP[2]? events.choicesDP[2].fractionalValue: 0
       }))
     }
   }
