@@ -1,5 +1,5 @@
 <form [formGroup]="myForm" (ngSubmit)="onSubmitForm(f)" #f="ngForm">
- <mat-card class="mat-elevation-z">
+  <mat-card class="mat-elevation-z">
     <mat-card-content class="container mt-4">
       <div class="row" formArrayName="events">
         <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start">
@@ -9,7 +9,6 @@
               <mat-card-content class="icon-center">
                 <mat-card-header>
                   <mat-card-title>
-                    <p>status</p>
                     <div class="inline-flex">
                       <div class="content-line">
                         <img src="https://www.sofascore.com/images/team-logo/football_{{match.value.homeTeamId}}.png"
@@ -24,27 +23,47 @@
                 </mat-card-header>
                 <mat-list>
                   <div class="time-standings">{{(match.value.startTimestamp) | date:'M/dd/yy'}} </div>
-                  <p> {{match.value.tournament}}</p>
-                  <p> {{match.value.category}}</p>
-                  <!-- <mat-radio-group class="radio-toolbar" formControlName="type" aria-label="Select an option">
-                    <mat-radio-button #button *ngFor="let choice of match.value.choicesFL" class="" [value]="choice.name"
-                      (click)="checkState(button)" (click)="clickRadio($event, choice.name, match )">{{choice.name}}<span>{{calculateBet(choice.fractionalValue)}}</span>
-                    </mat-radio-button>
+                  <div class="time-standings"> {{match.value.tournament}}</div>
+                  <div class="time-standings"> {{match.value.category}}</div>
+                  <!-- <div class="time-standings" *ngFor="let home of match.value.homeDraw"> 
+                    {{home.name}} = {{home.value}}
+                  </div> -->
+                 
+                    <!-- <table>
+                    <tr>
+                      <td *ngFor="let home of match.value.homeDraw"> xxA </td>
+                    </tr>
+                    <tr>
+                      <td  *ngFor="let home of match.value.awayDraw"> xxxx </td>
+                    </tr>
+                  </table> -->
+                  <div class="row">
+                    <div class="col-lg-6 pull-left-lg bg-color">
+                      <div *ngFor="let home of match.value.homeDraw"> {{home.name}} {{home.value}}</div>
+                      </div>
+                      <div class="col-lg-6 pull-left-lg bg-color">
+                        <div *ngFor="let home of match.value.awayDraw"> {{home.name}} {{home.value}}</div>
+                        </div>
+                      </div>
+
+                  <button mat-raised-button (click)="openDialog(match.value)">Dokładna analiza</button>
+                  <app-match-list [homeTeam]="match.value.homeTeamId" [awayTeam]="match.value.awayTeamId">
+                  </app-match-list>
+                  <mat-button-toggle-group formControlName="type" class="radio-toolbar mat-radio-group" multiple
+                    (change)="clickRadio($event, $event, match )">
                     <div class="inline-flex radio-double-type">
-                    <mat-radio-button *ngFor="let choice of match.value.choicesDP" class="" [value]="choice.name"
-                    (click)="checkState(button)" (click)="clickRadio($event, choice.name, match )">{{choice.name}}<span>{{calculateBet(choice.fractionalValue)}}</span>
-                    </mat-radio-button>
-                 </div>
-                  </mat-radio-group> -->
-                  <mat-button-toggle-group formControlName="type" class="radio-toolbar mat-radio-group" multiple (change)="clickRadio($event, $event, match )">
+                      <mat-button-toggle class="mat-radio-button-n " *ngFor="let choice of match.value.choicesFL"
+                        [value]="choice.name" #{{choice.name}}>
+                        <span class="label-type">{{choice.name}}</span><span
+                          class="label-type-value label-type-value-hover">{{calculateBet(choice.fractionalValue)}}</span>
+                      </mat-button-toggle>
+                    </div>
                     <div class="inline-flex radio-double-type">
-                       <mat-button-toggle class="mat-radio-button-n " *ngFor="let choice of match.value.choicesFL" [value]="choice.name" #{{choice.name}}>
-                     <span class="label-type">{{choice.name}}</span><span  class="label-type-value label-type-value-hover">{{calculateBet(choice.fractionalValue)}}</span>
-                    </mat-button-toggle></div>
-                    <div class="inline-flex radio-double-type">
-                    <mat-button-toggle  class="mat-radio-button-n " *ngFor="let choice of match.value.choicesDP" [value]="choice.name" #{{choice.name}}>
-                      <span class="label-type">{{choice.name}}</span><span class="label-type-value label-type-value-hover">{{calculateBet(choice.fractionalValue)}}</span>
-                     </mat-button-toggle>
+                      <mat-button-toggle class="mat-radio-button-n " *ngFor="let choice of match.value.choicesDP"
+                        [value]="choice.name" #{{choice.name}}>
+                        <span class="label-type">{{choice.name}}</span><span
+                          class="label-type-value label-type-value-hover">{{calculateBet(choice.fractionalValue)}}</span>
+                      </mat-button-toggle>
                     </div>
                   </mat-button-toggle-group>
                 </mat-list>
@@ -55,4 +74,4 @@
       </div>
     </mat-card-content>
   </mat-card>
-</form> 
+</form>

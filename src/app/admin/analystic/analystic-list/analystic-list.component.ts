@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Renderer2, ViewChild, ɵConsole } from '@angular/core';
+import { Component, Input, OnInit, Renderer2, ViewChild, ɵConsole, Inject} from '@angular/core';
 import { AnalysticService } from '../analystic-service'
 // import { a, e } from '@angular/core/src/render3';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
@@ -7,6 +7,7 @@ import { HeaderService } from 'src/app/layout/sport/layout/layout.service';
 import { formatDate } from '@angular/common';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 export interface MatchData {
 
 }
@@ -36,6 +37,8 @@ export class AnalysticListComponent implements OnInit {
   currentCheckedValue = null;
   matchData: any;
   favoriteSeason: string;
+  homeTeamEvents: any;
+  awayTeamEvents: any;
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -44,7 +47,8 @@ export class AnalysticListComponent implements OnInit {
     private headerService: HeaderService,
     private route: ActivatedRoute,
     private _fb: FormBuilder,
-    private ren: Renderer2
+    private ren: Renderer2,
+    public dialog: MatDialog
   ) {
     this.headerService.changeLique(this.uniqueLigue)
     this.formbuilder();
@@ -55,6 +59,17 @@ export class AnalysticListComponent implements OnInit {
       date: new FormControl(''),
       events: this._fb.array([])
     })
+  }
+  openDialog(data): void {
+    const dialogRef = this.dialog.open(DialogAnalysticDialog, {
+      width: '100%',
+      data: data
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
   }
   get events() { return this.myForm.get('events') as FormArray }
   ngAfterViewInit() {
@@ -67,7 +82,6 @@ export class AnalysticListComponent implements OnInit {
     })
     this.headerService.subject.subscribe((event: any) => {
       if (event.last !== undefined) {
-        console.log(event)
         var lastDeleted = this.events.value.findIndex(c => c.idEvent === event.last.idEvent)
         event.last = undefined
         this.events.at(lastDeleted).patchValue({ type: "" });
@@ -150,10 +164,63 @@ export class AnalysticListComponent implements OnInit {
             if (this.uniqueLigue.indexOf(eventMatch.tournament.id) !== -1) {
               // CHECK LIGUE
               // console.log(eventMatch.tournament.uniqueTournament.id, eventMatch.awayTeam.name, "X" )
-              if (eventMatch.status.code === 0) {
+              // if (eventMatch.status.code === 0) {
+              
+                this.analysticService.getEventsLast(eventMatch.homeTeam.id).subscribe(homeTeam => {
+                  this.homeTeamEvents = homeTeam;
+                  this.homeTeamEvents.events=this.homeTeamEvents.events.slice(this.homeTeamEvents.events.length/2,this.homeTeamEvents.events.length)
+                  eventMatch.homeDrawEvents = homeTeam
+                  eventMatch.homeDraw= [{"name": "win", "value": 0}, {"name": "lose", "value": 0}, {"name": "draw", "value": 0}, {"name": "winHome", "value": 0}, {"name": "loseHome", "value": 0}, {"name": "all", "value": 0}]
+                    var win = 0
+                    var winHome = 0
+                    var loseHome = 0
+                    var draw = 0
+                  this.homeTeamEvents.events.forEach(match =>{
+                    if(match.winnerCode){ 
+                      switch (match.winnerCode) {
+                        case 1:  return match.homeTeam.name === eventMatch.homeTeam.name ? (win += 1, winHome += 1) : loseHome += 1;
+                        case 2: return match.awayTeam.name === eventMatch.homeTeam.name ? win += 1 : '';
+                        case 3:  return draw += 1
+                      }
+                    }
+                  })
+                  eventMatch.homeDraw[5].value = this.homeTeamEvents.events.length
+                  eventMatch.homeDraw[4].value =  loseHome
+                  eventMatch.homeDraw[3].value =  winHome
+                  eventMatch.homeDraw[1].value = this.homeTeamEvents.events.length - (draw +win)
+                  eventMatch.homeDraw[2].value = draw
+                  eventMatch.homeDraw[0].value = win
+                })
+                this.analysticService.getEventsLast(eventMatch.awayTeam.id).subscribe(awayTeam => {
+                  this.awayTeamEvents = awayTeam;
+                  this.awayTeamEvents.events=this.awayTeamEvents.events.slice(this.awayTeamEvents.events.length/2,this.awayTeamEvents.events.length)
+                 
+                  eventMatch.awayDrawEvents = awayTeam
+                  eventMatch.awayDraw= [{"name": "win", "value": 0}, {"name": "lose", "value": 0}, {"name": "draw", "value": 0}, {"name": "winAway", "value": 0}, {"name": "loseAway", "value": 0}, {"name": "all", "value": 0}]
+                    var win = 0
+                    var winAway = 0
+                    var loseAway = 0
+                    var draw = 0
+                  this.awayTeamEvents.events.forEach(match =>{
+                    if(match.winnerCode){ 
+                      switch (match.winnerCode) {
+                        case 2:  return match.awayTeam.name === eventMatch.awayTeam.name ? (win += 1, winAway += 1) : loseAway += 1;
+                        case 1: return match.homeTeam.name === eventMatch.awayTeam.name ? win += 1 : '';
+                        case 3:  return draw += 1
+                      }
+                    }
+                  })
+                  eventMatch.awayDraw[5].value = this.awayTeamEvents.events.length
+                  eventMatch.awayDraw[4].value =  loseAway
+                  eventMatch.awayDraw[3].value =  winAway
+                  eventMatch.awayDraw[1].value = this.awayTeamEvents.events.length - (draw +win)
+                  eventMatch.awayDraw[2].value = draw
+                  eventMatch.awayDraw[0].value = win
+                })
                 eventMatch.status = "nie"
                 this.analysticService.getAnalystictEvent(eventMatch.id).subscribe(
                   eventsData => {
+                    
                     this.analysticService.getVotePrice(eventMatch.id).subscribe(markets => {
                       eventMatch["eventsData"] = eventsData.event
                       eventMatch["marketsData"] = markets.markets
@@ -172,10 +239,10 @@ export class AnalysticListComponent implements OnInit {
                       // console.log(this.dataSource.data, this.myForm, "data =")
                     })
                   })
-              } else {
-                eventMatch.status = "tak"
-                // this.dataSource.data.push(eventMatch)
-              }
+              // } else {
+              //   eventMatch.status = "tak"
+              //   // this.dataSource.data.push(eventMatch)
+              // }
 
             }
           
@@ -254,6 +321,10 @@ export class AnalysticListComponent implements OnInit {
         typeYT: '',
         typeBT: '',
         typeVI: '',
+        homeDrawEvents: [events.homeDrawEvents.events],
+        awayDrawEvents: [events.awayDrawEvents.events],
+        homeDraw: [events.homeDraw],
+        awayDraw: [events.awayDraw],
         tournament: events.tournament.name,
         category: events.tournament.category.name,
         time: events.startTime,
@@ -286,9 +357,13 @@ export class AnalysticListComponent implements OnInit {
         typeBT: '',
         typeVI: '',
         tournament: events.tournament.name,
+        awayDrawEvents: [events.awayDrawEvents.events],
+        homeDrawEvents: [events.homeDrawEvents.events],
         category: events.tournament.category.name,
         startTimestamp: events.startTimestamp*1000,
         time: events.startTime,
+        homeDraw: [events.homeDraw],
+        awayDraw: [events.awayDraw],
         home: events.homeTeam.name,
         away: events.awayTeam.name,
         homeTeamId: events.homeTeam.id,
@@ -337,4 +412,20 @@ function uniqueIdLigue(data,key){
       data.map(x=> [key(x),x ])
     ).values()
   ]
+}
+@Component({
+  selector: 'dialog-analystic',
+  templateUrl: '../dialog-analystic.html',
+  styleUrls: ['../dialog-analystic.css'],
+})
+export class DialogAnalysticDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogAnalysticDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }

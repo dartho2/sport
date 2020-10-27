@@ -11,7 +11,7 @@ import { ProductsListComponent } from './products/products-list/products-list.co
 import { ProductsCreateComponent } from './products/products-create/products-create.component';
 import { DishesListComponent } from './p-restaurant/p-storage/dish/dishes-list/dishes-list.component';
 // import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
-import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
+import { AnalysticListComponent, DialogAnalysticDialog } from './analystic/analystic-list/analystic-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -147,6 +147,7 @@ import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
   ],
   declarations: [
     DialogComponent,
+    DialogAnalysticDialog,
     LayoutComponent,
     AdminComponent,
     CalendarComponent,
@@ -175,7 +176,7 @@ import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
     BreadcrumbComponent, 
     StorageCreateComponent, PProductsListComponent, PProductsCreateComponent, PProductsShowComponent, DishShowComponent, ChipsComponent, RecipeCreateComponent, RecipeShowComponent
   ],
-  entryComponents: [DialogComponent],
+  entryComponents: [DialogComponent, DialogAnalysticDialog],
   bootstrap: [],
   providers: [DatePipe, { provide: LOCALE_ID, useValue: "pl-PL" },
 

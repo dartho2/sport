@@ -1,0 +1,75 @@
+<mat-dialog-content class="mat-typography">
+  <mat-tab-group class="kom-content">
+    <mat-tab label="First">
+      <div class="row">
+        <div class="col-lg-6 pull-left-lg bg-color">
+          <div *ngFor="let matchaa of data.homeDrawEvents">
+            <div class="text-center">
+              {{matchaa.tournament.name}}
+            </div>
+            <div class="cell-event-standing">
+              <div class="time-standings">{{(matchaa.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
+              <div class="separator_right_cell"></div>
+              <div class="home_away_standing">
+
+
+                <div
+                  [ngStyle]="matchaa.winnerCode === 1 ? {'color':'#00a01b'} : matchaa.winnerCode === 3 ? {'color':'#888a6e'} : {'color': 'unset'}">
+                  {{matchaa.homeTeam.name}}</div>
+                <div
+                  [ngStyle]="matchaa.winnerCode === 2 ? {'color':'#00a01b'} : matchaa.winnerCode === 3 ? {'color':'#888a6e'} : {'color': 'unset'}">
+                  {{matchaa.awayTeam.name}}</div>
+              </div>
+
+              <span class="red-color" *ngIf="matchaa.status.code === 60">{{matchaa.status.description}}</span>
+
+              <div class="separator_right_cell"></div>
+              <div class="result">
+                <span class="red-color" *ngIf="matchaa.status.code === 70">{{matchaa.status.description}}</span>
+
+                <div
+                  *ngIf="((matchaa.status.code !== 70) && (matchaa.status.code !== 60)) || (matchaa.homeScore | json) != '{}'"
+                  class="home_standing">{{matchaa.homeScore.display}}</div>
+                <div
+                  *ngIf="((matchaa.status.code !== 70) && (matchaa.status.code !== 60)) || (matchaa.awayScore | json) != '{}'"
+                  class="away_standing">{{matchaa.awayScore.display}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 pull-left-lg bg-color">
+            <div *ngFor="let matchaa of data.awayDrawEvents">
+                <div class="text-center">
+                  {{matchaa.tournament.name}}
+                </div>
+                <div class="cell-event-standing">
+                    <div class="time-standings">{{(matchaa.startTimestamp)* 1000 | date:'M/dd/yy'}} </div>
+                    <div class="separator_right_cell"></div>
+            <div class="home_away_standing">
+              <div
+                [ngStyle]="matchaa.winnerCode === 1 ? {'color':'#00a01b'} : matchaa.winnerCode === 3 ? {'color':'#888a6e'} : {'color': 'unset'}">
+                {{matchaa.homeTeam.name}}</div>
+              <div
+                [ngStyle]="matchaa.winnerCode === 2 ? {'color':'#00a01b'} : matchaa.winnerCode === 3 ? {'color':'#888a6e'} : {'color': 'unset'}">
+                {{matchaa.awayTeam.name}}</div>
+            </div>
+            <span class="red-color" *ngIf="matchaa.status.code === 60">{{matchaa.status.description}}</span>
+
+            <div class="separator_right_cell"></div>
+            <div class="result">
+              <span class="red-color" *ngIf="matchaa.status.code === 70">{{matchaa.status.description}}</span>
+
+              <div
+                *ngIf="((matchaa.status.code !== 70) && (matchaa.status.code !== 60)) || (matchaa.homeScore | json) != '{}'"
+                class="home_standing">{{matchaa.homeScore.display}}</div>
+              <div
+                *ngIf="((matchaa.status.code !== 70) && (matchaa.status.code !== 60)) || (matchaa.awayScore | json) != '{}'"
+                class="away_standing">{{matchaa.awayScore.display}}</div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>

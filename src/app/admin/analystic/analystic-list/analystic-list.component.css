@@ -2138,7 +2138,7 @@ span.span-header {
   width: auto;
 }
 
-.separator_right_cell {
+/* .separator_right_cell {
   margin-left: 4px;
   padding-right: 4px;
   height: 28px;
@@ -2151,9 +2151,9 @@ span.span-header {
   -ms-flex: 1 0 64px;
   flex: 1 0 64px;
   overflow: auto;
-}
+} */
 
-.cell-event-standing {
+/* .cell-event-standing {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2163,13 +2163,13 @@ span.span-header {
   -ms-flex-align: center;
   align-items: center;
   min-width: 1px;
-}
+} */
 
-.time-standings {
+/* .time-standings {
   text-align: center;
   font-size: 12px;
   max-width: 64px;
-}
+} */
 
 .slideout-widget-contact {
   position: fixed;

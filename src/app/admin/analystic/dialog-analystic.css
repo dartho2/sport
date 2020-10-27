@@ -1,0 +1,44 @@
+.cell-event-standing {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgb(224 224 224 / 37%);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-width: 1px;
+  }
+  .time-standings {
+    text-align: center;
+    font-size: 12px;
+    max-width: 64px;
+  }
+  .separator_right_cell {
+    margin-left: 4px;
+    padding-right: 4px;
+    height: 28px;
+    border-left: 1px solid rgb(105 99 99 / 53%);
+  }
+  .bg-color {
+    /* background: #969696; */
+    font-weight: 600;
+  }
+  .home_standing, .away_standing{
+      padding-right:10px
+  }
+  .home_away_standing {
+    text-align: left;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 64px;
+    flex: 1 0 64px;
+    overflow: auto;
+  }
+  .text-center {   
+      background: #2a377a;
+        color:white;
+        text-align: center;
+    }
+  /* ::ng-deep .mat-dialog-container{
+      height: unset !important;
+  } */

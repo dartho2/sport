@@ -66,7 +66,7 @@
                <td>wynik</td>
             </thead>
             <tr *ngFor="let events of element.events">
-              {{events|json}}
+              
               <td>
                 <span *ngIf="(events.winCode === events.type) && events.type !== '0'" [ngClass]="'flags--11'"
                 class="flags flags-category"></span>

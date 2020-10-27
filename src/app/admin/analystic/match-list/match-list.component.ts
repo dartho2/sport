@@ -7,12 +7,18 @@ import { AnalysticService } from '../analystic-service';
   styleUrls: ['./match-list.component.css']
 })
 export class MatchListComponent implements OnInit {
-  @Input() dataMatch: any;
+  @Input() awayTeam: any;
+  @Input() homeTeam: any;
   @Input() ligue: any;
+  win=0
+  lose=0
+  draw=0
+  awayTeamEvents;
+  homeTeamEvents;
   constructor(private analysticService: AnalysticService) { }
 
   ngOnInit() {
-    console.log("dupa")
-    console.log(this.dataMatch[0].id)
+
+
   }
 }
