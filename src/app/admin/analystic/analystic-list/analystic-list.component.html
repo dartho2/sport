@@ -21,6 +21,7 @@
                     </div>
                   </mat-card-title>
                 </mat-card-header>
+              
                 <mat-list>
                   <div class="time-standings">{{(match.value.startTimestamp) | date:'M/dd/yy'}} </div>
                   <div class="time-standings"> {{match.value.tournament}}</div>
@@ -38,14 +39,29 @@
                     </tr>
                   </table> -->
                   <div class="row">
-                    <div class="col-lg-6 pull-left-lg bg-color">
+                    <div class="col-sm box-stats">
                       <div *ngFor="let home of match.value.homeDraw"> {{home.name}} {{home.value}}</div>
                       </div>
-                      <div class="col-lg-6 pull-left-lg bg-color">
+                      <div class="col-sm box-stats">
                         <div *ngFor="let home of match.value.awayDraw"> {{home.name}} {{home.value}}</div>
                         </div>
                       </div>
-
+                      <div class="inline-flex">
+                        <div class="content-line">
+                          {{match.value.vote1}} - {{match.value.vote2}} -  {{match.value.voteX}} 
+                          </div>
+                          </div>
+                          <div class="progress">
+                            <div class="progress-bar win1" role="progressbar"
+                              [ngStyle]="{'width': match.value.vote1 + '%'}" aria-valuenow="15"
+                              aria-valuemin="0" aria-valuemax="100">{{match.value.vote1 }}</div>
+                            <div class="progress-bar winX" role="progressbar"
+                              [ngStyle]="{'width': match.value.voteX + '%'}" aria-valuenow="30"
+                              aria-valuemin="0" aria-valuemax="100">{{match.value.voteX }}</div>
+                            <div class="progress-bar win2" role="progressbar"
+                              [ngStyle]="{'width': match.value.vote2 + '%'}" aria-valuenow="20"
+                              aria-valuemin="0" aria-valuemax="100">{{match.value.vote2 }}</div>
+                          </div>
                   <button mat-raised-button (click)="openDialog(match.value)">Dokładna analiza</button>
                   <app-match-list [homeTeam]="match.value.homeTeamId" [awayTeam]="match.value.awayTeamId">
                   </app-match-list>

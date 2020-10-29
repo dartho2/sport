@@ -2137,7 +2137,14 @@ span.span-header {
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   width: auto;
 }
-
+.box-stats {
+  padding: 15px;
+  background-color:#353535;
+  background: rgb(53, 53, 53); /* older browsers */
+  background: rgba(53, 53, 53, 0.7);
+  float: left;
+  width: calc(50% - 5px);
+}
 /* .separator_right_cell {
   margin-left: 4px;
   padding-right: 4px;

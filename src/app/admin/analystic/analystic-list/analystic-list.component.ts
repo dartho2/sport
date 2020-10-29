@@ -218,10 +218,16 @@ export class AnalysticListComponent implements OnInit {
                   eventMatch.awayDraw[0].value = win
                 })
                 eventMatch.status = "nie"
+                this.analysticService.getVote(eventMatch.id).subscribe(voteEvent => {
+      
+               
                 this.analysticService.getAnalystictEvent(eventMatch.id).subscribe(
                   eventsData => {
                     
                     this.analysticService.getVotePrice(eventMatch.id).subscribe(markets => {
+                      eventMatch["vote1"]=  voteEvent.vote.vote1
+                      eventMatch["vote2"]= voteEvent.vote.vote2
+                      eventMatch["voteX"]= voteEvent.vote.voteX
                       eventMatch["eventsData"] = eventsData.event
                       eventMatch["marketsData"] = markets.markets
                       if(markets.markets[0]){
@@ -239,6 +245,7 @@ export class AnalysticListComponent implements OnInit {
                       // console.log(this.dataSource.data, this.myForm, "data =")
                     })
                   })
+                })
               // } else {
               //   eventMatch.status = "tak"
               //   // this.dataSource.data.push(eventMatch)
@@ -277,6 +284,9 @@ export class AnalysticListComponent implements OnInit {
             homeTeamId: eventTurn.value.homeTeamId,
             awayTeamId: eventTurn.value.awayTeamId,
             dateControl: eventTurn.value.formatDate,
+            vote1: eventTurn.value.vote1,
+            vote2: eventTurn.value.vote2,
+            voteX: eventTurn.value.voteX,
             vot1: this.calculateBet(eventTurn.value.vot1),
             votX: this.calculateBet(eventTurn.value.votX),
             vot2: this.calculateBet(eventTurn.value.vot2),
@@ -340,6 +350,9 @@ export class AnalysticListComponent implements OnInit {
         win: "",
         choicesFL: [events.choicesFL],
         choicesDP: [events.choicesDP],
+        vote1: events.vote1,
+        vote2: events.vote2,
+        voteX: events.voteX,
         vot1: events.choicesFL[0].fractionalValue,
         votX: events.choicesFL[1].fractionalValue,
         vot2: events.choicesFL[2].fractionalValue,
@@ -375,6 +388,9 @@ export class AnalysticListComponent implements OnInit {
         win: "",
         choicesFL:  [events.choicesFL],
         choicesDP: [events.choicesDP],
+        vote1: events.vote1,
+        vote2: events.vote2,
+        voteX: events.voteX,
         vot1: events.choicesFL[0]? events.choicesFL[0].fractionalValue: 0,
         votX: events.choicesFL[1]? events.choicesFL[1].fractionalValue: 0,
         vot2: events.choicesFL[2]? events.choicesFL[2].fractionalValue: 0,

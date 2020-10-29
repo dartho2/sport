@@ -25,6 +25,10 @@ export class AnalysticService {
       getVotePrice(data): Observable<any> {
         return this._http.get<any>("https://api.sofascore.com/api/v1/event/"+ data + "/odds/1/all?");
       }
+      getVote(data): Observable<any> {
+        return this._http.get<any>("https://api.sofascore.com/api/v1/event/"+ data + "/votes");
+      }
+
       addEvents(data): Observable<any> {
         return this._http.post<any>("https://karmazdrowia.pl:8080/api/bet", data );
       }

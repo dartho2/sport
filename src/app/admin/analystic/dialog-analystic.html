@@ -2,7 +2,7 @@
   <mat-tab-group class="kom-content">
     <mat-tab label="First">
       <div class="row">
-        <div class="col-lg-6 pull-left-lg bg-color">
+        <div class="col-lg-6 pull-left-lg bg-color box-stats">
           <div *ngFor="let matchaa of data.homeDrawEvents">
             <div class="text-center">
               {{matchaa.tournament.name}}
@@ -37,7 +37,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6 pull-left-lg bg-color">
+        <div class="col-lg-6 pull-left-lg bg-color box-stats">
             <div *ngFor="let matchaa of data.awayDrawEvents">
                 <div class="text-center">
                   {{matchaa.tournament.name}}
