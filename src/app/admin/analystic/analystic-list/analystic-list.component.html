@@ -46,11 +46,9 @@
                         <div *ngFor="let home of match.value.awayDraw"> {{home.name}} {{home.value}}</div>
                         </div>
                       </div>
-                      <div class="inline-flex">
-                        <div class="content-line">
-                          {{match.value.vote1}} - {{match.value.vote2}} -  {{match.value.voteX}} 
-                          </div>
-                          </div>
+                      <div class="row">
+                        <div class="col-sm box-stats-full">
+                        
                           <div class="progress">
                             <div class="progress-bar win1" role="progressbar"
                               [ngStyle]="{'width': match.value.vote1 + '%'}" aria-valuenow="15"
@@ -62,6 +60,8 @@
                               [ngStyle]="{'width': match.value.vote2 + '%'}" aria-valuenow="20"
                               aria-valuemin="0" aria-valuemax="100">{{match.value.vote2 }}</div>
                           </div>
+                        </div>
+                      </div>
                   <button mat-raised-button (click)="openDialog(match.value)">Dokładna analiza</button>
                   <app-match-list [homeTeam]="match.value.homeTeamId" [awayTeam]="match.value.awayTeamId">
                   </app-match-list>
