@@ -159,7 +159,9 @@ export class AnalysticListComponent implements OnInit {
       this.eventsTurnamet.events.map(eventMatch => {
         if (formatDate(eventMatch.startTimestamp * 1000, this.actualformat, 'en') === formatDate(data, this.actualformat, 'en')) {
           //  CHECK DATA TODAY
-    
+          // eventMatch.homeResult = eventMatch
+          // eventMatch.awayResult =
+
             // console.log(this.uniqueLigue, "new uniq", eventMatch.tournament.uniqueTournament.id)
             if (this.uniqueLigue.indexOf(eventMatch.tournament.id) !== -1) {
               // CHECK LIGUE
@@ -170,25 +172,27 @@ export class AnalysticListComponent implements OnInit {
                   this.homeTeamEvents = homeTeam;
                   this.homeTeamEvents.events=this.homeTeamEvents.events.slice(this.homeTeamEvents.events.length/2,this.homeTeamEvents.events.length)
                   eventMatch.homeDrawEvents = homeTeam
-                  eventMatch.homeDraw= [{"name": "win", "value": 0}, {"name": "lose", "value": 0}, {"name": "draw", "value": 0}, {"name": "winHome", "value": 0}, {"name": "loseHome", "value": 0}, {"name": "all", "value": 0}]
-                    var win = 0
-                    var winHome = 0
-                    var loseHome = 0
-                    var draw = 0
+                  eventMatch.homeDraw= [{"name": "win", "value": 0}, {"name": "draw", "value": 0},{"name": "lose", "value": 0}]
+                  eventMatch.homeStat= [{"name": "winHome", "value": 0},{"name": "drawHome", "value": 0}, {"name": "loseHome", "value": 0}]
+                  var win = 0;
+                    var winHome = 0;
+                    var loseHome = 0;
+                    var draw = 0;
+                    var drawHome = 0;
                   this.homeTeamEvents.events.forEach(match =>{
                     if(match.winnerCode){ 
                       switch (match.winnerCode) {
                         case 1:  return match.homeTeam.name === eventMatch.homeTeam.name ? (win += 1, winHome += 1) : loseHome += 1;
                         case 2: return match.awayTeam.name === eventMatch.homeTeam.name ? win += 1 : '';
-                        case 3:  return draw += 1
+                        case 3:  return match.homeTeam.name === eventMatch.homeTeam.name ? drawHome += 1 : draw += 1;
                       }
                     }
                   })
-                  eventMatch.homeDraw[5].value = this.homeTeamEvents.events.length
-                  eventMatch.homeDraw[4].value =  loseHome
-                  eventMatch.homeDraw[3].value =  winHome
-                  eventMatch.homeDraw[1].value = this.homeTeamEvents.events.length - (draw +win)
-                  eventMatch.homeDraw[2].value = draw
+                  eventMatch.homeStat[2].value =  loseHome
+                  eventMatch.homeStat[1].value =  drawHome
+                  eventMatch.homeStat[0].value =  winHome
+                  eventMatch.homeDraw[2].value = this.homeTeamEvents.events.length - (draw +win)
+                  eventMatch.homeDraw[1].value = draw
                   eventMatch.homeDraw[0].value = win
                 })
                 this.analysticService.getEventsLast(eventMatch.awayTeam.id).subscribe(awayTeam => {
@@ -196,25 +200,27 @@ export class AnalysticListComponent implements OnInit {
                   this.awayTeamEvents.events=this.awayTeamEvents.events.slice(this.awayTeamEvents.events.length/2,this.awayTeamEvents.events.length)
                  
                   eventMatch.awayDrawEvents = awayTeam
-                  eventMatch.awayDraw= [{"name": "win", "value": 0}, {"name": "lose", "value": 0}, {"name": "draw", "value": 0}, {"name": "winAway", "value": 0}, {"name": "loseAway", "value": 0}, {"name": "all", "value": 0}]
-                    var win = 0
-                    var winAway = 0
-                    var loseAway = 0
-                    var draw = 0
+                  eventMatch.awayDraw= [{"name": "win", "value": 0},{"name": "draw", "value": 0}, {"name": "lose", "value": 0}]
+                  eventMatch.awayStat= [ {"name": "winAway", "value": 0}, {"name": "drawAway", "value": 0},{"name": "loseAway", "value": 0}]
+                  var win = 0;
+                    var winAway = 0;
+                    var loseAway = 0;
+                    var draw = 0;
+                    var drawAway = 0;
                   this.awayTeamEvents.events.forEach(match =>{
                     if(match.winnerCode){ 
                       switch (match.winnerCode) {
                         case 2:  return match.awayTeam.name === eventMatch.awayTeam.name ? (win += 1, winAway += 1) : loseAway += 1;
                         case 1: return match.homeTeam.name === eventMatch.awayTeam.name ? win += 1 : '';
-                        case 3:  return draw += 1
+                        case 3:  return match.awayTeam.name === eventMatch.awayTeam.name ? drawAway += 1 :draw += 1
                       }
                     }
                   })
-                  eventMatch.awayDraw[5].value = this.awayTeamEvents.events.length
-                  eventMatch.awayDraw[4].value =  loseAway
-                  eventMatch.awayDraw[3].value =  winAway
-                  eventMatch.awayDraw[1].value = this.awayTeamEvents.events.length - (draw +win)
-                  eventMatch.awayDraw[2].value = draw
+                  eventMatch.awayStat[2].value =  loseAway
+                  eventMatch.awayStat[1].value =  drawAway
+                  eventMatch.awayStat[0].value =  winAway
+                  eventMatch.awayDraw[2].value = this.awayTeamEvents.events.length - (draw +win)
+                  eventMatch.awayDraw[1].value = draw
                   eventMatch.awayDraw[0].value = win
                 })
                 eventMatch.status = "nie"
@@ -333,6 +339,12 @@ export class AnalysticListComponent implements OnInit {
         typeVI: '',
         homeDrawEvents: [events.homeDrawEvents.events],
         awayDrawEvents: [events.awayDrawEvents.events],
+        homeResult: events.homeScore.display,
+        awayResult: events.awayScore.display,
+        code: events.status.code,
+        description: events.status.description,
+        homeStat: [events.homeStat],
+        awayStat: [events.awayStat],
         homeDraw: [events.homeDraw],
         awayDraw: [events.awayDraw],
         tournament: events.tournament.name,
@@ -375,6 +387,12 @@ export class AnalysticListComponent implements OnInit {
         category: events.tournament.category.name,
         startTimestamp: events.startTimestamp*1000,
         time: events.startTime,
+        code: events.status.code,
+        description: events.status.description,
+        homeResult: events.homeScore.display,
+        awayResult: events.awayScore.display,
+        homeStat: [events.homeStat],
+        awayStat: [events.awayStat],
         homeDraw: [events.homeDraw],
         awayDraw: [events.awayDraw],
         home: events.homeTeam.name,

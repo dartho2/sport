@@ -8,29 +8,36 @@
             <mat-card class="mat-elevation-z4" [formGroupName]="i">
               <mat-card-content class="icon-center">
                 <mat-card-header>
+                  <div class="time-standings title-h-standings">{{match.value.home}} - {{match.value.away}}</div>
                   <mat-card-title>
                     <div class="inline-flex">
                       <div class="content-line">
                         <img src="https://www.sofascore.com/images/team-logo/football_{{match.value.homeTeamId}}.png"
-                          class="img-club">
-                        {{match.value.home}} - {{match.value.away}}
-                        {{match.value.idEvent}}
+                          class="img-club img-club-home">
+                      
                         <img src="https://www.sofascore.com/images/team-logo/football_{{match.value.awayTeamId}}.png"
-                          class="img-club">
+                          class="img-club img-club-away">
                       </div>
                     </div>
                   </mat-card-title>
                 </mat-card-header>
-              
+
                 <mat-list>
+                  <!-- <div class="result">
+                    <span class="red-color" *ngIf="match.value.code === 70">{{match.value.description}}</span>
+  
+                    <div *ngIf="((match.value.code !== 70) && (match.value.code !== 60)) || (match.value.homeResult | json) != '{}'" class="home_standing">{{match.value.homeResult}}</div>
+                    <div *ngIf="((match.value.code !== 70) && (match.value.code !== 60)) || (match.value.awayResult | json) != '{}'" class="away_standing">{{match.value.awayResult}}</div>  
+                </div> -->
+                  <div *ngIf="match.value.code === 0" class="time-standings result"> {{match.value.homeResult}} - {{match.value.awayResult}}</div>
                   <div class="time-standings">{{(match.value.startTimestamp) | date:'M/dd/yy'}} </div>
                   <div class="time-standings"> {{match.value.tournament}}</div>
                   <div class="time-standings"> {{match.value.category}}</div>
                   <!-- <div class="time-standings" *ngFor="let home of match.value.homeDraw"> 
                     {{home.name}} = {{home.value}}
                   </div> -->
-                 
-                    <!-- <table>
+
+                  <!-- <table>
                     <tr>
                       <td *ngFor="let home of match.value.homeDraw"> xxA </td>
                     </tr>
@@ -38,30 +45,61 @@
                       <td  *ngFor="let home of match.value.awayDraw"> xxxx </td>
                     </tr>
                   </table> -->
+
+
                   <div class="row">
-                    <div class="col-sm box-stats">
+                    <!-- <div class="col-sm box-stats">
                       <div *ngFor="let home of match.value.homeDraw"> {{home.name}} {{home.value}}</div>
+                    </div>
+                    <div class="col-sm box-stats">
+                      <div *ngFor="let home of match.value.awayDraw"> {{home.name}} {{home.value}}</div>
+                    </div> -->
+                 
+                  <table class="table col-sm box-stats">
+                    <tr>
+                      <th>1</th>
+                      <th>x</th>
+                      <th>2</th>
+                    </tr>
+                    <tr>
+                      <td *ngFor="let home of match.value.homeDraw">{{home.value}}</td>
+                    </tr>
+                    <tr>
+                      <td *ngFor="let home of match.value.homeStat">{{home.value}}</td>
+                    </tr>
+                  </table>
+
+                  <table class="table col-sm box-stats">
+                    <tr>
+                      <th>1</th>
+                      <th>x</th>
+                      <th>2</th>
+                    </tr>
+                    <tr>
+                      <td *ngFor="let home of match.value.awayDraw">{{home.value}}</td>
+                    </tr>
+                    <tr>
+                      <td *ngFor="let home of match.value.awayStat">{{home.value}}</td>
+                    </tr>
+                  </table>
+
+                </div>
+
+
+
+                  <div class="row">
+                    <div class="col-sm box-stats-full">
+
+                      <div class="progress">
+                        <div class="progress-bar win1" role="progressbar" [ngStyle]="{'width': match.value.vote1 + '%'}"
+                          aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">{{match.value.vote1 }}</div>
+                        <div class="progress-bar winX" role="progressbar" [ngStyle]="{'width': match.value.voteX + '%'}"
+                          aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{match.value.voteX }}</div>
+                        <div class="progress-bar win2" role="progressbar" [ngStyle]="{'width': match.value.vote2 + '%'}"
+                          aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">{{match.value.vote2 }}</div>
                       </div>
-                      <div class="col-sm box-stats">
-                        <div *ngFor="let home of match.value.awayDraw"> {{home.name}} {{home.value}}</div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm box-stats-full">
-                        
-                          <div class="progress">
-                            <div class="progress-bar win1" role="progressbar"
-                              [ngStyle]="{'width': match.value.vote1 + '%'}" aria-valuenow="15"
-                              aria-valuemin="0" aria-valuemax="100">{{match.value.vote1 }}</div>
-                            <div class="progress-bar winX" role="progressbar"
-                              [ngStyle]="{'width': match.value.voteX + '%'}" aria-valuenow="30"
-                              aria-valuemin="0" aria-valuemax="100">{{match.value.voteX }}</div>
-                            <div class="progress-bar win2" role="progressbar"
-                              [ngStyle]="{'width': match.value.vote2 + '%'}" aria-valuenow="20"
-                              aria-valuemin="0" aria-valuemax="100">{{match.value.vote2 }}</div>
-                          </div>
-                        </div>
-                      </div>
+                    </div>
+                  </div>
                   <button mat-raised-button (click)="openDialog(match.value)">Dokładna analiza</button>
                   <app-match-list [homeTeam]="match.value.homeTeamId" [awayTeam]="match.value.awayTeamId">
                   </app-match-list>
