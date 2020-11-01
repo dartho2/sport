@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { Subject, Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { Products } from "./product.model";
-import { ProductsListComponent } from "./products-list/products-list.component";
 
 
 @Injectable({ providedIn: 'root' })
