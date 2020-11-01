@@ -194,8 +194,11 @@ export class RecipeCreateComponent implements OnInit {
       this.myForm.value.products.forEach(element => {
         totalPriceNetto += parseFloat(element.valueProduct)
       });
+      var v = this.myForm.value.vat
+      var n = totalPriceNetto
       this.myForm.value.nettoPrice = toString(totalPriceNetto)
-      this.myForm.value.bruttoPrice = toString((totalPriceNetto*(toInteger(this.myForm.value.vat)/100)).toFixed(2))
+      this.myForm.value.bruttoPrice   = toString((totalPriceNetto*(toInteger(this.myForm.value.vat)/100)+1).toFixed(2))
+      // this.myForm.value.bruttoPrice  =  this.myForm.value.bruttoPrice.toFixed(2)
       this.recipeService.createRecipeItems(this.myForm.value).pipe(
         map((res: Response) => {
           this.recipeDataId = res // id productu

@@ -3,9 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 
 import { BetComponent } from '../admin/bet/bet-list/bet.component'
-import { ProductShowComponent } from './products/products-show/product-show.component';
-import { ProductsListComponent } from './products/products-list/products-list.component';
-import { ProductsCreateComponent } from './products/products-create/products-create.component';
 import { DishesListComponent } from './p-restaurant/p-storage/dish/dishes-list/dishes-list.component';
 import { DishesCreateComponent } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent } from './analystic/analystic-list/analystic-list.component';
@@ -194,22 +191,6 @@ const adminRoutes: Routes = [
         data: { roles: [Role.Admin , Role.User] }
     },
       {
-        path: 'products',
-        component: ProductsListComponent,
-        data: { roles: [Role.Admin, Role.User] }
-      },
-      {
-        path: 'products/create',
-        component: ProductsCreateComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin, Role.User] }
-      },
-      {
-        path: 'products/show/:idProduct',
-        component: ProductShowComponent,
-        data: { roles: [Role.Admin, Role.User] }
-      },
-      {
         path: 'calendar',
         component: CalendarComponent,
         canActivate: [AuthGuard],
@@ -221,12 +202,6 @@ const adminRoutes: Routes = [
       //   data: { roles: [Role.Admin, Role.User] }
       // },
       
-      {
-        path: 'products/edit/:idProduct',
-        component: ProductsCreateComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Admin] }
-      }
     ]
   },
   {

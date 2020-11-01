@@ -109,7 +109,7 @@
                                 <mat-autocomplete [displayWith]="displayFn" (optionSelected)="onChange($event.option, i)"
                                   #auto2="matAutocomplete">
                                   <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.name">
-                                    {{option.name}}
+                                    {{option.name}} - {{option.supplier}}
                                   </mat-option>
                                 </mat-autocomplete>
                               </mat-form-field>
@@ -187,5 +187,4 @@
       </div>
     </div>
   </form>
-
 </div>

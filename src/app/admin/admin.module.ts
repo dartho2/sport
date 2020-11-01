@@ -7,8 +7,6 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { NavbarComponent } from '../layout/navbar/navbar.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SearchPipe } from './admin/_pipe/search/search.pipe';
-import { ProductsListComponent } from './products/products-list/products-list.component';
-import { ProductsCreateComponent } from './products/products-create/products-create.component';
 import { DishesListComponent } from './p-restaurant/p-storage/dish/dishes-list/dishes-list.component';
 // import { DishesCreateComponent } from './dish/dishes-create/dishes-create.component';
 import { AnalysticListComponent, DialogAnalysticDialog } from './analystic/analystic-list/analystic-list.component';
@@ -54,7 +52,6 @@ import { CalculateListComponent } from './calculate/calculate-list/calculate-lis
 import { DishesCreateComponent } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
 import { RecipeListComponent } from './p-restaurant/p-storage/recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
-import { ProductShowComponent } from './products/products-show/product-show.component';
 import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -153,8 +150,6 @@ import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
     CalendarComponent,
     HeaderComponent,
     NavbarComponent, NavbarSportComponent,
-    ProductsListComponent,
-    ProductsCreateComponent,
     DishesListComponent,
     DishesCreateComponent,
     AnalysticListComponent,
@@ -163,7 +158,6 @@ import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
     CalculateListComponent,  
     RecipeListComponent, 
     SemiproduktListComponent, 
-    ProductShowComponent, 
     ColdListComponent, 
     BetComponent, 
     MatchListComponent, 
