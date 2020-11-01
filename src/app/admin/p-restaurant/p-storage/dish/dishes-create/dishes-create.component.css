@@ -33,7 +33,15 @@
 .flex {
   display: flex;
 }
-
+::ng-deep .mat-autocomplete-panel {
+  max-width: 100%!important;
+  }
+  ::ng-deep .cdk-overlay-container {
+   width:100%!important;
+  }
+  ::ng-deep .cdk-overlay-pane, div#cdk-overlay-0 {
+    width:100% !important;
+  }
 .flex-center {
   width: auto;
   align-items: center;
@@ -50,7 +58,25 @@
   height: 48px;
   display: flex;
 }
+.cdk-overlay-container .full-width + * > .cdk-overlay-pane {
+  width: 100%;
+}
+::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
+  visibility: visible;
+  width: 100%;
+  display: inline-table;
+}
 
+.mat-autocomplete-panel.mat-autocomplete-visible {
+  visibility: visible;
+  width: 100%;
+  display: inline-table;
+}
+.desc-bold {
+  font-weight: 600;
+  color:black;
+  padding-left: 20px;
+}
 .mat-option-text {
   -webkit-box-align: center;
   align-items: center;

@@ -29,32 +29,11 @@
                     <div *ngIf="((match.value.code !== 70) && (match.value.code !== 60)) || (match.value.homeResult | json) != '{}'" class="home_standing">{{match.value.homeResult}}</div>
                     <div *ngIf="((match.value.code !== 70) && (match.value.code !== 60)) || (match.value.awayResult | json) != '{}'" class="away_standing">{{match.value.awayResult}}</div>  
                 </div> -->
-                  <div *ngIf="match.value.code === 0" class="time-standings result"> {{match.value.homeResult}} - {{match.value.awayResult}}</div>
+                  <div *ngIf="match.value.code !== 70" class="time-standings result"> {{match.value.homeResult}} - {{match.value.awayResult}}</div>
                   <div class="time-standings">{{(match.value.startTimestamp) | date:'M/dd/yy'}} </div>
                   <div class="time-standings"> {{match.value.tournament}}</div>
                   <div class="time-standings"> {{match.value.category}}</div>
-                  <!-- <div class="time-standings" *ngFor="let home of match.value.homeDraw"> 
-                    {{home.name}} = {{home.value}}
-                  </div> -->
-
-                  <!-- <table>
-                    <tr>
-                      <td *ngFor="let home of match.value.homeDraw"> xxA </td>
-                    </tr>
-                    <tr>
-                      <td  *ngFor="let home of match.value.awayDraw"> xxxx </td>
-                    </tr>
-                  </table> -->
-
-
                   <div class="row">
-                    <!-- <div class="col-sm box-stats">
-                      <div *ngFor="let home of match.value.homeDraw"> {{home.name}} {{home.value}}</div>
-                    </div>
-                    <div class="col-sm box-stats">
-                      <div *ngFor="let home of match.value.awayDraw"> {{home.name}} {{home.value}}</div>
-                    </div> -->
-                 
                   <table class="table col-sm box-stats">
                     <tr>
                       <th>1</th>
@@ -66,6 +45,9 @@
                     </tr>
                     <tr>
                       <td *ngFor="let home of match.value.homeStat">{{home.value}}</td>
+                    </tr>
+                    <tr>
+                      <td *ngFor="let home of match.value.duelStat">{{home.value}}</td>
                     </tr>
                   </table>
 
@@ -81,11 +63,21 @@
                     <tr>
                       <td *ngFor="let home of match.value.awayStat">{{home.value}}</td>
                     </tr>
+                  
                   </table>
-
+                
                 </div>
 
+                <div class="row">
+                  <div class="col-sm box-stats-full">
 
+                    <div class="progress">
+                      <div [ngClass]="'progress-bar '+home.name" *ngFor="let home of match.value.duelStat; let i = index" role="progressbar" [ngStyle]="{'width': home.value*100 + '%'}"
+                        aria-valuenow="15" aria-valuemin="0" aria-valuemax="10">{{home.value}}</div>
+                    
+                    </div>
+                  </div>
+                </div>
 
                   <div class="row">
                     <div class="col-sm box-stats-full">

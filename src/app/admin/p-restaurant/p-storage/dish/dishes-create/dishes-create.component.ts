@@ -69,8 +69,14 @@ export class DishesCreateComponent implements OnInit {
   apiBid: any;
   constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
-    private productService: ProductService, private storageService: StorageService, private recipeService: RecipeService , private authenticationService: AuthenticationService, private apiEbidService: ApiEbidService,
-     private alertService: AlertService, private dishService: DishServices, public dialog: MatDialog) {
+    private productService: ProductService, 
+    private storageService: StorageService, 
+    private recipeService: RecipeService , 
+    private authenticationService: AuthenticationService, 
+    private apiEbidService: ApiEbidService,
+     private alertService: AlertService, 
+     private dishService: DishServices, 
+     public dialog: MatDialog) {
       this.authenticationService.currentUserApi.subscribe(x => this.apiBid = x);
     this.restaurantService.getRestaurant().subscribe(response=>{
       this.valueRe  = response    
@@ -279,11 +285,12 @@ addAutocomplite(index:number){
     if(filterValue.length > 1){
       this.apiEbidService.getEBID(filterValue).subscribe((x: any) =>{
         this.productEbid = x.products
+        console.log(this.productEbid ,"ebid")
       })
     }
   }
   onChange(selectedValue, y) {
-    console.log(selectedValue, "wchodzi")
+    console.log(selectedValue, "wchodzi", this.product)
     this.productSelected = this.product.filter(item => item.name === selectedValue.value);
     let control = (<FormArray>this.myForm.controls.products).at(y);
     this.productSelected.forEach(x => {
@@ -306,12 +313,17 @@ addAutocomplite(index:number){
     this.productSelected = this.productEbid.filter(item => item.name === selectedValue.value);
     let control = (<FormArray>this.myForm.controls.products).at(y);
     this.productSelected.forEach(x => {
+      var n= (x.units_of_measure[0].price_net/100)
+      var b = (x.units_of_measure[0].price_gross/100)
+      var v = (Math.round(100-((n*100)/b)))
+      var q = x.units_of_measure[0].quantity
       control.setValue({
         id: x.id,
         name: x.name,
-        nettoPrice: x.units_of_measure[0].price_net/100,
-        bruttoPrice: x.units_of_measure[0].price_gross/100,
-        weight: x.units_of_measure[0].quantity,
+        nettoPrice: n.toString(),
+        weight: q.toString(),
+        vat: v.toString(),
+        bruttoPrice: b.toString(),
         unit: x.base_unit_of_measure,
         lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
         productWeight: x.productWeight ? x.productWeight.replace(',', '.') : '',

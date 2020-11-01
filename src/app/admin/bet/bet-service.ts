@@ -12,8 +12,8 @@ export class BetServiceComponent {
     getBet(data): Observable<Bet[]> {
         return this._http.get<Bet[]>("https://karmazdrowia.pl:8080/api/bet/" + data);
       }
-      getBetAll(): Observable<Bet[]> {
-        return this._http.get<Bet[]>("https://karmazdrowia.pl:8080/api/bet/");
+      getBetAll(): Observable<any> {
+        return this._http.get<any>("https://karmazdrowia.pl:8080/api/bet/");
       }
       updateBet(data){
         return this._http.post("https://karmazdrowia.pl:8080/api/bet/" + data._id, data);

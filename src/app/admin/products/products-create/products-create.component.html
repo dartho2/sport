@@ -17,6 +17,28 @@
                         <mat-icon matSuffix class="fas fa-info-circle" matTooltip="*Wymagane podaj nazwę Produktu z FV"
                           #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
                       </mat-form-field>
+
+                     <p>   {{apiBid}}  --</p> 
+                      <mat-form-field class="example-full-width h5" *ngIf="apiBid">
+                        <input matInput formControlName="name" (keyup)="searchEBID($event.target.value)"
+                          [matAutocomplete]="ebid" placeholder="Szukaj na ebid">
+                        <mat-autocomplete [displayWith]="displayFn" #ebid="matAutocomplete"
+                          (optionSelected)="onChangeEbid($event.option, i)">
+                          <mat-option *ngFor="let option of productEbid" [value]="option.name">
+                            <li>
+                              <div class="flex flex-center">
+                                <div class="flex-image"><img class="img-autocomplete" src="{{option.images[0].url_small}}">
+                                </div>
+                                <div class="flex">
+                                  <p class="desc-autocomplete">{{option.name}} <span class="desc-bold">{{option.price_per_unit/100}} zł</span></p>
+                                </div>
+                              </div>
+                            </li>
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+
+
                       <mat-form-field>
                         <input formControlName="description" matInput placeholder="Description">
                         <mat-icon matSuffix class="fas fa-info-circle"

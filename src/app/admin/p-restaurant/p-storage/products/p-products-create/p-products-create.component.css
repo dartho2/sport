@@ -1,0 +1,88 @@
+.input-text-right {
+    text-align: right !important;
+    padding-right: 5px !important;
+  }
+  
+  .text-product {
+    background: #3f51b5;
+    color: white;
+  }
+  
+  .img-autocomplete {
+    min-width: 48px;
+    max-width: 48px;
+    height: 48px;
+    display: flex;
+  }
+  
+  .mat-card-header-text {
+    margin: 0px !important;
+  }
+  .desc-autocomplete {
+    width: 100%;
+    display: flex;
+    color: rgb(19, 27, 77);
+    font-size: 14px;
+    margin-left: 10px;
+    font-weight: 600;
+  }
+  .mat-card {
+    min-height: 260px;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  ::ng-deep .mat-autocomplete-panel {
+    max-width: 100%!important;
+    }
+    ::ng-deep .cdk-overlay-container {
+     width:100%!important;
+    }
+    ::ng-deep .cdk-overlay-pane, div#cdk-overlay-0 {
+      width:100% !important;
+    }
+  .flex-center {
+    width: auto;
+    align-items: center;
+    align-items: center;
+    max-width: 100%;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid rgba(221, 226, 229, 0.5);
+  }
+  
+  .flex-image {
+    min-width: 48px;
+    max-width: 48px;
+    height: 48px;
+    display: flex;
+  }
+  .cdk-overlay-container .full-width + * > .cdk-overlay-pane {
+    width: 100%;
+  }
+  ::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
+    visibility: visible;
+    width: 100%;
+    display: inline-table;
+  }
+  
+  .mat-autocomplete-panel.mat-autocomplete-visible {
+    visibility: visible;
+    width: 100%;
+    display: inline-table;
+  }
+  .desc-bold {
+    font-weight: 600;
+    color:black;
+    padding-left: 20px;
+  }
+  .mat-option-text {
+    -webkit-box-align: center;
+    align-items: center;
+    max-width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(221, 226, 229, 0.5);
+  }
+  

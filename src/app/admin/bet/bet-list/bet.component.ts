@@ -22,7 +22,7 @@ const ELEMENT_DATA: Bet[] = [];
   ]
 })
 export class BetComponent implements OnInit {
-  displayedColumns: string[] = ['status', 'date','kurs', 'rate'];
+  displayedColumns: string[] = ['status', 'date', 'kurs', 'rate'];
   bets;
   event: any;
   dupa;
@@ -31,107 +31,51 @@ export class BetComponent implements OnInit {
   newEvents;
   expandedElement: any;
   checkWins = '';
-
-  constructor(private betService: BetServiceComponent, private analysticService: AnalysticService, private route: ActivatedRoute, private router: Router, ) {
-
-    this.betService.getBetAll().subscribe(res => {
-      this.bets = res
-      console.log(this.bets, "bets")
-      this.bets.map(ev => {
-        let wins = []
-        if(ev.statusChanged === 2){
-        ev.events.map(t => {
-          
-          this.analysticService.getAnalystictEvent(t.idEvent).subscribe(even => {
-            console.log(even, "even")
-            if (t.type === "0") { t["type"] = "3"}
-            t.win = even.event.winnerCode
-            if(t.win !== 0) {
-            if (even.event["statusDescription"].includes('AP')) {
-              t["eventsWinAP"] = this.checkWin(even, false, "win")
-              t["eventsWinFT"] = this.checkWin(even, true, "win")
-            } else {
-              t["eventsWinFT"] = this.checkWin(even, true, "win")
-            }
-            if ([0, 1, 2, 3].includes(even.event.winnerCode)) {
-              t["winCode"] = even.event.winnerCode.toString()
-            }
-          }
-            //winCode = 0-remis, 1-1,2-2, 3-3 nie rozstrzygnite
-            ev.status = this.betWin(ev)
-         
-              t.winers = this.editDataMatch(t)
-              ev.winers = this.editData(ev)
-              wins.push(this.checkAll(t.winers))
-              if(wins.length === ev.events.length){
-                ev.statusChanged = this.checkAllWins(wins)
-                if( ev.statusChanged !== 2){
-                  if(ev.statusChanged === 0) {
-                    ev.rate = ''
-                  }
-                  console.log(ev, even)
-                // this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
-              }
-              // ev.statusWin = this.statusEvent(t.winers)
-              // ev.statusWin = this.statusEvent(ev.winers)
-              // this.betService.updateBet(ev).subscribe(dd => { console.log(dd) })
-              
-            }
-          },
-            err => {
-              console.error(err);
-            })
-        })
-        
-        // console.log(ev)
-     } })
-      
-
-      this.checkCup(this.bets)
-      this.dataSource.data = this.bets
-    })
-
-
+  updateCupon:any = [];
+  constructor(
+    private betService: BetServiceComponent,
+    private analysticService: AnalysticService,
+    private route: ActivatedRoute,
+    private router: Router) {
+  }
+  statusEvent(event) {
+    console.log(event, "-event")
 
   }
-  statusEvent(event){
-  console.log(event, "-event")
-    
-  }
-  checkAllWins(match){
-    if(match.indexOf(0) !== -1){
+  checkAllWins(match) {
+    if (match.indexOf(0) !== -1) {
       return 0
     } else {
-      if(match.indexOf(2) !== -1){
+      if (match.indexOf(2) !== -1) {
         return 2
       } else {
         return 1
       }
     }
   }
-  checkAll(win){
-    // console.log(win, [0].includes(win),  "- win")
-    if([0].includes(win)){
+  checkAll(win) {
+
+    if ([0].includes(win)) {
       return 0
     } else {
-      if([2].includes(win)){
+      if ([2].includes(win)) {
         return 2
       } else {
         return 1
       }
     }
   }
-  editDataMatch(match){
-    
-      if (Number(match.win) === Number(match.type)) {
-        return 1 //wygrana
+  editDataMatch(match) {
+
+    if (Number(match.win) === Number(match.type)) {
+      return 1 //wygrana
+    } else {
+      if (Number(match.win) === 0) {
+        return 2 //nierozstrzygniete
       } else {
-        if (Number(match.win) === 0) {
-          return 2 //nierozstrzygniete
-        } else {
-         return 0 //przegrana
-        }
+        return 0 //przegrana
       }
+    }
   }
   editData(event) {
     // 1 wygrana 1, 2 wygrana 2, 3 remis, 0 brak
@@ -150,6 +94,7 @@ export class BetComponent implements OnInit {
     return result
   }
   checkCup(element) {
+    console.log(element[0].status, element[1].status, "dasd")
     element.forEach(x => {
       x.events.forEach(y => {
         if (x['winers'] !== 0) {
@@ -261,9 +206,57 @@ export class BetComponent implements OnInit {
     return win
 
   }
-  ngOnInit() { }
+  getBet(){
+   
+  }
+  ngOnInit() {
+    this.updateCupon = this.betService.getBetAll().subscribe(res => {
+      this.bets = res
+      console.log(this.bets[1].status, "bets")
+       this.bets.map((ev,index) => {
+        let wins = []
+        if (ev.statusChanged === 2) {
+          ev.events.map(t => {
+            if (!t.statusCode) {
+              this.analysticService.getAnalystictEvent(t.idEvent).subscribe(even => {
+                if (even.winnerCode !== 0) {
+                  t.type = t.type.replace("X", "3")
+                  if (t.type.includes(even.event.winnerCode)) {
+                    t.statusCode = true
+                    t.winnerCode = true
+                    this.bets[index].status = 60
+                  } else {
+                    t.statusCode = true
+                    t.winnerCode = false
+                  }
+                }
+              })
+            }
+          })
+        }
+       
+      
+        // console.log("update ", ev)
+        // if (ev.status === 60) {
+        //   console.log("update")
+        //   ev.status = 70
+        //   this.betService.updateBet(ev).subscribe(result => {
+        //     console.log(result)
+        //   })
+        // }
+      })
+
+      this.checkCup(this.bets)
+      this.dataSource.data = this.bets
+
+    })
+    // this.updateCupon.forEach(x=> {
+    //   console.log(x.status)
+    // })
+    console.log(this.bets, "status")
+  }
 
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
 }

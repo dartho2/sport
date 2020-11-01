@@ -9159,9 +9159,30 @@ router-outlet ~ * {
 }
 .card-width{
   min-width: 200px;
+  margin-top: 15px;
 }
 .example-full-width {
   width:100%
+}
+::ng-deep .mat-autocomplete-panel {
+max-width: 100%!important;
+}
+::ng-deep .cdk-overlay-container {
+ width:100%!important;
+}
+::ng-deep .cdk-overlay-pane, div#cdk-overlay-0 {
+  width:100% !important;
+}
+::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
+  visibility: visible;
+  width: 100%;
+  display: inline-table;
+}
+
+.mat-autocomplete-panel.mat-autocomplete-visible {
+  visibility: visible;
+  width: 100%;
+  display: inline-table;
 }
 .add-button {
   margin: 0;

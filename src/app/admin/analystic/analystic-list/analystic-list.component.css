@@ -2139,19 +2139,17 @@ span.span-header {
 }
 
 .box-stats {
-  background-color: #353535;
+  /* background-color: #353535;
   background: rgb(53, 53, 53);
-  /* older browsers */
-  background: rgba(53, 53, 53, 0.7);
+  background: rgba(53, 53, 53, 0.7); */
   float: left;
   width: calc(50% - 5px);
 }
 
 .box-stats-full {
-  background-color: #353535;
+  /* background-color: #353535;
   background: rgb(53, 53, 53);
-  /* older browsers */
-  background: rgba(53, 53, 53, 0.7);
+  background: rgba(53, 53, 53, 0.7); */
   float: left;
   width: calc(100% - 5px);
 }
@@ -2160,7 +2158,7 @@ span.span-header {
   font-weight: 600;
   font-size: 28px;
   padding-bottom: 22px;
-  margin-top: -20px;
+  margin-top: 0px;
 }
 
 /* .separator_right_cell {
@@ -2364,7 +2362,7 @@ tr.mat-row {
 }
 
 .winX {
-  background: #bac0c6;
+  background: #717171;
 }
 
 .win2 {
@@ -2533,24 +2531,36 @@ mat-datepicker-toggle {
   background-color: white !important;
   border: unset;
 }
-
+.winAway, .win{
+background: #52b030;
+}
+.drawAway, .draw{
+  background: #717171;
+}
+.loseAway, .lose{
+  background: #0057a3;
+}
 .red-color {
   color: red
 }
 img.img-club.img-club-home {
     position: absolute;
     left: 10px;
-    top: 15px;
+    top: 45px;
 }
 img.img-club.img-club-away {
     position: absolute;
     right: 10px;
-    top: 15px;
+    top: 45px;
 }
 ::ng-deep .mat-card-header-text {
   margin: unset !important;
 }
 .title-h-standings{
   width: 100%;
+  padding-bottom: 20px;
   text-align: center;
+}
+.progress {
+  margin-top:2px;
 }

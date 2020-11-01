@@ -23,16 +23,12 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-              "node_modules/froala-editor/css/froala_style.min.css",
               "node_modules/bootstrap/dist/css/bootstrap-reboot.css",
               "node_modules/bootstrap/dist/css/bootstrap-grid.css",
               "src/styles.scss"
             ],
             "scripts": [
-              "src/assets/js/my.js",
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/froala-editor/js/froala_editor.pkgd.min.js"
+              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {

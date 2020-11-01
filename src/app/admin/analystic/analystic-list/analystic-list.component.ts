@@ -167,13 +167,16 @@ export class AnalysticListComponent implements OnInit {
               // CHECK LIGUE
               // console.log(eventMatch.tournament.uniqueTournament.id, eventMatch.awayTeam.name, "X" )
               // if (eventMatch.status.code === 0) {
-              
+                eventMatch.homeDraw= [{"name": "win", "value": 0}, {"name": "draw", "value": 0},{"name": "lose", "value": 0}]
+                eventMatch.homeStat= [{"name": "winHome", "value": 0},{"name": "drawHome", "value": 0}, {"name": "loseHome", "value": 0}]
+                eventMatch.awayDraw= [{"name": "win", "value": 0},{"name": "draw", "value": 0}, {"name": "lose", "value": 0}]
+                eventMatch.awayStat= [ {"name": "winAway", "value": 0}, {"name": "drawAway", "value": 0},{"name": "loseAway", "value": 0}]
+               
                 this.analysticService.getEventsLast(eventMatch.homeTeam.id).subscribe(homeTeam => {
                   this.homeTeamEvents = homeTeam;
                   this.homeTeamEvents.events=this.homeTeamEvents.events.slice(this.homeTeamEvents.events.length/2,this.homeTeamEvents.events.length)
                   eventMatch.homeDrawEvents = homeTeam
-                  eventMatch.homeDraw= [{"name": "win", "value": 0}, {"name": "draw", "value": 0},{"name": "lose", "value": 0}]
-                  eventMatch.homeStat= [{"name": "winHome", "value": 0},{"name": "drawHome", "value": 0}, {"name": "loseHome", "value": 0}]
+              
                   var win = 0;
                     var winHome = 0;
                     var loseHome = 0;
@@ -194,14 +197,16 @@ export class AnalysticListComponent implements OnInit {
                   eventMatch.homeDraw[2].value = this.homeTeamEvents.events.length - (draw +win)
                   eventMatch.homeDraw[1].value = draw
                   eventMatch.homeDraw[0].value = win
+                  eventMatch.duelStat[2].value = eventMatch.duelStat[2].value + eventMatch.homeStat[2].value
+                  eventMatch.duelStat[1].value = eventMatch.duelStat[1].value + eventMatch.homeStat[1].value
+                  eventMatch.duelStat[0].value = eventMatch.duelStat[0].value + eventMatch.homeStat[0].value
                 })
                 this.analysticService.getEventsLast(eventMatch.awayTeam.id).subscribe(awayTeam => {
                   this.awayTeamEvents = awayTeam;
                   this.awayTeamEvents.events=this.awayTeamEvents.events.slice(this.awayTeamEvents.events.length/2,this.awayTeamEvents.events.length)
                  
                   eventMatch.awayDrawEvents = awayTeam
-                  eventMatch.awayDraw= [{"name": "win", "value": 0},{"name": "draw", "value": 0}, {"name": "lose", "value": 0}]
-                  eventMatch.awayStat= [ {"name": "winAway", "value": 0}, {"name": "drawAway", "value": 0},{"name": "loseAway", "value": 0}]
+                
                   var win = 0;
                     var winAway = 0;
                     var loseAway = 0;
@@ -222,7 +227,15 @@ export class AnalysticListComponent implements OnInit {
                   eventMatch.awayDraw[2].value = this.awayTeamEvents.events.length - (draw +win)
                   eventMatch.awayDraw[1].value = draw
                   eventMatch.awayDraw[0].value = win
+                  eventMatch.duelStat[2].value = eventMatch.duelStat[2].value + eventMatch.awayStat[0].value
+                  eventMatch.duelStat[1].value = eventMatch.duelStat[1].value + eventMatch.awayStat[1].value
+                  eventMatch.duelStat[0].value = eventMatch.duelStat[0].value + eventMatch.awayStat[2].value
                 })
+                eventMatch.duelStat = [{"name": "win", "value": 0}, {"name": "draw", "value": 0},{"name": "lose", "value": 0}]
+                  
+                // eventMatch.duelStat[2].value = eventMatch.homeDraw[2].value + eventMatch.awayDraw[0].value
+                // eventMatch.duelStat[1].value = eventMatch.homeDraw[1].value + eventMatch.awayDraw[1].value
+                // eventMatch.duelStat[0].value = eventMatch.homeDraw[0].value + eventMatch.awayDraw[2].value
                 eventMatch.status = "nie"
                 this.analysticService.getVote(eventMatch.id).subscribe(voteEvent => {
       
@@ -293,6 +306,9 @@ export class AnalysticListComponent implements OnInit {
             vote1: eventTurn.value.vote1,
             vote2: eventTurn.value.vote2,
             voteX: eventTurn.value.voteX,
+            homeStat:  eventTurn.value.homeStat,
+            homeDraw:  eventTurn.value.homeDraw,
+            duelStat:  eventTurn.value.duelStat,
             vot1: this.calculateBet(eventTurn.value.vot1),
             votX: this.calculateBet(eventTurn.value.votX),
             vot2: this.calculateBet(eventTurn.value.vot2),
@@ -344,6 +360,7 @@ export class AnalysticListComponent implements OnInit {
         code: events.status.code,
         description: events.status.description,
         homeStat: [events.homeStat],
+        duelStat: [events.duelStat],
         awayStat: [events.awayStat],
         homeDraw: [events.homeDraw],
         awayDraw: [events.awayDraw],
@@ -370,7 +387,8 @@ export class AnalysticListComponent implements OnInit {
         vot2: events.choicesFL[2].fractionalValue,
         vot1_d: events.choicesDP[0].fractionalValue,
         votX_d: events.choicesDP[1].fractionalValue,
-        vot2_d: events.choicesDP[2].fractionalValue
+        vot2_d: events.choicesDP[2].fractionalValue,
+        statusCode: false
       }))
     } else {
       let control = <FormArray>this.myForm.controls.events;
@@ -391,6 +409,7 @@ export class AnalysticListComponent implements OnInit {
         description: events.status.description,
         homeResult: events.homeScore.display,
         awayResult: events.awayScore.display,
+        duelStat: [events.duelStat],
         homeStat: [events.homeStat],
         awayStat: [events.awayStat],
         homeDraw: [events.homeDraw],
@@ -409,12 +428,13 @@ export class AnalysticListComponent implements OnInit {
         vote1: events.vote1,
         vote2: events.vote2,
         voteX: events.voteX,
-        vot1: events.choicesFL[0]? events.choicesFL[0].fractionalValue: 0,
-        votX: events.choicesFL[1]? events.choicesFL[1].fractionalValue: 0,
-        vot2: events.choicesFL[2]? events.choicesFL[2].fractionalValue: 0,
-        vot1_d: events.choicesDP[0]? events.choicesDP[0].fractionalValue: 0,
-        votX_d: events.choicesDP[1]? events.choicesDP[1].fractionalValue: 0,
-        vot2_d: events.choicesDP[2]? events.choicesDP[2].fractionalValue: 0
+        vot1: events.choicesFL? events.choicesFL[0].fractionalValue: 0,
+        votX: events.choicesFL? events.choicesFL[1].fractionalValue: 0,
+        vot2: events.choicesFL? events.choicesFL[2].fractionalValue: 0,
+        vot1_d: events.choicesDP? events.choicesDP[0].fractionalValue: 0,
+        votX_d: events.choicesDP? events.choicesDP[1].fractionalValue: 0,
+        vot2_d: events.choicesDP? events.choicesDP[2].fractionalValue: 0,
+        statusCode: false
       }))
     }
   }

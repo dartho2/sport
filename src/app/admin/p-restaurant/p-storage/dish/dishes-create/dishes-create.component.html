@@ -123,10 +123,10 @@
                                 <mat-option *ngFor="let option of productEbid" [value]="option.name">
                                   <li>
                                     <div class="flex flex-center">
-                                      <div class="flex-image"><img class="img-autocomplete" src="{{option.image_url}}">
+                                      <div class="flex-image"><img class="img-autocomplete" src="{{option.images[0].url_small}}">
                                       </div>
                                       <div class="flex">
-                                        <p class="desc-autocomplete">{{option.name}}</p>
+                                        <p class="desc-autocomplete">{{option.name}} <span class="desc-bold">{{option.price_per_unit/100}} zł</span></p>
                                       </div>
                                     </div>
                                   </li>

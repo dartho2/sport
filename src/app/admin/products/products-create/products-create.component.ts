@@ -6,6 +6,8 @@ import { ProductService } from '../product.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { AlertService } from 'src/app/_alert/alert.service';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { ApiEbidService } from '../../shared/api/e-bid/apiebid.service';
 export interface Product {
   name: string;
 } 
@@ -29,6 +31,7 @@ export class ProductsCreateComponent implements OnInit {
   value: ['kg', 'szt', 'l'];
   valueSupplier: ['KŚ', 'WoA', 'W', 'Pp', 'Sk', 'In', 'Re'];
   mode;
+  apiBid: any;
   customeImg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6hC4zK0RMvnALdCE7WM3dmdD99-5OGybTgZ6ZP2HsCjCnD_P49g&s";
   options: Product[] = [];
   totalPrice;
@@ -53,8 +56,12 @@ export class ProductsCreateComponent implements OnInit {
   product: Product;
   pr_data;
   message;
-
-  constructor(private _fb: FormBuilder, private route: ActivatedRoute, private router: Router, private productService: ProductService, private alertService: AlertService) {
+  productEbid: any[];
+  constructor(private _fb: FormBuilder, 
+    private authenticationService: AuthenticationService, 
+    private apiEbidService: ApiEbidService,
+    private route: ActivatedRoute, private router: Router, private productService: ProductService, private alertService: AlertService) {
+    this.authenticationService.currentUserApi.subscribe(x => this.apiBid = x);
     this.productService.getProduct().subscribe(response => {
       this.options = response
       console.log(this.options)
@@ -79,7 +86,14 @@ export class ProductsCreateComponent implements OnInit {
   get formData() {
     return <FormArray>this.bodyForm.get('recipe');
   }
-
+  searchEBID(filterValue: string, index){
+    if(filterValue.length > 1){
+      this.apiEbidService.getEBID(filterValue).subscribe((x: any) =>{
+        this.productEbid = x.products
+        console.log(this.productEbid ,"ebid")
+      })
+    }
+  }
   supplieronChange(date) {
     console.log(date)
   }

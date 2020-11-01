@@ -140,7 +140,6 @@ export class LayoutComponent implements OnInit {
 
     this.dateEventsBet.rate = (this.resultBet / 1.14).toFixed(2)
     this.dateEventsBet.date = this.formattedDate
-
     this.analysticService.addEvents(this.dateEventsBet).subscribe(xresum => {
       this.dateEventsBet.events.forEach(x => {
         this.headerService.subject.next({
@@ -153,7 +152,7 @@ export class LayoutComponent implements OnInit {
       this.checkPriceTotal()
 
     })
-    // console.log(this.dateEventsBet, "save /bet")
+    console.log(this.dateEventsBet, "save /bet")
   }
   addID(id: number) {
     const index = this.liqueId.indexOf(id);

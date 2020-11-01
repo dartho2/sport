@@ -10,6 +10,8 @@ import { RestaurantService } from '../../../../shared/restaurants/restaurants.se
 import { AlertService } from 'src/app/_alert/alert.service';
 import { StorageService } from '../../storage.service';
 import { toInteger, toString } from 'lodash';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { ApiEbidService } from 'src/app/admin/shared/api/e-bid/apiebid.service';
 export interface DialogData {
   foodCost: '';
 }
@@ -24,7 +26,7 @@ export interface Product {
 export class RecipeCreateComponent implements OnInit {
   myControl = new FormControl();
   options: Product[] = [];
-  filteredOptions: Observable<Product[]>;
+  filteredOptions: Observable<Product[]>[]=[];
   productSelected;
   myForm: FormGroup;
   selectItems: any;
@@ -64,11 +66,18 @@ export class RecipeCreateComponent implements OnInit {
   recipeDataId: any;
   idRecipe: string;
   idRecipeitems: string;
-
-  constructor(private _fb: FormBuilder, private restaurantService: RestaurantService, 
+  apiBid:any;
+  productEbid: any[];
+ 
+  isReady:boolean = false;
+  constructor(private _fb: FormBuilder,
+    private authenticationService: AuthenticationService, 
+    private apiEbidService: ApiEbidService,
+     private restaurantService: RestaurantService, 
     private route: ActivatedRoute, private router: Router, 
     private productService: ProductService, private storageService: StorageService, private alertService: AlertService, private recipeService: RecipeService, public dialog: MatDialog) {
-      this.productService.getProduct().subscribe(response => {
+      this.authenticationService.currentUserApi.subscribe(x => this.apiBid = x);
+       this.productService.getProduct().subscribe(response => {
       this.product = response
       this.options = this.product
     });
@@ -92,15 +101,73 @@ export class RecipeCreateComponent implements OnInit {
             this.mode = "edit";
             this.idRecipeitems = paramMap.get("idRecipeitems");
             this.recipeService.getRecipeitemsID(this.idRecipeitems).subscribe(recipeitemData => {
+              var w:any
+               w =recipeitemData
               this.buildFormDish(recipeitemData);
+              for (let i = 0; i < w.products.length; i++) {
+                this.addAutocomplite(i)
+              }
+              this.isReady = true
             })
           } else {
             this.mode = "create";
+            this.isReady = true
           }
         
       }
     });
-    this.setCities();
+  }
+  searchEBID(filterValue: string, index){
+    if(filterValue.length > 1){
+      this.apiEbidService.getEBID(filterValue).subscribe((x: any) =>{
+        this.productEbid = x.products
+        console.log(this.productEbid ,"ebid")
+      })
+    }
+  }
+  supplieronChange(date) {
+    console.log(date)
+  }
+  onChange(selectedValue, y) {
+   this.productSelected = this.product.filter(item => item.name === selectedValue.value);
+    let control = (<FormArray>this.myForm.controls.products).at(y);
+    this.productSelected.forEach(x => {
+      control.setValue({
+        id: x._id,
+        name: x.name,
+        nettoPrice: x.nettoPrice,
+        bruttoPrice: x.bruttoPrice,
+        weight: x.weight,
+        unit: x.unit,
+        lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
+        productWeight: x.productWeight ? x.productWeight.replace(',', '.') : '',
+        valueProduct: x.valueProduct ? x.valueProduct : ''
+      })
+    });
+  }
+  onChangeEbid(selectedValue, y) {
+    this.productSelected = this.productEbid.filter(item => item.name === selectedValue.value);
+    let control = (<FormArray>this.myForm.controls.products).at(y);
+    this.productSelected.forEach(x => {
+      var n= (x.units_of_measure[0].price_net/100)
+      var b = (x.units_of_measure[0].price_gross/100)
+      var v = (Math.round(100-((n*100)/b)))
+      var q = x.units_of_measure[0].quantity
+      control.setValue({
+        id: x.id,
+        name: x.name,
+        nettoPrice: n.toString(),
+        weight: q.toString(),
+        bruttoPrice: b.toString(),
+        unit: x.unit_for_price_per_unit,
+        lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
+        productWeight: x.productWeight ? x.productWeight.replace(',', '.') : '',
+        valueProduct: x.valueProduct ? x.valueProduct : ''
+      })
+    });
+  }
+  displayFn(product?: any): string | undefined {
+     return product ? product : undefined;
   }
   get name() { return this.myForm.get('name'); }
   get products() { return this.myForm.get('products') as FormArray }
@@ -215,6 +282,7 @@ export class RecipeCreateComponent implements OnInit {
         valueProduct: ''
       })
     )
+    this.addAutocomplite(control.length -1)
     this.myControl.patchValue('')
   }
 
@@ -263,35 +331,21 @@ export class RecipeCreateComponent implements OnInit {
     }
 
   }
-  onChange(selectedValue, y) {
-    this.productSelected = this.product.filter(item => item.name === selectedValue.name);
-    let control = (<FormArray>this.myForm.controls.products).at(y);
-    this.productSelected.forEach(x => {
-      control.setValue({
-        id: x._id,
-        name: x.name,
-        nettoPrice: x.nettoPrice,
-        bruttoPrice: x.bruttoPrice,
-        weight: x.weight,
-        unit: x.unit,
-        lossesPriceNetto: x.lossesPriceNetto ? x.lossesPriceNetto : '',
-        productWeight: x.productWeight ? x.productWeight.replace(',', '.') : '',
-        valueProduct: x.valueProduct ? x.valueProduct : ''
-      })
-    });
+  addAutocomplite(index:number){
+    var arrayControl = this.myForm.get('products') as FormArray;
+    var start = arrayControl.at(index).get('name')
+    this.filteredOptions[index] = arrayControl.at(index).get('name')
+    // this.filteredOptions = this.myControl
+    .valueChanges
+    .pipe(
+      startWith(start.value ? start.value : ''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(name => name ? this._filter(name) : this.options.slice())
+    );
+  }
+  ngOnInit() {
   }
 
-  ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.options.slice())
-      );
-  }
-  displayFn(product?: Product): string | undefined {
-    return product ? product.name : undefined;
-  }
   buildFormDish(data: any): FormGroup {
     return this.myForm = this._fb.group({
       _id: [data ? data._id : null],

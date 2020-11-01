@@ -8,6 +8,7 @@ import { startWith, map } from 'rxjs/operators';
 
 import { AlertService } from 'src/app/_alert/alert.service';
 import { AuthenticationService } from 'src/app/_services';
+import { ApiEbidService } from 'src/app/admin/shared/api/e-bid/apiebid.service';
 export interface Product {
   name: string;
 }
@@ -30,7 +31,7 @@ export class PProductsCreateComponent implements OnInit {
   selectPackage;
   productId;
   value: ['kg', 'szt', 'l'];
-  valueSupplier: ['KŚ', 'WoA', 'W', 'Pp', 'Sk', 'In', 'Re'];
+  valueSupplier: ['KŚ', 'WoA', 'W', 'Pp', 'Sk', 'In', 'Re', 'e-bidfood'];
   mode;
   customeImg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6hC4zK0RMvnALdCE7WM3dmdD99-5OGybTgZ6ZP2HsCjCnD_P49g&s";
   options: Storage[] = [];
@@ -58,8 +59,18 @@ export class PProductsCreateComponent implements OnInit {
   message;
   storageId: string;
   productDataId: any;
-
-  constructor(private _fb: FormBuilder,private alertService: AlertService,private route: ActivatedRoute ,private router: Router, private storageService: StorageService) {
+  apiBid:any;
+  productEbid: any[];
+  constructor(
+    private _fb: FormBuilder,
+    private authenticationService: AuthenticationService, 
+    private apiEbidService: ApiEbidService,
+    private alertService: AlertService,
+    private route: ActivatedRoute ,
+    private router: Router, 
+    private storageService: StorageService
+    ) {
+    this.authenticationService.currentUserApi.subscribe(x => this.apiBid = x);
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("idStorage")) {
         this.storageId = paramMap.get("idStorage");
@@ -83,9 +94,46 @@ export class PProductsCreateComponent implements OnInit {
   get formData() {
     return <FormArray>this.bodyForm.get('recipe');
   }
-
+  searchEBID(filterValue: string, index){
+    if(filterValue.length > 1){
+      this.apiEbidService.getEBID(filterValue).subscribe((x: any) =>{
+        this.productEbid = x.products
+        console.log(this.productEbid ,"ebid")
+      })
+    }
+  }
   supplieronChange(date) {
     console.log(date)
+  }
+  onChangeEbid(selectedValue, y) {
+    console.log(selectedValue, "wchodzi")
+    this.productSelected = this.productEbid.filter(item => item.name === selectedValue.value);
+    this.productSelected.forEach(x => {
+      var n= (x.units_of_measure[0].price_net/100)
+      var b = (x.units_of_measure[0].price_gross/100)
+      var v = (Math.round(100-((n*100)/b)))
+      var q = x.units_of_measure[0].quantity
+      this.bodyForm.patchValue({
+        name: x.name,
+        // _id: new FormControl(null),
+        unit: x.unit_for_price_per_unit,
+        qty: q,
+        id_ebid: x.id,
+        description: x.name,
+        image: x.images[0].url_small,
+        nettoPrice: n.toString(),
+        weight: q.toString(),
+        vat: v.toString(),
+        bruttoPrice: b.toString(),
+        supplier: "e-bidfood",
+      })
+    })
+  }
+
+
+  displayFnProd(product?: any): string | undefined {
+    console.log(product, "ppppp")
+    return product ? product : undefined;
   }
   ngOnInit() {
 
@@ -102,6 +150,7 @@ export class PProductsCreateComponent implements OnInit {
         unit: new FormControl('', Validators.required),
         qty: new FormControl(null),
         weight: new FormControl('', Validators.required),
+        id_ebid: new FormControl(''),
         vat: new FormControl('', Validators.required),
         bruttoPrice: new FormControl(null),
         productDate: new FormControl(null),
@@ -175,6 +224,7 @@ export class PProductsCreateComponent implements OnInit {
       unit: '',
       qty: '',
       weight: '',
+      id_ebid: '',
       vat: foodCost.vat ? foodCost.vat : '',
       bruttoPrice: '',
       supplier: 'Pp',
@@ -196,6 +246,7 @@ export class PProductsCreateComponent implements OnInit {
       name: [data ? data.name : '',],
       description: [data ? data.description : '',],
       image: [data ? data.image : this.customeImg],
+      id_ebid: [data? data.id_ebid : ''],
       nettoPrice: [data ? data.nettoPrice : '',],
       unit: [data ? data.unit : '',],
       qty: [data ? data.qty : '',],
@@ -316,8 +367,13 @@ export class PProductsCreateComponent implements OnInit {
       vat: "8"
     });
   }
+  onSearchChange(price){
+    console.log(price, "price")
+    return price.replace(',', '.');
+  }
   calculateTotalPrice(price) {
     this.setDateHistory();
+    console.log(this.bodyForm.value ,"this.bodyForm.value.")
     this.bodyForm.value.nettoPrice = this.bodyForm.value.nettoPrice.replace(',', '.');
     this.bodyForm.value.weight = this.bodyForm.value.weight.replace(',', '.');
     this.bodyForm.controls['productDate'].patchValue(this.pr_data);
