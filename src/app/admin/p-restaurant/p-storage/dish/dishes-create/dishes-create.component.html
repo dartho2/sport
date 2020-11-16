@@ -111,7 +111,7 @@
                               <mat-autocomplete [displayWith]="displayFn" (optionSelected)="onChange($event.option, i)"
                                 #auto2="matAutocomplete">
                                 <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.name">
-                                  {{option.name}}
+                                  {{option.name}}  {{option.supplier}}
                                 </mat-option>
                               </mat-autocomplete>
                             </mat-form-field>
@@ -170,79 +170,8 @@
                   </div>
                 </div>
               </mat-card-content>
-
             </mat-card>
-
           </div>
-          <!-- <div class="row">
-            <div class="col-md-12">
-              <div style="margin-top:5px; margin-bottom:5px;" *ngFor="let name of formData.controls; let i=index">
-                <div class="card border-left-primary shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2" [formGroupName]="i">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                          <legend>
-                            <h4><span class="title-label">Produkt {{i+1}}: <span class="text-product">
-                              {{name.value.name}} {{name.value.productWeight}} {{name.value.unit}}
-                            </span></span> <button style="margin-left:35px;"
-                                type="button" class="btn" (click)="deleteCity(i)">
-                                <i class="fa fa-minus" aria-hidden="true"></i></button>
-                              <span class="h6">
-                                <mat-form-field class="example-full-width h5">
-                                  <input type="text" placeholder="Wyszukaj produkt" aria-label="Number" matInput
-                                  formControlName="name"  [matAutocomplete]="auto2">
-                                  <mat-autocomplete [displayWith]="displayFn" (optionSelected)="onChange($event.option, i)" #auto2="matAutocomplete">
-                                    <mat-option *ngFor="let option of filteredOptions[i] | async" [value]="option.name">
-                                      {{option.name}} 
-                                    </mat-option>
-                                  </mat-autocomplete>
-                                </mat-form-field>
-                                <mat-form-field class="example-full-width h5" *ngIf="apiBid">
-                                  <input matInput  formControlName="name" (keyup)="searchEBID($event.target.value)" [matAutocomplete]="ebid"  placeholder="Szukaj na ebid">
-                                  <mat-autocomplete [displayWith]="displayFn" #ebid="matAutocomplete" (optionSelected)="onChangeEbid($event.option, i)">
-                                    <mat-option *ngFor="let option of productEbid" [value]="option.name">
-                                      <li>
-                                        <div class="flex flex-center">
-                                          <div class="flex-image"><img class="img-autocomplete" src="{{option.image_url}}" > </div>
-                                        <div class="flex"><p class="desc-autocomplete" >{{option.name}}</p> </div>  
-                                        </div>
-                                      </li>
-                                    </mat-option>
-                                  </mat-autocomplete>
-                                </mat-form-field>
-                              </span>
-                            </h4>
-                          </legend>
-                        </div>
-                        <div class="h6 mb-0 font-weight-bold text-gray-800">
-                          <div class="form-row">
-                            <mat-form-field class="form-group col-md-3">
-                              <mat-label>Waga Produktu</mat-label>
-                              <input matInput class="form-control input-text-right" formControlName="productWeight"
-                                (change)="calculate(i)" type="number" name="productweight" required>
-                                <span matSuffix>{{name.value.unit}}</span>
-                              <mat-icon matSuffix class="fas fa-info-circle"
-                                matTooltip="Wpisz wagę produktu jednostka jest ustalona w 'Jednostka' 10g = 0.01kg, 10ml = 0.01l"
-                                #tooltip="matTooltip" (click)="tooltip.toggle()"></mat-icon>
-                              <mat-error *ngIf="name.hasError('required', 'productWeight')">Required</mat-error>
-                            </mat-form-field>
-                            <mat-form-field class="form-group col-md-1 d-none">
-                              <mat-label>Jednostka</mat-label>
-                              <input matInput class="form-control" formControlName="unit" type="text" name="unit"
-                                disabled readonly required>
-                            </mat-form-field>
-                           
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </mat-tab>
       <mat-tab label="Kalkulacja">

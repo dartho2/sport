@@ -49,7 +49,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { CalculateListComponent } from './calculate/calculate-list/calculate-list.component';
-import { DishesCreateComponent } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
+import { DishesCreateComponent,DialogDataExampleDialog } from './p-restaurant/p-storage/dish/dishes-create/dishes-create.component';
 import { RecipeListComponent } from './p-restaurant/p-storage/recipe/recipe-list/recipe-list.component';
 import { SemiproduktListComponent } from './semiproduct/semiprodukt-list/semiprodukt-list.component';
 import { ChartsModule } from 'ng2-charts';
@@ -87,7 +87,6 @@ import { RecipeCreateComponent } from './p-restaurant/p-storage/recipe/recipe-cr
 import { RecipeShowComponent } from './p-restaurant/p-storage/recipe/recipe-show/recipe-show.component';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
-
 // import { BreadCrumbParamService } from './shared/breadcrumb/breadcrumb.service';
 @NgModule({
   imports: [
@@ -144,6 +143,7 @@ import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
   ],
   declarations: [
     DialogComponent,
+    DialogDataExampleDialog,
     DialogAnalysticDialog,
     LayoutComponent,
     AdminComponent,
@@ -170,7 +170,7 @@ import { ErrorInterceptor, JwtInterceptor } from '../_helpers';
     BreadcrumbComponent, 
     StorageCreateComponent, PProductsListComponent, PProductsCreateComponent, PProductsShowComponent, DishShowComponent, ChipsComponent, RecipeCreateComponent, RecipeShowComponent
   ],
-  entryComponents: [DialogComponent, DialogAnalysticDialog],
+  entryComponents: [DialogComponent, DialogAnalysticDialog,DialogDataExampleDialog],
   bootstrap: [],
   providers: [DatePipe, { provide: LOCALE_ID, useValue: "pl-PL" },
 

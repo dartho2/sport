@@ -141,6 +141,15 @@ export class DishesCreateComponent implements OnInit {
   get formData() {
     return <FormArray>this.myForm.get('products');
   }
+  openDialog() {
+    this.dialog.open(DialogDataExampleDialog, {
+      data: {
+        data: this.myForm.value
+        ,
+        idStorage: this.storageId
+      
+      }});
+  }
   getErrorMessage(name: string) {
     return this.myForm.controls[name].hasError('required') ? 'You must enter a value' :
       this.myForm.controls[name].hasError('minlength') ? 'Min length 3' :
@@ -386,4 +395,16 @@ addAutocomplite(index:number){
 
 
 
+
+
+@Component({
+  selector: 'dialog-data-example-dialog',
+  templateUrl: 'dialog-data-example-dialog.html',
+})
+
+export class DialogDataExampleDialog {
+  ProductDish = true;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  }
+}
 

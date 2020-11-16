@@ -33,6 +33,7 @@ export interface DishData {
   bruttoPrice: string;
   weight: string;
   unit: string;
+  products: [];
   details: string;
 }
 
@@ -55,6 +56,7 @@ export class DishesListComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [
     'image',
     'name',
+    'products',
     'category',
     'bruttoPrice',
     'foodCost',

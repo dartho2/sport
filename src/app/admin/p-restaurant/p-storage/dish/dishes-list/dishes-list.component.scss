@@ -133,11 +133,18 @@ h2 {
   max-width: 100%;
   display: block;
 }
-
+.display-none {
+  display: none;
+}
+mat-footer-row, mat-header-row, mat-row, td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  border-bottom:1px solid black;
+}
 .card__content {
   position: relative;
 }
-
+.center-td {
+  text-align: right;
+}
 /* card meta */
 .card__meta time {
   font-size: 1.5rem;

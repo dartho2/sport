@@ -21,7 +21,8 @@ export class PProductsCreateComponent implements OnInit {
 
 
   @Input() foodCost: any;
-  @Input() ProductDish;
+  @Input() ProductDish: any;
+  @Input() storageIdDish: any;
   productSelected;
   filteredOptions: Observable<Storage[]>;
   myControl = new FormControl();
@@ -318,21 +319,35 @@ export class PProductsCreateComponent implements OnInit {
       this.storageService.createStorageProduct(this.bodyForm.value).pipe(
         map((res: Response) => {
         this.productDataId = res // id productu
-        this.storageService.getPosStorage(this.storageId).subscribe(storage => { //dostaje storage gdzie product ma isc
-          var jsonStorage;
-          jsonStorage = storage;
-          jsonStorage.products = jsonStorage.products || [];
-          jsonStorage.products.push({"_id": this.productDataId._id})
+        console.log(this.storageId, "gdzie ma isc product")
+        if(this.storageIdDish){
+          console.log("storageIdDish")
+          this.saveToStorage(this.storageIdDish)
+        } else {
           
-          this.storageService.createStorage(this.storageId, jsonStorage).subscribe(() => {
-            this.router.navigate(["../"], { relativeTo: this.route });
-            this.alertService.success('Success!!', res)
-          })
-        })
+          console.log("storageID")
+          this.saveToStorage(this.storageId)
+
+        }
+      
       })).subscribe(response => {
       })
 
     };
+  }
+  saveToStorage(id){
+    console.log(id , "id")
+    this.storageService.getPosStorage(id).subscribe(storage => { //dostaje storage gdzie product ma isc
+      var jsonStorage;
+      jsonStorage = storage;
+      jsonStorage.products = jsonStorage.products || [];
+      jsonStorage.products.push({"_id": this.productDataId._id})
+      
+      this.storageService.createStorage(id, jsonStorage).subscribe(() => {
+        this.router.navigate(["../"], { relativeTo: this.route });
+        this.alertService.success('Success!!')
+      })
+    })
   }
   calculate(i) {
     let control = (<FormArray>this.bodyForm.controls.recipe).at(i);
