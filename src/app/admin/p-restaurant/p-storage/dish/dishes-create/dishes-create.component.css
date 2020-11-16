@@ -7,7 +7,9 @@
   background: #3f51b5;
   color: white;
 }
-
+::ng-deep .mat-dialog-content {
+  padding-bottom: 100px!important;
+}
 .img-autocomplete {
   min-width: 48px;
   max-width: 48px;
