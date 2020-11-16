@@ -319,15 +319,10 @@ export class PProductsCreateComponent implements OnInit {
       this.storageService.createStorageProduct(this.bodyForm.value).pipe(
         map((res: Response) => {
         this.productDataId = res // id productu
-        console.log(this.storageId, "gdzie ma isc product")
         if(this.storageIdDish){
-          console.log("storageIdDish")
-          this.saveToStorage(this.storageIdDish)
+          this.saveToStorage(this.storageIdDish, false)
         } else {
-          
-          console.log("storageID")
-          this.saveToStorage(this.storageId)
-
+          this.saveToStorage(this.storageId, true)
         }
       
       })).subscribe(response => {
@@ -335,8 +330,7 @@ export class PProductsCreateComponent implements OnInit {
 
     };
   }
-  saveToStorage(id){
-    console.log(id , "id")
+  saveToStorage(id, active){
     this.storageService.getPosStorage(id).subscribe(storage => { //dostaje storage gdzie product ma isc
       var jsonStorage;
       jsonStorage = storage;
@@ -344,7 +338,9 @@ export class PProductsCreateComponent implements OnInit {
       jsonStorage.products.push({"_id": this.productDataId._id})
       
       this.storageService.createStorage(id, jsonStorage).subscribe(() => {
-        this.router.navigate(["../"], { relativeTo: this.route });
+        if(active){
+          this.router.navigate(["../"], { relativeTo: this.route });
+        }
         this.alertService.success('Success!!')
       })
     })

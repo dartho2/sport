@@ -9170,6 +9170,9 @@ max-width: 100%!important;
 ::ng-deep .cdk-overlay-container {
  width:100%!important;
 }
+::ng-deep .mat-dialog-content {
+  padding-bottom: 100px!important;
+}
 ::ng-deep .cdk-overlay-pane, div#cdk-overlay-0 {
   width:100% !important;
 }
