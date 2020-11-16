@@ -14,6 +14,8 @@ import { ApiEbidService } from 'src/app/admin/shared/api/e-bid/apiebid.service';
 import { AuthenticationService } from 'src/app/_services';
 export interface DialogData {
   foodCost: '';
+  idStorage;
+  data;
 }
 export interface Product {
   name: string;
@@ -404,6 +406,8 @@ addAutocomplite(index:number){
 
 export class DialogDataExampleDialog {
   ProductDish = true;
+  storageId;
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
   }
 }
